@@ -1,31 +1,106 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Мой сайт</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header class="container">
-    <h1>Заголовок сайта</h1>
-    <nav>
-      <a href="#">Главная</a>
-      <a href="#">О нас</a>
-      <a href="#">Контакты</a>
-    </nav>
-  </header>
+<li>
+<input type="checkbox" id="hw1" />
+<label for="hw1"><strong>Calculus — Problem set 3</strong> <span class="muted">Due: Sep 8, 2025</span></label>
+<p contenteditable="true" class="desc">Short instructions or notes (editable).</p>
+</li>
+<li>
+<input type="checkbox" id="hw2" />
+<label for="hw2"><strong>Programming — Lab 2</strong> <span class="muted">Due: Sep 12, 2025</span></label>
+<p contenteditable="true" class="desc">Implement sorting algorithm.</p>
+</li>
+</ul>
+</section>
 
-  <main class="container">
-    <section>
-      <h2>Раздел</h2>
-      <p>Привет! Это простой шаблон.</p>
-      <button class="btn">Кнопка</button>
-    </section>
-  </main>
 
-  <footer class="container">
-    <small>© 2025</small>
-  </footer>
+<section id="past" class="card">
+<div class="section-head">
+<h3>Past Classes / Notes</h3>
+<p class="muted">Write short summaries for passed classes so classmates can review.</p>
+</div>
+<div class="past-list">
+<article class="past-item">
+<h4>Math — Sep 1, 2025</h4>
+<small class="meta">Instructor: Dr. Ivanov</small>
+<p contenteditable="true">Example: covered derivatives, chain rule, solved 4 example problems.</p>
+</article>
+
+
+<article class="past-item">
+<h4>Programming — Sep 2, 2025</h4>
+<small class="meta">Instructor: Prof. Petrova</small>
+<p contenteditable="true">Example: intro to functions and arrays; demo code uploaded to repo.</p>
+</article>
+</div>
+</section>
+
+
+</main>
+
+
+<footer class="site-footer">
+<div class="container footer-inner">
+<div>Made by a student — share with your group</div>
+<div class="muted">Tip: use browser's "Save as" to keep local copy of edits (contentEditable changes are local only).</div>
+</div>
+</footer>
+
+
+<script>
+// Minimal interactivity: add sample event and simple persistence using localStorage
+(function(){
+const eventsList = document.getElementById('events-list');
+const addBtn = document.getElementById('add-event');
+
+
+function createEvent(title, date, place, desc){
+const li = document.createElement('li');
+li.className = 'event upcoming';
+li.innerHTML = `<strong>${title}</strong><div class="meta">${date} — ${place}</div><p class="desc" contenteditable="true">${desc}</p>`;
+return li;
+}
+
+
+addBtn.addEventListener('click', ()=>{
+const ev = createEvent('Study Session','Sep 9, 2025','Library','Bring notes and questions.');
+eventsList.appendChild(ev);
+});
+
+
+// Save editable fields (schedule cells, desc) to localStorage
+function saveState(){
+const data = {};
+document.querySelectorAll('[contenteditable]').forEach(el=>{
+const key = el.getAttribute('data-cell') || (el.closest('li') && el.closest('li').querySelector('.meta') ? 'event-'+Array.from(el.closest('ul').children).indexOf(el.closest('li'))+'-'+(el.className||'desc') : null);
+// fallback to index
+const id = key || ('node-'+(Array.from(document.querySelectorAll('[contenteditable]')).indexOf(el)));
+data[id] = el.innerHTML;
+});
+localStorage.setItem('unihelper:data', JSON.stringify(data));
+}
+
+
+function loadState(){
+try{
+const raw = localStorage.getItem('unihelper:data');
+if(!raw) return;
+const data = JSON.parse(raw);
+document.querySelectorAll('[contenteditable]').forEach(el=>{
+const key = el.getAttribute('data-cell') || ('node-'+(Array.from(document.querySelectorAll('[contenteditable]')).indexOf(el)));
+if(data[key]) el.innerHTML = data[key];
+});
+}catch(e){console.warn(e)}
+}
+
+
+// autosave every 5 seconds
+loadState();
+setInterval(saveState, 5000);
+
+
+// save on page hide
+window.addEventListener('beforeunload', saveState);
+})();
+</script>
 </body>
 </html>
