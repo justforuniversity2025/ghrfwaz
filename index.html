@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Сайт группы</title>
-  <meta name="description" content="Сайт" />
+  <title>Сайт для одногруппников</title>
+  <meta name="description" content="шаблон" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E"/>
   <style>
     :root{
@@ -66,7 +66,7 @@
 
     .day{display:flex; flex-direction:column; gap:8px}
     .lesson{display:flex; gap:10px; align-items:flex-start; background:var(--panel-strong); border:1px dashed rgba(255,255,255,.15); padding:10px; border-radius:12px}
-    .lesson .time{font-variant-numeric:tabular-nums; min-width:70px; padding:4px 8px; border-radius:10px; background:rgba(124,92,255,.18)}
+    .lesson .time{font-variant-numeric:tabular-nums; min-width:60px; padding:4px 8px; border-radius:10px; background:rgba(124,92,255,.18)}
 
     /* Criteria */
     .criteria{margin-top:18px; padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background:linear-gradient(135deg, rgba(61,220,151,.15), rgba(0,212,255,.12))}
@@ -148,8 +148,9 @@
         </div>
         <div class="card day">
           <h3>Вторник</h3>
-          <div class="lesson"><span class="time">09:00–10:30</span> <div><strong>Программирование</strong><div class="sub">каф. информатики</div></div></div>
-          <div class="lesson"><span class="time">10:40–12:10</span> <div><strong>Иностранный язык</strong><div class="sub">ауд. 218</div></div></div>
+          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Основы Рос.Гос.</strong><div class="sub">практика · УЛК-1 · ауд. 454 · преп. Москвин Н.Г.</div></div></div>
+          
+          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Иностранный язык</strong><div class="sub">ауд. 218</div></div></div>
         </div>
         <div class="card day">
           <h3>Среда</h3>
@@ -249,12 +250,14 @@
               <circle cx="12" cy="15.5" r="1.8" fill="white"/>
             </svg>
             <h3 style="margin:10px 0 6px">Раздел закрыт</h3>
-            <p class="sub">Введите пароль с клавиатуры на сайте, чтобы открыть. Пароль: <strong>88</strong>.</p>
+            <p class="sub">Введите пароль с клавиатуры, чтобы открыть.</p>
             <div class="pin">
               <input id="pin1" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Первая цифра" />
               <input id="pin2" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Вторая цифра" />
+              <input id="pin3" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Третья цифра" />
+              <input id="pin4" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Четвёртая цифра" />
             </div>
-            <small>Подсказка: введите две восьмёрки и нажмите Enter</small>
+
           </div>
         </div>
         <div class="unlock" id="lectures-content">
@@ -347,32 +350,59 @@
     // Lectures lock: password 88
     const p1 = document.getElementById('pin1');
     const p2 = document.getElementById('pin2');
+    const p3 = document.getElementById('pin3');
+    const p4 = document.getElementById('pin4');
     const lock = document.getElementById('lectures-lock');
     const content = document.getElementById('lectures-content');
     const gate = lock.querySelector('.gate');
 
-    function tryUnlock(){
-      const code = (p1.value||'') + (p2.value||'');
-      if(code === '88'){
-        gate.style.display='none';
-        content.classList.add('show');
-        sessionStorage.setItem('lecturesOpen','1');
-      } else if(p1.value && p2.value) {
-        [p1,p2].forEach(i=>{ i.style.borderColor='var(--bad)'; i.animate([{transform:'translateX(0)'},{transform:'translateX(-3px)'},{transform:'translateX(3px)'},{transform:'translateX(0)'}],{duration:180}); });
-        setTimeout(()=>{p1.value=''; p2.value=''; p1.focus();}, 180);
-      }
-    }
-    [p1,p2].forEach((inp, idx)=>{
-      inp.addEventListener('input',()=>{
-        inp.value = inp.value.replace(/\D/g,'').slice(0,1);
-        if(inp.value && idx===0) p2.focus();
-        tryUnlock();
-      });
-      inp.addEventListener('keydown', (e)=>{
-        if(e.key==='Backspace' && !inp.value && idx===1){ p1.focus(); }
-        if(e.key==='Enter'){ tryUnlock(); }
-      });
+if(localStorage.getItem('lecturesOpen') === '1'){
+  gate.style.display = 'none';
+  content.classList.add('show');
+}
+
+// Функция разблокировки
+let failCount = 0;
+let lockTimeout = null;
+
+function tryUnlock(){
+  const code = (p1.value||'') + (p2.value||'') + (p3.value||'') + (p4.value||'');
+  
+  if(code === '8888'){
+    gate.style.display = 'none';
+    content.classList.add('show');
+    localStorage.setItem('lecturesOpen','1'); // навсегда открыто
+    failCount = 0; // сброс счётчика
+  } else if(p1.value && p2.value && p3.value && p4.value) {
+    failCount++;
+    
+    [p1,p2,p3,p4].forEach(i=>{
+      i.style.borderColor='var(--bad)';
+      i.animate([
+        {transform:'translateX(0)'},
+        {transform:'translateX(-3px)'},
+        {transform:'translateX(3px)'},
+        {transform:'translateX(0)'}
+      ], {duration:180});
     });
+    
+    setTimeout(()=>{
+      p1.value=''; p2.value=''; p3.value=''; p4.value='';
+      p1.focus();
+    }, 180);
+
+    // Блокировка после 3 неудачных попыток
+    if(failCount >= 3){
+      [p1,p2,p3,p4].forEach(i => i.disabled = true);
+      
+      lockTimeout = setTimeout(()=>{
+        [p1,p2,p3,p4].forEach(i => i.disabled = false);
+        failCount = 0;
+      }, 30000); // блокировка на 30 секунд
+    }
+  }
+}
+
 
     if(sessionStorage.getItem('lecturesOpen')==='1'){
       gate.style.display='none';
@@ -381,13 +411,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
