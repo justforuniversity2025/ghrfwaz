@@ -341,11 +341,6 @@
     const content = document.getElementById('lectures-content');
     const gate = lock.querySelector('.gate');
 
-if(localStorage.getItem('lecturesOpen') === '1'){
-  gate.style.display = 'none';
-  content.classList.add('show');
-}
-
 // Проверка при загрузке
 if(localStorage.getItem('lecturesOpen') === '1'){
   gate.style.display = 'none';
