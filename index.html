@@ -346,21 +346,20 @@ if(localStorage.getItem('lecturesOpen') === '1'){
   content.classList.add('show');
 }
 
-// Функция разблокировки
-let failCount = 0;
-let lockTimeout = null;
+// Проверка при загрузке
+if(localStorage.getItem('lecturesOpen') === '1'){
+  gate.style.display = 'none';
+  content.classList.add('show');
+}
 
+// Функция разблокировки
 function tryUnlock(){
   const code = (p1.value||'') + (p2.value||'') + (p3.value||'') + (p4.value||'');
-  
   if(code === '8888'){
     gate.style.display = 'none';
     content.classList.add('show');
-    localStorage.setItem('lecturesOpen','1'); // навсегда открыто
-    failCount = 0; // сброс счётчика
+    localStorage.setItem('lecturesOpen','1'); // сохраняем навсегда
   } else if(p1.value && p2.value && p3.value && p4.value) {
-    failCount++;
-    
     [p1,p2,p3,p4].forEach(i=>{
       i.style.borderColor='var(--bad)';
       i.animate([
@@ -370,23 +369,13 @@ function tryUnlock(){
         {transform:'translateX(0)'}
       ], {duration:180});
     });
-    
     setTimeout(()=>{
       p1.value=''; p2.value=''; p3.value=''; p4.value='';
       p1.focus();
     }, 180);
-
-    // Блокировка после 3 неудачных попыток
-    if(failCount >= 3){
-      [p1,p2,p3,p4].forEach(i => i.disabled = true);
-      
-      lockTimeout = setTimeout(()=>{
-        [p1,p2,p3,p4].forEach(i => i.disabled = false);
-        failCount = 0;
-      }, 30000); // блокировка на 30 секунд
-    }
   }
 }
+
 
 
     if(sessionStorage.getItem('lecturesOpen')==='1'){
