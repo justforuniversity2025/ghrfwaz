@@ -101,7 +101,8 @@
 
     footer{margin:28px 0 12px; color:var(--muted); text-align:center}
     a{color:#b9c6ff}
-
+.link-btn{display:inline-block; padding:8px 12px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,.12); color:var(--txt); text-decoration:none; font-weight:700}
+ 
     .row{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap}
   </style>
 </head>
@@ -115,20 +116,92 @@
             <path d="M7 4V2h10a2 2 0 0 1 2 2H7z" fill="black" fill-opacity=".2"/>
           </svg>
         </div>
-        <h1>Программная инженерия</h1>
+        <h1 id="datetime"></h1>
+
+<script>
+function updateDateTime() {
+  const months = [
+    "января", "февраля", "марта", "апреля", "мая", "июня",
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"
+  ];
+
+  const now = new Date();
+
+  // получаем дату по московскому времени
+  const moscowNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
+
+  const day = moscowNow.getDate();
+  const month = months[moscowNow.getMonth()];
+  const year = moscowNow.getFullYear();
+
+  const hours = String(moscowNow.getHours()).padStart(2, "0");
+  const minutes = String(moscowNow.getMinutes()).padStart(2, "0");
+  const seconds = String(moscowNow.getSeconds()).padStart(2, "0");
+
+  document.getElementById("datetime").textContent =
+    `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 1000);
+</script>
+
       </div>
       <nav class="tabs" role="tablist" aria-label="Разделы">
-        <button class="tab-btn" role="tab" aria-selected="true" data-tab="schedule">Расписание</button>
+        <button class="tab-btn" role="tab" aria-selected="true" data-tab="main">Главная</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="schedule">Расписание</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="hw">Д/з</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="lectures">Лекции</button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="events">Информация</button>
       </nav>
     </div>
   </header>
+    <main class="wrap">
+<section id="main" class="section active" aria-labelledby="tab-schedule">
+      <div class="row" style="margin-bottom:14px">
+        <h2 style="margin:0">Главная</h2>
+      </div>
+        <!-- Понедельник, Вторник, Среда, Пятница -->
+        <a class="link-btn" href="#info" role="button">Информация</a><a class="link-btn" href="#krit" role="button">Критерии оценивания</a>
+        <h2></h2>
+          
+        <!-- Пн–Сб -->
+        <div class="card day">
+          <h3>22 сентября (следующий учебный день)</h3>
+          <div class="lesson"><span class="time">09:40–11:10</span><div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · преп. Сиппель Ирина Яковлевна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Основы российской государственности</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · преп. Яковлева Марина Геннадьевна</div></div></div>
+ </div>
+ <h2></h2>
+ <div class="card day">
+<h3>19 сентября (прошлый учебный день)</h3>
+<div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · преп. Губочкина Наталья Ивановна</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · преп. Губочкина Наталья Ивановна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Физическая культура и спорт</strong><div class="sub">практика · спорткомплекс · ауд. 26 · преп. Камалетдинов Марат Шавкитович</div></div></div>
+<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(1 подгр.)</span></strong><div class="sub">практика · УЛК-4 · ауд. 208 · преп. Мустафина Л.Р.</div></div></div>
+        </div>
+      </div>
+        <h2 id="info">Информация</h2>
+      
+      <div class="timeline">
+        <div class="event">
+          <h4>Сдать старосте справку 086у, прививочную карту</h4>
+          <p class="sub"></p>
+          <h4>Отправить фото прохождения флг куратору</h4>
+        </div>
+        <div id="krit" class="criteria card">
+        <strong>Критерии оценивания 50 за пары + 50 за зачёт (баллы):</strong>
+        <ul>
+          <li><span class="tag" style="background:rgba(239,71,111,.2)">ниже 56</span> — не сдал</li>
+          <li><span class="tag" style="background:rgba(255,209,102,.2)">56–70</span> — Удовлетворительно</li>
+          <li><span class="tag" style="background:rgba(0,212,255,.2)">71–85</span> — Хорошо</li>
+          <li><span class="tag" style="background:rgba(61,220,151,.2)">86–100</span> — Отлично</li>
+        </ul>
+      </div>
+      </div>
+    </section>
 
-  <main class="wrap">
+
     <!-- Расписание -->
-    <section id="schedule" class="section active" aria-labelledby="tab-schedule">
+    <section id="schedule" class="section" aria-labelledby="tab-schedule">
       <div class="row" style="margin-bottom:14px">
         <h2 style="margin:0">Расписание</h2>
         <div class="week-toggle" role="tablist" aria-label="Недели">
@@ -141,29 +214,29 @@
         <!-- Понедельник, Вторник, Среда, Пятница -->
         <div class="card day">
           <h3>Понедельник</h3>
-          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Физкультура</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · преп. Москвин Н.Г.</div></div></div>
-          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · преп. Сиппель Ирина Яковлевна</div></div></div>
-          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Химия</strong><div class="sub">лаб. · УЛК-1 · ауд. 145/143 · преп. Сиппель Ирина Яковлевна</div></div></div>
-          <div class="lesson"><span class="time">13:30–15:00</span> <div><strong>Химия</strong><div class="sub">лаб. · УЛК-1 · ауд. 145/143 · преп. Сиппель Ирина Яковлевна</div></div></div>
+          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Физкультура</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · профессор Москвин Николай Геннадьевич</div></div></div>
+          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · доцент Сиппель Ирина Яковлевна</div></div></div>
+          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Химия</strong><div class="sub">лаб. · УЛК-1 · ауд. 145/143 · доцент Сиппель Ирина Яковлевна/Шарафутдинов Р.Н.</div></div></div>
+          <div class="lesson"><span class="time">13:30–15:00</span> <div><strong>Химия</strong><div class="sub">лаб. · УЛК-1 · ауд. 145/143 · доцент Сиппель Ирина Яковлевна/Шарафутдинов Р.Н.</div></div></div>
         </div>
         <div class="card day">
           <h3>Вторник</h3>
-          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Основы Рос.Гос.</strong><div class="sub">практика · УЛК-1 · ауд. 454 · преп. Яковлева Марина Геннадьевна</div></div></div>
-          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Основы Рос.Гос.</strong><div class="sub">практика · УЛК-1 · ауд. 454 · преп. Яковлева Марина Геннадьевна</div></div></div>
-          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Информатика</strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
+          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Основы российской государственности</strong><div class="sub">практика · УЛК-1 · ауд. 454 · доцент Яковлева Марина Геннадьевна</div></div></div>
+          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Основы российской государственности</strong><div class="sub">практика · УЛК-1 · ауд. 454 · доцент Яковлева Марина Геннадьевна</div></div></div>
+          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Информатика</strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
         </div>
         <div class="card day">
           <h3>Среда</h3>
-<div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">практика · УЛК-1 · ауд. 420 · преп. Бессонова Т.В.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · преп. Бессонова Т.В.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Иностранный язык (2 подгр.)</strong><div class="sub">практика · УЛК-1 · ауд. 337 · преп. Славина Л.Р.</div></div></div>
+<div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">практика · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(2 подгр.)</span></strong><div class="sub">практика · УЛК-1 · ауд. 326 · доцент Славина Лилия Р.</div></div></div>
         </div>
         <div class="card day">
           <h3>Пятница</h3>
-<div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · преп. Губочкина Н.И.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · преп. Губочкина Н.И.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Физическая культура и спорт</strong><div class="sub">практика · спорткомплекс · ауд. 26 · преп. Камалетдинов М.Ш.</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Иностранный язык (1 подгр.)</strong><div class="sub">практика · УЛК-4 · ауд. 208 · преп. Мустафина Л.Р.</div></div></div>
+<div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · доцент Губочкина Наталья Ивановна</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Губочкина Наталья Ивановна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Физическая культура и спорт</strong><div class="sub">практика · спорткомплекс · ауд. 24 · преп. Камалетдинов Марат Шавкитович</div></div></div>
+<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(1 подгр.)</span></strong><div class="sub">практика · УЛК-4 · ауд. 208 · ст.преп. Мустафина Л.Р.</div></div></div>
         </div>
       </div>
 
@@ -171,38 +244,38 @@
         <!-- Пн–Сб -->
         <div class="card day">
           <h3>Понедельник</h3>
-          <div class="lesson"><span class="time">09:40–11:10</span><div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · преп. Сиппель И.Я.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Основы российской государственности</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · преп. Яковлева М.Г.</div></div></div>
+          <div class="lesson"><span class="time">09:40–11:10</span><div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · доцент Сиппель Ирина Яковлевна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Основы российской государственности</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · доцент Яковлева Марина Геннадьевна</div></div></div>
           </div><div class="card day">
 <h3>Вторник</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Программирование</strong><div class="sub">лаб. · УЛК-2 · ауд. 405/406 · преп. Булатова С.В., Шигапова Л.Ф.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Информатика</strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · преп. Булатова С.В., Шигапова Л.Ф.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">практика · УЛК-2 · ауд. 330 · преп. Феоктистова Л.А., Рзаева Т.В.</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Введение в профессиональную деятельность</strong><div class="sub">лекция/практика · УЛК-2 · ауд. 410 · преп. Валиев Р.А.</div></div></div>
+          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Программирование</strong><div class="sub">лаб. · УЛК-2 · ауд. 405/406 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Информатика</strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">практика · УЛК-2 · ауд. 330 · доцент Феоктистова Лидия Александровна/Рзаева Т.В.</div></div></div>
+<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Введение в профессиональную деятельность</strong><div class="sub">лекция/практика · УЛК-2 · ауд. 417 · доцент Валиев Рустам Асгатович</div></div></div>
 </div>
 <div class="card day">
           <h3>Среда</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">лекция (10.09, 24.09, 08.10) · УЛК-1 · ауд. 420 · преп. Бессонова Т.В.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · преп. Бессонова Т.В.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">лекция · УЛК-2 · ауд. 341 · преп. Феоктистова Л.А.</div></div></div>
+          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">лекция (10.09, 24.09, 08.10) · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">лекция · УЛК-2 · ауд. 341 · доцент Феоктистова Лидия Александровна</div></div></div>
         </div>
         <div class="card day">
           <h3>Четверг</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · преп. Костин А.В.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · преп. Костин А.В.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 432 · преп. Костин А.В.</div></div></div>
+          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Костин А.В.</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Костин А.В.</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 432 · доцент Костин А.В.</div></div></div>
         </div>
         <div class="card day">
           <h3>Пятница</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · преп. Губочкина Н.И.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · преп. Губочкина Н.И.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Информатика</strong><div class="sub">лекция · УЛК-5 · ауд. 308 · преп. Булатова С.В.</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Программирование</strong><div class="sub">лекция · УЛК-5 · ауд. 308 · преп. Булатова С.В.</div></div></div>
+          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · доцент Губочкина Наталья Ивановна</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Губочкина Наталья Ивановна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Информатика</strong><div class="sub">лекция · УЛК-5 · ауд. 305 · ст.преп. Булатова Светлана Владимировна</div></div></div>
+<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Программирование</strong><div class="sub">лекция · УЛК-5 · ауд. 308 · ст.преп. Булатова Светлана Владимировна</div></div></div>
 
         </div>
         <div class="card day">
           <h3>Суббота</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Иностранный язык</strong><div class="sub">электронное обучение (практика) · УЛК-4 · ауд. 205А · преп. Мустафина Д.Н.</div></div></div>
+          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Иностранный язык</strong><div class="sub">электронное обучение (практика)<a class="link-btn" href="https://edu.kpfu.ru/course/view.php?id=4724" role="button">Ссылка тут</a></div></div></div>
         </div>
       </div>
 
@@ -215,44 +288,63 @@
       <div class="cols">
         <div class="card">
           <h3>Актуальные</h3>
-          <strong>Верхняя неделя</strong>
           <ul>
+            <span class="tag deadline">⬇ 23 сентября ⬇ </span>
             <li>
-              <strong>Основы российской государственности:</strong> Дом.задание: фотопроект "Мой дом, мой город, моя страна" (10-15 своих фотографий на эту тему с рассказом).
-              <span class="tag deadline">срок: вторник верхней недели </span>
+              <strong>Инженерная компьютерная графика</strong>  сделать домашнюю работу в соответствии с требованиями
+            <a class="link-btn" href="#" role="button">Пока не готово</a>
             </li>
+            
             <li>
-              <strong>Информатика</strong> Сделать лабу с Excel.
-              <span class="tag deadline">срок: вторник верхней недели</span>
+             <strong>Программирование</strong> сделать блок-схему в отчёт.
+             <a class="link-btn" href="#" role="button">Пока не готово</a>
             </li>
-           <li>
+            <span class="tag deadline">⬇ 25 сентября ⬇</span>
+             <li>
+              <strong>Аналитическая геометрия</strong>  1.33а 1.34а 1.12 1.26
+              <a class="link-btn" href="#" role="button">Пока не готово</a>
+            </li>
+            
+            <span class="tag deadline">⬇ 26 сентября ⬇</span>
+            <li>
+              <strong>Математический анализ</strong> 4.14-4.30 чётные (4.14, 4.18, 4.30 уже делали), 4.36, 4.40, 4.44, 4.48, 4.50.
+           <a class="link-btn" href="#" role="button">Пока не готово</a> </li>
+            <span class="tag deadline">⬇ 29 сентября ⬇</span>
+            <li>
+              <strong>Химия</strong>  доделать самостоятельную работу и выучить темы из лабораторной работы 2
+            <a class="link-btn" href="#" role="button">Пока не готово</a></li>
+            <span class="tag deadline">⬇ 30 сентября ⬇</span>
+            
+            <li>
+              <strong>Основы российской государственности:</strong> надо сделать 7 слайдов составить свои 7 чудес света России. Конкретно России
+Есть принятый в России список. Места из этого списка использовать нельзя. Надо составить свои и обосновать почему вы добавили это в свой список
+            <a class="link-btn" href="#" role="button">Пока не готово</a></li>
+
+            
+            <span class="tag deadline">⬇ 1 октября ⬇</span>
+
+            <li>
               <strong>История России</strong> Подготовиться к докладу по теме и вопросам Семинара 1 Киевская русь.
-              <span class="tag deadline">срок: среда верхней недели</span>
-            </li>
-            <strong>Пятница</strong>
+           <a class="link-btn" href="#" role="button">Пока не готово</a> </li>
+  
+            <span class="tag deadline">⬇ 3 октября ⬇</span>
             <li>
-              <strong>Математический анализ</strong> 4.6-4.12 (б,г), 4.14, 4.18
-              <span class="tag deadline">срок: пятница верхней недели</span>
+              <strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(1 подгр.)</span> </strong> Unit 1 страница 19 Английский ДЗ Рабочая тетрадь
+       </li>
+            <span class="tag deadline">⬇ выполнить за первый семестр ⬇</span>
+           <li>
+              <strong>Информатика  </strong> лабораторные работы по Excel
             </li>
-            <li>
-              <strong>Программирование</strong> сделать блок-схему в отчёт.
-              <span class="tag deadline">срок: понедельник нижней недели</span>
-            </li>
-            <li>
-              <strong>Инженерная компьютерная графика</strong> Принести карандаши М/ТМ, циркуль, линейку, лист с основной надписью А3
-              <span class="tag deadline">срок: понедельник нижней недели</span>
-            </li>
+            <a class="link-btn" href="#" role="button">Пока не готово</a>
           </ul>
         </div>
         <div class="card">
           <h3>Прошедшие</h3>
           <ul>
             <li>
-              <strong>Информатика</strong> Лабораторная работа по word<span class="tag done">сдано</span>
+              <strong></strong> <span class="tag done"></span>
             </li>
-            <li>
-              <strong>Математический анализ</strong> Задания<span class="tag done">сдано</span>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -284,28 +376,25 @@
           <div class="cards">
             <article class="card">
               <h3>Математический анализ</h3>
-              <p class="sub">Пределы, производные, Ряд Тейлора</p>
               <ul>
-                <li>Лекция 1 — Предел функции (конспект)</li>
-                <li>Лекция 2 — Непрерывность</li>
-                <li>Лекция 3 — Производная и правила</li>
+                <li>Лекция 1</li><a class="link-btn" href="#" role="button">1</a>
+                <li>Лекция 2</li><a class="link-btn" href="#" role="button">1</a>
+                <li>Лекция 3</li><a class="link-btn" href="#" role="button">1</a>
               </ul>
             </article>
             <article class="card">
               <h3>Программирование</h3>
-              <p class="sub">Алгоритмы и структуры данных</p>
               <ul>
-                <li>Лекция 1 — Сложность алгоритмов</li>
-                <li>Лекция 2 — Сортировки</li>
-                <li>Лекция 3 — Хеш-таблицы</li>
+                <li>Лекция 1</li><a class="link-btn" href="#" role="button">1</a>
+                <li>Лекция 2</li><a class="link-btn" href="#" role="button">1</a>
+                <li>Лекция 3</li><a class="link-btn" href="#" role="button">1</a>
               </ul>
             </article>
             <article class="card">
-              <h3>Линейная алгебра</h3>
-              <p class="sub">Матрицы и векторные пространства</p>
+              <h3>Информатика</h3>
               <ul>
-                <li>Лекция 1 — СЛАУ и метод Гаусса</li>
-                <li>Лекция 2 — Собственные значения</li>
+                <li>Лекция 1</li>
+                <li>Лекция 2</li>
               </ul>
             </article>
           </div>
@@ -313,27 +402,6 @@
       </div>
     </section>
 
-    <!-- События -->
-    <section id="events" class="section" aria-labelledby="tab-events">
-      <h2>Информация</h2>
-      
-      <div class="timeline">
-        <div class="event">
-          <h4>1</h4>
-          <p class="sub">1</p>
-        </div>
-        <div class="criteria card">
-        <strong>Критерии оценивания 50 за пары + 50 за зачёт (баллы):</strong>
-        <ul>
-          <li><span class="tag" style="background:rgba(239,71,111,.2)">ниже 56</span> — не сдал</li>
-          <li><span class="tag" style="background:rgba(255,209,102,.2)">56–70</span> — Удовлетворительно</li>
-          <li><span class="tag" style="background:rgba(0,212,255,.2)">71–85</span> — Хорошо</li>
-          <li><span class="tag" style="background:rgba(61,220,151,.2)">86–100</span> — Отлично</li>
-        </ul>
-      </div>
-      </div>
-      
-    </section>
 
     <footer>© 2025 Сделано с ❤ для одногруппников</footer>
   </main>
