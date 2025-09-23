@@ -1,118 +1,140 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>histL — лекции</title>
-  <style>
-    :root{ --gap:12px; }
-    *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; margin:0; background:#111; color:#eee}
-    .wrap{max-width:1200px; margin:18px auto; padding:12px}
-    h1{font-size:1.2rem; margin:0 0 12px; color:#eee}
-
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-      gap:var(--gap);
-      align-items:stretch;
-    }
-
-    figure{margin:0; background:#222; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.6); cursor:pointer;}
-    .gallery img{
-      display:block;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      aspect-ratio:4/3;
-      transition:transform .2s;
-    }
-    .gallery img:hover{transform:scale(1.04)}
-
-    figcaption{padding:8px 10px; font-size:.85rem; color:#aaa}
-
-    @media (max-width:420px){ .wrap{padding:8px} }
-
-    .lightbox{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.9);
-      justify-content:center;
-      align-items:center;
-      z-index:9999;
-    }
-    .lightbox img{
-      max-width:90%;
-      max-height:90%;
-      border-radius:8px;
-      box-shadow:0 0 20px rgba(0,0,0,0.8);
-    }
-    .lightbox:target{display:flex}
-    .lightbox a.close{position:absolute; top:20px; right:30px; color:#fff; font-size:2rem; text-decoration:none;}
-    .lightbox a.nav{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      color:#fff;
-      font-size:2.5rem;
-      text-decoration:none;
-      padding:0 15px;
-      user-select:none;
-    }
-    .lightbox a.prev{left:10px;}
-    .lightbox a.next{right:10px;}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>histL — лекции</title>
+<style>
+:root{ --gap:14px; --accent:#ff6b6b; --bg:#0d0f12; }
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#eef2ff}
+.wrap{max-width:1200px; margin:20px auto; padding:18px}
+.gallery{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:var(--gap);}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12)); border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .18s ease, box-shadow .18s ease; height:80px; padding:12px;}
+.card:hover{transform:translateY(-6px); box-shadow:0 12px 28px rgba(0,0,0,0.7);}
+.play-btn{background:linear-gradient(90deg,var(--accent),#ff9a9a); color:#12070a; border:none; border-radius:8px; padding:8px 12px; font-size:1rem; cursor:pointer; width:100%; text-align:center;}
+.modal{display:none; position:fixed; inset:0; z-index:9999; align-items:center; justify-content:center; background:rgba(0,0,0,0.9); padding:20px}
+.modal.open{display:flex}
+.viewer{max-width:90%; width:100%; max-height:92vh; display:flex; align-items:center; justify-content:center; position:relative}
+.viewer .photo{flex:1; display:flex; align-items:center; justify-content:center;}
+.viewer img{max-width:100%; max-height:92vh; display:block; border-radius:10px; box-shadow:0 0 30px rgba(0,0,0,0.6);}
+.modal .close{position:absolute; top:18px; right:22px; background:transparent; border:none; color:#fff; font-size:1.8rem; cursor:pointer}
+.nav{position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.03); border:none; color:#fff; font-size:2.2rem; width:56px; height:64px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:10px;}
+.nav.left{left:18px}
+.nav.right{right:18px}
+button[disabled]{opacity:.35; pointer-events:none}
+.details{display:none}
+@media (max-width:420px){
+  .wrap{padding:12px}
+  .nav{width:44px; height:56px; font-size:1.6rem}
+  .card{height:70px; padding:8px;}
+  .play-btn{font-size:.9rem;}
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Лекции</h1>
-    <div class="gallery">
-      <figure><a href="#img1"><img src="assets/img/his1.jpeg" alt="" loading="lazy"></a><figcaption>1</figcaption></figure>
-      <figure><a href="#img2"><img src="assets/img/his2.jpeg" alt="" loading="lazy"></a><figcaption>2</figcaption></figure>
-      <figure><a href="#img3"><img src="assets/img/his3.jpeg" alt="" loading="lazy"></a><figcaption>3</figcaption></figure>
-      <figure><a href="#img4"><img src="assets/img/his4.jpeg" alt="" loading="lazy"></a><figcaption>4</figcaption></figure>
-      <figure><a href="#img5"><img src="assets/img/his5.jpeg" alt="" loading="lazy"></a><figcaption>5</figcaption></figure>
-      <figure><a href="#img6"><img src="assets/img/his6.jpeg" alt="" loading="lazy"></a><figcaption>6</figcaption></figure>
-    </div>
-  </div>
+<div class="wrap">
+  <div class="gallery" id="gallery" aria-label="Список лекций"></div>
+</div>
 
-  <!-- Лайтбокс с навигацией -->
-  <div id="img1" class="lightbox">
-    <a href="#" class="close">×</a>
-    <a href="#img6" class="nav prev">‹</a>
-    <img src="assets/img/his1.jpeg" alt="">
-    <a href="#img2" class="nav next">›</a>
+<div id="modal" class="modal" aria-hidden="true">
+  <button class="nav left" id="prev" aria-label="Предыдущая">‹</button>
+  <div class="viewer" role="dialog" aria-modal="true">
+    <div class="photo"><img id="modalImg" src="" alt=""></div>
   </div>
-  <div id="img2" class="lightbox">
-    <a href="#" class="close">×</a>
-    <a href="#img1" class="nav prev">‹</a>
-    <img src="assets/img/his2.jpeg" alt="">
-    <a href="#img3" class="nav next">›</a>
-  </div>
-  <div id="img3" class="lightbox">
-    <a href="#" class="close">×</a>
-    <a href="#img2" class="nav prev">‹</a>
-    <img src="assets/img/his3.jpeg" alt="">
-    <a href="#img4" class="nav next">›</a>
-  </div>
-  <div id="img4" class="lightbox">
-    <a href="#" class="close">×</a>
-    <a href="#img3" class="nav prev">‹</a>
-    <img src="assets/img/his4.jpeg" alt="">
-    <a href="#img5" class="nav next">›</a>
-  </div>
-  <div id="img5" class="lightbox">
-    <a href="#" class="close">×</a>
-    <a href="#img4" class="nav prev">‹</a>
-    <img src="assets/img/his5.jpeg" alt="">
-    <a href="#img6" class="nav next">›</a>
-  </div>
-  <div id="img6" class="lightbox">
-    <a href="#" class="close">×</a>
-    <a href="#img5" class="nav prev">‹</a>
-    <img src="assets/img/his6.jpeg" alt="">
-    <a href="#img1" class="nav next">›</a>
-  </div>
+  <button class="nav right" id="next" aria-label="Следующая">›</button>
+  <button class="close" id="closeBtn" aria-label="Закрыть">×</button>
+</div>
+
+<script>
+const lectures = [
+  {title:'Лекция 1 — Древнерусское государство', images:['assets/img/his1.jpeg','assets/img/his2.jpeg','assets/img/his3.jpeg', 'assets/img/his4.jpeg','assets/img/his5.jpeg','assets/img/his6.jpeg']},
+];
+
+const gallery = document.getElementById('gallery');
+lectures.forEach((lec, lidx)=>{
+  const card = document.createElement('article');
+  card.className='card';
+  card.innerHTML = `<button class="play-btn" data-lecture="${lidx}" aria-label="${lec.title}">${lec.title}</button>`;
+  gallery.appendChild(card);
+});
+
+const modal = document.getElementById('modal');
+const modalImg = document.getElementById('modalImg');
+const closeBtn = document.getElementById('closeBtn');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+let currentLecture = 0;
+let currentIndex = 0;
+
+function renderModal(){
+  const lec = lectures[currentLecture];
+  modalImg.src = lec.images[currentIndex];
+  modalImg.alt = lec.title + ' — страница ' + (currentIndex+1);
+  prevBtn.toggleAttribute('disabled', currentIndex===0);
+  nextBtn.toggleAttribute('disabled', currentIndex===lec.images.length-1);
+}
+
+function openModal(lectureIndex, startIndex=0){
+  currentLecture = lectureIndex;
+  currentIndex = startIndex;
+  renderModal();
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  nextBtn.focus();
+}
+
+function closeModal(){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  const btn = gallery.querySelector(`[data-lecture="${currentLecture}"]`);
+  if(btn) btn.focus();
+}
+
+function showNext(delta){
+  const len = lectures[currentLecture].images.length;
+  let next = currentIndex+delta;
+  if(next<0) next=0;
+  if(next>=len) next=len-1;
+  currentIndex=next;
+  renderModal();
+}
+
+gallery.addEventListener('click', e=>{
+  const btn = e.target.closest('[data-lecture]');
+  if(!btn) return;
+  const lecIdx = Number(btn.getAttribute('data-lecture'));
+  openModal(lecIdx,0);
+});
+
+document.addEventListener('keydown', e=>{
+  if(modal.classList.contains('open')){
+    if(e.key==='ArrowRight') showNext(1);
+    if(e.key==='ArrowLeft') showNext(-1);
+    if(e.key==='Escape') closeModal();
+  }
+});
+
+prevBtn.addEventListener('click', ()=>showNext(-1));
+nextBtn.addEventListener('click', ()=>showNext(1));
+closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', e=>{if(e.target===modal) closeModal();});
+
+// свайпы
+(function(){
+  let sx=0,sy=0;
+  const photo = modal.querySelector('.photo');
+  photo.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY; });
+  photo.addEventListener('touchend', e=>{ const t=e.changedTouches[0]; const dx=t.clientX-sx; const dy=t.clientY-sy;
+    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){
+      if(dx<0) showNext(1);
+      if(dx>0) showNext(-1);
+    }
+  });
+})();
+</script>
 </body>
 </html>
