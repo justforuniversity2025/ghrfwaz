@@ -1,18 +1,75 @@
-<!DOCTYPE html>
-
-<html>
+<!doctype html>
+<html lang="ru">
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <title>mb</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>histL — галерея</title>
+  <style>
+    :root{ --gap:12px; }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; margin:0; background:#111; color:#eee}
+    .wrap{max-width:1200px; margin:18px auto; padding:12px}
+    h1{font-size:1.1rem; margin:0 0 12px; color:#eee}
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:var(--gap);
+      align-items:stretch;
+    }
+
+    figure{margin:0; background:#222; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.6); cursor:pointer;}
+    .gallery img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      aspect-ratio:4/3;
+      transition:transform .2s;
+    }
+    .gallery img:hover{transform:scale(1.04)}
+
+    figcaption{padding:8px 10px; font-size:.85rem; color:#aaa}
+
+    @media (max-width:420px){ .wrap{padding:8px} }
+
+    .lightbox{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.9);
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+    .lightbox img{
+      max-width:90%;
+      max-height:90%;
+      border-radius:8px;
+      box-shadow:0 0 20px rgba(0,0,0,0.8);
+    }
+    .lightbox:target{display:flex}
+    .lightbox a{position:absolute; top:20px; right:30px; color:#fff; font-size:2rem; text-decoration:none;}
+  </style>
 </head>
 <body>
-  <h1>
-    <img src="assets/img/his1.jpeg" alt="Описание фото" width="450" height="360">
-    <img src="assets/img/his2.jpeg" alt="Описание фото" width="450" height="360">
-    <img src="assets/img/his3.jpeg" alt="Описание фото" width="450" height="360">
-    <img src="assets/img/his4.jpeg" alt="Описание фото" width="450" height="360">
-    <img src="assets/img/his5.jpeg" alt="Описание фото" width="450" height="360">
-    <img src="assets/img/his6.jpeg" alt="Описание фото" width="450" height="360">
-  </h1>
+  <div class="wrap">
+    <h1>Галерея (6 фото)</h1>
+    <div class="gallery">
+      <figure><a href="#img1"><img src="assets/img/his1.jpeg" alt="photo 1" loading="lazy"></a></figure>
+      <figure><a href="#img2"><img src="assets/img/his2.jpeg" alt="photo 2" loading="lazy"></a></figure>
+      <figure><a href="#img3"><img src="assets/img/his3.jpeg" alt="photo 3" loading="lazy"></a></figure>
+      <figure><a href="#img4"><img src="assets/img/his4.jpeg" alt="photo 4" loading="lazy"></a></figure>
+      <figure><a href="#img5"><img src="assets/img/his5.jpeg" alt="photo 5" loading="lazy"></a></figure>
+      <figure><a href="#img6"><img src="assets/img/his6.jpeg" alt="photo 6" loading="lazy"></a></figure>
+    </div>
+  </div>
+
+  <div id="img1" class="lightbox"><a href="#">×</a><img src="assets/img/his1.jpeg" alt="photo 1"></div>
+  <div id="img2" class="lightbox"><a href="#">×</a><img src="assets/img/his2.jpeg" alt="photo 2"></div>
+  <div id="img3" class="lightbox"><a href="#">×</a><img src="assets/img/his3.jpeg" alt="photo 3"></div>
+  <div id="img4" class="lightbox"><a href="#">×</a><img src="assets/img/his4.jpeg" alt="photo 4"></div>
+  <div id="img5" class="lightbox"><a href="#">×</a><img src="assets/img/his5.jpeg" alt="photo 5"></div>
+  <div id="img6" class="lightbox"><a href="#">×</a><img src="assets/img/his6.jpeg" alt="photo 6"></div>
 </body>
 </html>
