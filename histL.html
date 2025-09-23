@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>histL — лекции</title>
+<title>2</title>
 <style>
 :root{ --gap:14px; --accent:#ff6b6b; --bg:#0d0f12; }
 *{box-sizing:border-box}
@@ -121,7 +121,13 @@ document.addEventListener('keydown', e=>{
 prevBtn.addEventListener('click', ()=>showNext(-1));
 nextBtn.addEventListener('click', ()=>showNext(1));
 closeBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', e=>{if(e.target===modal) closeModal();});
+prevBtn.addEventListener('click', ()=>showNext(-1));
+nextBtn.addEventListener('click', ()=>showNext(1));
+closeBtn.addEventListener('click', closeModal);
+
+// убираем закрытие при клике мимо картинки
+// modal.addEventListener('click', e=>{if(e.target===modal) closeModal();});
+
 
 // свайпы
 (function(){
