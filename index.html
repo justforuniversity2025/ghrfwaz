@@ -151,8 +151,6 @@ setInterval(updateDateTime, 1000);
         <button class="tab-btn" role="tab" aria-selected="true" data-tab="main">Главная</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="schedule">Расписание</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="hw">Д/з</button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="lectures">Лекции</button>
-      </nav>
     </div>
   </header>
     <main class="wrap">
@@ -167,18 +165,17 @@ setInterval(updateDateTime, 1000);
         <!-- Пн–Сб -->
         <div class="card day">
           <h3>24 сентября (следующий учебный день)</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">лекция (10.09, 24.09, 08.10) · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">лекция · УЛК-2 · ауд. 341 · доцент Феоктистова Лидия Александровна</div></div></div>
+          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Аналитическая геометрия</strong><span class="tag" style="background:rgba(239,71,111,.2)">1.33а 1.34а 1.12 1.26 </span><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Костин А.В.</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Костин А.В.</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 432 · доцент Костин А.В.</div></div></div>
         </div>
  <h2></h2>
  <div class="card day">
-<h3>23 сентября (прошлый учебный день)</h3>
-         <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Программирование<span class="tag" style="background:rgba(239,71,111,.2)">Лаба по блок схемам</span></strong><div class="sub">лаб. · УЛК-2 · ауд. 405/406 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Информатика<span class="tag" style="background:rgba(239,71,111,.2)">Лаба по Excel</span></strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика<span class="tag" style="background:rgba(239,71,111,.2)">дз по заданию</span></strong><div class="sub">практика · УЛК-2 · ауд. 330 · доцент Феоктистова Лидия Александровна/Рзаева Т.В.</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Введение в профессиональную деятельность</strong><div class="sub">лекция/практика · УЛК-2 · ауд. 417 · доцент Валиев Рустам Асгатович</div></div></div>
-</div>
+<h3>24 сентября (прошлый учебный день)</h3>
+         <div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">лекция (10.09, 24.09, 08.10) · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
+<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
+<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">лекция · УЛК-2 · ауд. 341 · доцент Феоктистова Лидия Александровна</div></div></div>
+        </div>
         <h2 id="info">Информация</h2>
       
       <div class="timeline">
@@ -351,56 +348,7 @@ setInterval(updateDateTime, 1000);
     </section>
 
     <!-- Лекции (пароль 88) -->
-    <section id="lectures" class="section" aria-labelledby="tab-lectures">
-      <h2>Лекции</h2>
-      <div class="lock" id="lectures-lock">
-        <div class="gate">
-          <div class="gate-inner">
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 10V8a6 6 0 0 1 12 0v2" stroke="white" stroke-opacity=".9" stroke-width="2" stroke-linecap="round"/>
-              <rect x="3" y="10" width="18" height="11" rx="2" fill="white" fill-opacity=".1" stroke="white" stroke-opacity=".2"/>
-              <circle cx="12" cy="15.5" r="1.8" fill="white"/>
-            </svg>
-            <h3 style="margin:10px 0 6px">Раздел закрыт</h3>
-            <p class="sub">Введите пароль с клавиатуры, чтобы открыть.</p>
-            <div class="pin">
-              <input id="pin1" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Первая цифра" />
-              <input id="pin2" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Вторая цифра" />
-              <input id="pin3" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Третья цифра" />
-              <input id="pin4" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Четвёртая цифра" />
-            </div>
-
-          </div>
-        </div>
-        <div class="unlock" id="lectures-content">
-          <div class="cards">
-            <article class="card">
-              <h3>История России</h3>
-              <ul>
-                <li>Лекция 1</li><a class="link-btn" href="histL.html" role="button">Древнерусское государство</a>
-                <li>Лекция 2</li><a class="link-btn" href="#" role="button">1</a>
-                <li>Лекция 3</li><a class="link-btn" href="#" role="button">1</a>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Программирование</h3>
-              <ul>
-                <li>Лекция 1</li><a class="link-btn" href="#" role="button">1</a>
-                <li>Лекция 2</li><a class="link-btn" href="#" role="button">1</a>
-                <li>Лекция 3</li><a class="link-btn" href="#" role="button">1</a>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Информатика</h3>
-              <ul>
-                <li>Лекция 1</li>
-                <li>Лекция 2</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
+    
 
 
     <footer>© 2025 Сделано с ❤ для одногруппников</footer>
@@ -499,5 +447,4 @@ window.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
-
 
