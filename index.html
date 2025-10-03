@@ -1,447 +1,150 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Сайт для одногруппников</title>
-  <meta name="description" content="шаблон" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E✨%3C/text%3E%3C/svg%3E"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Обратный отсчёт до 4 октября 14:00 (МСК)</title>
   <style>
-    :root{
-      --bg: #0b0f1a;
-      --panel: rgba(255,255,255,0.08);
-      --panel-strong: rgba(255,255,255,0.14);
-      --txt: #e6ecff;
-      --muted: #a9b4d0;
-      --brand1: #7c5cff;
-      --brand2: #00d4ff;
-      --brand3: #ff6b9a;
-      --ok: #3ddc97;
-      --warn: #ffd166;
-      --bad: #ef476f;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--txt); background: 
-            linear-gradient(180deg, #0b0f1a 0%, #0b0f1a 100%);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      line-height:1.5;
+
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
     }
-    .wrap{max-width:1200px; margin:0 auto; padding:24px}
-    header{
-      position:sticky; top:0; z-index:40; backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(11,15,26,.9), rgba(11,15,26,.6));
-      border-bottom:1px solid rgba(255,255,255,.06);
+
+    .container {
+      text-align: center;
+      padding: 20px;
     }
-    .brand{display:flex; align-items:center; gap:14px}
-    .logo{width:40px;height:40px; border-radius:12px; background: linear-gradient(135deg, var(--brand1), var(--brand2)); display:grid; place-items:center; box-shadow:0 10px 30px rgba(124,92,255,.35)}
-    .logo svg{filter:drop-shadow(0 4px 12px rgba(0,0,0,.25))}
-    h1{font-size:clamp(20px, 2.8vw, 34px); margin:0}
 
-    /* Tabs */
-    .tabs{display:flex; gap:8px; flex-wrap:wrap}
-    .tab-btn{
-      position:relative; border:1px solid rgba(255,255,255,.1); color:var(--txt);
-      background:var(--panel); padding:10px 14px; border-radius:14px; cursor:pointer; font-weight:600;
-      transition:transform .15s ease, background .2s ease, border .2s ease;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      letter-spacing: 1px;
+      opacity: 0.9;
     }
-    .tab-btn[aria-selected="true"]{background:linear-gradient(135deg, rgba(124,92,255,.22), rgba(0,212,255,.22)); border-color:rgba(255,255,255,.25)}
-    .tab-btn:hover{transform:translateY(-2px)}
 
-    .section{display:none; animation:fadeIn .25s ease both}
-    .section.active{display:block}
-    @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
-
-    /* Cards */
-    .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:16px; box-shadow: 0 10px 30px rgba(0,0,0,.25)}
-    .card h3{margin:0 0 8px}
-    .sub{color:var(--muted); font-size:14px}
-
-    /* Schedule */
-    .week-toggle{display:flex; gap:10px; background:var(--panel); padding:6px; border-radius:16px; width:fit-content; border:1px solid rgba(255,255,255,.08)}
-    .week-toggle button{border:0; padding:8px 14px; border-radius:12px; color:var(--txt); background:transparent; cursor:pointer; font-weight:700}
-    .week-toggle button.active{background:linear-gradient(135deg, var(--brand1), var(--brand2));}
-
-    .day{display:flex; flex-direction:column; gap:8px}
-    .lesson{display:flex; gap:10px; align-items:flex-start; background:var(--panel-strong); border:1px dashed rgba(255,255,255,.15); padding:10px; border-radius:12px}
-    .lesson .time{font-variant-numeric:tabular-nums; min-width:60px; padding:4px 8px; border-radius:10px; background:rgba(124,92,255,.18)}
-
-    /* Criteria */
-    .criteria{margin-top:18px; padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background:linear-gradient(135deg, rgba(61,220,151,.15), rgba(0,212,255,.12))}
-    .criteria ul{margin:8px 0 0 18px}
-
-    /* Homework */
-    .cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px}
-    .tag{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.16)}
-    .tag.deadline{background:rgba(255,209,102,.15)}
-    .tag.done{background:rgba(61,220,151,.15)}
-
-    /* Lectures lock */
-    .lock{
-      position:relative; overflow:hidden; border-radius:18px; border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      padding:0;
+    .timer {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
-    .lock .gate{display:grid; place-items:center; padding:30px; min-height:200px}
-    .gate-inner{max-width:520px; width:100%; text-align:center}
-    .pin{margin-top:10px; display:flex; gap:8px; justify-content:center}
-    .pin input{width:64px; padding:12px 10px; text-align:center; font-size:22px; font-weight:800; color:var(--txt);
-      background:var(--panel); border:1px solid rgba(255,255,255,.12); border-radius:12px; outline:none}
-    .pin small{display:block; color:var(--muted); margin-top:8px}
-    .unlock{display:none}
-    .unlock.show{display:block; padding:16px}
 
-    /* Events */
-    .timeline{display:grid; gap:12px}
-    .event{position:relative; padding:12px 14px 12px 44px; border-radius:14px; background:var(--panel); border:1px solid rgba(255,255,255,.10)}
-    .event:before{content:""; position:absolute; left:16px; top:14px; width:18px; height:18px; border-radius:50%; background:linear-gradient(135deg, var(--brand3), var(--brand2)); box-shadow:0 4px 18px rgba(255,107,154,.5)}
-    .event h4{margin:0 0 6px}
+    .time-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-    footer{margin:28px 0 12px; color:var(--muted); text-align:center}
-    a{color:#b9c6ff}
-.link-btn{display:inline-block; padding:8px 12px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,.12); color:var(--txt); text-decoration:none; font-weight:700}
- 
-    .row{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap}
+    .digit {
+      font-size: 4rem;
+      font-weight: bold;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(90deg, #ff00cc, #3333ff, #00ccff, #00ff99, #ffcc00);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientFlow 5s ease infinite;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.3);
+    }
+
+    .label {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      .digit { font-size: 2.5rem; width: 70px; height: 70px; }
+      .timer { gap: 10px; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap row">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 4h14v14a2 2 0 0 1-2 2H5V4z" fill="white" fill-opacity=".9"/>
-            <path d="M7 4V2h10a2 2 0 0 1 2 2H7z" fill="black" fill-opacity=".2"/>
-          </svg>
-        </div>
-        <h1 id="datetime"></h1>
-
-<script>
-function updateDateTime() {
-  const months = [
-    "января", "февраля", "марта", "апреля", "мая", "июня",
-    "июля", "августа", "сентября", "октября", "ноября", "декабря"
-  ];
-
-  const now = new Date();
-
-  // получаем дату по московскому времени
-  const moscowNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
-
-  const day = moscowNow.getDate();
-  const month = months[moscowNow.getMonth()];
-  const year = moscowNow.getFullYear();
-
-  const hours = String(moscowNow.getHours()).padStart(2, "0");
-  const minutes = String(moscowNow.getMinutes()).padStart(2, "0");
-  const seconds = String(moscowNow.getSeconds()).padStart(2, "0");
-
-  document.getElementById("datetime").textContent =
-    `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
-}
-
-updateDateTime();
-setInterval(updateDateTime, 1000);
-</script>
-
+  <div class="container">
+    <h1>Осталось до 14:00 4 октября 2025 (МСК):</h1>
+    <div class="timer">
+      <div class="time-unit">
+        <div class="digit" id="days">00</div>
+        <span class="label">Дни</span>
       </div>
-      <nav class="tabs" role="tablist" aria-label="Разделы">
-        <button class="tab-btn" role="tab" aria-selected="true" data-tab="main">Главная</button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="schedule">Расписание</button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="hw">Д/з</button>
+      <div class="time-unit">
+        <div class="digit" id="hours">00</div>
+        <span class="label">Часы</span>
+      </div>
+      <div class="time-unit">
+        <div class="digit" id="minutes">00</div>
+        <span class="label">Минуты</span>
+      </div>
+      <div class="time-unit">
+        <div class="digit" id="seconds">00</div>
+        <span class="label">Секунды</span>
+      </div>
     </div>
-  </header>
-    <main class="wrap">
-<section id="main" class="section active" aria-labelledby="tab-schedule">
-      <div class="row" style="margin-bottom:14px">
-      </div>
-        <!-- Понедельник, Вторник, Среда, Пятница -->
-        <a class="link-btn" href="#info" role="button">Информация</a><a class="link-btn" href="#krit" role="button">Критерии оценивания</a>
-       <a class="link-btn" href="https://kpfu.ru/do/uchebnyj-process/uchebnye-plany" role="button">Учебный план</a> <h2></h2>
-          
-        <!-- Пн–Сб -->
-        <div class="card day">
-          <h3>1 октября (следующий учебный день)</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><span class="tag" style="background:rgba(239,71,111,.2)">Семинар 1. Киевская Русь</span><div class="sub">практика · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(2 подгр.)</span></strong><div class="sub">практика · УЛК-1 · ауд. 326 · доцент Славина Лилия Р.</div></div></div>
-        </div>
-          
- <h2></h2>
- <div class="card day">
-<h3>30 сентября (прошлый учебный день)</h3>
-         <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Основы российской государственности</strong><span class="tag" style="background:rgba(239,71,111,.2)">надо сделать 7 слайдов составить свои 7 чудес света России. Конкретно России Есть принятый в России список. Места из этого списка использовать нельзя. Надо составить свои и обосновать почему вы добавили это в свой список</span><div class="sub">практика · УЛК-1 · ауд. 454 · доцент Яковлева Марина Геннадьевна</div></div></div>
-          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Основы российской государственности</strong><div class="sub">практика · УЛК-1 · ауд. 454 · доцент Яковлева Марина Геннадьевна</div></div></div>
-          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Информатика</strong><span class="tag" style="background:rgba(239,71,111,.2)">лабораторные работы по Excel </span><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
-        </div>
-        <h2 id="info">Информация</h2>
-      
-      <div class="timeline">
-        <div class="event">
-          <h4>Сдать старосте справку 086у, прививочную карту</h4>
-          <p class="sub"></p>
-          <h4>Отправить фото прохождения флг куратору</h4>
-        </div>
-        <div id="krit" class="criteria card">
-        <strong>Критерии оценивания 50 за пары + 50 за зачёт (баллы):</strong>
-        <ul>
-          <li><span class="tag" style="background:rgba(239,71,111,.2)">ниже 56</span> — не сдал</li>
-          <li><span class="tag" style="background:rgba(255,209,102,.2)">56–70</span> — Удовлетворительно</li>
-          <li><span class="tag" style="background:rgba(0,212,255,.2)">71–85</span> — Хорошо</li>
-          <li><span class="tag" style="background:rgba(61,220,151,.2)">86–100</span> — Отлично</li>
-        </ul>
-      </div>
-      </div>
-    </section>
-
-
-    <!-- Расписание -->
-    <section id="schedule" class="section" aria-labelledby="tab-schedule">
-      <div class="row" style="margin-bottom:14px">
-        <div class="week-toggle" role="tablist" aria-label="Недели">
-          <button class="active" data-week="top" aria-selected="true">Верхняя неделя</button>
-          <button data-week="bottom" aria-selected="false">Нижняя неделя</button>
-        </div>
-      </div>
-
-      <div id="week-top" class="cards">
-        <!-- Понедельник, Вторник, Среда, Пятница -->
-        <div class="card day">
-          <h3>Понедельник</h3>
-          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Физкультура</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · профессор Москвин Николай Геннадьевич</div></div></div>
-          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · доцент Сиппель Ирина Яковлевна</div></div></div>
-          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Химия</strong><div class="sub">лаб. · УЛК-1 · ауд. 145/143 · доцент Сиппель Ирина Яковлевна/Шарафутдинов Р.Н.</div></div></div>
-          <div class="lesson"><span class="time">13:30–15:00</span> <div><strong>Химия</strong><div class="sub">лаб. · УЛК-1 · ауд. 145/143 · доцент Сиппель Ирина Яковлевна/Шарафутдинов Р.Н.</div></div></div>
-        </div>
-        <div class="card day">
-          <h3>Вторник</h3>
-          <div class="lesson"><span class="time">08:00–9:30</span> <div><strong>Основы российской государственности</strong><div class="sub">практика · УЛК-1 · ауд. 454 · доцент Яковлева Марина Геннадьевна</div></div></div>
-          <div class="lesson"><span class="time">9:40–11:10</span> <div><strong>Основы российской государственности</strong><div class="sub">практика · УЛК-1 · ауд. 454 · доцент Яковлева Марина Геннадьевна</div></div></div>
-          <div class="lesson"><span class="time">11:50–13:20</span> <div><strong>Информатика</strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
-        </div>
-        <div class="card day">
-          <h3>Среда</h3>
-<div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">практика · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(2 подгр.)</span></strong><div class="sub">практика · УЛК-1 · ауд. 326 · доцент Славина Лилия Р.</div></div></div>
-        </div>
-        <div class="card day">
-          <h3>Пятница</h3>
-<div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · доцент Губочкина Наталья Ивановна</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Губочкина Наталья Ивановна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Физическая культура и спорт</strong><div class="sub">практика · спорткомплекс · ауд. 24 · преп. Камалетдинов Марат Шавкитович</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(1 подгр.)</span></strong><div class="sub">практика · УЛК-4 · ауд. 208 · ст.преп. Мустафина Л.Р.</div></div></div>
-        </div>
-      </div>
-
-      <div id="week-bottom" class="cards" style="display:none">
-        <!-- Пн–Сб -->
-        <div class="card day">
-          <h3>Понедельник</h3>
-          <div class="lesson"><span class="time">09:40–11:10</span><div><strong>Химия</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · доцент Сиппель Ирина Яковлевна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Основы российской государственности</strong><div class="sub">лекция · УЛК-1 · ауд. 420 · доцент Яковлева Марина Геннадьевна</div></div></div>
-          </div><div class="card day">
-<h3>Вторник</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Программирование</strong><div class="sub">лаб. · УЛК-2 · ауд. 405/406 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Информатика</strong><div class="sub">лаб. · УЛК-2 · ауд. 401/418 · ст.преп. Булатова Светлана Владимировна/Шигапова Л.Ф.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">практика · УЛК-2 · ауд. 330 · доцент Феоктистова Лидия Александровна/Рзаева Т.В.</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Введение в профессиональную деятельность</strong><div class="sub">лекция/практика · УЛК-2 · ауд. 417 · доцент Валиев Рустам Асгатович</div></div></div>
-</div>
-<div class="card day">
-          <h3>Среда</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>История России</strong><div class="sub">лекция (10.09, 24.09, 08.10) · УЛК-1 · ауд. 420 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>История России</strong><div class="sub">лекция · УЛК-1 · ауд. 414 · доцент Бессонова Татьяна Викторовна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Инженерная компьютерная графика</strong><div class="sub">лекция · УЛК-2 · ауд. 341 · доцент Феоктистова Лидия Александровна</div></div></div>
-        </div>
-        <div class="card day">
-          <h3>Четверг</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Костин А.В.</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Костин А.В.</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Аналитическая геометрия</strong><div class="sub">лекция · УЛК-2 · ауд. 432 · доцент Костин А.В.</div></div></div>
-        </div>
-        <div class="card day">
-          <h3>Пятница</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Математический анализ</strong><div class="sub">практика · УЛК-2 · ауд. 432 · доцент Губочкина Наталья Ивановна</div></div></div>
-<div class="lesson"><span class="time">09:40–11:10</span><div><strong>Математический анализ</strong><div class="sub">лекция · УЛК-2 · ауд. 302 · доцент Губочкина Наталья Ивановна</div></div></div>
-<div class="lesson"><span class="time">11:50–13:20</span><div><strong>Информатика</strong><div class="sub">лекция · УЛК-5 · ауд. 305 · ст.преп. Булатова Светлана Владимировна</div></div></div>
-<div class="lesson"><span class="time">13:30–15:00</span><div><strong>Программирование</strong><div class="sub">лекция · УЛК-5 · ауд. 308 · ст.преп. Булатова Светлана Владимировна</div></div></div>
-
-        </div>
-        <div class="card day">
-          <h3>Суббота</h3>
-          <div class="lesson"><span class="time">08:00–09:30</span><div><strong>Иностранный язык</strong><div class="sub">электронное обучение (практика)<a class="link-btn" href="https://edu.kpfu.ru/course/view.php?id=4724" role="button">Ссылка тут</a></div></div></div>
-        </div>
-      </div>
-
-      
-    </section>
-
-    <!-- Д/з -->
-    <section id="hw" class="section" aria-labelledby="tab-hw">
-      <div class="cols">
-        <div class="card">
-          <h3>Актуальные</h3>
-          <ul>
-            <span class="tag deadline">⬇ 23 сентября ⬇ </span>
-            <li>
-              <strong>Инженерная компьютерная графика</strong>  сделать домашнюю работу в соответствии с требованиями
-            <a class="link-btn" href="#" role="button">Пока не готово</a>
-            </li>
-            
-            <li>
-             <strong>Программирование</strong> сделать блок-схему в отчёт.
-             <a class="link-btn" href="#" role="button">Пока не готово</a>
-            </li>
-            <span class="tag deadline">⬇ 25 сентября ⬇</span>
-             <li>
-              <strong>Аналитическая геометрия</strong>  1.33а 1.34а 1.12 1.26
-              <a class="link-btn" href="#" role="button">Пока не готово</a>
-            </li>
-            
-            <span class="tag deadline">⬇ 26 сентября ⬇</span>
-            <li>
-              <strong>Математический анализ</strong> 4.14-4.30 чётные (4.14, 4.18, 4.30 уже делали), 4.36, 4.40, 4.44, 4.48, 4.50.
-           <a class="link-btn" href="#" role="button">Пока не готово</a> </li>
-            <span class="tag deadline">⬇ 29 сентября ⬇</span>
-            <li>
-              <strong>Химия</strong>  доделать самостоятельную работу и выучить темы из лабораторной работы 2
-            <a class="link-btn" href="#" role="button">Пока не готово</a></li>
-            <span class="tag deadline">⬇ 30 сентября ⬇</span>
-            
-            <li>
-              <strong>Основы российской государственности:</strong> надо сделать 7 слайдов составить свои 7 чудес света России. Конкретно России
-Есть принятый в России список. Места из этого списка использовать нельзя. Надо составить свои и обосновать почему вы добавили это в свой список
-            <a class="link-btn" href="#" role="button">Пока не готово</a></li>
-
-            
-            <span class="tag deadline">⬇ 1 октября ⬇</span>
-
-            <li>
-              <strong>История России</strong> Подготовиться к докладу по теме и вопросам Семинара 1 Киевская русь.
-           <a class="link-btn" href="#" role="button">Пока не готово</a> </li>
-  
-            <span class="tag deadline">⬇ 3 октября ⬇</span>
-            <li>
-              <strong>Иностранный язык <span class="tag" style="background:rgba(239,71,111,.2)">(1 подгр.)</span> </strong> Unit 1 страница 19 Английский ДЗ Рабочая тетрадь
-       </li>
-            <span class="tag deadline">⬇ выполнить за первый семестр ⬇</span>
-           <li>
-              <strong>Информатика  </strong> лабораторные работы по Excel
-            </li>
-            <a class="link-btn" href="#" role="button">Пока не готово</a>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Прошедшие</h3>
-          <ul>
-            <li>
-              <strong></strong> <span class="tag done"></span>
-            </li>
-
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Лекции (пароль 88) -->
-    
-
-
-    <footer>© 2025 Сделано с ❤ для одногруппников</footer>
-  </main>
+  </div>
 
   <script>
-    // Tabs
-    const tabs = document.querySelectorAll('.tab-btn');
-    const sections = document.querySelectorAll('.section');
-    tabs.forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        tabs.forEach(b=>b.setAttribute('aria-selected','false'));
-        btn.setAttribute('aria-selected','true');
-        sections.forEach(s=>s.classList.remove('active'));
-        document.getElementById(btn.dataset.tab).classList.add('active');
-        // Save last tab
-        localStorage.setItem('lastTab', btn.dataset.tab);
-      })
-    })
-    const last = localStorage.getItem('lastTab');
-    if(last){
-      document.querySelector(`.tab-btn[data-tab="${last}"]`)?.click();
+    function getTargetDateInMSK() {
+      const now = new Date();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const mskTime = new Date(utc + (3600000 * 3)); // +3 часа для МСК
+      
+      const target = new Date();
+      target.setFullYear(2025, 9, 4); // Месяцы считаются с 0: октябрь = 9
+      target.setHours(14, 0, 0, 0); // 14:00:00
+      target.setTime(target.getTime() - (3 * 3600000)); // Конвертируем в UTC
+      return target.getTime();
     }
 
-    // Week toggle
-    const weekButtons = document.querySelectorAll('.week-toggle button');
-    const topWeek = document.getElementById('week-top');
-    const bottomWeek = document.getElementById('week-bottom');
-    function showWeek(which){
-      if(which==='top'){ topWeek.style.display='grid'; bottomWeek.style.display='none'; }
-      else { bottomWeek.style.display='grid'; topWeek.style.display='none'; }
-      weekButtons.forEach(b=>{ b.classList.toggle('active', b.dataset.week===which); b.setAttribute('aria-selected', b.dataset.week===which ? 'true':'false'); })
-      localStorage.setItem('week', which);
+    function updateTimer() {
+      const targetTime = getTargetDateInMSK();
+      const now = new Date().getTime();
+      const diff = targetTime - now;
+
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+      }
+
+      const day = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hour = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minute = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const second = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = String(day).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hour).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minute).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(second).padStart(2, '0');
     }
-    weekButtons.forEach(b=> b.addEventListener('click',()=>showWeek(b.dataset.week)));
-    showWeek(localStorage.getItem('week')||'top');
 
-    // Lectures lock: password 88
-    const p1 = document.getElementById('pin1');
-    const p2 = document.getElementById('pin2');
-    const p3 = document.getElementById('pin3');
-    const p4 = document.getElementById('pin4');
-    const lock = document.getElementById('lectures-lock');
-    const content = document.getElementById('lectures-content');
-    const gate = lock.querySelector('.gate');
-
-function tryUnlock(){
-  const code = (p1.value||'') + (p2.value||'') + (p3.value||'') + (p4.value||'');
-  if(code === '8888'){
-    gate.style.display = 'none';
-    content.classList.add('show');
-    // Меняем на localStorage
-    localStorage.setItem('lecturesOpen','1');
-  } else if(p1.value && p2.value && p3.value && p4.value) {
-    [p1,p2,p3,p4].forEach(i=>{
-      i.style.borderColor='var(--bad)';
-      i.animate([
-        {transform:'translateX(0)'},
-        {transform:'translateX(-3px)'},
-        {transform:'translateX(3px)'},
-        {transform:'translateX(0)'}
-      ], {duration:180});
-    });
-    setTimeout(()=>{
-      p1.value=''; p2.value=''; p3.value=''; p4.value='';
-      p1.focus();
-    }, 180);
-  }
-}
-
-
-[p1,p2,p3,p4].forEach((inp, idx)=>{
-  inp.addEventListener('input',()=>{
-    inp.value = inp.value.replace(/\D/g,'').slice(0,1);
-    if(inp.value && idx < 3) [p2,p3,p4][idx].focus(); // фокус на следующем поле
-    tryUnlock();
-  });
-  inp.addEventListener('keydown', (e)=>{
-    if(e.key==='Backspace' && !inp.value && idx > 0){ [p1,p2,p3][idx-1].focus(); }
-    if(e.key==='Enter'){ tryUnlock(); }
-  });
-});
-
-
-
-
-window.addEventListener('DOMContentLoaded', () => {
-  if(localStorage.getItem('lecturesOpen') === '1'){
-    gate.style.display = 'none';
-    content.classList.add('show');
-    
-    // Блокируем поля, чтобы их нельзя было менять
-    [p1,p2,p3,p4].forEach(i => i.disabled = true);
-  }
-});
+    setInterval(updateTimer, 1000);
+    updateTimer();
   </script>
 </body>
 </html>
