@@ -203,9 +203,9 @@ nav {
     }
 
     .day-column {
-      flex: 1;
-      min-width: 290px;
-    }
+  flex: 1;
+  min-width: 250px;
+}
 
     .day-header {
       background: linear-gradient(to right, var(--primary), var(--accent));
@@ -387,8 +387,9 @@ nav {
     }
 
     @media (max-width: 768px) {
-      .today-tomorrow {
-        flex-direction: column;
+    .today-tomorrow {
+      flex-direction: row;
+      flex-wrap: wrap;
       }
       header {
         padding: 1rem;
@@ -586,6 +587,16 @@ body.dark-theme .lecture-details .highlight {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px var(--shadow);
 }
+.lesson-subject {
+  font-size: 1.0rem;
+  color: var(--text);
+  font-weight: 700;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+}
   </style>
 </head>
 <body>
@@ -773,9 +784,9 @@ body.dark-theme .lecture-details .highlight {
         { time: "11:50–13:20", subject: "Инженерная компьютерная графика", type: "лекция", room: "УЛК-2, ауд. 341", teacher: "доцент Феоктистова Лидия Александровна", hw: "" }
       ],
       4: [
-        { time: "08:00–09:30", subject: "Аналитическая геометрия", type: "лекция", room: "УЛК-2, ауд. 302", teacher: "доцент Костин А.В.", hw: "" },
+        { time: "08:00–09:30", subject: "Аналитическая геометрия", type: "практика", room: "УЛК-2, ауд. 302", teacher: "доцент Костин А.В.", hw: "" },
         { time: "09:40–11:10", subject: "Аналитическая геометрия", type: "лекция", room: "УЛК-2, ауд. 302", teacher: "доцент Костин А.В.", hw: "" },
-        { time: "11:50–13:20", subject: "Аналитическая геометрия", type: "лекция", room: "УЛК-2, ауд. 432", teacher: "доцент Костин А.В.", hw: "" }
+        { time: "11:50–13:20", subject: "Аналитическая геометрия", type: "практика", room: "УЛК-2, ауд. 432", teacher: "доцент Костин А.В.", hw: "" }
       ],
       5: [
         { time: "08:00–09:30", subject: "Математический анализ", type: "практика", room: "УЛК-2, ауд. 432", teacher: "доцент Губочкина Наталья Ивановна", hw: "" },
@@ -938,12 +949,12 @@ const lecturesData = {
       const card = document.createElement('div');
       card.className = 'lesson-card';
       let cardHTML = `
-        <div class="lesson-time"><i class="far fa-clock"></i> ${lesson.time}</div>
-        <div class="lesson-title">${lesson.subject}</div>
-        <div class="lesson-meta">${lesson.type} · ${lesson.room}</div>
-        <div class="lesson-meta">${lesson.teacher}</div>
-      `;
-
+  <div class="lesson-time">
+    <i class="far fa-clock"></i> ${lesson.time}
+    <span class="lesson-subject">${lesson.subject}</span>
+  </div>
+  <div class="lesson-meta">${lesson.type} · ${lesson.room}</div>
+`;
       if (lesson.hw) {
         const hwKey = `${formatDate(date)}|${lesson.hw}`;
         const isCompleted = getCompletedTasks()[hwKey] === true;
@@ -1369,4 +1380,3 @@ document.getElementById('week-lower').addEventListener('click', () => {
 
 </body>
 </html>
-
