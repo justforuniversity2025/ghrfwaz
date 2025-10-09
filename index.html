@@ -113,7 +113,123 @@ header {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   background: rgba(255, 255, 255, 0.2);
 }
-main { max-width: 1200px; margin: 1.8rem auto; padding: 0 1.2rem; }
+
+/* Стили для курсов */
+.course-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.course-btn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 55px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 0 3px 12px var(--shadow);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.course-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 6px 18px var(--shadow);
+}
+
+.course-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Адаптивная таблица */
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+
+.responsive-table th, .responsive-table td {
+  padding: 0.7rem;
+  text-align: left;
+  border: 1px solid #ddd;
+  transition: all 0.2s;
+}
+
+.responsive-table th {
+  background-color: var(--secondary);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.responsive-table tbody tr:hover {
+  background-color: var(--card-bg);
+  transform: translateX(0);
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .responsive-table {
+    border: none;
+  }
+  
+  .responsive-table th, .responsive-table td {
+    display: block;
+    padding: 0.5rem;
+    text-align: right;
+    border: none;
+  }
+  
+  .responsive-table th {
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .responsive-table th::before {
+    content: attr(data-label);
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5rem;
+  }
+  
+  .responsive-table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .responsive-table td {
+    padding: 0.5rem;
+  }
+  
+  .responsive-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5rem;
+  }
+  
+  .responsive-table tr:hover {
+    transform: none;
+  }
+}
+
+/* Дополнительные стили для учебного плана */
 .section { display: none; animation: fadeIn 0.6s ease; }
 .section.active { display: block; }
 h2 { margin: 1.8rem 0 1.4rem; color: var(--text); font-size: 1.7rem; font-weight: 750; display: flex; align-items: center; gap: 12px; }
@@ -295,7 +411,7 @@ footer {
   padding: 1.1rem 1.8rem;
   border-radius: 20px;
   font-size: 1.3rem;
-  font-weight: 750;
+  font-weight: 700;
   cursor: pointer;
   width: 100%;
   text-align: left;
@@ -392,6 +508,7 @@ body:not(.dark-theme) .lecture-details .highlight {
 body.dark-theme .lecture-details .highlight {
   color: var(--primary);
 }
+
 /* Стили для расписания */
 .schedule-item {
   position: relative;
@@ -462,7 +579,369 @@ body.dark-theme .lecture-details .highlight {
       </div>
     </div>
     <h2><i class="fas fa-graduation-cap"></i> Учебный план</h2>
-    <p>1</p>
+    <div class="course-buttons">
+      <button class="course-btn active" data-course="1">1 курс</button>
+      <button class="course-btn" data-course="2">2 курс</button>
+      <button class="course-btn" data-course="3">3 курс</button>
+      <button class="course-btn" data-course="4">4 курс</button>
+    </div>
+    <div class="course-table">
+      <!-- Таблица 1 курс -->
+      <table id="course-1" class="responsive-table active">
+        <thead>
+          <tr>
+            <th data-label="N">N</th>
+            <th data-label="Название дисциплины">Название дисциплины</th>
+            <th data-label="Всего">Всего</th>
+            <th data-label="Лекционных">Лекционных</th>
+            <th data-label="Практических">Практических</th>
+            <th data-label="Лабораторных">Лабораторных</th>
+            <th data-label="Самостоятельных">Самостоятельных</th>
+            <th data-label="Контрольных">Контрольных</th>
+            <th data-label="1 семестр">1 семестр</th>
+            <th data-label="2 семестр">2 семестр</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="N">B1.0.02</td>
+            <td data-label="Название дисциплины">История России</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">116</td>
+            <td data-label="Практических">80</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">28</td>
+            <td data-label="1 семестр">42</td>
+            <td data-label="2 семестр">18</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.26</td>
+            <td data-label="Название дисциплины">Базовые информационные процессы и технологии</td>
+            <td data-label="Всего">72</td>
+            <td data-label="Лекционных">36</td>
+            <td data-label="Практических">18</td>
+            <td data-label="Лабораторных">0</td>
+            <td data-label="Самостоятельных">18</td>
+            <td data-label="Контрольных">36</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">18</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.03</td>
+            <td data-label="Название дисциплины">Основы российской государственности</td>
+            <td data-label="Всего">72</td>
+            <td data-label="Лекционных">54</td>
+            <td data-label="Практических">18</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">18</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">18</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.04</td>
+            <td data-label="Название дисциплины">Иностранный язык</td>
+            <td data-label="Всего">468</td>
+            <td data-label="Лекционных">216</td>
+            <td data-label="Практических">0</td>
+            <td data-label="Лабораторных">216</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">216</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.05</td>
+            <td data-label="Название дисциплины">Физическая культура и спорт</td>
+            <td data-label="Всего">72</td>
+            <td data-label="Лекционных">36</td>
+            <td data-label="Практических">18</td>
+            <td data-label="Лабораторных">18</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">36</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.11</td>
+            <td data-label="Название дисциплины">Введение в профессиональную деятельность</td>
+            <td data-label="Всего">72</td>
+            <td data-label="Лекционных">18</td>
+            <td data-label="Практических">6</td>
+            <td data-label="Лабораторных">12</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">54</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.12</td>
+            <td data-label="Название дисциплины">Аналитическая геометрия</td>
+            <td data-label="Всего">72</td>
+            <td data-label="Лекционных">54</td>
+            <td data-label="Практических">18</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">18</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.13</td>
+            <td data-label="Название дисциплины">Математический анализ</td>
+            <td data-label="Всего">180</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">72</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.14</td>
+            <td data-label="Название дисциплины">Интегралы и дифференциальные уравнения</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">36</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.15</td>
+            <td data-label="Название дисциплины">Линейная алгебра и функции нескольких переменных</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">36</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.20</td>
+            <td data-label="Название дисциплины">Физика</td>
+            <td data-label="Всего">288</td>
+            <td data-label="Лекционных">180</td>
+            <td data-label="Практических">72</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">72</td>
+            <td data-label="Контрольных">72</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.21</td>
+            <td data-label="Название дисциплины">Химия</td>
+            <td data-label="Всего">180</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">0</td>
+            <td data-label="Самостоятельных">36</td>
+            <td data-label="Контрольных">72</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.23</td>
+            <td data-label="Название дисциплины">Информатика</td>
+            <td data-label="Всего">252</td>
+            <td data-label="Лекционных">108</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">0</td>
+            <td data-label="Самостоятельных">72</td>
+            <td data-label="Контрольных">72</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.24</td>
+            <td data-label="Название дисциплины">Инженерная компьютерная графика</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">18</td>
+            <td data-label="Лабораторных">54</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">72</td>
+            <td data-label="1 семестр">2</td>
+            <td data-label="2 семестр">2</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.25</td>
+            <td data-label="Название дисциплины">Программирование</td>
+            <td data-label="Всего">648</td>
+            <td data-label="Лекционных">252</td>
+            <td data-label="Практических">72</td>
+            <td data-label="Лабораторных">0</td>
+            <td data-label="Самостоятельных">180</td>
+            <td data-label="Контрольных">252</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+          <tr>
+            <td data-label="N">B1.0.01</td>
+            <td data-label="Название дисциплины">Электрические курсы по физической культуре и спорту</td>
+            <td data-label="Всего">328</td>
+            <td data-label="Лекционных">328</td>
+            <td data-label="Практических">0</td>
+            <td data-label="Лабораторных">328</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Таблица 2 курс -->
+      <table id="course-2" class="responsive-table" style="display: none;">
+        <thead>
+          <tr>
+            <th data-label="N">N</th>
+            <th data-label="Название дисциплины">Название дисциплины</th>
+            <th data-label="Всего">Всего</th>
+            <th data-label="Лекционных">Лекционных</th>
+            <th data-label="Практических">Практических</th>
+            <th data-label="Лабораторных">Лабораторных</th>
+            <th data-label="Самостоятельных">Самостоятельных</th>
+            <th data-label="Контрольных">Контрольных</th>
+            <th data-label="1 семестр">1 семестр</th>
+            <th data-label="2 семестр">2 семестр</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="N">B2.0.02</td>
+            <td data-label="Название дисциплины">Теория вероятностей и математическая статистика</td>
+            <td data-label="Всего">108</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">18</td>
+            <td data-label="Лабораторных">18</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+          <tr>
+            <td data-label="N">B2.0.03</td>
+            <td data-label="Название дисциплины">Теория управления</td>
+            <td data-label="Всего">96</td>
+            <td data-label="Лекционных">48</td>
+            <td data-label="Практических">24</td>
+            <td data-label="Лабораторных">24</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+          <tr>
+            <td data-label="N">B2.0.04</td>
+            <td data-label="Название дисциплины">Электроника и микросхемотехника</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Таблица 3 курс -->
+      <table id="course-3" class="responsive-table" style="display: none;">
+        <thead>
+          <tr>
+            <th data-label="N">N</th>
+            <th data-label="Название дисциплины">Название дисциплины</th>
+            <th data-label="Всего">Всего</th>
+            <th data-label="Лекционных">Лекционных</th>
+            <th data-label="Практических">Практических</th>
+            <th data-label="Лабораторных">Лабораторных</th>
+            <th data-label="Самостоятельных">Самостоятельных</th>
+            <th data-label="Контрольных">Контрольных</th>
+            <th data-label="1 семестр">1 семестр</th>
+            <th data-label="2 семестр">2 семестр</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="N">B3.0.01</td>
+            <td data-label="Название дисциплины">Теоретические основы инженерных разработок</td>
+            <td data-label="Всего">120</td>
+            <td data-label="Лекционных">60</td>
+            <td data-label="Практических">30</td>
+            <td data-label="Лабораторных">30</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+          <tr>
+            <td data-label="N">B3.0.02</td>
+            <td data-label="Название дисциплины">Проектирование и моделирование систем</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Таблица 4 курс -->
+      <table id="course-4" class="responsive-table" style="display: none;">
+        <thead>
+          <tr>
+            <th data-label="N">N</th>
+            <th data-label="Название дисциплины">Название дисциплины</th>
+            <th data-label="Всего">Всего</th>
+            <th data-label="Лекционных">Лекционных</th>
+            <th data-label="Практических">Практических</th>
+            <th data-label="Лабораторных">Лабораторных</th>
+            <th data-label="Самостоятельных">Самостоятельных</th>
+            <th data-label="Контрольных">Контрольных</th>
+            <th data-label="1 семестр">1 семестр</th>
+            <th data-label="2 семестр">2 семестр</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="N">B4.0.01</td>
+            <td data-label="Название дисциплины">Дипломная работа</td>
+            <td data-label="Всего">120</td>
+            <td data-label="Лекционных">48</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+          <tr>
+            <td data-label="N">B4.0.02</td>
+            <td data-label="Название дисциплины">Профессиональная практика</td>
+            <td data-label="Всего">144</td>
+            <td data-label="Лекционных">72</td>
+            <td data-label="Практических">36</td>
+            <td data-label="Лабораторных">36</td>
+            <td data-label="Самостоятельных">0</td>
+            <td data-label="Контрольных">0</td>
+            <td data-label="1 семестр">0</td>
+            <td data-label="2 семестр">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <h2><i class="fas fa-info-circle"></i> Информация</h2>
     <p>1</p>
     <h2><i class="fas fa-tasks"></i> Критерии оценивания</h2>
@@ -831,9 +1310,10 @@ body.dark-theme .lecture-details .highlight {
               img.src = element.url.trim();
               img.alt = `${lecture.title} - изображение ${index + 1}`;
               img.loading = "lazy";
-              img.style.maxWidth = "100%";
-              img.style.borderRadius = "10px";
-              img.style.marginTop = "10px";
+img.style.maxWidth = "100%";
+img.style.borderRadius = "10px";
+img.style.marginTop = "0.7rem";
+img.style.boxShadow = "0 4px 10px 0 rgba(0, 0, 0, 0.2)";
               details.appendChild(img);
             } else if (element.type === 'text' && element.content) {
               const p = document.createElement('p');
@@ -921,6 +1401,23 @@ body.dark-theme .lecture-details .highlight {
       btn.classList.add('active');
       const tab = btn.dataset.tab;
       document.getElementById(tab).classList.add('active');
+    });
+  });
+  
+  // ===== ПЕРЕКЛЮЧЕНИЕ КУРСОВ =====
+  document.querySelectorAll('.course-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.course-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const course = btn.dataset.course;
+      
+      // Скрыть все таблицы
+      document.querySelectorAll('.course-table > table').forEach(table => {
+        table.style.display = 'none';
+      });
+      
+      // Показать выбранную таблицу
+      document.getElementById(`course-${course}`).style.display = 'block';
     });
   });
   
