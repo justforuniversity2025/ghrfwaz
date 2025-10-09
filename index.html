@@ -174,7 +174,11 @@ p, li { font-size: 1.05rem; font-weight: 550; color: var(--text); }
   -webkit-background-clip: text;
   color: transparent;
 }
-.lesson-meta { font-size: 0.95rem; color: #333; margin-bottom: 0.5rem; font-weight: 600; }
+.lesson-meta { font-size: 0.95rem; color: var(--text); margin-bottom: 0.5rem; font-weight: 600; }
+.dark-theme .lesson-meta {
+  color: #ccc !important; /* Светло-серый для лучшей видимости */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
 .hw-toggle {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
