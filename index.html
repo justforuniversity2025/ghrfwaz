@@ -10,23 +10,24 @@
   <title>🎓Для одногруппников</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root {
-      --primary: #ff9ec5;
-      --secondary: #a29bff;
-      --accent: #6eceda;
-      --bg: #fdf6f0;
-      --card-bg: #ffffff;
-      --text: #222;
-      --shadow: rgba(0,0,0,0.1);
-      --border-radius: 14px;
-      --transition: all 0.25s ease;
-    }
-    .dark-theme {
-      --bg: #121212;
-      --card-bg: #1e1e1e;
-      --text: #f5f5f5;
-      --shadow: rgba(0,0,0,0.4);
-    }
+:root {
+  --primary: #ff9ec5;
+  --secondary: #a29bff;
+  --accent: #6eceda;
+  --bg: #fdf6f0;
+  --card-bg: #ffffff;
+  --text: #000; /* Изменено: чёрный цвет в светлой теме */
+  --shadow: rgba(0,0,0,0.1);
+  --border-radius: 14px;
+  --transition: all 0.25s ease;
+}
+
+.dark-theme {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --text: #fff; /* Изменено: белый цвет в тёмной теме */
+  --shadow: rgba(0,0,0,0.4);
+}
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
     body { background: var(--bg); color: var(--text); line-height: 1.5; transition: var(--transition); }
     header { 
@@ -129,6 +130,9 @@
     }
     .lesson-title { font-weight: 700; color: var(--text); margin-bottom: 0.25rem; font-size: 1.1rem; }
     .lesson-meta { font-size: 0.92rem; color: #666; margin-bottom: 0.45rem; font-weight: 600; }
+    .lesson-subject {
+  color: var(--text);
+}
     .hw-toggle {
       background: var(--accent);
       color: white;
