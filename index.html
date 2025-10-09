@@ -20,6 +20,7 @@
   --shadow: rgba(0,0,0,0.2);
   --border-radius: 16px;
   --transition: all 0.3s ease;
+  --week-btn-text: #000;
 }
 
 .dark-theme {
@@ -27,6 +28,7 @@
   --card-bg: #1e1e1e;
   --text: #fff;
   --shadow: rgba(0,0,0,0.4);
+  --week-btn-text: rgba(255, 255, 255, 0.9);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -68,7 +70,7 @@ header {
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
   border: none;
-  color: white;
+  color: var(--week-btn-text); 
   padding: 0.6rem 1.2rem;
   margin: 0;
   border-radius: 55px;
@@ -81,6 +83,7 @@ header {
   min-width: 100px;
   text-align: center;
   box-shadow: 0 3px 12px var(--shadow);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 .nav-btn:hover, .nav-btn.active, .week-toggle-btn:hover, .week-toggle-btn.active {
   background: white;
@@ -104,6 +107,11 @@ header {
     height: 30px;
     font-size: 12px;
   }
+}
+.dark-theme .week-toggle-btn {
+  color: #fff !important; /* Принудительно белый в тёмной теме */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.2);
 }
 main { max-width: 1200px; margin: 1.8rem auto; padding: 0 1.2rem; }
 .section { display: none; animation: fadeIn 0.6s ease; }
@@ -621,7 +629,6 @@ body.dark-theme .lecture-details .highlight {
         title: "Лекция 2: test",
         content: [
           { type: 'text', content: "1" },
-          { type: 'image', url: "https://example.com/chem2-2.jpg" },
         ]
       }
     ]
@@ -732,14 +739,6 @@ body.dark-theme .lecture-details .highlight {
               Решение <i class="fas fa-chevron-down"></i>
             </button>
             <div class="solution-content" style="display:none;">
-              <div class="hw-checkbox">
-                <input type="checkbox" id="sol-${hwKey}" ${isCompleted ? 'checked' : ''}>
-                <label for="sol-${hwKey}">Выполнено</label>
-              </div>
-              <div style="margin-top:0.7rem; padding-top:0.7rem; border-top:1px solid var(--shadow);">
-                <strong>Пример решения:</strong><br>
-                1. [Пример решения — можно заменить]
-              </div>
             </div>
           </div>
         `;
