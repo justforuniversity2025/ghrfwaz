@@ -11,309 +11,338 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
 :root {
-  --primary: #ff9ec5;
-  --secondary: #a29bff;
-  --accent: #6eceda;
-  --bg: #fdf6f0;
-  --card-bg: #ffffff;
-  --text: #000; /* Изменено: чёрный цвет в светлой теме */
-  --shadow: rgba(0,0,0,0.1);
-  --border-radius: 14px;
-  --transition: all 0.25s ease;
+  --primary: #ff6699;  /* Более насыщенный розовый */
+  --secondary: #8a53ff; /* Более насыщенный фиолетовый */
+  --accent: #48d1cc;   /* Более насыщенный бирюзовый */
+  --bg: #fcf9f2;      /* Более светлый фон */
+  --card-bg: #fff5f0; /* Более насыщенный фон карточек */
+  --text: #000;       /* Чёрный текст в светлой теме */
+  --shadow: rgba(0,0,0,0.2); /* Более сильная тень */
+  --border-radius: 16px;
+  --transition: all 0.3s ease;
 }
 
 .dark-theme {
   --bg: #121212;
   --card-bg: #1e1e1e;
-  --text: #fff; /* Изменено: белый цвет в тёмной теме */
+  --text: #fff;       /* Белый текст в темной теме */
   --shadow: rgba(0,0,0,0.4);
 }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { background: var(--bg); color: var(--text); line-height: 1.5; transition: var(--transition); }
-    header { 
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      padding: 1rem 1.5rem;
-      box-shadow: 0 3px 15px var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.9rem;
-      flex-wrap: nowrap;
-    }
-    .theme-toggle {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(8px);
-      border: none;
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      font-size: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-    }
-    .theme-toggle:hover {
-      background: rgba(255,255,255,0.4);
-      transform: rotate(15deg);
-    }
-    .nav-btn, .week-toggle-btn {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(8px);
-      border: none;
-      color: white;
-      padding: 0.6rem 1.1rem;
-      margin: 0;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 80px;
-      text-align: center;
-    }
-    .nav-btn:hover, .nav-btn.active, .week-toggle-btn:hover, .week-toggle-btn.active {
-      background: white;
-      color: var(--primary);
-      transform: translateY(-1px);
-    }
-    @media (max-width: 768px) {
-      header { padding: 0.8rem 1rem; }
-      .nav-btn, .week-toggle-btn { padding: 0.4rem 0.8rem; font-size: 0.9rem; min-width: 60px; }
-      .theme-toggle { width: 30px; height: 30px; font-size: 12px; }
-    }
-    main { max-width: 1200px; margin: 1.8rem auto; padding: 0 1.2rem; }
-    .section { display: none; animation: fadeIn 0.5s ease; }
-    .section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    h2 { margin: 1.6rem 0 1rem; color: var(--text); font-size: 1.55rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-    p, li { font-size: 1rem; font-weight: 500; color: var(--text); }
-    .today-tomorrow { display: flex; gap: 1.3rem; flex-wrap: wrap; }
-    .day-column { flex: 1; min-width: 250px; }
-    .day-header { 
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      color: white;
-      padding: 0.7rem;
-      border-radius: var(--border-radius) var(--border-radius) 0 0;
-      font-weight: 700;
-      text-align: center;
-      font-size: 1.15rem;
-    }
-    .lesson-card {
-      background: var(--card-bg);
-      border-radius: 0 0 var(--border-radius) var(--border-radius);
-      padding: 0.85rem;
-      margin-bottom: 0.85rem;
-      box-shadow: 0 2px 7px var(--shadow);
-      transition: var(--transition);
-      color: var(--text);
-    }
-    .lesson-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px var(--shadow);
-    }
-    .lesson-time {
-      font-size: 0.92rem;
-      color: var(--accent);
-      margin-bottom: 0.25rem;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-weight: 600;
-    }
-    .lesson-title { font-weight: 700; color: var(--text); margin-bottom: 0.25rem; font-size: 1.1rem; }
-    .lesson-meta { font-size: 0.92rem; color: #666; margin-bottom: 0.45rem; font-weight: 600; }
-    .lesson-subject {
-  color: var(--text);
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { background: var(--bg); color: var(--text); line-height: 1.5; transition: var(--transition); }
+header { 
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  padding: 1.5rem 2rem;
+  box-shadow: 0 5px 20px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
 }
-    .hw-toggle {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.32rem 0.7rem;
-      border-radius: 18px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      margin-top: 0.4rem;
-      transition: var(--transition);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .hw-toggle:hover { opacity: 0.92; }
-    .hw-content {
-      margin-top: 0.7rem;
-      padding: 0.7rem;
-      background: var(--bg);
-      border-radius: 8px;
-      display: none;
-      font-size: 0.98rem;
-      border-left: 2.5px solid var(--accent);
-      color: var(--text);
-      font-weight: 500;
-    }
-    .hw-checkbox { display: flex; align-items: center; gap: 8px; margin-top: 0.6rem; }
-    .hw-checkbox input { width: 18px; height: 18px; cursor: pointer; }
-    .hw-checkbox label { font-size: 0.95rem; font-weight: 500; cursor: pointer; }
-    .full-schedule-list, .homework-list, .lectures-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-    }
-    .schedule-item, .homework-date, .lecture-subject-card {
-      background: var(--card-bg);
-      padding: 1.1rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 3px 10px var(--shadow);
-      color: var(--text);
-    }
-    .schedule-week-header {
-      background: linear-gradient(to right, var(--secondary), var(--primary));
-      color: white;
-      padding: 0.65rem;
-      border-radius: var(--border-radius);
-      margin-bottom: 0.9rem;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.15rem;
-    }
-    .homework-date h3 { margin-bottom: 0.7rem; color: var(--primary); font-size: 1.35rem; font-weight: 700; }
-    .homework-item { margin-top: 0.65rem; padding-left: 1rem; border-left: 2px solid var(--accent); color: var(--text); font-size: 1rem; font-weight: 500; }
-    .solution-toggle {
-      background: var(--secondary);
-      color: white;
-      border: none;
-      padding: 0.3rem 0.65rem;
-      border-radius: 16px;
-      font-size: 0.84rem;
-      cursor: pointer;
-      margin-top: 0.45rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .solution-content {
-      margin-top: 0.65rem;
-      padding: 0.65rem;
-      background: var(--bg);
-      border-radius: 8px;
-      display: none;
-      font-size: 0.98rem;
-    }
-    footer {
-      text-align: center;
-      padding: 1.8rem;
-      margin-top: 2.5rem;
-      color: #999;
-      font-size: 0.95rem;
-      border-top: 1px solid var(--card-bg);
-      font-weight: 500;
-    }
-    .lecture-toggle {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      border: none;
-      padding: 0.85rem 1.4rem;
-      border-radius: 16px;
-      font-size: 1.15rem;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
-      position: relative;
-      overflow: hidden;
-    }
-    .lecture-toggle:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.18);
-    }
-    .lecture-toggle::after {
-      content: "▼";
-      position: absolute;
-      right: 1.2rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.9rem;
-      opacity: 0.9;
-      transition: transform 0.3s ease;
-    }
-    .lecture-toggle.active::after {
-      content: "▲";
-    }
-    .lecture-list {
-      display: none;
-      margin-top: 0.7rem;
-      padding-left: 1.2rem;
-      border-left: 2px solid var(--secondary);
-    }
-    .lecture-item {
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      font-weight: 500;
-    }
-    .lecture-details {
-      margin-top: 0.7rem;
-      padding: 0.7rem;
-      background: var(--bg);
-      border-radius: 8px;
-      display: none;
-      font-size: 0.98rem;
-      border-left: 2.5px solid var(--accent);
-      color: var(--text);
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    .lecture-details img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-top: 0.5rem;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .lecture-details-toggle {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.3rem 0.7rem;
-      border-radius: 18px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      margin-top: 0.4rem;
-      margin-left: 1.0rem;
-      transition: var(--transition);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .lecture-details-toggle:hover {
-      opacity: 0.92;
-    }
-    .lecture-details .highlight {
-      font-weight: 700;
-      margin: 0 3px;
-    }
-    body:not(.dark-theme) .lecture-details .highlight {
-      color: #000;
-    }
-    body.dark-theme .lecture-details .highlight {
-      color: var(--primary);
-    }
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  box-shadow: 0 3px 10px var(--shadow);
+}
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.5);
+  transform: rotate(15deg) scale(1.1);
+}
+.nav-btn, .week-toggle-btn {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.4rem;
+  margin: 0;
+  border-radius: 55px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 0 3px 12px var(--shadow);
+}
+.nav-btn:hover, .nav-btn.active, .week-toggle-btn:hover, .week-toggle-btn.active {
+  background: white;
+  color: var(--primary);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 18px var(--shadow);
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+main { max-width: 1200px; margin: 2.2rem auto; padding: 0 1.5rem; }
+.section { display: none; animation: fadeIn 0.6s ease; }
+.section.active { display: block; }
+h2 { margin: 2rem 0 1.4rem; color: var(--text); font-size: 1.85rem; font-weight: 750; display: flex; align-items: center; gap: 12px; }
+p, li { font-size: 1.05rem; font-weight: 550; color: var(--text); }
+.today-tomorrow { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.day-column { flex: 1; min-width: 280px; }
+.day-header { 
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  color: white;
+  padding: 1rem;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  font-weight: 750;
+  text-align: center;
+  font-size: 1.25rem;
+  box-shadow: 0 3px 8px var(--shadow);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+.lesson-card {
+  background: var(--card-bg);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 18px var(--shadow);
+  transition: var(--transition);
+  color: var(--text);
+  border-left: 4px solid var(--accent);
+}
+.lesson-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 22px var(--shadow);
+  border-left: 4px solid var(--primary);
+}
+.lesson-time {
+  font-size: 1.02rem;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+.lesson-title { font-weight: 800; color: var(--text); margin-bottom: 0.3rem; font-size: 1.25rem; }
+.lesson-meta { font-size: 0.95rem; color: #333; margin-bottom: 0.5rem; font-weight: 600; }
+.hw-toggle {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 22px;
+  font-size: 0.92rem;
+  cursor: pointer;
+  margin-top: 0.6rem;
+  transition: var(--transition);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 3px 10px var(--shadow);
+}
+.hw-toggle:hover {
+  opacity: 0.95;
+  transform: scale(1.03);
+}
+.hw-content {
+  margin-top: 0.8rem;
+  padding: 0.9rem;
+  background: var(--bg);
+  border-radius: 10px;
+  display: none;
+  font-size: 1.02rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text);
+  font-weight: 550;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+.hw-checkbox { display: flex; align-items: center; gap: 10px; margin-top: 0.7rem; }
+.hw-checkbox input { width: 20px; height: 20px; cursor: pointer; }
+.hw-checkbox label { font-size: 0.98rem; font-weight: 550; cursor: pointer; }
+.full-schedule-list, .homework-list, .lectures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+.schedule-item, .homework-date, .lecture-subject-card {
+  background: var(--card-bg);
+  padding: 1.3rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px var(--shadow);
+  color: var(--text);
+  transition: transform 0.2s;
+}
+.schedule-item:hover, .homework-date:hover, .lecture-subject-card:hover {
+  transform: translateY(-5px);
+}
+.schedule-week-header {
+  background: linear-gradient(to right, var(--secondary), var(--primary));
+  color: white;
+  padding: 0.8rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.1rem;
+  text-align: center;
+  font-weight: 750;
+  font-size: 1.3rem;
+  animation: wave 4s infinite;
+}
+@keyframes wave {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+.homework-date h3 { margin-bottom: 0.8rem; color: var(--primary); font-size: 1.5rem; font-weight: 750; }
+.homework-item { margin-top: 0.8rem; padding-left: 1.2rem; border-left: 3px solid var(--accent); color: var(--text); font-size: 1.05rem; font-weight: 550; }
+.solution-toggle {
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.solution-content {
+  margin-top: 0.7rem;
+  padding: 0.75rem;
+  background: var(--bg);
+  border-radius: 10px;
+  display: none;
+  font-size: 1.02rem;
+}
+footer {
+  text-align: center;
+  padding: 2.2rem;
+  margin-top: 3rem;
+  color: #aaa;
+  font-size: 1.02rem;
+  border-top: 1px solid var(--card-bg);
+  font-weight: 550;
+}
+.lecture-toggle {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  padding: 1.1rem 1.8rem;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  font-weight: 750;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 1.3rem;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 18px var(--shadow);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.lecture-toggle:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 7px 25px var(--shadow);
+}
+.lecture-toggle::after {
+  content: "▼";
+  position: absolute;
+  right: 1.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.05rem;
+  opacity: 0.9;
+  transition: transform 0.3s ease;
+}
+.lecture-toggle.active::after {
+  content: "▲";
+}
+.lecture-list {
+  display: none;
+  margin-top: 0.8rem;
+  padding-left: 1.4rem;
+  border-left: 3px solid var(--secondary);
+}
+.lecture-item {
+  margin: 0.7rem 0;
+  font-size: 1.05rem;
+  font-weight: 550;
+  transition: all 0.2s;
+}
+.lecture-item:hover {
+  color: var(--primary);
+  transform: translateX(5px);
+}
+.lecture-details {
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+  background: var(--bg);
+  border-radius: 10px;
+  display: none;
+  font-size: 1.02rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text);
+  font-weight: 550;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+.lecture-details img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 0.7rem;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+.lecture-details-toggle {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 22px;
+  font-size: 0.92rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-left: 1.2rem;
+  transition: var(--transition);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px var(--shadow);
+}
+.lecture-details-toggle:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+.lecture-details .highlight {
+  font-weight: 800;
+  margin: 0 4px;
+  color: var(--primary);
+}
+body:not(.dark-theme) .lecture-details .highlight {
+  color: #000;
+}
+body.dark-theme .lecture-details .highlight {
+  color: var(--primary);
+}
   </style>
 </head>
 <body>
@@ -347,12 +376,12 @@
     <p>1</p>
     <h2><i class="fas fa-tasks"></i> Критерии оценивания</h2>
     <p>Итоговая оценка складывается из:</p>
-    <ul style="margin-left: 1.8rem; margin-top: 0.6rem;">
+    <ul style="margin-left: 2rem; margin-top: 0.8rem;">
       <li>50% — посещение и активность на парах</li>
       <li>50% — результат зачёта</li>
     </ul>
-    <p style="margin-top: 1rem;"><strong>Шкала оценок:</strong></p>
-    <ul style="margin-left: 1.8rem;">
+    <p style="margin-top: 1.5rem;"><strong>Шкала оценок:</strong></p>
+    <ul style="margin-left: 2rem;">
       <li>ниже 56 баллов — не сдал ❌</li>
       <li>56–70 — Удовлетворительно ✅</li>
       <li>71–85 — Хорошо ✅</li>
@@ -360,7 +389,7 @@
     </ul>
   </section>
   <section id="schedule" class="section">
-    <div style="display: flex; gap: 0.8rem; margin: 1.4rem 0; justify-content: center; flex-wrap: wrap;">
+    <div style="display: flex; gap: 1rem; margin: 1.8rem 0; justify-content: center; flex-wrap: wrap;">
       <button class="week-toggle-btn active" id="week-upper">Верхняя неделя</button>
       <button class="week-toggle-btn" id="week-lower">Нижняя неделя</button>
     </div>
@@ -624,7 +653,7 @@
                 <input type="checkbox" id="sol-${hwKey}" ${isCompleted ? 'checked' : ''}>
                 <label for="sol-${hwKey}">Выполнено</label>
               </div>
-              <div style="margin-top:0.6rem; padding-top:0.6rem; border-top:1px solid var(--shadow);">
+              <div style="margin-top:0.7rem; padding-top:0.7rem; border-top:1px solid var(--shadow);">
                 <strong>Пример решения:</strong><br>
                 1. [Пример решения — можно заменить]
               </div>
@@ -721,16 +750,16 @@
               img.alt = `${lecture.title} - изображение ${index + 1}`;
               img.loading = "lazy";
               img.style.maxWidth = "100%";
-              img.style.borderRadius = "8px";
-              img.style.marginTop = "8px";
+              img.style.borderRadius = "10px";
+              img.style.marginTop = "10px";
               details.appendChild(img);
             } else if (element.type === 'text' && element.content) {
               const p = document.createElement('p');
               p.className = `lecture-content-${index}`;
               p.innerHTML = element.content;
-              p.style.marginTop = "8px";
-              p.style.fontWeight = "500";
-              p.style.fontSize = "0.95rem";
+              p.style.marginTop = "10px";
+              p.style.fontWeight = "550";
+              p.style.fontSize = "1.02rem";
               details.appendChild(p);
             }
           });
@@ -773,12 +802,12 @@
   function showPasswordForm() {
     const lecturesSection = document.getElementById('lectures');
     lecturesSection.innerHTML = `
-      <div style="text-align: center; margin: 2rem 0; padding: 1.5rem; background: var(--card-bg); border-radius: var(--border-radius); box-shadow: var(--shadow);">
+      <div style="text-align: center; margin: 2.5rem 0; padding: 2rem; background: var(--card-bg); border-radius: var(--border-radius); box-shadow: 0 10px 30px var(--shadow);">
         <h2><i class="fas fa-lock"></i> Защищенная вкладка</h2>
         <p>Для доступа к лекциям введите пароль:</p>
-        <div style="margin: 1.5rem 0;">
-          <input type="password" id="lecturesPassword" placeholder="Пароль" style="padding: 0.8rem; border-radius: 8px; border: 1px solid var(--accent); font-size: 1.05rem; width: 180px; text-align: center;">
-          <button id="lecturesSubmit" style="margin-left: 0.8rem; padding: 0.7rem 1.5rem; border-radius: 8px; background: var(--primary); color: white; border: none; font-weight: 600; cursor: pointer;">
+        <div style="margin: 2rem 0;">
+          <input type="password" id="lecturesPassword" placeholder="Пароль" style="padding: 1rem; border-radius: 12px; border: 1px solid var(--accent); font-size: 1.15rem; width: 200px; text-align: center;">
+          <button id="lecturesSubmit" style="margin-left: 1rem; padding: 0.9rem 2rem; border-radius: 12px; background: var(--primary); color: white; border: none; font-weight: 700; cursor: pointer;">
             Войти
           </button>
         </div>
