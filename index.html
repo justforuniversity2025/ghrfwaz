@@ -434,6 +434,41 @@ body.dark-theme .lecture-details .highlight {
   display: block;
   margin-top: 0.3rem;
 }
+.solution-images {
+  flex-direction: column;
+}
+.solution-images img {
+  width: 100%;
+  max-width: 600px;
+}
+.solution-text {
+  margin-top: 0; /* Убираем отступ сверху */
+  margin-bottom: 0; /* Убираем отступ снизу */
+  padding: 1rem;
+  white-space: pre-line; /* Сохраняет переносы строк */
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border-radius: 8px;
+  font-weight: 550;
+}
+
+.solution-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.solution-images img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+.solution-content {
+  padding: 0; /* Убедитесь, что здесь нет отступов */
+}
   </style>
 </head>
 <body>
@@ -563,7 +598,7 @@ body.dark-theme .lecture-details .highlight {
       1: [
         { time: "08:00–09:30", subject: "Физкультура", type: "лекция", room: "УЛК-1, ауд. 420", teacher: "профессор Москвин Николай Геннадьевна", hw: "" },
         { time: "09:40–11:10", subject: "Химия", type: "лекция", room: "УЛК-1, ауд. 420", teacher: "доцент Сиппель Ирина Яковлевна", hw: "" },
-        { time: "11:50–13:20", subject: "Химия", type: "лаб.", room: "УЛК-1, ауд. 145/143", teacher: "доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович", hw: "" },
+        { time: "11:50–13:20", subject: "Химия", type: "лаб.", room: "УЛК-1, ауд. 145/143", teacher: "доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович", hw: "Доделать самостоялку Второй подгруппе" },
         { time: "13:30–15:00", subject: "Химия", type: "лаб.", room: "УЛК-1, ауд. 145/143", teacher: "доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович", hw: "" }
       ],
       2: [
@@ -616,15 +651,36 @@ body.dark-theme .lecture-details .highlight {
       ]
     }
   };
-  const homeworkData = {
-    "2025-12-01": [
-      "Информатика: Выполнить лабораторные работы по Excel за первый семестр"
-    ],
+const homeworkData = {
+  "2025-12-01": [
+    {
+      hw: "Информатика: Выполнить лабораторные работы по Excel за первый семестр",
 
-    "2025-10-15":[
-      "Иностранный язык (2 подгр.): Выучить текст About Myself"
-    ],
-  };
+    }
+  ],
+  "2025-10-15": [
+    {
+      hw: "Иностранный язык (2 подгр.): Выучить текст About Myself",
+      solution: {text: `About Myself
+
+Let me introduce myself. My name is Alexander, Alex for short. My full name is Alexander Sergeyevich Orlov. Orlov is my surname. Alexander is my first name and Sergeyevich is my patronymic. I’m nearly eighteen—next Thursday is my birthday. Now I’m a first-year student. I study at the Institute. Every day I attend lectures. In January and June I take examinations. I get good or excellent marks in all the subjects. When I graduate from the Institute I want to work as an engineer.
+
+I have a large family. My parents have two more children besides me. Thus I have got an elder brother and a younger sister. My sister Helen is just out of school. She is sixteen. She is very fond of music and her dream is to become a pianist. My brother, whose name is Michael, is eight years my senior. He is twenty six already. He is a builder. He is married and has a family of his own. They are four in the family. He has a wife and two children— a son and a daughter. They are twins.
+
+My parents are not old at all. Father is fifty and mother is three years his junior. My father is a doctor. He works in a hospital. He is very busy, he has a lot of patients and does all he can to help them. My mother is a book-keeper. She works at an office. She too has a lot of work. Still, she finds time to look after the house and to take care of all of us.
+
+My grandfather is not yet a pensioner, though he is over seventy. He is still full of the life energy. My grandmother is also in very good health. She does most of the cooking. Of course mother helps her and so does my sister. In the evening we all come together and either watch TV or just talk about the events of the day. We are all great friends. I love my relatives dearly.`,
+
+      }
+    }
+  ],
+  "2025-10-13": [
+    {
+      hw: "Химия: Доделать самостоялку Второй подгруппе",
+
+    }
+  ]
+};
   
   // ===== ДАННЫЕ ЛЕКЦИЙ =====
   const lecturesData = {
@@ -716,54 +772,102 @@ body.dark-theme .lecture-details .highlight {
   }
   
   // ===== ДОМАШНЕЕ ЗАДАНИЕ =====
-  function renderHomework() {
-    const container = document.getElementById('homework-list');
-    container.innerHTML = '';
-    const sortedDates = Object.keys(homeworkData).sort((a, b) => new Date(a) - new Date(b));
-    if (sortedDates.length === 0) {
-      container.innerHTML = '<p style="text-align:center;color:#888;">Домашнее задание пока не добавлено.</p>';
-      return;
-    }
-    sortedDates.forEach(dateStr => {
-      const date = new Date(dateStr);
-      const dayDiv = document.createElement('div');
-      dayDiv.className = 'homework-date';
-      let hwHtml = `<h3>${formatDate(date)}</h3>`;
-      homeworkData[dateStr].forEach(hw => {
-        const hwKey = `${dateStr}|${hw}`;
-        const isCompleted = getCompletedTasks()[hwKey] === true;
-        hwHtml += `
-          <div class="homework-item">
-            ${hw}
-            <button class="solution-toggle" data-hw-key="${hwKey}">
-              Решение <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="solution-content" style="display:none;">
-            </div>
+function renderHomework() {
+  const container = document.getElementById('homework-list');
+  container.innerHTML = '';
+  const sortedDates = Object.keys(homeworkData).sort((a, b) => new Date(a) - new Date(b));
+  
+  if (sortedDates.length === 0) {
+    container.innerHTML = '<p style="text-align:center;color:#888;">Домашнее задание пока не добавлено.</p>';
+    return;
+  }
+
+  sortedDates.forEach(dateStr => {
+    const date = new Date(dateStr);
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'homework-date';
+    
+    let hwHtml = `<h3>${formatDate(date)}</h3>`;
+    
+    homeworkData[dateStr].forEach(item => {
+      const hwKey = `${dateStr}|${item.hw}`;
+      const isCompleted = getCompletedTasks()[hwKey] === true;
+      
+      // Проверяем, есть ли решение
+      const hasSolution = item.solution && (item.solution.text || (item.solution.images && item.solution.images.length > 0));
+      
+      // Создаем контейнер для задания
+      const homeworkItem = document.createElement('div');
+      homeworkItem.className = 'homework-item';
+      homeworkItem.innerHTML = `
+        ${item.hw}
+        ${hasSolution ? `
+          <button class="solution-toggle" data-hw-key="${hwKey}">
+            Решение <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="solution-content" style="display:none;">
           </div>
-        `;
-      });
-      dayDiv.innerHTML = hwHtml;
-      container.appendChild(dayDiv);
-      dayDiv.querySelectorAll('.solution-toggle').forEach(btn => {
-        const hwKey = btn.dataset.hwKey;
-        const content = btn.nextElementSibling;
-        const checkbox = content.querySelector('input[type="checkbox"]');
-        btn.addEventListener('click', () => {
-          if (content.style.display === 'block') {
-            content.style.display = 'none';
-            btn.innerHTML = 'Решение <i class="fas fa-chevron-down"></i>';
-          } else {
-            content.style.display = 'block';
-            btn.innerHTML = 'Скрыть <i class="fas fa-chevron-up"></i>';
-          }
-        });
-        checkbox?.addEventListener('change', (e) => {
-          setCompletedTask(hwKey, e.target.checked);
-        });
+        ` : ''}
+      `;
+      
+      dayDiv.appendChild(homeworkItem);
+    });
+    
+    container.appendChild(dayDiv);
+    
+    // Обработка кнопок решения
+    dayDiv.querySelectorAll('.solution-toggle').forEach(btn => {
+      const hwKey = btn.dataset.hwKey;
+      const content = btn.nextElementSibling;
+      const checkbox = content.querySelector('input[type="checkbox"]');
+      
+      // Найдем соответствующее задание в данных
+      const date = new Date(dateStr);
+      const item = homeworkData[dateStr].find(i => 
+        i.hw === hwKey.split('|')[1]
+      );
+      
+      // Если есть решение, добавим обработчик
+      if (item && item.solution) {
+        // Используем IIFE для сохранения значения item
+        (function(item) {
+          btn.addEventListener('click', function() {
+            if (content.style.display === 'block') {
+              content.style.display = 'none';
+              this.innerHTML = 'Решение <i class="fas fa-chevron-down"></i>';
+            } else {
+              // Заполняем содержимое решения
+              content.innerHTML = `
+  ${item.solution.text ? `
+    <div class="solution-text" style="margin-top: 0; margin-bottom: 0;">
+      ${item.solution.text}
+    </div>
+  ` : ''}
+  ${item.solution.images && item.solution.images.length > 0 ? `
+    <div class="solution-images" style="margin-top: 0;">
+      ${item.solution.images.map(img => `
+        <div>
+          <img src="${img}" alt="Решение" style="max-width: 100%;">
+        </div>
+      `).join('')}
+    </div>
+  ` : ''}
+`;
+              
+              content.style.display = 'block';
+              this.innerHTML = 'Скрыть <i class="fas fa-chevron-up"></i>';
+            }
+          });
+        })(item);
+      }
+      
+      checkbox?.addEventListener('change', (e) => {
+        setCompletedTask(hwKey, e.target.checked);
       });
     });
-  }
+  });
+}
+
   
   // ===== ЛЕКЦИИ =====
   function renderLectures() {
