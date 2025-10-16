@@ -250,6 +250,23 @@ body:not(.dark-theme) .highlight { color:#000; }
   border-radius: 8px;
   font-weight: 550;
 }
+.hw-files a {
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.hw-files a:hover {
+  background: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px var(--shadow);
+}
   </style>
 </head>
 <body>
@@ -266,7 +283,6 @@ body:not(.dark-theme) .highlight { color:#000; }
 </header>
 <main>
   <section id="home" class="section active">
-    <h1>Делается</h1>
     <div class="today-tomorrow">
       <div class="day-column">
         <div class="day-header" id="today-header">Сегодня</div>
@@ -408,7 +424,14 @@ const scheduleData = {
   }
 };
 const homeworkData = {
-  "2025-12-01": [{hw:"Информатика: Выполнить лабораторные работы по Excel за первый семестр"}],
+  "2025-12-01": [{hw:"Информатика: Выполнить лабораторные работы по Excel за первый семестр",
+  files: ["https://example.com/files/test.zip"]
+  },
+  {hw:"Программирование: Выполнить лабораторные работы по Блок схемам и C# за первый семестр",
+    files: ["https://example.com/files/test.zip"]}
+  
+    
+  ],
   "2025-10-17": [{
     hw:"Математический анализ: на листочке в whatsapp",
  }],
@@ -538,13 +561,40 @@ function renderHomework() {
     homeworkData[dateStr].forEach(item => {
       const hwKey = `${dateStr}|${item.hw}`;
       const hasSolution = item.solution && (item.solution.text || (item.solution.images?.length));
+      const hasFiles = item.files && Array.isArray(item.files) && item.files.length > 0;
+
+      let homeworkHTML = item.hw;
+
+      // Добавляем ссылки на файлы, если они есть
+      if (hasFiles) {
+        homeworkHTML += `<div class="hw-files" style="margin-top:0.6rem;">`;
+        item.files.forEach(fileUrl => {
+          // Извлекаем имя файла из URL (убираем параметры после ?)
+          const fileName = decodeURIComponent(fileUrl.split('/').pop().split('?')[0]) || 'Файл';
+          homeworkHTML += `
+            <a href="${fileUrl}" download="${fileName}" target="_blank"
+               style="display:inline-block; margin-top:0.4rem; padding:0.4rem 0.8rem;
+                      background:var(--accent); color:white; text-decoration:none;
+                      border-radius:8px; font-size:0.95rem; font-weight:600;">
+              📥 Скачать: ${fileName}
+            </a>`;
+        });
+        homeworkHTML += `</div>`;
+      }
+
+      // Добавляем кнопку "Решение", если есть
+      if (hasSolution) {
+        homeworkHTML += `
+          <button class="solution-toggle" data-hw-key="${hwKey}">Решение <i class="fas fa-chevron-down"></i></button>
+          <div class="solution-content" style="display:none;"></div>`;
+      }
+
       const homeworkItem = document.createElement('div');
       homeworkItem.className = 'homework-item';
-      homeworkItem.innerHTML = `${item.hw}${hasSolution ? `
-        <button class="solution-toggle" data-hw-key="${hwKey}">Решение <i class="fas fa-chevron-down"></i></button>
-        <div class="solution-content" style="display:none;"></div>` : ''}`;
+      homeworkItem.innerHTML = homeworkHTML;
       dayDiv.appendChild(homeworkItem);
 
+      // Обработчик для кнопки "Решение"
       if (hasSolution) {
         const btn = homeworkItem.querySelector('.solution-toggle');
         const content = homeworkItem.querySelector('.solution-content');
