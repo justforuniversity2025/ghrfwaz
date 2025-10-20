@@ -468,6 +468,33 @@ body:not(.dark-theme) .highlight { color:#000; }
   background:linear-gradient(90deg, rgba(255,102,153,.12), rgba(138,83,255,.12));
   border-color:rgba(255,255,255,.25);
 }
+.map-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-top:.6rem; padding:.55rem 1rem; border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),var(--secondary));
+  color:#fff; text-decoration:none; font-weight:750; box-shadow:0 3px 10px var(--shadow);
+  transition:var(--transition);
+}
+.map-btn:hover{ transform:translateY(-2px) scale(1.02);
+  background:linear-gradient(135deg,var(--secondary),var(--primary)); }
+.map-btn i{ font-size:1rem; }
+.plan-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:.55rem 1rem; border-radius:12px; border:none; cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--secondary));
+  color:#fff; font-weight:800; box-shadow:0 3px 10px var(--shadow);
+  transition:var(--transition);
+}
+.plan-btn:hover{ transform:translateY(-2px) scale(1.02);
+  background:linear-gradient(135deg,var(--secondary),var(--primary)); }
+.plan-btn i{ font-size:1rem; }
+
+.plan-box{
+  display:none; /* спрятано по умолчанию */
+  margin-top:.8rem; padding:1rem; border-left:4px solid var(--accent);
+  background:var(--card-bg); border-radius:12px; box-shadow:0 6px 18px var(--shadow);
+}
+.plan-box img{ max-width:100%; height:auto; border-radius:8px; }
 
   </style>
 </head>
@@ -490,8 +517,23 @@ body:not(.dark-theme) .highlight { color:#000; }
 
    <h2><i class="fas fa-info-circle"></i> Информация</h2>
     <p>Сдайте преподу справки о группе здоровья по физре (практике)</p>
+    <a class="map-btn" href="https://yandex.ru/maps/236/naberezhnye-chelny/?ll=52.392390%2C55.727655&mode=usermaps&source=constructorLink&um=constructor%3A2df08f1c09fc9173b1229610e5fd46b51d3922d2abd8bc7a9ebb8999f026bfb1&z=15"
+   target="_blank" rel="noopener">
+  <i class="fas fa-map-location-dot"></i> Все корпуса и общежития на карте
+</a>
+
     <h2><i class="fas fa-graduation-cap"></i> Учебный план</h2>
-    <p>1</p>
+    <div>
+  <button id="planToggle" class="plan-btn">
+    <i class="fas fa-table"></i> 1 курс
+  </button>
+
+  <div id="planBox" class="plan-box" aria-hidden="true">
+    <!-- Используй свой путь к картинке с таблицей -->
+    <img src="assets/img/a6.jpeg" alt="Учебный план: 1 курс">
+  </div>
+</div>
+
  
     <h2><i class="fas fa-tasks"></i> Критерии оценивания</h2>
     <p>Итоговая оценка складывается из:</p>
@@ -1023,6 +1065,7 @@ renderHomeAccordion();
   renderFullSchedule();
   renderHomework();
   renderLectures();
+  initPlanToggle();
   if (!isPasswordEntered()) showPasswordForm();
 }
 
@@ -1166,6 +1209,16 @@ line.className = `acc-lesson ${cls}`;
 
     details.appendChild(wrap);
     box.appendChild(details);
+  });
+}
+function initPlanToggle(){
+  const btn = document.getElementById('planToggle');
+  const box = document.getElementById('planBox');
+  if(!btn || !box) return;
+  btn.addEventListener('click', ()=>{
+    const open = box.style.display === 'block';
+    box.style.display = open ? 'none' : 'block';
+    box.setAttribute('aria-hidden', open ? 'true' : 'false');
   });
 }
 
