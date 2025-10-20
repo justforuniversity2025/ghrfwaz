@@ -495,6 +495,67 @@ body:not(.dark-theme) .highlight { color:#000; }
   background:var(--card-bg); border-radius:12px; box-shadow:0 6px 18px var(--shadow);
 }
 .plan-box img{ max-width:100%; height:auto; border-radius:8px; }
+/* ===== Лекции: аккордеон по предметам ===== */
+.subject-accordion{display:flex;flex-direction:column;gap:.8rem}
+.subject-item{
+  background:var(--card-bg);
+  border-radius:14px;
+  box-shadow:0 6px 18px var(--shadow);
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.04);
+}
+.dark-theme .subject-item{border-color:rgba(255,255,255,.06)}
+
+.subject-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.8rem;
+  padding:.9rem 1rem;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;
+  border:none;
+  font-weight:800;
+  cursor:pointer;
+  text-align:left;
+}
+.subject-toggle .count{
+  background:rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:999px;
+  padding:.2rem .6rem;
+  font-size:.9rem;
+  font-weight:800;
+}
+.subject-toggle .chev{transition:transform .25s ease}
+.subject-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+
+.subject-panel{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease;
+  background:var(--bg);
+}
+.subject-links{
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+  padding:.65rem .8rem 1rem;
+}
+.subject-link{
+  display:block;
+  padding:.75rem 1rem;
+  border-left:3px solid var(--secondary);
+  border-radius:12px;
+  background:var(--bg);
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 3px 10px var(--shadow);
+  transition:transform .2s;
+}
+.subject-link:hover{transform:translateX(5px);color:var(--primary)}
 
   </style>
 </head>
@@ -978,52 +1039,76 @@ function renderLectures() {
   if (!container) return;
   container.innerHTML = '';
 
-  for (const subject in lecturesData) {
-    const lectures = lecturesData[subject];
-    if (!Array.isArray(lectures) || lectures.length === 0) continue;
+  const acc = document.createElement('div');
+  acc.className = 'subject-accordion';
 
-    const subjectDiv = document.createElement('div');
-    subjectDiv.className = 'lecture-subject-card';
-    subjectDiv.innerHTML = `<h3 style="margin-bottom:1rem;color:var(--primary);">${subject}</h3>`;
+  const subjects = Object.keys(lecturesData);
+  if (!subjects.length) {
+    container.innerHTML = '<p style="text-align:center;color:#888;">Лекции пока не добавлены.</p>';
+    return;
+  }
 
-    lectures.forEach(lecture => {
-      if (!lecture?.title || !lecture?.url) return;
-      const link = document.createElement('a');
-      link.href = lecture.url;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.className = 'lecture-item';
-      link.style.display = 'block';
-      link.style.padding = '0.8rem 1rem';
-      link.style.margin = '0.5rem 0';
-      link.style.backgroundColor = 'var(--card-bg)';
-      link.style.borderRadius = '12px';
-      link.style.textDecoration = 'none';
-      link.style.color = 'var(--text)';
-      link.style.fontWeight = '600';
-      link.style.transition = 'all 0.2s';
-      link.style.borderLeft = '3px solid var(--secondary)';
-      link.innerHTML = lecture.title;
-      link.onmouseenter = () => {
-        link.style.transform = 'translateX(5px)';
-        link.style.boxShadow = '0 4px 10px var(--shadow)';
-        link.style.color = 'var(--primary)';
-      };
-      link.onmouseleave = () => {
-        link.style.transform = 'translateX(0)';
-        link.style.boxShadow = 'none';
-        link.style.color = 'var(--text)';
-      };
-      subjectDiv.appendChild(link);
+  subjects.forEach((subject, idx) => {
+    const lectures = lecturesData[subject] || [];
+    if (!lectures.length) return;
+
+    const item = document.createElement('div');
+    item.className = 'subject-item';
+
+    const btn = document.createElement('button');
+    btn.className = 'subject-toggle';
+    btn.type = 'button';
+    const panelId = `sub-panel-${idx}`;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', panelId);
+    btn.innerHTML = `
+      <span>${subject}</span>
+      <span style="display:flex;align-items:center;gap:.6rem;">
+        <span class="count">${lectures.length}</span>
+        <i class="fas fa-chevron-down chev" aria-hidden="true"></i>
+      </span>
+    `;
+
+    const panel = document.createElement('div');
+    panel.className = 'subject-panel';
+    panel.id = panelId;
+
+    const links = document.createElement('div');
+    links.className = 'subject-links';
+
+    lectures.forEach(l => {
+      if (!l?.title || !l?.url) return;
+      const a = document.createElement('a');
+      a.href = l.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'subject-link';
+      a.textContent = l.title;
+      links.appendChild(a);
     });
 
-    container.appendChild(subjectDiv);
-  }
+    panel.appendChild(links);
 
-  if (container.children.length === 0) {
-    container.innerHTML = '<p style="text-align:center;color:#888;">Лекции пока не добавлены.</p>';
-  }
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if (!expanded) {
+        // раскрываем
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      } else {
+        // сворачиваем
+        panel.style.maxHeight = 0;
+      }
+    });
+
+    item.appendChild(btn);
+    item.appendChild(panel);
+    acc.appendChild(item);
+  });
+
+  container.appendChild(acc);
 }
+
 
 // ===== ЗАЩИТА ЛЕКЦИЙ =====
 function isPasswordEntered() {
@@ -1068,6 +1153,14 @@ renderHomeAccordion();
   initPlanToggle();
   if (!isPasswordEntered()) showPasswordForm();
 }
+// Пересчитываем max-height у открытых панелей при изменении размеров окна
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.subject-toggle[aria-expanded="true"]').forEach(btn => {
+    const id = btn.getAttribute('aria-controls');
+    const panel = document.getElementById(id);
+    if (panel) panel.style.maxHeight = panel.scrollHeight + 'px';
+  });
+});
 
 // ===== СОБЫТИЯ =====
 document.querySelectorAll('.nav-btn').forEach(btn =>
