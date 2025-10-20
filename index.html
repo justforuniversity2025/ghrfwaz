@@ -438,6 +438,36 @@ body:not(.dark-theme) .highlight { color:#000; }
   border-radius:8px;display:none}
 .hw-done{display:inline-flex;gap:.4rem;align-items:center;font-size:.92rem;font-weight:650}
 .dark-theme .home-acc{border-color:rgba(255,255,255,.06)}
+/* Бейдж типа занятия рядом с предметом */
+.ln .badge-type,
+.acc-lesson .badge-type{
+  display:inline-block;
+  margin-left:.45rem;
+  padding:.06rem .5rem;
+  border-radius:8px;
+  font-size:.78rem;
+  font-weight:800;
+  border:1px solid transparent;
+  vertical-align:middle;
+}
+
+/* Раскраска под тип */
+.ln.lec .badge-type, .acc-lesson.lec .badge-type {
+  background:rgba(255,102,153,.12);
+  border-color:rgba(255,102,153,.35);
+}
+.ln.lab .badge-type, .acc-lesson.lab .badge-type {
+  background:rgba(72,209,204,.12);
+  border-color:rgba(72,209,204,.32);
+}
+.ln.pr  .badge-type, .acc-lesson.pr .badge-type {
+  background:rgba(138,83,255,.12);
+  border-color:rgba(138,83,255,.32);
+}
+.ln.mix .badge-type, .acc-lesson.mix .badge-type {
+  background:linear-gradient(90deg, rgba(255,102,153,.12), rgba(138,83,255,.12));
+  border-color:rgba(255,255,255,.25);
+}
 
   </style>
 </head>
@@ -705,7 +735,13 @@ function renderCompactSchedule(container, date) {
     }
   });
 }
-
+function classifyType(raw){
+  const s = (raw || '').toLowerCase();
+  if (s.includes('лекция') && s.includes('практи')) return { cls:'mix', label:'лек./пр.' };
+  if (s.includes('лаб')) return { cls:'lab', label:'лаб.' };
+  if (s.includes('практи')) return { cls:'pr', label:'практика' };
+  return { cls:'lec', label:'лекция' };
+}
 function renderFullSchedule(weekType = 'upper') {
   const container = document.getElementById('full-schedule');
   container.innerHTML = '';
@@ -743,18 +779,19 @@ function renderFullSchedule(weekType = 'upper') {
 
     items.forEach(lesson => {
       const line = document.createElement('div');
-      // тип к сокращению: лекция/лаб./практика
-      const t = (lesson.type || '').toLowerCase();
-      const typeClass = t.includes('лаб') ? 'lab' : t.includes('практик') ? 'pr' : 'lec';
+const { cls, label } = classifyType(lesson.type);
+line.className = `ln ${cls}`;
+line.innerHTML = `
+  <div class="t">${lesson.time}</div>
+  <div>
+    <div class="s">
+      ${lesson.subject}
+      <span class="badge-type">${label}</span>
+    </div>
+    <div class="m">${lesson.room}${lesson.teacher ? ` · ${lesson.teacher}` : ''}</div>
+  </div>
+`;
 
-      line.className = `ln ${typeClass}`;
-      line.innerHTML = `
-        <div class="t">${lesson.time}</div>
-        <div>
-          <div class="s">${lesson.subject}</div>
-          <div class="m">${lesson.room}${lesson.teacher ? ` · ${lesson.teacher}` : ''}</div>
-        </div>
-      `;
       list.appendChild(line);
     });
 
@@ -764,18 +801,13 @@ function renderFullSchedule(weekType = 'upper') {
 
   container.appendChild(acc);
 
-  // активные состояния кнопок недель
-document.getElementById('week-upper').classList.toggle('active', weekType === 'upper');
-document.getElementById('week-lower').classList.toggle('active', weekType === 'lower');
+  document.getElementById('week-upper').classList.toggle('active', weekType === 'upper');
+  document.getElementById('week-lower').classList.toggle('active', weekType === 'lower');
 
-// авто-раскрытие ТОЛЬКО текущего дня, и только если это текущая неделя
-const now = getMoscowDate();
-const todayIdx = now.getDay(); // 0..6
-if (weekType === getWeekType(now) && todayIdx >= 1 && todayIdx <= 6) {
-  const all = container.querySelectorAll('.day-acc');
-  const todayDetails = all[todayIdx - 1];
-  if (todayDetails) todayDetails.open = true;
-}
+  // НИЧЕГО не открываем автоматически
+  container.querySelectorAll('.day-acc').forEach(d => { d.open = false; });
+
+
 }
 
 
@@ -1082,13 +1114,15 @@ function renderHomeAccordion(){
     } else {
       lessons.forEach(lesson=>{
         const line = document.createElement('div');
-        const t = (lesson.type || '').toLowerCase();
-        const typeClass = t.includes('лаб') ? 'lab' : t.includes('практик') ? 'pr' : 'lec';
-        line.className = `acc-lesson ${typeClass}`;
+const { cls, label } = classifyType(lesson.type);
+line.className = `acc-lesson ${cls}`;
         line.innerHTML = `
           <div class="t">${lesson.time}</div>
           <div>
-            <div class="s">${lesson.subject}</div>
+             <div class="s">
+      ${lesson.subject}
+      <span class="badge-type">${label}</span>
+    </div>
             <div class="m">${lesson.room}${lesson.teacher ? ` · ${lesson.teacher}` : ''}</div>
             ${lesson.hw ? `<div class="hw-inline">
               <div class="hw-head">
