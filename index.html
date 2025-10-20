@@ -267,6 +267,45 @@ body:not(.dark-theme) .highlight { color:#000; }
   transform: translateY(-2px);
   box-shadow: 0 3px 8px var(--shadow);
 }
+/* --- Modal for task image --- */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none; align-items: center; justify-content: center;
+  z-index: 9999;
+}
+.modal {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 12px 40px var(--shadow);
+  max-width: 90vw; max-height: 90vh;
+  display: flex; flex-direction: column; gap: 0.8rem; align-items: center;
+  border-left: 4px solid var(--accent);
+}
+.modal img {
+  max-width: 85vw; max-height: 70vh; border-radius: 10px;
+  box-shadow: 0 6px 18px var(--shadow);
+}
+.modal-close {
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 12px;
+  font-weight: 750; cursor: pointer; box-shadow: 0 3px 12px var(--shadow);
+}
+.modal-close:hover { transform: translateY(-2px); opacity: 0.95; }
+
+/* Кнопка "Посмотреть задание" рядом с ДЗ */
+.view-task-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 0.4rem; margin-right: 0.4rem;
+  padding: 0.45rem 0.9rem; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  color: white; font-weight: 700; border: none; cursor: pointer;
+  box-shadow: 0 3px 10px var(--shadow); transition: var(--transition);
+}
+.view-task-btn i { font-size: 0.95rem; }
+.view-task-btn:hover { transform: translateY(-2px) scale(1.02); }
+
   </style>
 </head>
 <body>
@@ -328,6 +367,12 @@ body:not(.dark-theme) .highlight { color:#000; }
   </section>
 </main>
 <footer>© 2025 Сделано с ❤ для одногруппников</footer>
+<div id="taskModal" class="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <img id="taskModalImg" src="" alt="Задание" />
+    <button id="taskModalClose" class="modal-close">Закрыть</button>
+  </div>
+</div>
 <script>
 // ===== ТЕМА =====
 const themeToggle = document.getElementById('themeToggle');
@@ -390,7 +435,7 @@ const scheduleData = {
   upper: {
     1: [{time:"08:00–09:30",subject:"Физкультура",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"профессор Москвин Николай Геннадьевна",hw:""},
         {time:"09:40–11:10",subject:"Химия",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"доцент Сиппель Ирина Яковлевна",hw:""},
-        {time:"11:50–13:20",subject:"Химия",type:"лаб.",room:"УЛК-1, ауд. 145/143",teacher:"доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович",hw:""},
+        {time:"11:50–13:20",subject:"Химия",type:"лаб.",room:"УЛК-1, ауд. 145/143",teacher:"доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович",hw:"Защита лаб для второй группы"},
         {time:"13:30–15:00",subject:"Химия",type:"лаб.",room:"УЛК-1, ауд. 145/143",teacher:"доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович",hw:""}],
     2: [{time:"08:00–09:30",subject:"Основы российской государственности",type:"практика",room:"УЛК-1, ауд. 454",teacher:"доцент Яковлева Марина Геннадьевна",hw:""},
         {time:"09:40–11:10",subject:"Основы российской государственности",type:"практика",room:"УЛК-1, ауд. 454",teacher:"доцент Яковлева Марина Геннадьевна",hw:""},
@@ -402,21 +447,22 @@ const scheduleData = {
         {time:"09:40–11:10",subject:"Математический анализ",type:"лекция",room:"УЛК-2, ауд. 302",teacher:"доцент Губочкина Наталья Ивановна",hw:""},
         {time:"11:50–13:20",subject:"Физическая культура и спорт",type:"практика",room:"спорткомплекс, ауд. 24",teacher:"преп. Камалетдинов Марат Шавкитович",hw:""},
         {time:"13:30–15:00",subject:"Иностранный язык (1 подгр.)",type:"практика",room:"УЛК-4, ауд. 208",teacher:"ст.преп. Мустафина Лилия Рашидовна",hw:""}],
-    6: [{time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"практика",room:"УЛК-2 · ауд. 330",teacher:"доцент Феоктистова Лидия Александровна/Рзаева Татьяна Васильевна",hw:"Дз по икг 9 (прошлое дз), 22 (3), 23, 38"}]
-  },
+      },
   lower: {
     1: [{time:"09:40–11:10",subject:"Химия",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"доцент Сиппель Ирина Яковлевна",hw:""},
         {time:"11:50–13:20",subject:"Основы российской государственности",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"доцент Яковлева Марина Геннадьевна",hw:""}],
-    2: [{time:"08:00–09:30",subject:"Программирование",type:"лаб.",room:"УЛК-2, ауд. 405/406",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:""},
+    2: [{time:"08:00–09:30",subject:"Программирование",type:"лаб.",room:"УЛК-2, ауд. 405/406",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:"лабы по блок схемам и C#"},
         {time:"09:40–11:10",subject:"Информатика",type:"лаб.",room:"УЛК-2, ауд. 401/418",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:"Выполнить лабораторные работы по Excel за первый семестр"},
-        {time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"практика",room:"УЛК-2 · ауд. 330",teacher:"доцент Феоктистова Лидия Александровна/Рзаева Татьяна Васильевна",hw:""},
+        {time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"практика",room:"УЛК-2 · ауд. 330",teacher:"доцент Феоктистова Лидия Александровна/Рзаева Татьяна Васильевна",hw:"Инженерная компьютерная графика:  9 (прошлое дз), 22 (3), 23, 38, задание на А3"},
         {time:"13:30–15:00",subject:"Введение в профессиональную деятельность",type:"лекция/практика",room:"УЛК-2 · ауд. 417",teacher:"доцент Валиев Рустам Асгатович",hw:""}],
     3: [{time:"09:40–11:10",subject:"История России",type:"лекция",room:"УЛК-1, ауд. 414",teacher:"доцент Бессонова Татьяна Викторовна",hw:""},
-        {time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"лекция",room:"УЛК-2, ауд. 341",teacher:"доцент Феоктистова Лидия Александровна",hw:""}],
-    4: [{time:"08:00–09:30",subject:"Аналитическая геометрия",type:"практика",room:"УЛК-2, ауд. 302",teacher:"доцент Костин Андрей Викторович",hw:""},
+        {time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"лекция",room:"УЛК-2, ауд. 341",teacher:"доцент Феоктистова Лидия Александровна",hw:""},
+      {time:"13:30–15:00",subject:"Информатика (перенос за 4.11)",type:"лаб.",room:"УЛК-2, ауд. 401/418",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:"Выполнить лабораторные работы по Excel за первый семестр"},
+    {time:"15:40–17:10",subject:"Программирование (перенос за 4.11)",type:"лаб.",room:"УЛК-2, ауд. 405/406",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:"лабы по блок схемам и C#"},],
+    4: [{time:"08:00–09:30",subject:"Аналитическая геометрия",type:"практика",room:"УЛК-2, ауд. 302",teacher:"доцент Костин Андрей Викторович",hw:"2.94,2.98"},
         {time:"09:40–11:10",subject:"Аналитическая геометрия",type:"лекция",room:"УЛК-2, ауд. 302",teacher:"доцент Костин Андрей Викторович",hw:""},
         {time:"11:50–13:20",subject:"Аналитическая геометрия",type:"практика",room:"УЛК-2, ауд. 432",teacher:"доцент Костин Андрей Викторович",hw:""}],
-    5: [{time:"08:00–09:30",subject:"Математический анализ",type:"практика",room:"УЛК-2, ауд. 432",teacher:"доцент Губочкина Наталья Ивановна",hw:""},
+    5: [{time:"08:00–09:30",subject:"Математический анализ",type:"практика",room:"УЛК-2, ауд. 432",teacher:"доцент Губочкина Наталья Ивановна",hw:"на листочке"},
         {time:"09:40–11:10",subject:"Математический анализ",type:"лекция",room:"УЛК-2, ауд. 302",teacher:"доцент Губочкина Наталья Ивановна",hw:""},
         {time:"11:50–13:20",subject:"Информатика",type:"лекция",room:"УЛК-5, ауд. 305",teacher:"ст.преп. Булатова Светлана Владимировна",hw:""},
         {time:"13:30–15:00",subject:"Программирование",type:"лекция",room:"УЛК-5, ауд. 308",teacher:"ст.преп. Булатова Светлана Владимировна",hw:""}],
@@ -424,17 +470,20 @@ const scheduleData = {
   }
 };
 const homeworkData = {
-  "2025-12-01": [{hw:"Информатика: Выполнить лабораторные работы по Excel за первый семестр",
+  "2025-12-01": [{hw:"Информатика: Выполнить лабораторные работы по Excel за первый семестр", 
   files: ["https://example.com/files/test.zip"]
   },
   {hw:"Программирование: Выполнить лабораторные работы по Блок схемам и C# за первый семестр",
-    files: ["https://example.com/files/test.zip"]}
+    files: ["https://example.com/files/test.zip"],
+  }
   
     
   ],
-    "2025-10-18": [{hw:"Инженерная компьютерная графика:  9 (прошлое дз), 22 (3), 23, 38"}
-  
-    
+    "2025-10-21": [{hw:"Инженерная компьютерная графика:  9 (прошлое дз), 22 (3), 23, 38, задание на А3", taskImage: "assets/img/a1.jpeg"}  
+  ],
+      "2025-10-23": [{hw:"Аналитическая геометрия:  2.94, 2.98"}  
+  ],
+        "2025-10-24": [{hw:"Математический анализ: на листочке"}  
   ],
   "2025-10-17": [{
     hw:"Математический анализ: на листочке в whatsapp",
@@ -568,8 +617,8 @@ function renderHomework() {
   });
 
   // Сортируем обе группы по возрастанию даты
-  futureOrToday.sort((a, b) => new Date(a) - new Date(b));
-  past.sort((a, b) => new Date(a) - new Date(b));
+futureOrToday.sort((a, b) => new Date(a) - new Date(b));
+past.sort((a, b) => new Date(b) - new Date(a));
 
   // Сначала актуальные, потом прошедшие
   const sortedDates = [...futureOrToday, ...past];
@@ -596,6 +645,14 @@ function renderHomework() {
       const hasFiles = item.files && Array.isArray(item.files) && item.files.length > 0;
 
       let homeworkHTML = item.hw;
+const taskImg = item.taskImage || (Array.isArray(item.taskImages) ? item.taskImages[0] : null);
+if (taskImg) {
+  homeworkHTML += `
+    <button class="view-task-btn" data-img="${taskImg}">
+      <i class="fas fa-image"></i> Посмотреть задание
+    </button>
+  `;
+}
 
       // Добавляем ссылки на файлы, если они есть
       if (hasFiles) {
@@ -624,6 +681,10 @@ function renderHomework() {
       const homeworkItem = document.createElement('div');
       homeworkItem.className = 'homework-item';
       homeworkItem.innerHTML = homeworkHTML;
+      const viewBtn = homeworkItem.querySelector('.view-task-btn');
+if (viewBtn) {
+  viewBtn.addEventListener('click', () => openTaskModal(viewBtn.dataset.img));
+}
       dayDiv.appendChild(homeworkItem);
 
       // Обработчик для кнопки "Решение"
@@ -756,6 +817,40 @@ document.getElementById('week-upper').addEventListener('click', () => renderFull
 document.getElementById('week-lower').addEventListener('click', () => renderFullSchedule('lower'));
 
 window.addEventListener('load', init);
+// ===== МОДАЛКА С ИЗОБРАЖЕНИЕМ ЗАДАНИЯ =====
+function openTaskModal(imgUrl) {
+  const overlay = document.getElementById('taskModal');
+  const img = document.getElementById('taskModalImg');
+  img.src = imgUrl;
+  overlay.style.display = 'flex';
+  overlay.setAttribute('aria-hidden', 'false');
+  // фокус на кнопку закрытия для доступности
+  setTimeout(() => document.getElementById('taskModalClose').focus(), 0);
+}
+
+function closeTaskModal() {
+  const overlay = document.getElementById('taskModal');
+  const img = document.getElementById('taskModalImg');
+  overlay.style.display = 'none';
+  overlay.setAttribute('aria-hidden', 'true');
+  img.src = '';
+}
+
+// закрытие по клику на фон и по Esc
+(() => {
+  const overlay = document.getElementById('taskModal');
+  const closeBtn = document.getElementById('taskModalClose');
+  if (!overlay || !closeBtn) return;
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeTaskModal();
+  });
+  closeBtn.addEventListener('click', closeTaskModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.style.display === 'flex') closeTaskModal();
+  });
+})();
+
 </script>
 </body>
 </html>
