@@ -141,7 +141,7 @@ p, li { font-size:1.05rem; font-weight:550; color:var(--text); }
 .hw-checkbox { display:flex; align-items:center; gap:10px; margin-top:0.7rem; }
 .hw-checkbox input { width:20px; height:20px; cursor:pointer; }
 .hw-checkbox label { font-size:0.98rem; font-weight:550; cursor:pointer; }
-.full-schedule-list, .homework-list, .lectures-list {
+.full-schedule-list, .homework-list  {
   display:flex; flex-direction:column; gap:1.3rem;
 }
 .schedule-item, .homework-date, .lecture-subject-card {
@@ -177,45 +177,7 @@ footer {
   text-align:center; padding:2.2rem; margin-top:3rem; color:#aaa; font-size:1.02rem;
   border-top:1px solid var(--card-bg); font-weight:550;
 }
-.lecture-toggle {
-  background:linear-gradient(135deg, var(--primary), var(--secondary));
-  color:white; border:none; padding:1.1rem 1.8rem; border-radius:20px;
-  font-size:1.3rem; font-weight:750; cursor:pointer; width:100%;
-  text-align:left; margin-bottom:1.3rem; transition:all 0.4s ease;
-  box-shadow:0 5px 18px var(--shadow); position:relative; overflow:hidden;
-  display:flex; align-items:center;
-}
-.lecture-toggle:hover {
-  transform:translateY(-4px) scale(1.03); box-shadow:0 7px 25px var(--shadow);
-}
-.lecture-toggle::after {
-  content:"▼"; position:absolute; right:1.4rem; top:50%; transform:translateY(-50%);
-  font-size:1.05rem; opacity:0.9; transition:transform 0.3s ease;
-}
-.lecture-toggle.active::after { content:"▲"; }
-.lecture-list { display:none; margin-top:0.8rem; padding-left:1.4rem;
-                border-left:3px solid var(--secondary); }
-.lecture-item { margin:0.7rem 0; font-size:1.05rem; font-weight:550; transition:all 0.2s; }
-.lecture-item:hover { color:var(--primary); transform:translateX(5px); }
-.lecture-details {
-  margin-top:0.8rem; padding:0.8rem; background:var(--bg); border-radius:10px;
-  display:none; font-size:1.02rem; border-left:3px solid var(--accent);
-  color:var(--text); font-weight:550; transition:all 0.3s ease;
-  box-shadow:0 4px 12px var(--shadow);
-}
-.lecture-details img {
-  max-width:100%; height:auto; border-radius:10px; margin-top:0.7rem;
-  box-shadow:0 4px 10px var(--shadow);
-}
-.lecture-details-toggle {
-  background:linear-gradient(135deg, var(--accent), var(--primary));
-  color:white; border:none; padding:0.45rem 1rem; border-radius:22px;
-  font-size:0.92rem; cursor:pointer; margin-top:0.5rem; margin-left:1.2rem;
-  transition:var(--transition); font-weight:700; display:inline-flex;
-  align-items:center; gap:6px; box-shadow:0 3px 10px var(--shadow);
-}
-.lecture-details-toggle:hover { opacity:0.9; transform:scale(1.03); }
-.highlight { font-weight:800; margin:0 4px; color:var(--primary); }
+
 body:not(.dark-theme) .highlight { color:#000; }
 .schedule-item {
   position:relative; padding:1.5rem; border-left:3px solid var(--accent); overflow:hidden;
@@ -496,66 +458,6 @@ body:not(.dark-theme) .highlight { color:#000; }
 }
 .plan-box img{ max-width:100%; height:auto; border-radius:8px; }
 /* ===== Лекции: аккордеон по предметам ===== */
-.subject-accordion{display:flex;flex-direction:column;gap:.8rem}
-.subject-item{
-  background:var(--card-bg);
-  border-radius:14px;
-  box-shadow:0 6px 18px var(--shadow);
-  overflow:hidden;
-  border:1px solid rgba(0,0,0,.04);
-}
-.dark-theme .subject-item{border-color:rgba(255,255,255,.06)}
-
-.subject-toggle{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:.8rem;
-  padding:.9rem 1rem;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:#fff;
-  border:none;
-  font-weight:800;
-  cursor:pointer;
-  text-align:left;
-}
-.subject-toggle .count{
-  background:rgba(255,255,255,.22);
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:999px;
-  padding:.2rem .6rem;
-  font-size:.9rem;
-  font-weight:800;
-}
-.subject-toggle .chev{transition:transform .25s ease}
-.subject-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
-
-.subject-panel{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .35s ease;
-  background:var(--bg);
-}
-.subject-links{
-  display:flex;
-  flex-direction:column;
-  gap:.5rem;
-  padding:.65rem .8rem 1rem;
-}
-.subject-link{
-  display:block;
-  padding:.75rem 1rem;
-  border-left:3px solid var(--secondary);
-  border-radius:12px;
-  background:var(--bg);
-  color:var(--text);
-  text-decoration:none;
-  font-weight:600;
-  box-shadow:0 3px 10px var(--shadow);
-  transition:transform .2s;
-}
-.subject-link:hover{transform:translateX(5px);color:var(--primary)}
 
   </style>
 </head>
@@ -565,7 +467,6 @@ body:not(.dark-theme) .highlight { color:#000; }
     <button class="nav-btn active" data-tab="home">Главная</button>
     <button class="nav-btn" data-tab="schedule">Расписание</button>
     <button class="nav-btn" data-tab="homework">ДЗ</button>
-    <button class="nav-btn" data-tab="lectures">Лекции</button>
   </nav>
   <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
     <i class="fas fa-moon"></i>
@@ -620,10 +521,6 @@ body:not(.dark-theme) .highlight { color:#000; }
   <section id="homework" class="section">
     <h2><i class="fas fa-pen"></i> Домашнее задание</h2>
     <div class="homework-list" id="homework-list"></div>
-  </section>
-  <section id="lectures" class="section">
-    <h2><i class="fas fa-book-open"></i> Лекции по предметам</h2>
-    <div class="lectures-list" id="lectures-list"></div>
   </section>
 </main>
 <footer>© 2025 Сделано с ❤ для одногруппников</footer>
@@ -771,40 +668,6 @@ const homeworkData = {
     solution:{text:`About Myself\n\nLet me introduce myself. My name is Alexander, Alex for short. My full name is Alexander Sergeyevich Orlov. Orlov is my surname. Alexander is my first name and Sergeyevich is my patronymic. I’m nearly eighteen—next Thursday is my birthday. Now I’m a first-year student. I study at the Institute. Every day I attend lectures. In January and June I take examinations. I get good or excellent marks in all the subjects. When I graduate from the Institute I want to work as an engineer.\n\nI have a large family. My parents have two more children besides me. Thus I have got an elder brother and a younger sister. My sister Helen is just out of school. She is sixteen. She is very fond of music and her dream is to become a pianist. My brother, whose name is Michael, is eight years my senior. He is twenty six already. He is a builder. He is married and has a family of his own. They are four in the family. He has a wife and two children— a son and a daughter. They are twins.\n\nMy parents are not old at all. Father is fifty and mother is three years his junior. My father is a doctor. He works in a hospital. He is very busy, he has a lot of patients and does all he can to help them. My mother is a book-keeper. She works at an office. She too has a lot of work. Still, she finds time to look after the house and to take care of all of us.\n\nMy grandfather is not yet a pensioner, though he is over seventy. He is still full of the life energy. My grandmother is also in very good health. She does most of the cooking. Of course mother helps her and so does my sister. In the evening we all come together and either watch TV or just talk about the events of the day. We are all great friends. I love my relatives dearly.`}
   }],
   "2025-10-13": [{hw:"Химия: Доделать самостоялку Второй подгруппе"}]
-};
-const lecturesData = {
-  "Аналитическая геометрия": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-  "Введение в профессиональную деятельность": [
-    { title: "Лекция 1: Основы", url: "https://example.com/inf-lecture1" }
-  ],
-      "Инженерная компьютерная графика": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-    "Информатика": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-
-    "История России": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-        "Математический анализ": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-      "Основы российской государственности": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-      "Программирование": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-
-      "Физкультура и спорт (лекция)": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
-        "Физкультура и спорт (практика)": [
-    { title: "Лекция 1: Основы", url: "https://example.com/chem-lecture1" },
-  ],
 };
 // ===== РЕНДЕР =====
 function renderCompactSchedule(container, date) {
@@ -1034,112 +897,6 @@ if (viewBtn) {
   });
 }
 
-function renderLectures() {
-  const container = document.getElementById('lectures-list');
-  if (!container) return;
-  container.innerHTML = '';
-
-  const acc = document.createElement('div');
-  acc.className = 'subject-accordion';
-
-  const subjects = Object.keys(lecturesData);
-  if (!subjects.length) {
-    container.innerHTML = '<p style="text-align:center;color:#888;">Лекции пока не добавлены.</p>';
-    return;
-  }
-
-  subjects.forEach((subject, idx) => {
-    const lectures = lecturesData[subject] || [];
-    if (!lectures.length) return;
-
-    const item = document.createElement('div');
-    item.className = 'subject-item';
-
-    const btn = document.createElement('button');
-    btn.className = 'subject-toggle';
-    btn.type = 'button';
-    const panelId = `sub-panel-${idx}`;
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-controls', panelId);
-    btn.innerHTML = `
-      <span>${subject}</span>
-      <span style="display:flex;align-items:center;gap:.6rem;">
-        <span class="count">${lectures.length}</span>
-        <i class="fas fa-chevron-down chev" aria-hidden="true"></i>
-      </span>
-    `;
-
-    const panel = document.createElement('div');
-    panel.className = 'subject-panel';
-    panel.id = panelId;
-
-    const links = document.createElement('div');
-    links.className = 'subject-links';
-
-    lectures.forEach(l => {
-      if (!l?.title || !l?.url) return;
-      const a = document.createElement('a');
-      a.href = l.url;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.className = 'subject-link';
-      a.textContent = l.title;
-      links.appendChild(a);
-    });
-
-    panel.appendChild(links);
-
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      if (!expanded) {
-        // раскрываем
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-      } else {
-        // сворачиваем
-        panel.style.maxHeight = 0;
-      }
-    });
-
-    item.appendChild(btn);
-    item.appendChild(panel);
-    acc.appendChild(item);
-  });
-
-  container.appendChild(acc);
-}
-
-
-// ===== ЗАЩИТА ЛЕКЦИЙ =====
-function isPasswordEntered() {
-  return localStorage.getItem('lecturesPassword') === 'true';
-}
-function showPasswordForm() {
-  const lecturesSection = document.getElementById('lectures');
-  lecturesSection.innerHTML = `
-    <div style="text-align:center;margin:2.5rem 0;padding:2rem;background:var(--card-bg);border-radius:var(--border-radius);box-shadow:0 10px 30px var(--shadow);">
-      <h2><i class="fas fa-lock"></i> Защищенная вкладка</h2>
-      <p>Для доступа к лекциям введите пароль:</p>
-      <div style="margin:2rem 0;">
-        <input type="password" id="lecturesPassword" placeholder="Пароль" style="padding:1rem;border-radius:12px;border:1px solid var(--accent);font-size:1.15rem;width:200px;text-align:center;">
-        <button id="lecturesSubmit" style="margin-left:1rem;padding:0.9rem 2rem;border-radius:12px;background:var(--primary);color:white;border:none;font-weight:700;cursor:pointer;">Войти</button>
-      </div>
-    </div>`;
-  document.getElementById('lecturesSubmit').onclick = () => {
-    if (document.getElementById('lecturesPassword').value === '8888') {
-      localStorage.setItem('lecturesPassword', 'true');
-      location.reload();
-    } else {
-      alert('Неверный пароль. Попробуйте еще раз.');
-      document.getElementById('lecturesPassword').value = '';
-      document.getElementById('lecturesPassword').focus();
-    }
-  };
-  document.getElementById('lecturesPassword').onkeypress = e => {
-    if (e.key === 'Enter') document.getElementById('lecturesSubmit').click();
-  };
-}
-
 // ===== ИНИЦИАЛИЗАЦИЯ =====
 function init() {
   const now = getMoscowDate();
@@ -1149,18 +906,8 @@ renderHomeAccordion();
 
   renderFullSchedule();
   renderHomework();
-  renderLectures();
   initPlanToggle();
-  if (!isPasswordEntered()) showPasswordForm();
 }
-// Пересчитываем max-height у открытых панелей при изменении размеров окна
-window.addEventListener('resize', () => {
-  document.querySelectorAll('.subject-toggle[aria-expanded="true"]').forEach(btn => {
-    const id = btn.getAttribute('aria-controls');
-    const panel = document.getElementById(id);
-    if (panel) panel.style.maxHeight = panel.scrollHeight + 'px';
-  });
-});
 
 // ===== СОБЫТИЯ =====
 document.querySelectorAll('.nav-btn').forEach(btn =>
