@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Наше расписание</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ff4081;
+      --secondary: #e91e63;
+      --dark: #880e4f;
+      --light: #fce4ec;
+      --gold: #ffd700;
+      --calendar-bg: #fff9f9;
+      --event-bg: rgba(255, 255, 255, 0.85);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Dancing Script', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0, #ffecd2);
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
+      z-index: -1;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      font-weight: bold;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Dancing Script', cursive;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo i {
+      color: var(--secondary);
+      animation: pulse 1.5s infinite;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 30px;
+      transition: all 0.3s;
+      position: relative;
+      font-family: 'Dancing Script', cursive;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+      transition: all 0.3s;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--primary);
+    }
+
+    nav a:hover::after, nav a.active::after {
+      width: 80%;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .intro {
+      margin-bottom: 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+    }
+
+    .intro.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro h1 {
+      font-size: 3.5rem;
+      color: var(--dark);
+      margin-bottom: 20px;
+      font-family: 'Great Vibes', cursive;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .intro p {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      color: #555;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Календарь */
+    .calendar-container {
+      background: var(--calendar-bg);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      margin: 40px 0;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--light);
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.8s ease;
+    }
+
+    .calendar-container.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .calendar-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,64,129,0.1) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px dashed var(--primary);
+    }
+
+    .month-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .month-nav button {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: var(--secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .month-nav button:hover {
+      background: rgba(233, 30, 99, 0.1);
+      transform: scale(1.1);
+    }
+
+    .current-month {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: var(--dark);
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 15px;
+    }
+
+    .calendar-day-name {
+      font-weight: bold;
+      color: var(--secondary);
+      padding: 10px;
+      font-size: 1.1rem;
+    }
+
+    .calendar-date {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1.1rem;
+    }
+
+    .calendar-date:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .calendar-date.today {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+    }
+
+    .calendar-date.has-event {
+      position: relative;
+    }
+
+    .calendar-date.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      width: 8px;
+      height: 8px;
+      background: var(--secondary);
+      border-radius: 50%;
+    }
+
+    .calendar-date.has-special::after {
+      background: var(--gold);
+      width: 10px;
+      height: 10px;
+    }
+
+    /* События */
+    .events-section {
+      margin-top: 50px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .events-section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .events-section h2 {
+      font-size: 2.8rem;
+      color: var(--dark);
+      margin-bottom: 30px;
+      font-family: 'Great Vibes', cursive;
+      text-align: center;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .event-card {
+      background: var(--event-bg);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--secondary);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .event-card.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .event-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .event-date {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--secondary);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .event-date i {
+      color: var(--gold);
+    }
+
+    .event-title {
+      font-size: 1.6rem;
+      color: var(--dark);
+      margin-bottom: 12px;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .event-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .event-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-style: italic;
+      color: #777;
+    }
+
+    .special-event {
+      border-left-color: var(--gold);
+      background: rgba(255, 215, 0, 0.05);
+    }
+
+    .special-event .event-date {
+      color: var(--gold);
+    }
+
+    /* Анимации */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .floating {
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .floating-icon {
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    /* Подвал */
+    footer {
+      text-align: center;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.05);
+      margin-top: 50px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.3rem;
+      color: var(--dark);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .calendar-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      
+      .intro h1 {
+        font-size: 2.8rem;
+      }
+      
+      .current-month {
+        font-size: 1.8rem;
+      }
+      
+      nav ul {
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .calendar-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .intro h1 {
+        font-size: 2.3rem;
+      }
+      
+      .current-month {
+        font-size: 1.5rem;
+      }
+      
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .month-nav {
+        gap: 10px;
+      }
+      
+      .month-nav button {
+        width: 30px;
+        height: 30px;
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <i class="fas fa-heartbeat"></i>
+        <span>Наша история</span>
+      </div>
+      <ul>
+        <li><a href="index.html">Мы</a></li>
+        <li><a href="schedule.html" class="active">Расписание</a></li>
+        <li><a href="english.html">English</a></li>
+        <li><a href="deutsch.html">Deutsch</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Наше романтическое расписание</h1>
+      <p>Здесь мы храним все важные даты и предстоящие события, которые сделают нашу историю ещё прекраснее</p>
+    </section>
+
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <div class="month-nav">
+          <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+          <div class="current-month" id="currentMonth">Июль 2024</div>
+          <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="floating-icon">
+          <i class="fas fa-calendar-heart" style="font-size: 2.5rem; color: var(--secondary);"></i>
+        </div>
+      </div>
+      
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- Дни недели будут добавлены через JS -->
+      </div>
+    </div>
+
+    <section class="events-section">
+      <h2>Предстоящие события</h2>
+      <div class="events-grid" id="eventsGrid">
+        <!-- События будут добавлены через JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Создано с ❤️ для самой прекрасной девушки на свете</p>
+    <p style="font-size: 1.1rem; margin-top: 10px; color: var(--secondary);">17.02.2025 • Наша годовщина</p>
+  </footer>
+
+  <script>
+    // Проверка доступа (аналогично index.html)
+    window.onload = function() {
+      if (localStorage.getItem("accessGranted") !== "true") {
+        window.location.href = "index.html";
+      }
+      
+      // Анимация появления
+      setTimeout(() => {
+        document.querySelector('.intro').classList.add('show');
+      }, 300);
+      
+      setTimeout(() => {
+        document.querySelector('.calendar-container').classList.add('show');
+      }, 600);
+      
+      setTimeout(() => {
+        document.querySelector('.events-section').classList.add('show');
+        animateEventCards();
+      }, 900);
+      
+      // Инициализация календаря
+      initCalendar();
+      renderEvents();
+    };
+
+    // Анимация карточек событий
+    function animateEventCards() {
+      const cards = document.querySelectorAll('.event-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('show');
+        }, 300 + index * 200);
+      });
+    }
+
+    // Инициализация календаря
+    function initCalendar() {
+      const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+      const calendarGrid = document.getElementById('calendarGrid');
+      
+      // Заголовки дней недели
+      daysOfWeek.forEach(day => {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day-name';
+        dayElement.textContent = day;
+        calendarGrid.appendChild(dayElement);
+      });
+      
+      // Заполнение датами
+      renderCalendar(new Date());
+      
+      // Навигация по месяцам
+      document.getElementById('prevMonth').addEventListener('click', () => {
+        const currentDate = new Date(document.getElementById('currentMonth').dataset.date);
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+      });
+      
+      document.getElementById('nextMonth').addEventListener('click', () => {
+        const currentDate = new Date(document.getElementById('currentMonth').dataset.date);
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+      });
+    }
+
+    // Отображение календаря для конкретного месяца
+    function renderCalendar(date) {
+      const calendarGrid = document.getElementById('calendarGrid');
+      const currentMonthElement = document.getElementById('currentMonth');
+      
+      // Очищаем даты (оставляем заголовки)
+      while (calendarGrid.children.length > 7) {
+        calendarGrid.removeChild(calendarGrid.lastChild);
+      }
+      
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      
+      // Обновляем заголовок месяца
+      const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
+                         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+      currentMonthElement.textContent = `${monthNames[month]} ${year}`;
+      currentMonthElement.dataset.date = date.toISOString();
+      
+      // Первый день месяца
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      
+      // День недели для первого числа (0 - воскресенье, 6 - суббота)
+      const startDayOfWeek = firstDay.getDay();
+      
+      // Заполняем пустые дни предыдущего месяца
+      for (let i = 0; i < startDayOfWeek; i++) {
+        const emptyDay = document.createElement('div');
+        calendarGrid.appendChild(emptyDay);
+      }
+      
+      // Заполняем даты текущего месяца
+      const today = new Date();
+      const todayString = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
+      
+      for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dateElement = document.createElement('div');
+        dateElement.className = 'calendar-date';
+        dateElement.textContent = day;
+        
+        // Проверяем, есть ли событие в этот день
+        const dateString = `${day}.${month + 1}.${year}`;
+        const hasEvent = events.some(event => event.date === dateString);
+        const isSpecial = events.some(event => event.date === dateString && event.special);
+        
+        if (hasEvent) {
+          dateElement.classList.add('has-event');
+          if (isSpecial) dateElement.classList.add('has-special');
+        }
+        
+        // Отмечаем сегодняшний день
+        if (dateString === todayString) {
+          dateElement.classList.add('today');
+        }
+        
+        // Добавляем тултип с событиями при наведении
+        if (hasEvent) {
+          const eventTitles = events
+            .filter(event => event.date === dateString)
+            .map(event => event.title)
+            .join('\n');
+          
+          dateElement.title = eventTitles;
+        }
+        
+        calendarGrid.appendChild(dateElement);
+      }
+    }
+
+    // Данные событий (можно расширить)
+    const events = [
+      {
+        date: '17.2.2025',
+        title: 'Наша годовщина',
+        description: 'Три года вместе! Планируем романтический ужин при свечах и прогулку по набережной.',
+        location: 'Ресторан "Звёздное небо"',
+        special: true
+      },
+      {
+        date: '14.2.2025',
+        title: 'День Святого Валентина',
+        description: 'Подарю тебе огромный букет роз и проведу весь день только с тобой.',
+        location: 'Дома',
+        special: true
+      },
+      {
+        date: '8.3.2025',
+        title: 'Международный женский день',
+        description: 'Сюрприз! Планирую поездку в спа-курорт на выходные.',
+        location: 'Спа-отель "Расслабление"',
+        special: true
+      },
+      {
+        date: '25.12.2024',
+        title: 'Рождество',
+        description: 'Встречаем праздник в уютной атмосфере с подарками и вкусным ужином.',
+        location: 'Дома',
+        special: true
+      },
+      {
+        date: '31.12.2024',
+        title: 'Новый Год',
+        description: 'Отмечаем начало нового года вместе под звёздным небом.',
+        location: 'Загородный дом',
+        special: true
+      },
+      {
+        date: '5.7.2024',
+        title: 'Поход в кино',
+        description: 'Сходим на премьеру нового фильма, который мы оба ждали.',
+        location: 'Кинотеатр "Мир"',
+        special: false
+      },
+      {
+        date: '12.7.2024',
+        title: 'Пикник в парке',
+        description: 'Устраиваем романтический пикник с домашними угощениями и играми.',
+        location: 'Центральный парк',
+        special: false
+      },
+      {
+        date: '20.7.2024',
+        title: 'День рождения мамы',
+        description: 'Помогаем подготовить сюрприз для твоей мамы.',
+        location: 'Дома',
+        special: false
+      }
+    ];
+
+    // Отрисовка событий
+    function renderEvents() {
+      const eventsGrid = document.getElementById('eventsGrid');
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      // Фильтруем будущие события и сортируем по дате
+      const upcomingEvents = events
+        .filter(event => {
+          const [day, month, year] = event.date.split('.');
+          const eventDate = new Date(year, month - 1, day);
+          return eventDate >= today;
+        })
+        .sort((a, b) => {
+          const [dayA, monthA, yearA] = a.date.split('.');
+          const [dayB, monthB, yearB] = b.date.split('.');
+          return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+        })
+        .slice(0, 6); // Берем первые 6 ближайших событий
+      
+      if (upcomingEvents.length === 0) {
+        eventsGrid.innerHTML = '<p style="grid-column: 1/-1; font-size: 1.4rem; color: var(--secondary);">Нет предстоящих событий</p>';
+        return;
+      }
+      
+      upcomingEvents.forEach(event => {
+        const [day, month, year] = event.date.split('.');
+        const date = new Date(year, month - 1, day);
+        
+        const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                          'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        
+        const formattedDate = `${day} ${monthNames[date.getMonth()]} ${year} года`;
+        
+        const eventCard = document.createElement('div');
+        eventCard.className = `event-card ${event.special ? 'special-event' : ''}`;
+        
+        eventCard.innerHTML = `
+          <div class="event-date">
+            <i class="fas ${event.special ? 'fa-star' : 'fa-calendar-day'}"></i>
+            ${formattedDate}
+          </div>
+          <div class="event-title">${event.title}</div>
+          <div class="event-description">${event.description}</div>
+          <div class="event-location">
+            <i class="fas fa-map-marker-alt"></i>
+            ${event.location}
+          </div>
+        `;
+        
+        eventsGrid.appendChild(eventCard);
+      });
+    }
+
+    // Эффект параллакса для иконки календаря
+    document.addEventListener('mousemove', (e) => {
+      const icon = document.querySelector('.floating-icon');
+      if (icon) {
+        const xPos = (e.clientX / window.innerWidth) - 0.5;
+        const yPos = (e.clientY / window.innerHeight) - 0.5;
+        icon.style.transform = `translate(${xPos * 30}px, ${yPos * 30}px)`;
+      }
+    });
+  </script>
+</body>
+</html>
