@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вопросы к экзамену по информатике</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .specialty {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+        
+        .questions-list {
+            counter-reset: question-counter;
+            list-style: none;
+        }
+        
+        .question-item {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .question-item::before {
+            counter-increment: question-counter;
+            content: counter(question-counter) ".";
+            position: absolute;
+            left: 0;
+            font-weight: 500;
+        }
+        
+        .question-text {
+            display: inline;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #888;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .question-item {
+                padding-left: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Вопросы к экзамену по дисциплине «Информатика»</h1>
+        <p class="subtitle">для студентов 1 курса (1 семестр) по направлениям подготовки:</p>
+        <p class="specialty">09.03.04 – Программная инженерия</p>
+    </header>
+    
+    <main>
+        <ol class="questions-list">
+            <li class="question-item"><span class="question-text">Информация. Классификация информации. Виды информации. Свойства информации.</span></li>
+            <li class="question-item"><span class="question-text">Измерение информации. Основные подходы к измерению информации. Единицы измерения информации.</span></li>
+            <li class="question-item"><span class="question-text">Информационные процессы. Характеристика основных информационных процессов.</span></li>
+            <li class="question-item"><span class="question-text">Эволюция ЭВМ. Функциональная схема ЭВМ. Принципы построения ЭВМ.</span></li>
+            <li class="question-item"><span class="question-text">Модульно-магистральный принцип построения компьютера. Структурная схема ЭВМ.</span></li>
+            <li class="question-item"><span class="question-text">Архитектура ЭВМ. Персональный компьютер. Состав ПК. Пользовательские характеристики ПК.</span></li>
+            <li class="question-item"><span class="question-text">Компьютерные сети. Назначение. Основные возможности. Топология локальных сетей.</span></li>
+            <li class="question-item"><span class="question-text">Двоичное кодирование. Системы счисления. Арифметические основы построения ЭВМ.</span></li>
+            <li class="question-item"><span class="question-text">Логические основы построения ЭВМ. Основные логические операции и средства их реализации.</span></li>
+            <li class="question-item"><span class="question-text">Программное управление работой компьютера. Классификация программного обеспечения.</span></li>
+            <li class="question-item"><span class="question-text">Системное программное обеспечение. Операционные системы. Назначение. Основные возможности.</span></li>
+            <li class="question-item"><span class="question-text">Память ПК. Виды памяти и их основное назначение. Носители информации.</span></li>
+            <li class="question-item"><span class="question-text">Организация информации на внешних носителях. Файловая система. Диски. Файлы. Каталоги.</span></li>
+            <li class="question-item"><span class="question-text">Программы-оболочки. Назначение и основные функции. Управление дисками, файлами и каталогами.</span></li>
+            <li class="question-item"><span class="question-text">Информационные технологии. Понятие и инструментарий информационных технологий. Этапы развития информационных технологий.</span></li>
+            <li class="question-item"><span class="question-text">Базовые и прикладные информационные технологии. Классификация информационных технологий.</span></li>
+            <li class="question-item"><span class="question-text">Архитектура информационных технологий. Виды распределенных архитектур.</span></li>
+            <li class="question-item"><span class="question-text">Системы обработки текстов. Текстовый редактор. Назначение. Основные возможности.</span></li>
+            <li class="question-item"><span class="question-text">Системы обработки числовых данных. Электронные таблицы. Назначение и основные возможности.</span></li>
+            <li class="question-item"><span class="question-text">Системы обработки изображений. Графические редакторы. Назначение. Основные возможности.</span></li>
+            <li class="question-item"><span class="question-text">Системы управления базами данных. Базы данных. Реляционные БД. Элементы БД. Основные возможности реляционных БД.</span></li>
+            <li class="question-item"><span class="question-text">Понятие мультимедийных технологий.</span></li>
+            <li class="question-item"><span class="question-text">Программные средства электронных презентаций. Технология работы с электронной презентацией.</span></li>
+            <li class="question-item"><span class="question-text">Технологии мультимедиа и гипермедиа. Информационные и коммуникационные технологии.</span></li>
+            <li class="question-item"><span class="question-text">Информационное общество. Основные черты и основные особенности информационного общества. Информационная культура.</span></li>
+            <li class="question-item"><span class="question-text">Технология решения задач с использованием языков программирования. Трансляторы.</span></li>
+            <li class="question-item"><span class="question-text">Информационная технология решения задач. Основные этапы решения информационных задач с использованием компьютера.</span></li>
+            <li class="question-item"><span class="question-text">Модели, моделирование. Информационное моделирование. Компьютерный эксперимент.</span></li>
+            <li class="question-item"><span class="question-text">Алгоритмизация и программирование. Основы программирования. Алгоритмы. Свойства алгоритмов. Способы описания алгоритмов.</span></li>
+            <li class="question-item"><span class="question-text">Линейный алгоритм. Алгоритмы ветвления. Циклические алгоритмы.</span></li>
+        </ol>
+    </main>
+    
+    <footer>
+        <p>Вопросы к экзамену по дисциплине «Информатика»</p>
+        <p>1 курс, 1 семестр</p>
+    </footer>
+</body>
+</html>
