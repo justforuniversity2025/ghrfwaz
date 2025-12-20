@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание зачётов и экзаменов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            color: #2c3e50;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .info-header {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .info-header p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .schedule-table th {
+            background-color: #f8f9fa;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .schedule-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .schedule-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .schedule-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .date-col {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 12%;
+        }
+        
+        .time-col {
+            width: 10%;
+        }
+        
+        .discipline-col {
+            width: 25%;
+            font-weight: 500;
+        }
+        
+        .building-col {
+            width: 15%;
+        }
+        
+        .classroom-col {
+            width: 10%;
+        }
+        
+        .department-col {
+            width: 12%;
+        }
+        
+        .teacher-col {
+            width: 16%;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .schedule-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .date-col, .time-col, .discipline-col, 
+            .building-col, .classroom-col, .department-col, 
+            .teacher-col {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Расписание зачётов и экзаменов</h1>
+        <div class="subtitle">Группа 2251121 (18.1-509) • Программная инженерия • 09.03.04</div>
+    </header>
+    
+    <h2 class="section-title">Расписание зачётов</h2>
+    <div class="info-header">
+        <p><strong>Период:</strong> 18.12.2025 - 30.12.2025</p>
+        <p><strong>Количество зачётов:</strong> 8</p>
+    </div>
+    
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th class="date-col">Дата</th>
+                <th class="time-col">Время</th>
+                <th class="discipline-col">Дисциплина</th>
+                <th class="building-col">Здание</th>
+                <th class="classroom-col">Аудитория</th>
+                <th class="department-col">Кафедра</th>
+                <th>Должность</th>
+                <th class="teacher-col">Преподаватель</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="date-col">18.12.25</td>
+                <td class="time-col">11:50</td>
+                <td class="discipline-col">Аналитическая геометрия</td>
+                <td class="building-col">УЛК-2</td>
+                <td class="classroom-col">432</td>
+                <td class="department-col">матем</td>
+                <td>доцент</td>
+                <td class="teacher-col">Костин А.В.</td>
+            </tr>
+            <tr>
+                <td class="date-col">24.12.25</td>
+                <td class="time-col">11:50</td>
+                <td class="discipline-col">Иностранный язык</td>
+                <td class="building-col">УЛК-1</td>
+                <td class="classroom-col">326</td>
+                <td class="department-col">ИЯ</td>
+                <td>доцент</td>
+                <td class="teacher-col">Славина Л.Р.</td>
+            </tr>
+            <tr>
+                <td class="date-col">24.12.25</td>
+                <td class="time-col">15:40</td>
+                <td class="discipline-col">История России</td>
+                <td class="building-col">УЛК-1</td>
+                <td class="classroom-col">406</td>
+                <td class="department-col">СГН</td>
+                <td>доцент</td>
+                <td class="teacher-col">Бессонова Т.В.</td>
+            </tr>
+            <tr>
+                <td class="date-col">26.12.25</td>
+                <td class="time-col">13:30</td>
+                <td class="discipline-col">Иностранный язык</td>
+                <td class="building-col">УЛК-4</td>
+                <td class="classroom-col">208</td>
+                <td class="department-col">ИЯ</td>
+                <td>ст. препод.</td>
+                <td class="teacher-col">Мустафина Л.Р.</td>
+            </tr>
+            <tr>
+                <td class="date-col">27.12.25</td>
+                <td class="time-col">11:50</td>
+                <td class="discipline-col">Физическая культура и спорт</td>
+                <td class="building-col">УЛК-1</td>
+                <td class="classroom-col">420</td>
+                <td class="department-col">ФБиС</td>
+                <td>профессор</td>
+                <td class="teacher-col">Москвин Н.Г.</td>
+            </tr>
+            <tr>
+                <td class="date-col">29.12.25</td>
+                <td class="time-col">19:00</td>
+                <td class="discipline-col">Основы российской государственности</td>
+                <td class="building-col">УЛК-1</td>
+                <td class="classroom-col">420</td>
+                <td class="department-col">СГН</td>
+                <td>доцент</td>
+                <td class="teacher-col">Яковлева М.Г.</td>
+            </tr>
+            <tr>
+                <td class="date-col">30.12.25</td>
+                <td class="time-col">13:30</td>
+                <td class="discipline-col">Введение в профессиональную деятельность</td>
+                <td class="building-col">УЛК-2</td>
+                <td class="classroom-col">417</td>
+                <td class="department-col">ИС</td>
+                <td>доцент</td>
+                <td class="teacher-col">Валиев Р.А.</td>
+            </tr>
+            <tr>
+                <td class="date-col">30.12.25</td>
+                <td class="time-col">11:50</td>
+                <td class="discipline-col">Инженерная компьютерная графика</td>
+                <td class="building-col">УЛК-2</td>
+                <td class="classroom-col">330</td>
+                <td class="department-col">МиК</td>
+                <td>доцент</td>
+                <td class="teacher-col">Феоктистова Л.А.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2 class="section-title">Расписание экзаменов</h2>
+    <div class="info-header">
+        <p><strong>Период:</strong> 12.01.2026 - 27.01.2026</p>
+        <p><strong>Кафедра:</strong> Информационные системы (ИС)</p>
+        <p><strong>Количество экзаменов:</strong> 4</p>
+    </div>
+    
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th class="date-col">Дата</th>
+                <th class="time-col">Время</th>
+                <th class="discipline-col">Дисциплина</th>
+                <th class="building-col">Здание</th>
+                <th class="classroom-col">Аудитория</th>
+                <th class="department-col">Кафедра</th>
+                <th>Должность</th>
+                <th class="teacher-col">Преподаватель</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="date-col">12.01.26</td>
+                <td class="time-col">13:00</td>
+                <td class="discipline-col">Информатика</td>
+                <td class="building-col">УЛК-4</td>
+                <td class="classroom-col">235</td>
+                <td class="department-col">ИС</td>
+                <td>ст. препод.</td>
+                <td class="teacher-col">Булатова С.В.</td>
+            </tr>
+            <tr>
+                <td class="date-col">17.01.26</td>
+                <td class="time-col">13:00</td>
+                <td class="discipline-col">Математический анализ</td>
+                <td class="building-col">УЛК-4</td>
+                <td class="classroom-col">235</td>
+                <td class="department-col">матем</td>
+                <td>доцент</td>
+                <td class="teacher-col">Губочкина Н.И.</td>
+            </tr>
+            <tr>
+                <td class="date-col">22.01.26</td>
+                <td class="time-col">13:00</td>
+                <td class="discipline-col">Программирование</td>
+                <td class="building-col">УЛК-4</td>
+                <td class="classroom-col">236</td>
+                <td class="department-col">ИС</td>
+                <td>ст. препод.</td>
+                <td class="teacher-col">Булатова С.В.</td>
+            </tr>
+            <tr>
+                <td class="date-col">27.01.26</td>
+                <td class="time-col">13:00</td>
+                <td class="discipline-col">Химия</td>
+                <td class="building-col">УЛК-1</td>
+                <td class="classroom-col">420</td>
+                <td class="department-col">ХиЭ</td>
+                <td>доцент</td>
+                <td class="teacher-col">Сиппель И.Я.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <footer>
+        <p>Расписание зачётов и экзаменов для группы 2251121 (18.1-509)</p>
+        <p>Программная инженерия • 09.03.04</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Подсветка строк таблицы при наведении
+            const rows = document.querySelectorAll('.schedule-table tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f0f8ff';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
