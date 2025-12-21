@@ -956,7 +956,6 @@
             <div id="login-error">Неверный пароль. Попробуйте снова.</div>
             
             <div style="margin-top: 20px; font-size: 14px; color: #95a5a6;">
-                <i class="fas fa-info-circle"></i> Подсказка: пароль - "study2024"
             </div>
         </div>
     </div>
@@ -2413,275 +2412,277 @@
         </button>
     </div>
 
-    <script>
-        // Пароль для доступа
-        const CORRECT_PASSWORD = "study2024";
-        const STORAGE_KEY = "site_access_granted";
+<script>
+    // Пароль для доступа
+    const CORRECT_PASSWORD = "study2024";
+    const STORAGE_KEY = "site_access_granted";
+    
+    // Элементы DOM
+    const loginScreen = document.getElementById('login-screen');
+    const mainContent = document.getElementById('main-content');
+    const passwordInput = document.getElementById('password-input');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const togglePassword = document.getElementById('toggle-password');
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const hiddenLogoutBtn = document.getElementById('hidden-logout-btn');
+    const weekTabs = document.querySelectorAll('.week-tab');
+    const scheduleContainers = document.querySelectorAll('.schedule-container');
+    
+    // Проверяем, был ли уже предоставлен доступ
+    window.addEventListener('DOMContentLoaded', () => {
+        const accessGranted = localStorage.getItem(STORAGE_KEY);
         
-        // Элементы DOM
-        const loginScreen = document.getElementById('login-screen');
-        const mainContent = document.getElementById('main-content');
-        const passwordInput = document.getElementById('password-input');
-        const loginBtn = document.getElementById('login-btn');
-        const loginError = document.getElementById('login-error');
-        const togglePassword = document.getElementById('toggle-password');
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const hiddenLogoutBtn = document.getElementById('hidden-logout-btn');
-        const weekTabs = document.querySelectorAll('.week-tab');
-        const scheduleContainers = document.querySelectorAll('.schedule-container');
+        if (accessGranted === 'true') {
+            // Сразу скрываем экран входа и показываем основной контент
+            loginScreen.style.display = 'none';
+            mainContent.style.display = 'block';
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+            }, 10);
+        } else {
+            // Показываем экран входа
+            loginScreen.style.display = 'flex';
+            mainContent.style.display = 'none';
+        }
+    });
+    
+    // Обработчик входа
+    loginBtn.addEventListener('click', () => {
+        const enteredPassword = passwordInput.value.trim();
         
-        // Проверяем, был ли уже предоставлен доступ
-        window.addEventListener('DOMContentLoaded', () => {
-            const accessGranted = localStorage.getItem(STORAGE_KEY);
+        if (enteredPassword === CORRECT_PASSWORD) {
+            // Сохраняем в localStorage, что доступ предоставлен
+            localStorage.setItem(STORAGE_KEY, 'true');
             
-            if (accessGranted === 'true') {
-                // Показываем основной контент сразу
-                setTimeout(() => {
-                    loginScreen.classList.add('hidden');
-                    setTimeout(() => {
-                        loginScreen.style.display = 'none';
-                        mainContent.classList.add('visible');
-                    }, 500);
-                }, 300);
-            } else {
-                // Показываем экран входа
-                loginScreen.style.display = 'flex';
-            }
-        });
-        
-        // Обработчик входа
-        loginBtn.addEventListener('click', () => {
-            const enteredPassword = passwordInput.value.trim();
+            // Плавно скрываем экран входа
+            loginScreen.classList.add('hidden');
             
-            if (enteredPassword === CORRECT_PASSWORD) {
-                // Сохраняем в localStorage, что доступ предоставлен
-                localStorage.setItem(STORAGE_KEY, 'true');
-                
-                // Плавно скрываем экран входа
-                loginScreen.classList.add('hidden');
-                
-                // Показываем основной контент
+            // Показываем основной контент
+            setTimeout(() => {
+                loginScreen.style.display = 'none';
+                mainContent.style.display = 'block';
                 setTimeout(() => {
-                    loginScreen.style.display = 'none';
                     mainContent.classList.add('visible');
-                }, 500);
-            } else {
-                // Показываем ошибку
-                loginError.style.display = 'block';
-                passwordInput.style.borderColor = '#e74c3c';
-                
-                // Анимация тряски
-                loginScreen.style.animation = 'shake 0.5s';
-                setTimeout(() => {
-                    loginScreen.style.animation = '';
-                }, 500);
-            }
-        });
-        
-        // Нажатие Enter в поле пароля
-        passwordInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                loginBtn.click();
-            }
-        });
-        
-        // Показать/скрыть пароль
-        togglePassword.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+                }, 10);
+            }, 500);
+        } else {
+            // Показываем ошибку
+            loginError.style.display = 'block';
+            passwordInput.style.borderColor = '#e74c3c';
             
-            togglePassword.classList.toggle('fa-eye');
-            togglePassword.classList.toggle('fa-eye-slash');
-        });
+            // Анимация тряски
+            loginScreen.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                loginScreen.style.animation = '';
+            }, 500);
+        }
+    });
+    
+    // Нажатие Enter в поле пароля
+    passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            loginBtn.click();
+        }
+    });
+    
+    // Показать/скрыть пароль
+    togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
         
-        // Скрытая кнопка выхода (только для разработчиков/админов)
-        hiddenLogoutBtn.addEventListener('click', () => {
-            if (confirm('Вы уверены, что хотите выйти? При следующем посещении потребуется снова ввести пароль.')) {
-                localStorage.removeItem(STORAGE_KEY);
-                window.location.reload();
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
+    
+    // Скрытая кнопка выхода (только для разработчиков/админов)
+    hiddenLogoutBtn.addEventListener('click', () => {
+        if (confirm('Вы уверены, что хотите выйти? При следующем посещении потребуется снова ввести пароль.')) {
+            localStorage.removeItem(STORAGE_KEY);
+            window.location.reload();
+        }
+    });
+    
+    // Двойной клик по логотипу для выхода (альтернативный способ)
+    document.querySelector('.logo').addEventListener('dblclick', () => {
+        if (confirm('Вы уверены, что хотите выйти? При следующем посещении потребуется снова ввести пароль.')) {
+            localStorage.removeItem(STORAGE_KEY);
+            window.location.reload();
+        }
+    });
+    
+    // Переключение вкладок
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Удаляем активный класс у всех вкладок
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Добавляем активный класс к текущей вкладке
+            tab.classList.add('active');
+            
+            // Получаем ID целевого контента
+            const tabId = tab.getAttribute('data-tab');
+            
+            // Скрываем все содержимое вкладок
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Показываем целевой контент
+            const targetContent = document.getElementById(`${tabId}-tab`);
+            if (targetContent) {
+                targetContent.classList.add('active');
             }
         });
-        
-        // Двойной клик по логотипу для выхода (альтернативный способ)
-        document.querySelector('.logo').addEventListener('dblclick', () => {
-            if (confirm('Вы уверены, что хотите выйти? При следующем посещении потребуется снова ввести пароль.')) {
-                localStorage.removeItem(STORAGE_KEY);
-                window.location.reload();
+    });
+    
+    // Переключение недель в расписании
+    weekTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Удаляем активный класс у всех вкладок недель
+            weekTabs.forEach(t => t.classList.remove('active'));
+            
+            // Добавляем активный класс к текущей вкладке
+            tab.classList.add('active');
+            
+            // Получаем ID целевой недели
+            const weekId = tab.getAttribute('data-week');
+            
+            // Скрываем все расписания
+            scheduleContainers.forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // Показываем целевое расписание
+            const targetSchedule = document.getElementById(`${weekId}-week`);
+            if (targetSchedule) {
+                targetSchedule.classList.add('active');
             }
         });
+    });
+    
+    // CSS анимация тряски
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Автоматическое определение текущей недели (можно заменить на реальную логику)
+    function setCurrentWeek() {
+        // Здесь можно добавить реальную логику определения недели
+        // Например, по дате
+        const today = new Date();
+        // Для примеси - пусть четные недели - верхняя, нечетные - нижняя
+        const weekNumber = Math.floor(today.getDate() / 7) % 2;
         
-        // Переключение вкладок
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Удаляем активный класс у всех вкладок
-                tabs.forEach(t => t.classList.remove('active'));
+        // Временно установим верхнюю неделю как текущую
+        const upperWeekTab = document.querySelector('.week-tab[data-week="upper"]');
+        const lowerWeekTab = document.querySelector('.week-tab[data-week="lower"]');
+        
+        // Удаляем индикатор текущей недели
+        document.querySelectorAll('.current-week-indicator').forEach(indicator => {
+            indicator.remove();
+        });
+        
+        // Добавляем индикатор текущей недели
+        if (weekNumber === 0) {
+            upperWeekTab.innerHTML = 'Верхняя неделя <span class="current-week-indicator">Текущая</span>';
+        } else {
+            lowerWeekTab.innerHTML = 'Нижняя неделя <span class="current-week-indicator">Текущая</span>';
+        }
+    }
+    
+    // Вызываем функцию при загрузке
+    window.addEventListener('load', setCurrentWeek);
+    
+    // Обработка кнопок вопросов к экзаменам и зачётам
+    document.addEventListener('click', function(e) {
+        // Кнопки "Вопросы к зачёту/экзамену"
+        if (e.target.classList.contains('exam-questions-btn') || e.target.closest('.exam-questions-btn')) {
+            e.preventDefault();
+            const btn = e.target.classList.contains('exam-questions-btn') ? e.target : e.target.closest('.exam-questions-btn');
+            const examId = btn.getAttribute('data-exam');
+            const questionsDiv = document.getElementById(`${examId}_questions`);
+            
+            if (questionsDiv) {
+                // Переключаем видимость вопросов
+                questionsDiv.style.display = questionsDiv.style.display === 'block' ? 'none' : 'block';
                 
-                // Добавляем активный класс к текущей вкладке
-                tab.classList.add('active');
-                
-                // Получаем ID целевого контента
-                const tabId = tab.getAttribute('data-tab');
-                
-                // Скрываем все содержимое вкладок
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
+                // Закрываем другие открытые вопросы в том же exam-item
+                const examItem = btn.closest('.exam-item');
+                const allQuestions = examItem.querySelectorAll('.exam-questions');
+                allQuestions.forEach(q => {
+                    if (q !== questionsDiv) {
+                        q.style.display = 'none';
+                    }
                 });
-                
-                // Показываем целевой контент
-                const targetContent = document.getElementById(`${tabId}-tab`);
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
-            });
-        });
-        
-        // Переключение недель в расписании
-        weekTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Удаляем активный класс у всех вкладок недель
-                weekTabs.forEach(t => t.classList.remove('active'));
-                
-                // Добавляем активный класс к текущей вкладке
-                tab.classList.add('active');
-                
-                // Получаем ID целевой недели
-                const weekId = tab.getAttribute('data-week');
-                
-                // Скрываем все расписания
-                scheduleContainers.forEach(container => {
-                    container.classList.remove('active');
-                });
-                
-                // Показываем целевое расписание
-                const targetSchedule = document.getElementById(`${weekId}-week`);
-                if (targetSchedule) {
-                    targetSchedule.classList.add('active');
-                }
-            });
-        });
-        
-        // CSS анимация тряски
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% {transform: translateX(0);}
-                10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
-                20%, 40%, 60%, 80% {transform: translateX(5px);}
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Автоматическое определение текущей недели (можно заменить на реальную логику)
-        function setCurrentWeek() {
-            // Здесь можно добавить реальную логику определения недели
-            // Например, по дате
-            const today = new Date();
-            // Для примеси - пусть четные недели - верхняя, нечетные - нижняя
-            const weekNumber = Math.floor(today.getDate() / 7) % 2;
-            
-            // Временно установим верхнюю неделю как текущую
-            const upperWeekTab = document.querySelector('.week-tab[data-week="upper"]');
-            const lowerWeekTab = document.querySelector('.week-tab[data-week="lower"]');
-            
-            // Удаляем индикатор текущей недели
-            document.querySelectorAll('.current-week-indicator').forEach(indicator => {
-                indicator.remove();
-            });
-            
-            // Добавляем индикатор текущей недели
-            if (weekNumber === 0) {
-                upperWeekTab.innerHTML = 'Верхняя неделя <span class="current-week-indicator">Текущая</span>';
-            } else {
-                lowerWeekTab.innerHTML = 'Нижняя неделя <span class="current-week-indicator">Текущая</span>';
             }
         }
         
-        // Вызываем функцию при загрузке
-        window.addEventListener('load', setCurrentWeek);
-        
-        // Обработка кнопок вопросов к экзаменам и зачётам
-        document.addEventListener('click', function(e) {
-            // Кнопки "Вопросы к зачёту/экзамену"
-            if (e.target.classList.contains('exam-questions-btn') || e.target.closest('.exam-questions-btn')) {
-                e.preventDefault();
-                const btn = e.target.classList.contains('exam-questions-btn') ? e.target : e.target.closest('.exam-questions-btn');
-                const examId = btn.getAttribute('data-exam');
-                const questionsDiv = document.getElementById(`${examId}_questions`);
+        // Кнопка "Материалы для подготовки" для истории
+        if (e.target.id === 'history-materials-btn' || e.target.closest('#history-materials-btn')) {
+            e.preventDefault();
+            const lecturesDiv = document.getElementById('history-lectures');
+            
+            if (lecturesDiv) {
+                // Переключаем видимость лекций
+                lecturesDiv.style.display = lecturesDiv.style.display === 'block' ? 'none' : 'block';
                 
-                if (questionsDiv) {
-                    // Переключаем видимость вопросов
-                    questionsDiv.style.display = questionsDiv.style.display === 'block' ? 'none' : 'block';
-                    
-                    // Закрываем другие открытые вопросы в том же exam-item
-                    const examItem = btn.closest('.exam-item');
-                    const allQuestions = examItem.querySelectorAll('.exam-questions');
-                    allQuestions.forEach(q => {
-                        if (q !== questionsDiv) {
-                            q.style.display = 'none';
-                        }
-                    });
+                // Закрываем вопросы по истории, если они открыты
+                const historyQuestions = document.getElementById('history_russia_questions');
+                if (historyQuestions) {
+                    historyQuestions.style.display = 'none';
                 }
             }
+        }
+        
+        // Кнопки переключения лекций по истории
+        if (e.target.classList.contains('lecture-toggle-btn') || e.target.closest('.lecture-toggle-btn')) {
+            e.preventDefault();
+            const btn = e.target.classList.contains('lecture-toggle-btn') ? e.target : e.target.closest('.lecture-toggle-btn');
+            const content = btn.nextElementSibling;
             
-            // Кнопка "Материалы для подготовки" для истории
-            if (e.target.id === 'history-materials-btn' || e.target.closest('#history-materials-btn')) {
-                e.preventDefault();
-                const lecturesDiv = document.getElementById('history-lectures');
+            // Переключаем активный класс для стрелки
+            btn.classList.toggle('active');
+            
+            // Переключаем видимость содержимого лекции
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            
+            // Закрываем другие лекции в том же блоке
+            const lectureBlock = btn.closest('.history-lectures');
+            if (lectureBlock) {
+                const allLectureBtns = lectureBlock.querySelectorAll('.lecture-toggle-btn');
+                const allContents = lectureBlock.querySelectorAll('.lecture-content-full');
                 
-                if (lecturesDiv) {
-                    // Переключаем видимость лекций
-                    lecturesDiv.style.display = lecturesDiv.style.display === 'block' ? 'none' : 'block';
-                    
-                    // Закрываем вопросы по истории, если они открыты
-                    const historyQuestions = document.getElementById('history_russia_questions');
-                    if (historyQuestions) {
-                        historyQuestions.style.display = 'none';
+                allLectureBtns.forEach((lectureBtn, index) => {
+                    if (lectureBtn !== btn) {
+                        lectureBtn.classList.remove('active');
+                        allContents[index].style.display = 'none';
                     }
-                }
+                });
             }
+        }
+    });
+    
+    // Функция для скачивания файлов (пример для лекций)
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('download-btn') || e.target.closest('.download-btn')) {
+            e.preventDefault();
+            const link = e.target.closest('.download-btn');
+            const href = link.getAttribute('href');
             
-            // Кнопки переключения лекций по истории
-            if (e.target.classList.contains('lecture-toggle-btn') || e.target.closest('.lecture-toggle-btn')) {
-                e.preventDefault();
-                const btn = e.target.classList.contains('lecture-toggle-btn') ? e.target : e.target.closest('.lecture-toggle-btn');
-                const content = btn.nextElementSibling;
-                
-                // Переключаем активный класс для стрелки
-                btn.classList.toggle('active');
-                
-                // Переключаем видимость содержимого лекции
-                content.style.display = content.style.display === 'block' ? 'none' : 'block';
-                
-                // Закрываем другие лекции в том же блоке
-                const lectureBlock = btn.closest('.history-lectures');
-                if (lectureBlock) {
-                    const allLectureBtns = lectureBlock.querySelectorAll('.lecture-toggle-btn');
-                    const allContents = lectureBlock.querySelectorAll('.lecture-content-full');
-                    
-                    allLectureBtns.forEach((lectureBtn, index) => {
-                        if (lectureBtn !== btn) {
-                            lectureBtn.classList.remove('active');
-                            allContents[index].style.display = 'none';
-                        }
-                    });
-                }
+            if (href && href !== '#') {
+                // Открываем ссылку в новой вкладке
+                window.open(href, '_blank');
             }
-        });
-        
-        // Функция для скачивания файлов (пример для лекций)
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('download-btn') || e.target.closest('.download-btn')) {
-                e.preventDefault();
-                const link = e.target.closest('.download-btn');
-                const href = link.getAttribute('href');
-                
-                if (href && href !== '#') {
-                    // Открываем ссылку в новой вкладке
-                    window.open(href, '_blank');
-                }
-            }
-        });
-    </script>
+        }
+    });
+</script>
 </body>
 </html>
