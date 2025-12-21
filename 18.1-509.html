@@ -922,6 +922,22 @@
             border-radius: 8px;
             font-size: 14px;
         }
+.status {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.ready {
+    color: green;
+    background-color: #e8f5e9;
+}
+.not-ready {
+    color: red;
+    background-color: #ffebee;
+}
     </style>
 </head>
 <body>
@@ -1485,7 +1501,7 @@
             
             <!-- Домашнее задание -->
             <div id="homework-tab" class="tab-content">
-                <h2><i class="fas fa-tasks"></i> Домашние задания</h2>
+                <h2><i class="fas fa-tasks"></i> Домашние задания<span class="status not-ready">✗</span></h2>
                 
                 <div class="homework-item">
                     <h3>
@@ -1522,7 +1538,7 @@
             
             <!-- Лекции -->
             <div id="lectures-tab" class="tab-content">
-                <h2><i class="fas fa-chalkboard-teacher"></i> Лекции</h2>
+                <h2><i class="fas fa-chalkboard-teacher"></i> Лекции<span class="status not-ready">✗</span></h2>
                 
                 <div class="lecture-item">
                     <div class="lecture-icon">
@@ -1651,7 +1667,7 @@
                         
                         <!-- Лекция 2 -->
                         <button class="lecture-toggle-btn">
-                            Лекция 2: Ниже не сделано!!!
+                            Лекция 2: Ниже не сделано!!!<span class="status not-ready">✗</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="lecture-content-full">
@@ -1674,7 +1690,7 @@
                         
                         <!-- Лекция 3 -->
                         <button class="lecture-toggle-btn">
-                            Лекция 3: Российская империя (XVIII-XIX вв.)
+                            Лекция 3: Российская империя (XVIII-XIX вв.)<span class="status not-ready">✗</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="lecture-content-full">
@@ -1692,7 +1708,7 @@
                         
                         <!-- Лекция 4 -->
                         <button class="lecture-toggle-btn">
-                            Лекция 4: Россия в XX веке
+                            Лекция 4: Россия в XX веке<span class="status not-ready">✗</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="lecture-content-full">
@@ -1913,8 +1929,7 @@
         
         <!-- Футер -->
         <footer>
-            <p>18.1-509 &copy; 2024. Все права защищены.</p>
-            <p style="margin-top: 10px; font-size: 14px; color: #bdc3c7;">Обновлено: 10 октября 2024 года</p>
+            <p>18.1-509</p>
         </footer>
         
         <!-- Скрытая кнопка выхода (опционально, для админов) -->
