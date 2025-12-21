@@ -3,346 +3,1513 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Расписание зачётов и экзаменов</title>
+    <title>18.1-509</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
         
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
-            line-height: 1.6;
-            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Стили для экрана входа */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+        
+        #login-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(0);
+            transition: transform 0.5s ease;
+        }
+        
+        #login-screen.hidden .login-container {
+            transform: translateY(-50px);
+        }
+        
+        .login-container h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .login-container p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .password-input {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .password-input input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        .password-input input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .password-input i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            cursor: pointer;
+        }
+        
+        #login-btn {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            letter-spacing: 1px;
+        }
+        
+        #login-btn:hover {
+            background: linear-gradient(to right, #2980b9, #1a252f);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+        }
+        
+        #login-error {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        /* Основные стили */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        #main-content.visible {
+            display: block;
+            opacity: 1;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eaeaea;
-        }
-        
-        h1 {
+        .logo {
             font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
         }
         
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 18px;
-            margin-bottom: 25px;
+        .logo i {
+            color: #3498db;
         }
         
-        .section-title {
-            font-size: 22px;
-            color: #2c3e50;
-            margin: 40px 0 20px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
+        /* Вкладки */
+        .tabs {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
-        .info-header {
-            background-color: #f0f7ff;
-            padding: 15px;
+        .tab {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
             border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid #3498db;
-        }
-        
-        .info-header p {
-            margin: 5px 0;
-            font-size: 16px;
-        }
-        
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            background-color: white;
-            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: 2px solid transparent;
+            position: relative;
             overflow: hidden;
         }
         
-        .schedule-table th {
-            background-color: #f8f9fa;
-            padding: 16px 12px;
-            text-align: left;
-            font-weight: 600;
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: rgba(52, 152, 219, 0.3);
+            border-color: #3498db;
+        }
+        
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 15px;
+            width: calc(100% - 30px);
+            height: 3px;
+            background: #3498db;
+            border-radius: 2px;
+        }
+        
+        .tab i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        /* Контейнер для вкладок */
+        .tab-content-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+            min-height: 600px;
+            position: relative;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tab-content h2 {
             color: #2c3e50;
-            border-bottom: 2px solid #eaeaea;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f1f1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
-        .schedule-table td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #f0f0f0;
+        .tab-content h2 i {
+            color: #3498db;
         }
         
-        .schedule-table tr:last-child td {
+        /* Главная */
+        .welcome-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .welcome-text p {
+            margin-bottom: 20px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #3498db;
+        }
+        
+        .feature-card i {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* Расписание */
+        .week-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f8f9fa;
+            padding: 5px;
+        }
+        
+        .week-tab {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            color: #2c3e50;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .week-tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .schedule-container {
+            display: none;
+        }
+        
+        .schedule-container.active {
+            display: block;
+        }
+        
+        .day-schedule {
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .day-header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .day-header .date {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .lessons-list {
+            background: white;
+        }
+        
+        .lesson-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .lesson-item:last-child {
             border-bottom: none;
         }
         
-        .schedule-table tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .date-col {
+        .lesson-time {
+            min-width: 100px;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
             font-weight: 600;
             color: #2c3e50;
-            width: 12%;
         }
         
-        .time-col {
-            width: 10%;
+        .lesson-details {
+            flex: 1;
         }
         
-        .discipline-col {
-            width: 25%;
-            font-weight: 500;
+        .lesson-subject {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 17px;
         }
         
-        .building-col {
-            width: 15%;
+        .lesson-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
         }
         
-        .classroom-col {
-            width: 10%;
+        .lesson-info {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 5px;
+            line-height: 1.5;
         }
         
-        .department-col {
-            width: 12%;
+        .lesson-info span {
+            display: block;
+            margin-bottom: 3px;
         }
         
-        .teacher-col {
-            width: 16%;
-        }
-        
-        footer {
+        .no-lessons {
+            padding: 30px;
             text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #eaeaea;
+            color: #95a5a6;
+            font-style: italic;
+            background: white;
+        }
+        
+        /* Домашнее задание */
+        .homework-item {
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s;
+        }
+        
+        .homework-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .homework-item h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .subject {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .due-date {
             color: #7f8c8d;
             font-size: 14px;
         }
         
+        .homework-item p {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* Лекции */
+        .lecture-item {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+        
+        .lecture-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .lecture-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+        
+        .lecture-icon i {
+            font-size: 30px;
+            color: white;
+        }
+        
+        .lecture-content h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .lecture-content p {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .download-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* Футер */
+        footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 25px 5%;
+            margin-top: 40px;
+        }
+        
+        /* Адаптивность */
         @media (max-width: 768px) {
-            body {
-                padding: 15px;
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
             }
             
-            .schedule-table {
+            .tabs {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .tab {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .tab-content {
+                padding: 25px;
+            }
+            
+            .lesson-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .lesson-time {
+                min-width: auto;
+                width: 100%;
+                text-align: left;
+            }
+            
+            .lecture-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .lecture-icon {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .week-tabs {
+                flex-direction: column;
+            }
+            
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tabs {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .tab {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .download-btn {
                 display: block;
-                overflow-x: auto;
+                margin-bottom: 10px;
+                width: 100%;
             }
-            
-            .date-col, .time-col, .discipline-col, 
-            .building-col, .classroom-col, .department-col, 
-            .teacher-col {
-                min-width: 120px;
-            }
+        }
+        
+        /* Скрытая кнопка выхода */
+        .hidden-logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            opacity: 0.3;
+            z-index: 999;
+        }
+        
+        .hidden-logout:hover {
+            opacity: 1;
+            background: rgba(231, 76, 60, 0.3);
+        }
+        
+        .current-week-indicator {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Расписание зачётов и экзаменов</h1>
-        <div class="subtitle">Группа 2251121 (18.1-509) • Программная инженерия • 09.03.04</div>
-    </header>
-    
-    <h2 class="section-title">Расписание зачётов</h2>
-    <div class="info-header">
-        <p><strong>Период:</strong> 18.12.2025 - 30.12.2025</p>
-        <p><strong>Количество зачётов:</strong> 8</p>
+    <!-- Экран входа -->
+    <div id="login-screen">
+        <div class="login-container">
+            <h1><i class="fas fa-lock"></i> Доступ к 18.1-509</h1>
+            <p>Введите пароль для входа на сайт</p>
+            
+            <div class="password-input">
+                <input type="password" id="password-input" placeholder="Введите пароль" autocomplete="off">
+                <i class="fas fa-eye" id="toggle-password"></i>
+            </div>
+            
+            <button id="login-btn">Войти на сайт</button>
+            <div id="login-error">Неверный пароль. Попробуйте снова.</div>
+            
+            <div style="margin-top: 20px; font-size: 14px; color: #95a5a6;">
+                <i class="fas fa-info-circle"></i> Подсказка: пароль - "study2024"
+            </div>
+        </div>
     </div>
     
-    <table class="schedule-table">
-        <thead>
-            <tr>
-                <th class="date-col">Дата</th>
-                <th class="time-col">Время</th>
-                <th class="discipline-col">Дисциплина</th>
-                <th class="building-col">Здание</th>
-                <th class="classroom-col">Аудитория</th>
-                <th class="department-col">Кафедра</th>
-                <th>Должность</th>
-                <th class="teacher-col">Преподаватель</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="date-col">18.12.25</td>
-                <td class="time-col">11:50</td>
-                <td class="discipline-col">Аналитическая геометрия</td>
-                <td class="building-col">УЛК-2</td>
-                <td class="classroom-col">432</td>
-                <td class="department-col">матем</td>
-                <td>доцент</td>
-                <td class="teacher-col">Костин А.В.</td>
-            </tr>
-            <tr>
-                <td class="date-col">24.12.25</td>
-                <td class="time-col">11:50</td>
-                <td class="discipline-col">Иностранный язык</td>
-                <td class="building-col">УЛК-1</td>
-                <td class="classroom-col">326</td>
-                <td class="department-col">ИЯ</td>
-                <td>доцент</td>
-                <td class="teacher-col">Славина Л.Р.</td>
-            </tr>
-            <tr>
-                <td class="date-col">24.12.25</td>
-                <td class="time-col">15:40</td>
-                <td class="discipline-col">История России</td>
-                <td class="building-col">УЛК-1</td>
-                <td class="classroom-col">406</td>
-                <td class="department-col">СГН</td>
-                <td>доцент</td>
-                <td class="teacher-col">Бессонова Т.В.</td>
-            </tr>
-            <tr>
-                <td class="date-col">26.12.25</td>
-                <td class="time-col">13:30</td>
-                <td class="discipline-col">Иностранный язык</td>
-                <td class="building-col">УЛК-4</td>
-                <td class="classroom-col">208</td>
-                <td class="department-col">ИЯ</td>
-                <td>ст. препод.</td>
-                <td class="teacher-col">Мустафина Л.Р.</td>
-            </tr>
-            <tr>
-                <td class="date-col">27.12.25</td>
-                <td class="time-col">11:50</td>
-                <td class="discipline-col">Физическая культура и спорт</td>
-                <td class="building-col">УЛК-1</td>
-                <td class="classroom-col">420</td>
-                <td class="department-col">ФБиС</td>
-                <td>профессор</td>
-                <td class="teacher-col">Москвин Н.Г.</td>
-            </tr>
-            <tr>
-                <td class="date-col">29.12.25</td>
-                <td class="time-col">19:00</td>
-                <td class="discipline-col">Основы российской государственности</td>
-                <td class="building-col">УЛК-1</td>
-                <td class="classroom-col">420</td>
-                <td class="department-col">СГН</td>
-                <td>доцент</td>
-                <td class="teacher-col">Яковлева М.Г.</td>
-            </tr>
-            <tr>
-                <td class="date-col">30.12.25</td>
-                <td class="time-col">13:30</td>
-                <td class="discipline-col">Введение в профессиональную деятельность</td>
-                <td class="building-col">УЛК-2</td>
-                <td class="classroom-col">417</td>
-                <td class="department-col">ИС</td>
-                <td>доцент</td>
-                <td class="teacher-col">Валиев Р.А.</td>
-            </tr>
-            <tr>
-                <td class="date-col">30.12.25</td>
-                <td class="time-col">11:50</td>
-                <td class="discipline-col">Инженерная компьютерная графика</td>
-                <td class="building-col">УЛК-2</td>
-                <td class="classroom-col">330</td>
-                <td class="department-col">МиК</td>
-                <td>доцент</td>
-                <td class="teacher-col">Феоктистова Л.А.</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <h2 class="section-title">Расписание экзаменов</h2>
-    <div class="info-header">
-        <p><strong>Период:</strong> 12.01.2026 - 27.01.2026</p>
-        <p><strong>Кафедра:</strong> Информационные системы (ИС)</p>
-        <p><strong>Количество экзаменов:</strong> 4</p>
+    <!-- Основной контент -->
+    <div id="main-content">
+        <!-- Хедер с вкладками -->
+        <header>
+            <div class="header-container">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>18.1-509</span>
+                </div>
+                
+                <ul class="tabs">
+                    <li class="tab active" data-tab="main">
+                        <i class="fas fa-home"></i> Главная
+                    </li>
+                    <li class="tab" data-tab="schedule">
+                        <i class="fas fa-calendar-alt"></i> Расписание
+                    </li>
+                    <li class="tab" data-tab="homework">
+                        <i class="fas fa-tasks"></i> Домашние задания
+                    </li>
+                    <li class="tab" data-tab="lectures">
+                        <i class="fas fa-chalkboard-teacher"></i> Лекции
+                    </li>
+                </ul>
+            </div>
+        </header>
+        
+        <!-- Контейнер для контента вкладок -->
+        <div class="tab-content-container">
+            <!-- Главная -->
+            <div id="main-tab" class="tab-content active">
+                <h2><i class="fas fa-home"></i> Главная</h2>
+                <div class="welcome-text">
+                    <p>Добро пожаловать на учебный портал группы 18.1-509! Здесь вы найдете всю необходимую информацию для успешного обучения.</p>
+                    <p>Используйте вкладки вверху для навигации по разделам портала. Все материалы обновляются ежедневно.</p>
+                    <p>На сегодня у вас запланировано 4 занятия и 3 домашних задания к выполнению.</p>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Расписание</h3>
+                        <p>Актуальное расписание занятий на неделю</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-book"></i>
+                        <h3>Домашние задания</h3>
+                        <p>Задания и сроки их выполнения</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-file-download"></i>
+                        <h3>Лекции</h3>
+                        <p>Лекции, презентации и учебные материалы</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Расписание -->
+            <div id="schedule-tab" class="tab-content">
+                <h2><i class="fas fa-calendar-alt"></i> Расписание занятий</h2>
+                
+                <div class="week-tabs">
+                    <button class="week-tab active" data-week="upper">Верхняя неделя <span class="current-week-indicator">Текущая</span></button>
+                    <button class="week-tab" data-week="lower">Нижняя неделя</button>
+                </div>
+                
+                <!-- Верхняя неделя -->
+                <div id="upper-week" class="schedule-container active">
+                    <!-- Понедельник -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Понедельник</span>
+                            <span class="date">Верхняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Физическая культура и спорт</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 420</span>
+                                        <span><i class="fas fa-user-tie"></i> ФВиС, профессор Москвин Н.Г.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Химия</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 420</span>
+                                        <span><i class="fas fa-user-tie"></i> ХиЭ, доцент Сиппель И.Я.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Химия</div>
+                                    <span class="lesson-type">Лабораторная</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 145/143</span>
+                                        <span><i class="fas fa-user-tie"></i> ХиЭ, доцент Сиппель И.Я. и Шарафутдинов Р.Н.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">13:30</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Химия</div>
+                                    <span class="lesson-type">Лабораторная</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 145/143</span>
+                                        <span><i class="fas fa-user-tie"></i> ХиЭ, доцент Сиппель И.Я. и Шарафутдинов Р.Н.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Вторник -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Вторник</span>
+                            <span class="date">Верхняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Основы российской государственности</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 454</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Яковлева М.Г.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Основы российской государственности</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 454</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Яковлева М.Г.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Информатика</div>
+                                    <span class="lesson-type">Лабораторная работа</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 401/418</span>
+                                        <span><i class="fas fa-user-tie"></i> ИС, ст. преп. Булатова С.В., Шигапова Л.Ф.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Среда -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Среда</span>
+                            <span class="date">Верхняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">История России</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 420</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Бессонова Т.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">История России</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 414</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Бессонова Т.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Иностранный язык (2 подгр.)</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 337</span>
+                                        <span><i class="fas fa-user-tie"></i> ИЯ, доцент Славина Л.Р.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Четверг -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Четверг</span>
+                            <span class="date">Верхняя неделя</span>
+                        </div>
+                        <div class="no-lessons">
+                            <i class="fas fa-coffee" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p>Занятий нет</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Пятница -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Пятница</span>
+                            <span class="date">Верхняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Математический анализ</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 432</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Губочкина Н.И.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Математический анализ</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 302</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Губочкина Н.И.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Физическая культура и спорт</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-4, ауд. 217</span>
+                                        <span><i class="fas fa-user-tie"></i> ФВиС, преподаватель Камалетдинов М.Ш.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">13:30</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Иностранный язык (2 подгр.)</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-4, ауд. 208</span>
+                                        <span><i class="fas fa-user-tie"></i> ИЯ, ст. преп. Мустафина Л.Р.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Нижняя неделя -->
+                <div id="lower-week" class="schedule-container">
+                    <!-- Понедельник -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Понедельник</span>
+                            <span class="date">Нижняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Химия</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 420</span>
+                                        <span><i class="fas fa-user-tie"></i> Хи3, доцент Сиппель И.Я.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Основы российской государственности</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 420</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Яковлева М.Г.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Вторник -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Вторник</span>
+                            <span class="date">Нижняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Программирование</div>
+                                    <span class="lesson-type">Лабораторная работа</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 405/406</span>
+                                        <span><i class="fas fa-user-tie"></i> ИС, ст. преп. Булатова С.В., Шигапова Л.Ф.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Информатика</div>
+                                    <span class="lesson-type">Лабораторная работа</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 401/418</span>
+                                        <span><i class="fas fa-user-tie"></i> ИС, ст. преп. Булатова С.В., Шигапова Л.Ф.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Инженерная компьютерная графика</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 330</span>
+                                        <span><i class="fas fa-user-tie"></i> МиК, доцент Феоктистова Л.А., Рзаева Т.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">13:30</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Введение в профессиональную деятельность</div>
+                                    <span class="lesson-type">Лекция/Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 410</span>
+                                        <span><i class="fas fa-user-tie"></i> ИС, доцент Валиев Р.А.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Среда -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Среда</span>
+                            <span class="date">Нижняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">История России (10.09, 24.09, 08.10)</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 420</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Бессонова Т.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">История России</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-1, ауд. 414</span>
+                                        <span><i class="fas fa-user-tie"></i> СГН, доцент Бессонова Т.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Инженерная компьютерная графика</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 341</span>
+                                        <span><i class="fas fa-user-tie"></i> МиК, доцент Феоктистова Л.А.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Четверг -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Четверг</span>
+                            <span class="date">Нижняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Аналитическая геометрия</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 302</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Костин А.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Аналитическая геометрия</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 302</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Костин А.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Аналитическая геометрия</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 432</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Костин А.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Пятница -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Пятница</span>
+                            <span class="date">Нижняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Математический анализ</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 432</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Губочкина Н.И.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">09:40</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Математический анализ</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-2, ауд. 302</span>
+                                        <span><i class="fas fa-user-tie"></i> Матем., доцент Губочкина Н.И.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">11:50</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Информатика</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-5, ауд. 308</span>
+                                        <span><i class="fas fa-user-tie"></i> ИС, ст. преп. Булатова С.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lesson-item">
+                                <div class="lesson-time">13:30</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Программирование</div>
+                                    <span class="lesson-type">Лекция</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-5, ауд. 308</span>
+                                        <span><i class="fas fa-user-tie"></i> ИС, ст. преп. Булатова С.В.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Суббота -->
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <span>Суббота</span>
+                            <span class="date">Нижняя неделя</span>
+                        </div>
+                        <div class="lessons-list">
+                            <div class="lesson-item">
+                                <div class="lesson-time">08:00</div>
+                                <div class="lesson-details">
+                                    <div class="lesson-subject">Иностранный язык (электронное обучение)</div>
+                                    <span class="lesson-type">Практика</span>
+                                    <div class="lesson-info">
+                                        <span><i class="fas fa-building"></i> УЛК-4, ауд. 205А</span>
+                                        <span><i class="fas fa-user-tie"></i> ИЯ, доцент Мустафина Д.Н.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Домашнее задание -->
+            <div id="homework-tab" class="tab-content">
+                <h2><i class="fas fa-tasks"></i> Домашние задания</h2>
+                
+                <div class="homework-item">
+                    <h3>
+                        <span>Математика <span class="subject">Алгебра</span></span>
+                        <span class="due-date">Срок: до 15.10.2024</span>
+                    </h3>
+                    <p>Решить задачи №125-140 из учебника. Особое внимание уделить задачам на логарифмические уравнения. Подготовить доказательство теоремы о производной сложной функции.</p>
+                </div>
+                
+                <div class="homework-item">
+                    <h3>
+                        <span>Физика <span class="subject">Механика</span></span>
+                        <span class="due-date">Срок: до 12.10.2024</span>
+                    </h3>
+                    <p>Подготовить лабораторную работу №5 "Изучение закона сохранения энергии". Ответить на контрольные вопросы 1-10 в конце главы 4. Решить задачи на движение тела под углом к горизонту.</p>
+                </div>
+                
+                <div class="homework-item">
+                    <h3>
+                        <span>Программирование <span class="subject">Python</span></span>
+                        <span class="due-date">Срок: до 18.10.2024</span>
+                    </h3>
+                    <p>Написать программу для обработки данных из CSV-файла с использованием библиотеки Pandas. Реализовать функции фильтрации, сортировки и визуализации данных. Код загрузить на GitHub.</p>
+                </div>
+                
+                <div class="homework-item">
+                    <h3>
+                        <span>История <span class="subject">Новейшая история</span></span>
+                        <span class="due-date">Срок: до 20.10.2024</span>
+                    </h3>
+                    <p>Подготовить реферат на тему "Основные политические и экономические изменения в Европе после Второй мировой войны". Объем: 10-12 страниц. Использовать не менее 5 источников.</p>
+                </div>
+            </div>
+            
+            <!-- Лекции -->
+            <div id="lectures-tab" class="tab-content">
+                <h2><i class="fas fa-chalkboard-teacher"></i> Лекции</h2>
+                
+                <div class="lecture-item">
+                    <div class="lecture-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="lecture-content">
+                        <h3>Лекция по математике: Дифференциальные уравнения</h3>
+                        <p>Полный конспект лекции с примерами решения дифференциальных уравнений первого и второго порядка.</p>
+                        <button class="download-btn"><i class="fas fa-download"></i> Скачать PDF (3.2 МБ)</button>
+                        <button class="download-btn"><i class="fas fa-eye"></i> Предпросмотр</button>
+                    </div>
+                </div>
+                
+                <div class="lecture-item">
+                    <div class="lecture-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="lecture-content">
+                        <h3>Видеолекция по физике: Законы термодинамики</h3>
+                        <p>Наглядное объяснение основных законов термодинамики с экспериментальными демонстрациями.</p>
+                        <button class="download-btn"><i class="fas fa-external-link-alt"></i> Смотреть онлайн</button>
+                        <button class="download-btn"><i class="fas fa-download"></i> Скачать (450 МБ)</button>
+                    </div>
+                </div>
+                
+                <div class="lecture-item">
+                    <div class="lecture-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="lecture-content">
+                        <h3>Практикум по программированию: Работа с базами данных</h3>
+                        <p>Примеры кода на Python для подключения к базам данных SQLite и PostgreSQL.</p>
+                        <button class="download-btn"><i class="fas fa-download"></i> Скачать архив (5.7 МБ)</button>
+                    </div>
+                </div>
+                
+                <div class="lecture-item">
+                    <div class="lecture-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="lecture-content">
+                        <h3>Презентация по экономике: Макроэкономические показатели</h3>
+                        <p>Слайды с графиками и таблицами, объясняющие основные макроэкономические показатели.</p>
+                        <button class="download-btn"><i class="fas fa-download"></i> Скачать PPTX (8.1 МБ)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Футер -->
+        <footer>
+            <p>18.1-509 &copy; 2024. Все права защищены.</p>
+            <p style="margin-top: 10px; font-size: 14px; color: #bdc3c7;">Обновлено: 10 октября 2024 года</p>
+        </footer>
+        
+        <!-- Скрытая кнопка выхода (опционально, для админов) -->
+        <button class="hidden-logout" id="hidden-logout-btn" title="Выйти">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
     </div>
-    
-    <table class="schedule-table">
-        <thead>
-            <tr>
-                <th class="date-col">Дата</th>
-                <th class="time-col">Время</th>
-                <th class="discipline-col">Дисциплина</th>
-                <th class="building-col">Здание</th>
-                <th class="classroom-col">Аудитория</th>
-                <th class="department-col">Кафедра</th>
-                <th>Должность</th>
-                <th class="teacher-col">Преподаватель</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="date-col">12.01.26</td>
-                <td class="time-col">13:00</td>
-                <td class="discipline-col">Информатика</td>
-                <td class="building-col">УЛК-4</td>
-                <td class="classroom-col">235</td>
-                <td class="department-col">ИС</td>
-                <td>ст. препод.</td>
-                <td class="teacher-col">Булатова С.В.</td>
-            </tr>
-            <tr>
-                <td class="date-col">17.01.26</td>
-                <td class="time-col">13:00</td>
-                <td class="discipline-col">Математический анализ</td>
-                <td class="building-col">УЛК-4</td>
-                <td class="classroom-col">235</td>
-                <td class="department-col">матем</td>
-                <td>доцент</td>
-                <td class="teacher-col">Губочкина Н.И.</td>
-            </tr>
-            <tr>
-                <td class="date-col">22.01.26</td>
-                <td class="time-col">13:00</td>
-                <td class="discipline-col">Программирование</td>
-                <td class="building-col">УЛК-4</td>
-                <td class="classroom-col">236</td>
-                <td class="department-col">ИС</td>
-                <td>ст. препод.</td>
-                <td class="teacher-col">Булатова С.В.</td>
-            </tr>
-            <tr>
-                <td class="date-col">27.01.26</td>
-                <td class="time-col">13:00</td>
-                <td class="discipline-col">Химия</td>
-                <td class="building-col">УЛК-1</td>
-                <td class="classroom-col">420</td>
-                <td class="department-col">ХиЭ</td>
-                <td>доцент</td>
-                <td class="teacher-col">Сиппель И.Я.</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <footer>
-        <p>Расписание зачётов и экзаменов для группы 2251121 (18.1-509)</p>
-        <p>Программная инженерия • 09.03.04</p>
-    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Подсветка строк таблицы при наведении
-            const rows = document.querySelectorAll('.schedule-table tbody tr');
-            rows.forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    this.style.backgroundColor = '#f0f8ff';
+        // Пароль для доступа
+        const CORRECT_PASSWORD = "study2024";
+        const STORAGE_KEY = "site_access_granted";
+        
+        // Элементы DOM
+        const loginScreen = document.getElementById('login-screen');
+        const mainContent = document.getElementById('main-content');
+        const passwordInput = document.getElementById('password-input');
+        const loginBtn = document.getElementById('login-btn');
+        const loginError = document.getElementById('login-error');
+        const togglePassword = document.getElementById('toggle-password');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const hiddenLogoutBtn = document.getElementById('hidden-logout-btn');
+        const weekTabs = document.querySelectorAll('.week-tab');
+        const scheduleContainers = document.querySelectorAll('.schedule-container');
+        
+        // Проверяем, был ли уже предоставлен доступ
+        window.addEventListener('DOMContentLoaded', () => {
+            const accessGranted = localStorage.getItem(STORAGE_KEY);
+            
+            if (accessGranted === 'true') {
+                // Показываем основной контент сразу
+                setTimeout(() => {
+                    loginScreen.classList.add('hidden');
+                    setTimeout(() => {
+                        loginScreen.style.display = 'none';
+                        mainContent.classList.add('visible');
+                    }, 500);
+                }, 300);
+            } else {
+                // Показываем экран входа
+                loginScreen.style.display = 'flex';
+            }
+        });
+        
+        // Обработчик входа
+        loginBtn.addEventListener('click', () => {
+            const enteredPassword = passwordInput.value.trim();
+            
+            if (enteredPassword === CORRECT_PASSWORD) {
+                // Сохраняем в localStorage, что доступ предоставлен
+                localStorage.setItem(STORAGE_KEY, 'true');
+                
+                // Плавно скрываем экран входа
+                loginScreen.classList.add('hidden');
+                
+                // Показываем основной контент
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    mainContent.classList.add('visible');
+                }, 500);
+            } else {
+                // Показываем ошибку
+                loginError.style.display = 'block';
+                passwordInput.style.borderColor = '#e74c3c';
+                
+                // Анимация тряски
+                loginScreen.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    loginScreen.style.animation = '';
+                }, 500);
+            }
+        });
+        
+        // Нажатие Enter в поле пароля
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+        
+        // Показать/скрыть пароль
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+        
+        // Скрытая кнопка выхода (только для разработчиков/админов)
+        hiddenLogoutBtn.addEventListener('click', () => {
+            if (confirm('Вы уверены, что хотите выйти? При следующем посещении потребуется снова ввести пароль.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                window.location.reload();
+            }
+        });
+        
+        // Двойной клик по логотипу для выхода (альтернативный способ)
+        document.querySelector('.logo').addEventListener('dblclick', () => {
+            if (confirm('Вы уверены, что хотите выйти? При следующем посещении потребуется снова ввести пароль.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                window.location.reload();
+            }
+        });
+        
+        // Переключение вкладок
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Удаляем активный класс у всех вкладок
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Добавляем активный класс к текущей вкладке
+                tab.classList.add('active');
+                
+                // Получаем ID целевого контента
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Скрываем все содержимое вкладок
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
                 });
                 
-                row.addEventListener('mouseleave', function() {
-                    this.style.backgroundColor = '';
-                });
+                // Показываем целевой контент
+                const targetContent = document.getElementById(`${tabId}-tab`);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
             });
         });
+        
+        // Переключение недель в расписании
+        weekTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Удаляем активный класс у всех вкладок недель
+                weekTabs.forEach(t => t.classList.remove('active'));
+                
+                // Добавляем активный класс к текущей вкладке
+                tab.classList.add('active');
+                
+                // Получаем ID целевой недели
+                const weekId = tab.getAttribute('data-week');
+                
+                // Скрываем все расписания
+                scheduleContainers.forEach(container => {
+                    container.classList.remove('active');
+                });
+                
+                // Показываем целевое расписание
+                const targetSchedule = document.getElementById(`${weekId}-week`);
+                if (targetSchedule) {
+                    targetSchedule.classList.add('active');
+                }
+            });
+        });
+        
+        // CSS анимация тряски
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% {transform: translateX(0);}
+                10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+                20%, 40%, 60%, 80% {transform: translateX(5px);}
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Имитация скачивания файлов
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('В реальном приложении здесь началась бы загрузка файла.');
+            });
+        });
+        
+        // Автоматическое определение текущей недели (можно заменить на реальную логику)
+        function setCurrentWeek() {
+            // Здесь можно добавить реальную логику определения недели
+            // Например, по дате
+            const today = new Date();
+            // Для примеси - пусть четные недели - верхняя, нечетные - нижняя
+            const weekNumber = Math.floor(today.getDate() / 7) % 2;
+            
+            // Временно установим верхнюю неделю как текущую
+            const upperWeekTab = document.querySelector('.week-tab[data-week="upper"]');
+            const lowerWeekTab = document.querySelector('.week-tab[data-week="lower"]');
+            
+            // Удаляем индикатор текущей недели
+            document.querySelectorAll('.current-week-indicator').forEach(indicator => {
+                indicator.remove();
+            });
+            
+            // Добавляем индикатор текущей недели
+            if (weekNumber === 0) {
+                upperWeekTab.innerHTML = 'Верхняя неделя <span class="current-week-indicator">Текущая</span>';
+            } else {
+                lowerWeekTab.innerHTML = 'Нижняя неделя <span class="current-week-indicator">Текущая</span>';
+            }
+        }
+        
+        // Вызываем функцию при загрузке
+        window.addEventListener('load', setCurrentWeek);
     </script>
 </body>
 </html>
