@@ -188,6 +188,9 @@
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .tab:hover {
@@ -212,8 +215,11 @@
         }
         
         .tab i {
-            margin-right: 8px;
             font-size: 16px;
+        }
+        
+        .tab-text {
+            font-size: 14px;
         }
         
         /* Контейнер для вкладок */
@@ -540,6 +546,208 @@
             background: #2980b9;
         }
         
+        /* Зачёты и экзамены */
+        .exam-item {
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s;
+        }
+        
+        .exam-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .exam-date {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .exam-type {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .exam-type.difficult {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .exam-type.exam {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .exam-details {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .exam-location {
+            color: #555;
+            font-size: 15px;
+            margin-top: 5px;
+        }
+        
+        /* Кнопки для материалов */
+        .exam-actions {
+            margin-top: 15px;
+        }
+        
+        .exam-materials-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .exam-materials-btn:hover {
+            background: #27ae60;
+        }
+        
+        .exam-materials-btn i {
+            margin-right: 5px;
+        }
+        
+        /* Вопросы к экзаменам */
+        .exam-questions-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #9b59b6;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .exam-questions-btn:hover {
+            background: #8e44ad;
+        }
+        
+        .exam-questions-btn i {
+            margin-right: 5px;
+        }
+        
+        /* Лекции по истории */
+        .history-lectures {
+            margin-top: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .lecture-toggle-btn {
+            width: 100%;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .lecture-toggle-btn:hover {
+            background: #e3f2fd;
+        }
+        
+        .lecture-toggle-btn i {
+            transition: transform 0.3s;
+        }
+        
+        .lecture-toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+        
+        .lecture-content-full {
+            display: none;
+            padding: 20px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .lecture-content-full h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* Вопросы к экзаменам */
+        .exam-questions {
+            display: none;
+            margin-top: 20px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .questions-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .questions-list ol {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+        
+        .questions-list li {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .questions-list li:last-child {
+            margin-bottom: 0;
+        }
+        
         /* Футер */
         footer {
             background: #2c3e50;
@@ -553,21 +761,31 @@
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px;
             }
             
             .tabs {
                 justify-content: center;
                 width: 100%;
+                gap: 5px;
             }
             
             .tab {
-                padding: 10px 15px;
+                padding: 10px 12px;
                 font-size: 14px;
+                justify-content: center;
+            }
+            
+            .tab-text {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 24px;
             }
             
             .tab-content {
-                padding: 25px;
+                padding: 20px;
             }
             
             .lesson-item {
@@ -608,23 +826,52 @@
                 align-items: flex-start;
                 gap: 5px;
             }
+            
+            .exam-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .exam-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .tab-text {
+                font-size: 12px;
+            }
+            
+            .tab {
+                padding: 10px 15px;
+            }
         }
         
         @media (max-width: 480px) {
             .tabs {
-                flex-direction: column;
-                width: 100%;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                justify-content: flex-start;
             }
             
             .tab {
-                width: 100%;
-                text-align: center;
+                flex-shrink: 0;
             }
             
             .download-btn {
                 display: block;
                 margin-bottom: 10px;
                 width: 100%;
+            }
+            
+            .exam-questions-btn,
+            .exam-materials-btn {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
         
@@ -666,6 +913,15 @@
             50% { opacity: 1; }
             100% { opacity: 0.7; }
         }
+        
+        .important-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -696,21 +952,33 @@
             <div class="header-container">
                 <div class="logo">
                     <i class="fas fa-graduation-cap"></i>
-                    <span>18.1-509</span>
+                    <span class="logo-text">18.1-509</span>
                 </div>
                 
                 <ul class="tabs">
                     <li class="tab active" data-tab="main">
-                        <i class="fas fa-home"></i> Главная
+                        <i class="fas fa-home"></i>
+                        <span class="tab-text">Главная</span>
                     </li>
                     <li class="tab" data-tab="schedule">
-                        <i class="fas fa-calendar-alt"></i> Расписание
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="tab-text">Расписание</span>
                     </li>
                     <li class="tab" data-tab="homework">
-                        <i class="fas fa-tasks"></i> Домашние задания
+                        <i class="fas fa-tasks"></i>
+                        <span class="tab-text">Домашние задания</span>
                     </li>
                     <li class="tab" data-tab="lectures">
-                        <i class="fas fa-chalkboard-teacher"></i> Лекции
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span class="tab-text">Лекции</span>
+                    </li>
+                    <li class="tab" data-tab="exams">
+                        <i class="fas fa-file-signature"></i>
+                        <span class="tab-text">Зачёты</span>
+                    </li>
+                    <li class="tab" data-tab="tests">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="tab-text">Экзамены</span>
                     </li>
                 </ul>
             </div>
@@ -1263,8 +1531,14 @@
                     <div class="lecture-content">
                         <h3>Лекция по математике: Дифференциальные уравнения</h3>
                         <p>Полный конспект лекции с примерами решения дифференциальных уравнений первого и второго порядка.</p>
-                        <button class="download-btn"><i class="fas fa-download"></i> Скачать PDF (3.2 МБ)</button>
-                        <button class="download-btn"><i class="fas fa-eye"></i> Предпросмотр</button>
+                        <!-- ВСТАВЬТЕ ССЫЛКУ НА ФАЙЛ -->
+                        <a href="https://example.com/math_lecture1.pdf" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> Скачать PDF (3.2 МБ)
+                        </a>
+                        <!-- ВСТАВЬТЕ ССЫЛКУ НА ПРЕДПРОСМОТР -->
+                        <a href="https://example.com/preview/math_lecture1" class="download-btn" target="_blank">
+                            <i class="fas fa-eye"></i> Предпросмотр
+                        </a>
                     </div>
                 </div>
                 
@@ -1275,8 +1549,14 @@
                     <div class="lecture-content">
                         <h3>Видеолекция по физике: Законы термодинамики</h3>
                         <p>Наглядное объяснение основных законов термодинамики с экспериментальными демонстрациями.</p>
-                        <button class="download-btn"><i class="fas fa-external-link-alt"></i> Смотреть онлайн</button>
-                        <button class="download-btn"><i class="fas fa-download"></i> Скачать (450 МБ)</button>
+                        <!-- ВСТАВЬТЕ ССЫЛКУ НА ВИДЕО -->
+                        <a href="https://example.com/video/physics_thermo" class="download-btn" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Смотреть онлайн
+                        </a>
+                        <!-- ВСТАВЬТЕ ССЫЛКУ ДЛЯ СКАЧИВАНИЯ ВИДЕО -->
+                        <a href="https://example.com/video/physics_thermo.mp4" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> Скачать (450 МБ)
+                        </a>
                     </div>
                 </div>
                 
@@ -1287,7 +1567,10 @@
                     <div class="lecture-content">
                         <h3>Практикум по программированию: Работа с базами данных</h3>
                         <p>Примеры кода на Python для подключения к базам данных SQLite и PostgreSQL.</p>
-                        <button class="download-btn"><i class="fas fa-download"></i> Скачать архив (5.7 МБ)</button>
+                        <!-- ВСТАВЬТЕ ССЫЛКУ НА АРХИВ -->
+                        <a href="https://example.com/archive/programming_db.zip" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> Скачать архив (5.7 МБ)
+                        </a>
                     </div>
                 </div>
                 
@@ -1298,8 +1581,332 @@
                     <div class="lecture-content">
                         <h3>Презентация по экономике: Макроэкономические показатели</h3>
                         <p>Слайды с графиками и таблицами, объясняющие основные макроэкономические показатели.</p>
-                        <button class="download-btn"><i class="fas fa-download"></i> Скачать PPTX (8.1 МБ)</button>
+                        <!-- ВСТАВЬТЕ ССЫЛКУ НА PPTX -->
+                        <a href="https://example.com/presentation/economics_macro.pptx" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> Скачать PPTX (8.1 МБ)
+                        </a>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Зачёты -->
+            <div id="exams-tab" class="tab-content">
+                <h2><i class="fas fa-file-signature"></i> Зачёты</h2>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">18 декабря 11:50</div>
+                        <span class="exam-type">Зачёт</span>
+                    </div>
+                    <div class="exam-subject">Аналитическая геометрия</div>
+                    <div class="exam-details">УЛК-2, ауд. 432, матем, доцент Костин А.В.</div>
+                    <!-- Кнопка вопросов -->
+                    <div class="exam-actions">
+                    </div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">24 декабря 11:50</div>
+                        <span class="exam-type">Зачёт</span>
+                    </div>
+                    <div class="exam-subject">Иностранный язык (2 группа)</div>
+                    <div class="exam-details">УЛК-1, ауд. 326, ИЯ, доцент Славина Л.Р.</div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">24 декабря 15:40</div>
+                        <span class="exam-type">Зачёт</span>
+                    </div>
+                    <div class="exam-subject">История России</div>
+                    <div class="exam-details">УЛК-1, ауд. 406, СГН, доцент Бессонова Т.В.</div>
+                    <!-- Кнопка материалов -->
+                    <div class="exam-actions">
+                        <button class="exam-materials-btn" id="history-materials-btn">
+                            <i class="fas fa-file-pdf"></i> Материалы для подготовки
+                        </button>
+                        <!-- Кнопка вопросов -->
+                        <button class="exam-questions-btn" data-exam="history_russia">
+                            <i class="fas fa-question-circle"></i> Вопросы к зачёту
+                        </button>
+                    </div>
+                    <!-- Лекции (скрыты по умолчанию) -->
+                    <div class="history-lectures" id="history-lectures">
+                        <!-- Лекция 1 -->
+                        <button class="lecture-toggle-btn">
+                            Лекция 1: Древнерусское государство
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="lecture-content-full">
+                            <h4>Древнерусское государство</h4>
+                            <p>Киевская Русь — первое государство восточных славян.</p>
+                            <!-- ВСТАВЬТЕ ССЫЛКУ НА ФАЙЛ ЛЕКЦИИ -->
+                            <p style="margin-top: 15px;">
+                                <a href="https://example.com/history_lecture1.pdf" class="download-btn" target="_blank">
+                                    <i class="fas fa-download"></i> Скачать полную лекцию (PDF)
+                                </a>
+                            </p>
+                        </div>
+                        
+                        <!-- Лекция 2 -->
+                        <button class="lecture-toggle-btn">
+                            Лекция 2: Ниже не сделано!!!
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="lecture-content-full">
+                            <h4>Московское государство (XIV-XVII вв.)</h4>
+                            <p><strong>Ключевые темы:</strong></p>
+                            <ul>
+                                <li>Возвышение Москвы</li>
+                                <li>Образование единого Русского государства</li>
+                                <li>Иван Грозный и опричнина</li>
+                                <li>Смутное время</li>
+                                <li>Первые Романовы</li>
+                            </ul>
+                            <!-- ВСТАВЬТЕ ССЫЛКУ НА ФАЙЛ ЛЕКЦИИ -->
+                            <p style="margin-top: 15px;">
+                                <a href="https://example.com/history_lecture2.pdf" class="download-btn" target="_blank">
+                                    <i class="fas fa-download"></i> Скачать полную лекцию (PDF)
+                                </a>
+                            </p>
+                        </div>
+                        
+                        <!-- Лекция 3 -->
+                        <button class="lecture-toggle-btn">
+                            Лекция 3: Российская империя (XVIII-XIX вв.)
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="lecture-content-full">
+                            <h4>Российская империя (XVIII-XIX вв.)</h4>
+                            <p><strong>Ключевые темы:</strong></p>
+                            <ul>
+                                <li>Реформы Петра I</li>
+                                <li>Эпоха дворцовых переворотов</li>
+                                <li>Просвещённый абсолютизм Екатерины II</li>
+                                <li>Отечественная война 1812 года</li>
+                                <li>Реформы Александра II</li>
+                            </ul>
+
+                        </div>
+                        
+                        <!-- Лекция 4 -->
+                        <button class="lecture-toggle-btn">
+                            Лекция 4: Россия в XX веке
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="lecture-content-full">
+                            <h4>Россия в XX веке</h4>
+                            <p><strong>Ключевые темы:</strong></p>
+                            <ul>
+                                <li>Революция 1905-1907 гг.</li>
+                                <li>Февральская и Октябрьская революции 1917 г.</li>
+                                <li>Гражданская война</li>
+                                <li>СССР в 1920-1930-е годы</li>
+                                <li>Великая Отечественная война</li>
+                                <li>Холодная война и распад СССР</li>
+                            </ul>
+                            <!-- ВСТАВЬТЕ ССЫЛКУ НА ФАЙЛ ЛЕКЦИИ -->
+                            <p style="margin-top: 15px;">
+                                <a href="https://example.com/history_lecture4.pdf" class="download-btn" target="_blank">
+                                    <i class="fas fa-download"></i> Скачать полную лекцию (PDF)
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Вопросы (скрыты по умолчанию) -->
+                    <div class="exam-questions" id="history_russia_questions">
+                        <div class="questions-list">
+                            <ol>
+                                <li>Об2.</li>
+
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">26 декабря 13:30</div>
+                        <span class="exam-type">Зачёт</span>
+                    </div>
+                    <div class="exam-subject">Иностранный язык (1 группа)</div>
+                    <div class="exam-details">УЛК-4, ауд. 208, ИЯ, ст. препод. Мустафина Л.Р.</div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">27 декабря 11:50</div>
+                        <span class="exam-type">Зачёт</span>
+                    </div>
+                    <div class="exam-subject">Физическая культура и спорт</div>
+                    <div class="exam-details">УЛК-1, ауд. 420, ФВиС, профессор Москвин Н.Г.</div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">29 декабря 19:00</div>
+                        <span class="exam-type difficult">Дифзачёт</span>
+                    </div>
+                    <div class="exam-subject">Основы российской государственности</div>
+                    <div class="exam-details">УЛК-1, ауд. 420, СГН, доцент Яковлева М.Г.</div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">30 декабря 11:50</div>
+                        <span class="exam-type difficult">Дифзачёт</span>
+                    </div>
+                    <div class="exam-subject">Инженерная компьютерная графика</div>
+                    <div class="exam-details">УЛК-2, ауд. 330, МИк, доцент Феоктистова Л.А.</div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">30 декабря 13:30</div>
+                        <span class="exam-type">Зачёт</span>
+                    </div>
+                    <div class="exam-subject">Введение в профессиональную деятельность</div>
+                    <div class="exam-details">УЛК-2, ауд. 417, ИС, доцент Валиев Р.А.</div>
+                </div>
+            </div>
+            
+            <!-- Экзамены -->
+            <div id="tests-tab" class="tab-content">
+                <h2><i class="fas fa-file-alt"></i> Экзамены</h2>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">12 января 13:00</div>
+                        <span class="exam-type exam">Экзамен</span>
+                    </div>
+                    <div class="exam-subject">Информатика</div>
+                    <div class="exam-details">УЛК-4, ауд. 235, ИС, ст. препод. Булатова С.В.</div>
+                    <!-- Кнопка вопросов -->
+                    <div class="exam-actions">
+                        <button class="exam-questions-btn" data-exam="informatics_exam">
+                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
+                        </button>
+                    </div>
+                    <!-- Вопросы (скрыты по умолчанию) -->
+                    <div class="exam-questions" id="informatics_exam_questions">
+                        <div class="questions-list">
+                            <ol>
+                                <li>Информация и её свойства. Единицы измерения информации.</li>
+                                <li>Системы счисления: позиционные и непозиционные. Перевод чисел между системами.</li>
+                                <li>Логические основы компьютера: алгебра логики, логические элементы.</li>
+                                <li>Архитектура компьютера: основные устройства и их функции.</li>
+                                <li>Операционные системы: назначение, классификация, основные функции.</li>
+                                <li>Файловые системы: организация хранения данных.</li>
+                                <li>Компьютерные сети: классификация, топологии, основные протоколы.</li>
+                                <li>Основы информационной безопасности.</li>
+                                <li>Алгоритмы и структуры данных.</li>
+                                <li>Основы программирования: переменные, операторы, структуры управления.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">17 января 13:00</div>
+                        <span class="exam-type exam">Экзамен</span>
+                    </div>
+                    <div class="exam-subject">Математический анализ</div>
+                    <div class="exam-details">УЛК-4, ауд. 235, матем, доцент Губочкина Н.И.</div>
+                    <!-- Кнопка вопросов -->
+                    <div class="exam-actions">
+                        <button class="exam-questions-btn" data-exam="math_analysis_exam">
+                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
+                        </button>
+                    </div>
+                    <!-- Вопросы (скрыты по умолчанию) -->
+                    <div class="exam-questions" id="math_analysis_exam_questions">
+                        <div class="questions-list">
+                            <ol>
+                                <li>Предел функции. Основные теоремы о пределах.</li>
+                                <li>Непрерывность функции. Точки разрыва и их классификация.</li>
+                                <li>Производная функции. Геометрический и физический смысл.</li>
+                                <li>Правила дифференцирования. Производная сложной функции.</li>
+                                <li>Дифференциал функции. Применение дифференциала в приближённых вычислениях.</li>
+                                <li>Теоремы Ролля, Лагранжа, Коши.</li>
+                                <li>Исследование функции с помощью производной.</li>
+                                <li>Неопределённый интеграл. Основные методы интегрирования.</li>
+                                <li>Определённый интеграл. Формула Ньютона-Лейбница.</li>
+                                <li>Приложения определённого интеграла.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">22 января 13:00</div>
+                        <span class="exam-type exam">Экзамен</span>
+                    </div>
+                    <div class="exam-subject">Программирование</div>
+                    <div class="exam-details">УЛК-4, ауд. 236, ИС, ст. препод. Булатова С.В.</div>
+                    <!-- Кнопка вопросов -->
+                    <div class="exam-actions">
+                        <button class="exam-questions-btn" data-exam="programming_exam">
+                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
+                        </button>
+                    </div>
+                    <!-- Вопросы (скрыты по умолчанию) -->
+                    <div class="exam-questions" id="programming_exam_questions">
+                        <div class="questions-list">
+                            <ol>
+                                <li>Основные конструкции языка Python: переменные, типы данных, операторы.</li>
+                                <li>Условные операторы и циклы в Python.</li>
+                                <li>Функции в Python: определение, вызов, параметры, возвращаемые значения.</li>
+                                <li>Работа со строками в Python: методы, форматирование.</li>
+                                <li>Списки, кортежи, множества, словари в Python.</li>
+                                <li>Модули и пакеты в Python. Импорт.</li>
+                                <li>Обработка исключений в Python.</li>
+                                <li>Работа с файлами в Python: чтение, запись.</li>
+                                <li>Основы объектно-ориентированного программирования в Python.</li>
+                                <li>Библиотеки для научных вычислений: NumPy, Pandas.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exam-item">
+                    <div class="exam-header">
+                        <div class="exam-date">27 января 13:00</div>
+                        <span class="exam-type exam">Экзамен</span>
+                    </div>
+                    <div class="exam-subject">Химия</div>
+                    <div class="exam-details">УЛК-1, ауд. 420, ХиЭ, доцент Сиппель И.Я.</div>
+                    <!-- Кнопка вопросов -->
+                    <div class="exam-actions">
+                        <button class="exam-questions-btn" data-exam="chemistry_exam">
+                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
+                        </button>
+                    </div>
+                    <!-- Вопросы (скрыты по умолчанию) -->
+                    <div class="exam-questions" id="chemistry_exam_questions">
+                        <div class="questions-list">
+                            <ol>
+                                <li>Основные понятия химии: атом, молекула, химический элемент.</li>
+                                <li>Периодический закон и периодическая система химических элементов.</li>
+                                <li>Химическая связь: виды, характеристики.</li>
+                                <li>Строение вещества: кристаллические и аморфные тела.</li>
+                                <li>Классификация химических реакций.</li>
+                                <li>Скорость химических реакций. Факторы, влияющие на скорость.</li>
+                                <li>Химическое равновесие. Принцип Ле Шателье.</li>
+                                <li>Растворы. Концентрация растворов.</li>
+                                <li>Электролитическая диссоциация. Сильные и слабые электролиты.</li>
+                                <li>Окислительно-восстановительные реакции.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="important-note">
+                    <i class="fas fa-exclamation-circle" style="color: #ff9800; margin-right: 8px;"></i>
+                    <strong>Важно:</strong> Все экзамены начинаются в 13:00. Рекомендуется приходить за 15-20 минут до начала.
                 </div>
             </div>
         </div>
@@ -1475,14 +2082,6 @@
         `;
         document.head.appendChild(style);
         
-        // Имитация скачивания файлов
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('В реальном приложении здесь началась бы загрузка файла.');
-            });
-        });
-        
         // Автоматическое определение текущей недели (можно заменить на реальную логику)
         function setCurrentWeek() {
             // Здесь можно добавить реальную логику определения недели
@@ -1510,6 +2109,89 @@
         
         // Вызываем функцию при загрузке
         window.addEventListener('load', setCurrentWeek);
+        
+        // Обработка кнопок вопросов к экзаменам и зачётам
+        document.addEventListener('click', function(e) {
+            // Кнопки "Вопросы к зачёту/экзамену"
+            if (e.target.classList.contains('exam-questions-btn') || e.target.closest('.exam-questions-btn')) {
+                e.preventDefault();
+                const btn = e.target.classList.contains('exam-questions-btn') ? e.target : e.target.closest('.exam-questions-btn');
+                const examId = btn.getAttribute('data-exam');
+                const questionsDiv = document.getElementById(`${examId}_questions`);
+                
+                if (questionsDiv) {
+                    // Переключаем видимость вопросов
+                    questionsDiv.style.display = questionsDiv.style.display === 'block' ? 'none' : 'block';
+                    
+                    // Закрываем другие открытые вопросы в том же exam-item
+                    const examItem = btn.closest('.exam-item');
+                    const allQuestions = examItem.querySelectorAll('.exam-questions');
+                    allQuestions.forEach(q => {
+                        if (q !== questionsDiv) {
+                            q.style.display = 'none';
+                        }
+                    });
+                }
+            }
+            
+            // Кнопка "Материалы для подготовки" для истории
+            if (e.target.id === 'history-materials-btn' || e.target.closest('#history-materials-btn')) {
+                e.preventDefault();
+                const lecturesDiv = document.getElementById('history-lectures');
+                
+                if (lecturesDiv) {
+                    // Переключаем видимость лекций
+                    lecturesDiv.style.display = lecturesDiv.style.display === 'block' ? 'none' : 'block';
+                    
+                    // Закрываем вопросы по истории, если они открыты
+                    const historyQuestions = document.getElementById('history_russia_questions');
+                    if (historyQuestions) {
+                        historyQuestions.style.display = 'none';
+                    }
+                }
+            }
+            
+            // Кнопки переключения лекций по истории
+            if (e.target.classList.contains('lecture-toggle-btn') || e.target.closest('.lecture-toggle-btn')) {
+                e.preventDefault();
+                const btn = e.target.classList.contains('lecture-toggle-btn') ? e.target : e.target.closest('.lecture-toggle-btn');
+                const content = btn.nextElementSibling;
+                
+                // Переключаем активный класс для стрелки
+                btn.classList.toggle('active');
+                
+                // Переключаем видимость содержимого лекции
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                
+                // Закрываем другие лекции в том же блоке
+                const lectureBlock = btn.closest('.history-lectures');
+                if (lectureBlock) {
+                    const allLectureBtns = lectureBlock.querySelectorAll('.lecture-toggle-btn');
+                    const allContents = lectureBlock.querySelectorAll('.lecture-content-full');
+                    
+                    allLectureBtns.forEach((lectureBtn, index) => {
+                        if (lectureBtn !== btn) {
+                            lectureBtn.classList.remove('active');
+                            allContents[index].style.display = 'none';
+                        }
+                    });
+                }
+            }
+        });
+        
+        // Функция для скачивания файлов (пример для лекций)
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('download-btn') || e.target.closest('.download-btn')) {
+                e.preventDefault();
+                const link = e.target.closest('.download-btn');
+                const href = link.getAttribute('href');
+                
+                if (href && href !== '#') {
+                    // Открываем ссылку в новой вкладке
+                    window.open(href, '_blank');
+                }
+            }
+        });
     </script>
 </body>
 </html>
