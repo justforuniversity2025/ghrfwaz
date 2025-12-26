@@ -2698,12 +2698,14 @@
             <li>Провести полное исследование функции \( y = \frac{x^3}{3} - x^2 + 4 \) и построить её график</li>
         </ol>
 
-        <h3>Вариант 0</h3>
-        <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-            <img src="вариант_0.jpeg" alt="Вариант 0" style="max-width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;">
-        </div>
+<div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+    <div class="image-container" style="cursor: pointer; display: inline-block; max-width: 100%;">
+        <img src="вариант_0.jpeg" 
+             alt="Вариант 0" 
+             class="enlargeable-image"
+             style="width: 100%; max-width: 600px; height: auto; border: 3px solid #3498db; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
     </div>
-</div></div>
+</div></div></div></div>
                 
                 <div class="exam-item">
                     <div class="exam-header">
@@ -3294,6 +3296,105 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// ====== ПРОСТОЕ МОДАЛЬНОЕ ОКНО ДЛЯ ИЗОБРАЖЕНИЙ ======
+console.log('Загрузка модального окна для изображений...');
+
+// Создаем модальное окно динамически, если его нет
+if (!document.getElementById('imageModal')) {
+    console.log('Создаем модальное окно...');
+    const modalHTML = `
+        <div id="imageModal" class="image-modal" style="display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); justify-content: center; align-items: center;">
+            <span class="image-modal-close" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 2001;">&times;</span>
+            <img class="image-modal-content" id="modalImage" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+            <div class="image-modal-controls" style="position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center; color: white; font-size: 14px; z-index: 2001;">
+                <span style="background: rgba(0, 0, 0, 0.7); padding: 8px 15px; border-radius: 20px; margin: 0 10px;">Нажмите вне изображения или Esc для закрытия</span>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    console.log('Модальное окно создано');
+}
+
+// Обработчик кликов по изображениям
+document.addEventListener('click', function(e) {
+    // Проверяем, кликнули ли на изображение с классом enlargeable-image
+    if (e.target.classList.contains('enlargeable-image') || e.target.closest('.enlargeable-image')) {
+        e.preventDefault();
+        
+        const img = e.target.classList.contains('enlargeable-image') ? e.target : e.target.closest('.enlargeable-image');
+        console.log('Клик на изображении:', img);
+        
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        
+        if (modal && modalImg) {
+            // Устанавливаем источник изображения
+            modalImg.src = img.src;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            console.log('Модальное окно открыто');
+        }
+    }
+    
+    // Закрытие при клике на крестик
+    if (e.target.classList.contains('image-modal-close')) {
+        closeImageModal();
+    }
+    
+    // Закрытие при клике вне изображения
+    if (e.target.id === 'imageModal') {
+        closeImageModal();
+    }
+});
+
+// Закрытие по клавише Esc
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeImageModal();
+    }
+});
+
+// Функция закрытия модального окна
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        console.log('Модальное окно закрыто');
+    }
+}
+
+// Добавляем стили для анимации
+const modalStyles = document.createElement('style');
+modalStyles.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .image-modal {
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .image-modal-close:hover {
+        color: #3498db !important;
+        transform: scale(1.1);
+    }
+    
+    .enlargeable-image:hover {
+        cursor: pointer;
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    }
+    
+    .image-modal-content {
+        cursor: default;
+    }
+`;
+document.head.appendChild(modalStyles);
+
+console.log('Модальное окно для изображений готово к работе');
 </script>
+
 </body>
 </html>
