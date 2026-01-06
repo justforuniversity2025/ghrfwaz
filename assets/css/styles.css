@@ -150,52 +150,48 @@ body {
     background-color: #AAAAAA;
 }
 
-/* Строка поиска */
 /* =============================================================================
-   СТИЛИ ДЛЯ ПОИСКОВОЙ СТРОКИ
+   СТИЛИ ДЛЯ ПОИСКОВОЙ СТРОКИ (ОБНОВЛЕННЫЕ)
 ============================================================================= */
 .search-bar {
     width: 500px;
     height: 54px;
-    padding: 6px 8px;
-    box-sizing: border-box;
     position: relative;
     display: flex;
     align-items: center;
-    background-color: #FDDCDC;
+    background-color: #FDDCDC80;
     border-radius: 4px;
-    /* Добавлено для позиционирования выпадающего списка */
     overflow: visible;
+    /* Убраны лишние отступы */
+    padding: 0;
 }
 
 .search-bar input {
     flex: 1;
     padding: 10px 15px;
-    border: 1px solid var(--border-color);
+    border: none;
     border-radius: 4px;
-    background-color: #FDDCDC;
+    background-color: transparent;
     height: 100%;
     box-sizing: border-box;
-    margin: 0;
-    /* Убираем стандартную синюю рамку при фокусе */
     outline: none;
-    /* Убираем стандартный placeholder при фокусе */
     color: var(--text-dark);
-}
-
-/* Стили для placeholder */
-.search-bar input::placeholder {
-    color: #999;
+    /* Убран placeholder по умолчанию */
     font-style: italic;
-    transition: opacity 0.2s;
 }
 
-/* Показываем placeholder при наведении (как в примере) */
+/* Скрытие placeholder по умолчанию */
+.search-bar input::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Показ placeholder только при наведении */
 .search-bar:hover input::placeholder {
     opacity: 1;
 }
 
-/* Скрываем placeholder при фокусе (как в примере) */
+/* Скрытие placeholder при фокусе */
 .search-bar input:focus::placeholder {
     opacity: 0;
 }
@@ -210,21 +206,30 @@ body {
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
-/* Выпадающий список с вариантами */
+/* Выпадающий список - изначально скрыт */
 .search-suggestions {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #FDDCDC;
+    background-color: #FDDCDC80;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     margin-top: 4px;
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: none; /* Скрыто по умолчанию */
+    padding: 4px 0;
+}
+
+/* Показывать при наведении на поисковую строку */
+.search-bar:hover .search-suggestions,
+/* Показывать при фокусе на поле ввода */
+.search-bar input:focus ~ .search-suggestions {
+    display: block;
 }
 
 .search-suggestion-item {
@@ -245,6 +250,15 @@ body {
     width: 18px;
     height: 18px;
     opacity: 0.7;
+}
+
+/* Убраны лишние стили для поисковой строки */
+.search-bar {
+    padding: 0;
+}
+
+.search-bar input {
+    padding-right: 40px; /* Отступ для кнопки поиска */
 }
 
 /* Иконки в хедере (корзина, избранное и т.д.) */
