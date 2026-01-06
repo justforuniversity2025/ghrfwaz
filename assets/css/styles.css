@@ -1,101 +1,140 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* =============================================================================
+   ГЛОБАЛЬНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ
+   Универсальные настройки для всей страницы
+============================================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        :root {
-            --primary-pink: #e84a6c;
-            --text-dark: #333333;
-            --text-light: #666666;
-            --bg-light: #f8f8f8;
-            --border-color: #e0e0e0;
-            --footer-bg: #000000;
-        }
+:root {
+    --primary-pink: #e84a6c;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --bg-light: #f8f8f8;
+    --border-color: #e0e0e0;
+    --footer-bg: #000000;
+}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-dark);
-            line-height: 1.6;
-            background-color: #fff;
-        }
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    background-color: #fff;
+}
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        /* === ВЕРХНЯЯ ПАНЕЛЬ === */
-        .top-bar {
-            background-color: #ffffff;
-            padding: 2px 0;
-        }
 
-        .top-bar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-        }
+/* =============================================================================
+   ВЕРХНЯЯ ПАНЕЛЬ (TOP BAR)
+   Информационная строка вверху страницы
+============================================================================= */
+.top-bar {
+    background-color: #ffffff;
+    padding: 2px 0;
+}
 
-        .top-bar-left a {
-            color: var(--text-dark);
-            text-decoration: none;
-            margin-right: 20px;
-            font-weight: 500;
-        }
+.top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
 
-        .top-bar-right {
-            display: flex;
-            align-items: center;
-        }
+.top-bar-left a {
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+}
 
-        .top-bar-right a {
-            color: var(--text-dark);
-            text-decoration: none;
-            margin-left: 20px;
-        }
+.top-bar-right {
+    display: flex;
+    align-items: center;
+}
 
-        .theme-toggle {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
+.top-bar-right a {
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-left: 20px;
+}
 
-        /* === ГЛАВНЫЙ ХЕДЕР === */
-        .header {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
+/* Переключатель темы в верхней панели */
+.theme-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* Стили для иконок переключателя темы */
+.theme-icon {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    margin: 0 5px;
+    flex-shrink: 0;
+}
 
-        .logo {
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-            font-size: 28px;
-            letter-spacing: 1px;
-            color: var(--primary-pink);
-            text-transform: uppercase;
-        }
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-dark);
+}
 
+.theme-toggle:hover .theme-icon {
+    opacity: 0.8;
+}
+
+
+/* =============================================================================
+   ОСНОВНОЙ ХЕДЕР
+   Главная шапка сайта с логотипом, поиском и навигацией
+============================================================================= */
+.header {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Логотип */
+.logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--primary-pink);
+    text-transform: uppercase;
+}
+
+/* Кнопка каталога */
 .catalog-btn {
     width: 158px;
     height: 54px;
-    box-sizing: border-box; /* Критично! */
+    box-sizing: border-box;
     background-color: #AAAAAA;
     color: #FFFFFF;
     border: none;
-    padding: 0; /* Убираем текущий padding — он будет рассчитан ниже */
+    padding: 0;
     border-radius: 10px;
     font-weight: 400;
     font-size: 19px;
@@ -111,6 +150,10 @@
     background-color: #AAAAAA;
 }
 
+/* Строка поиска */
+/* =============================================================================
+   СТИЛИ ДЛЯ ПОИСКОВОЙ СТРОКИ
+============================================================================= */
 .search-bar {
     width: 500px;
     height: 54px;
@@ -119,6 +162,10 @@
     position: relative;
     display: flex;
     align-items: center;
+    background-color: #FDDCDC;
+    border-radius: 4px;
+    /* Добавлено для позиционирования выпадающего списка */
+    overflow: visible;
 }
 
 .search-bar input {
@@ -126,12 +173,34 @@
     padding: 10px 15px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: var(--bg-light);
+    background-color: #FDDCDC;
     height: 100%;
     box-sizing: border-box;
     margin: 0;
+    /* Убираем стандартную синюю рамку при фокусе */
+    outline: none;
+    /* Убираем стандартный placeholder при фокусе */
+    color: var(--text-dark);
 }
 
+/* Стили для placeholder */
+.search-bar input::placeholder {
+    color: #999;
+    font-style: italic;
+    transition: opacity 0.2s;
+}
+
+/* Показываем placeholder при наведении (как в примере) */
+.search-bar:hover input::placeholder {
+    opacity: 1;
+}
+
+/* Скрываем placeholder при фокусе (как в примере) */
+.search-bar input:focus::placeholder {
+    opacity: 0;
+}
+
+/* Кнопка поиска */
 .search-bar button {
     position: absolute;
     right: 8px;
@@ -144,20 +213,56 @@
     z-index: 1;
 }
 
-        .header-icons {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+/* Выпадающий список с вариантами */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FDDCDC;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-top: 4px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.search-suggestion-item {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-suggestion-item:hover {
+    background-color: #f0c9c9;
+}
+
+/* Иконка в выпадающем списке */
+.search-suggestion-item .search-icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+}
+
+/* Иконки в хедере (корзина, избранное и т.д.) */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
 .header-icon {
-    background-color: transparent !important; /* убираем фон */
-    border-radius: 0 !important; /* убираем скругление */
-    width: auto !important; /* сбрасываем размеры */
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    width: auto !important;
     height: auto !important;
-    margin: 0 !important; /* убираем отступы */
+    margin: 0 !important;
 }
+
 .header-icon-item {
     display: flex;
     flex-direction: column;
@@ -166,7 +271,7 @@
     gap: 4px;
     position: relative;
     cursor: pointer;
-    min-width: 60px; /* минимальная ширина для текста */
+    min-width: 60px;
 }
 
 .header-icon-item img {
@@ -187,253 +292,35 @@
     line-height: 1;
 }
 
-/* АДАПТИВНОСТЬ */
-@media (max-width: 1024px) {
-    .header-icon-item span {
-        font-size: 10px;
-    }
-}
-
-@media (max-width: 900px) {
-    .header-icon-item span {
-        display: none; /* скрываем текст на планшетах */
-    }
-    .header-icon-item {
-        min-width: auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .header-icons {
-        gap: 12px;
-    }
-    .header-icon-item img {
-        width: 22px;
-        height: 22px;
-    }
-}
-       /* === ФУТЕР === */
-        .footer {
-            background-color: var(--footer-bg);
-            color: #fff;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 8px;
-        }
-
-        .footer-column a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 13px;
-            transition: color 0.2s;
-        }
-
-        .footer-column a:hover {
-            color: #fff;
-        }
-
-        .contact-info {
-            margin-top: 10px;
-        }
-
-        .contact-info a {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .social-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background-color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #999;
-        }
-
-        .footer-bottom a {
-            color: #999;
-            text-decoration: none;
-            margin-left: 15px;
-        }
-
-        /* === АДАПТИВНОСТЬ === */
-        @media (max-width: 1200px) {
-            .products-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 992px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .top-bar-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .search-bar {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .top-bar-left a {
-                display: block;
-                margin-right: 0;
-            }
-        }
-        /* === НОВЫЕ СТИЛИ ДЛЯ HEADER === */
-.phone-link {
-    color: var(--text-dark);
+/* Специальные элементы хедера */
+.dropdown-link {
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
-    margin-left: 20px;
-}
-
-.theme-toggle {
-    display: flex;
-    align-items: center;
-}
-
-.theme-toggle span {
-    margin: 0 5px;
-    cursor: pointer;
-}
-
-.header-icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.header-icon-item span {
-    font-size: 10px;
-    margin-top: 4px;
-}
-
-/* === ИЗМЕНЕНИЕ ЦВЕТА ПОИСКА === */
-.search-bar input {
-    background-color: #ffebee; /* Светло-розовый фон как в макете */
-}
-/* Черно-белые иконки темы */
-.theme-icon {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  margin: 0 5px;
-  flex-shrink: 0;
-}
-
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: var(--text-dark); /* Использует черный цвет из вашей переменной */
-}
-
-/* При наведении можно добавить эффект */
-.theme-toggle:hover .theme-icon {
-  opacity: 0.8;
-}
-.dropdown-link {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  color: var(--text-dark);
-  font-weight: 500;
-  gap: 4px;
-  position: relative;
+    color: var(--text-dark);
+    font-weight: 500;
+    gap: 4px;
+    position: relative;
 }
 
 .dropdown-arrow {
-  width: 8px;
-  height: 5px;
-  display: inline-block;
-  vertical-align: text-bottom;
-  margin-left: 2px;
-  margin-bottom: -1px; /* Поднимает стрелку на 1px вверх */
-  flex-shrink: 0;
+    width: 8px;
+    height: 5px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    margin-bottom: -1px;
+    flex-shrink: 0;
 }
 
-/* Убедимся, что цвет стрелки черный */
 .dropdown-arrow path {
-  stroke: #000000;
-}
-/* Для устранения возможных смещений */
-.dropdown-link {
-  line-height: 1;
+    stroke: #000000;
 }
 
-/* Убедимся, что стрелка не наследует другие стили */
-.dropdown-arrow {
-  display: inline-block;
-  vertical-align: middle;
+.dropdown-link {
+    line-height: 1;
 }
+
 .phone-center {
     text-decoration: none;
     color: var(--text-dark);
@@ -442,10 +329,182 @@
     align-items: center;
     gap: 5px;
 }
+
 .phone-center:hover,
 .phone-center:focus,
 .phone-center:active {
     text-decoration: none;
     color: var(--text-dark);
     outline: none;
+}
+
+.phone-link {
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+
+/* =============================================================================
+   ФУТЕР
+   Нижний блок сайта с информацией и ссылками
+============================================================================= */
+.footer {
+    background-color: var(--footer-bg);
+    color: #fff;
+    padding: 40px 0 20px;
+    margin-top: 50px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column li {
+    margin-bottom: 8px;
+}
+
+.footer-column a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.footer-column a:hover {
+    color: #fff;
+}
+
+.contact-info {
+    margin-top: 10px;
+}
+
+.contact-info a {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.social-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #999;
+}
+
+.footer-bottom a {
+    color: #999;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+
+/* =============================================================================
+   АДАПТИВНЫЙ ДИЗАЙН
+   Корректировка отображения на разных устройствах
+============================================================================= */
+/* Для планшетов и десктопов */
+@media (max-width: 1200px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    /* Футер */
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Сетка товаров */
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Верхняя панель */
+    .top-bar-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    /* Хедер */
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .search-bar {
+        max-width: 100%;
+    }
+    
+    /* Иконки в хедере */
+    .header-icons {
+        gap: 12px;
+    }
+    
+    .header-icon-item img {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .header-icon-item span {
+        display: none;
+    }
+    
+    .header-icon-item {
+        min-width: auto;
+    }
+}
+
+/* Для самых маленьких экранов */
+@media (max-width: 576px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .top-bar-left a {
+        display: block;
+        margin-right: 0;
+    }
 }
