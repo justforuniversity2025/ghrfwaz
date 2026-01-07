@@ -215,7 +215,7 @@ body {
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #FDDCDC80;
+    background-color: #FDDCDC;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     margin-top: 4px;
@@ -285,7 +285,7 @@ body {
     gap: 4px;
     position: relative;
     cursor: pointer;
-    min-width: 60px;
+
 }
 
 .header-icon-item img {
@@ -411,22 +411,59 @@ body {
     display: block;
     margin-bottom: 8px;
 }
-
+/* Стиль для адреса в футере — ЧЕТКО 18px */
+.footer .contact-info p {
+    font-size: 14px !important;
+    margin: 8px 0 0 !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+}
 .social-icons {
     display: flex;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 20px;
+    width: 100%;
 }
 
 .social-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: #333;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #444;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.2s;
+    box-sizing: border-box; /* Важно для точных размеров */
+    padding: 7.5px; /* (40px - 25px) / 2 = 7.5px отступ со всех сторон */
+}
+
+.social-icon:hover {
+    background-color: #555;
+}
+
+.social-icon img {
+    width: 25px;
+    height: 25px;
+    display: block;
+    object-fit: contain; /* Сохраняет пропорции иконки */
+    margin: 0; /* Убирает возможные отступы */
+}
+/* Стрелка в футере — 10x10px белый треугольник */
+.footer-arrow {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+/* Убираем все стили для старой стрелки */
+.dropdown-arrow,
+.dropdown-arrow-down {
+  display: none !important;
 }
 
 .footer-bottom {
@@ -444,81 +481,174 @@ body {
     margin-left: 15px;
 }
 
+.footer .contact-info .phone-center {
+  color: #FFFFFF !important; /* Белый цвет текста */
+  text-decoration: none;
+}
 
 /* =============================================================================
-   АДАПТИВНЫЙ ДИЗАЙН
-   Корректировка отображения на разных устройствах
+   МОБИЛЬНАЯ ВЕРСИЯ HEADER (для экранов до 768px)
 ============================================================================= */
-/* Для планшетов и десктопов */
-@media (max-width: 1200px) {
-    .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Для мобильных устройств */
 @media (max-width: 768px) {
-    /* Футер */
-    .footer-content {
-        grid-template-columns: repeat(2, 1fr);
+    /* Скрываем top bar */
+    .top-bar {
+        display: none;
     }
-    
-    /* Сетка товаров */
-    .products-grid {
-        grid-template-columns: 1fr;
+
+    /* Основные изменения в header */
+    .header {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border-color);
     }
-    
-    /* Верхняя панель */
-    .top-bar-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    
-    /* Хедер */
+
+    /* Делаем header-content грид-контейнером с двумя строками */
     .header-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto;
+        grid-template-areas: "left search catalog";
+        gap: 8px;
+        align-items: center;
     }
-    
+        .header-left {
+        grid-area: left;
+        display: flex;
+        align-items: center;
+        gap: 12px; /* расстояние между логотипом и иконками */
+        white-space: nowrap;
+    }
+
+    /* Логотип - в первой ячейке первой строки */
+  .logo {
+    margin: 0;
+    padding: 0; /* Убираем внутренние отступы */
+    flex-shrink: 0;
+    width: 100px; /* Fixed (100px) */
+    height: 25px; /* Fixed (20px) — исправляем ошибку "height: px" */
+    overflow: hidden;
+    align-self: flex-start; /* Прижимаем к ВЕРХНЕЙ границе grid-ячейки */
+    position: relative; /* Для контроля z-index */
+    top: 0; /* Чётко фиксируем верхнее положение */
+    z-index: 5; /* Чтобы не перекрывался другими элементами */
+  }
+
+  .logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Сохраняет пропорции без обрезки */
+    display: block;
+    position: absolute; /* Фиксируем позицию внутри контейнера */
+    top: 0;
+    left: 0;
+    margin: 0; /* Убираем все отступы у изображения */
+  }
+
+    /* Поисковая строка - занимает максимум места */
     .search-bar {
-        max-width: 100%;
+        grid-area: search;
+        width: 100%;
+        height: 36px;
+        margin: 0;
+        flex: 1;
     }
-    
-    /* Иконки в хедере */
-    .header-icons {
-        gap: 12px;
+
+    /* Увеличиваем поле ввода поиска */
+    .search-bar input {
+        width: 100%;
+        font-size: 14px;
+        padding: 0 12px;
+        box-sizing: border-box;
     }
-    
+
+    /* Кнопка каталога */
+  .catalog-btn {
+    grid-area: catalog;
+    width: 84px; /* Fixed (64px) */
+    height: 32px; /* Fixed (22px) */
+    font-size: 13px;
+    border-radius: 10px; /* Radius: 10px */
+    padding: 1px 8px; /* Top/Bottom: 1px, Left/Right: 8px */
+    flex-shrink: 0;
+    /* Убран justify-self: end — grid-area уже определяет расположение */
+    /* Убран min-width: 70px — теперь ширина фиксированная */
+  }
+
+    /* Иконки - на второй строке, занимают всю ширину */
+.header-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    flex-wrap: nowrap;
+    margin-top: -25px;
+}
+
+    /* Уменьшаем иконки до 12px */
     .header-icon-item img {
-        width: 22px;
-        height: 22px;
+        margin: 0;
+        padding: 0;
+        width: 12px;
+        height: 12px;
+        object-fit: contain;
+        min-width: 25px;
+        
     }
-    
+
+    /* Контейнер для иконок */
+    .header-icon-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+
+    /* Скрываем текстовые надписи под иконками */
     .header-icon-item span {
         display: none;
     }
-    
-    .header-icon-item {
-        min-width: auto;
-    }
-}
 
-/* Для самых маленьких экранов */
-@media (max-width: 576px) {
-    .footer-content {
-        grid-template-columns: 1fr;
+    /* Скрываем лупу в поиске на мобильной версии */
+    .search-bar button {
+        display: none;
     }
-    
-    .top-bar-left a {
-        display: block;
-        margin-right: 0;
+
+    /* Убираем отступ для кнопки поиска, так как её нет */
+    .search-bar input {
+        padding-right: 12px;
+    }
+
+    /* Убираем отступы у контейнера для мобильной версии */
+    .container {
+        padding: 0 10px;
+    }
+
+    /* Показываем placeholder всегда на мобильных устройствах */
+    .search-bar input::placeholder {
+        opacity: 1 !important;
+        font-style: normal;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Убираем hover-эффекты для иконок на мобильных устройствах */
+    .header-icon-item:hover img {
+        transform: none;
+    }
+
+    /* Специально для маленьких иконок улучшаем видимость */
+    .header-icon-item {
+        background-color: transparent;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+
+    .header-icon-item:active {
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }
