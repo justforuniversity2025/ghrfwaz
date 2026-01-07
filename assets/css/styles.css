@@ -651,4 +651,153 @@ body {
     .header-icon-item:active {
         background-color: rgba(0, 0, 0, 0.05);
     }
+    .footer {
+        background-color: #000 !important;
+        color: #fff;
+        padding: 20px 0 12px;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 20px;
+        padding: 0 15px;
+    }
+
+    .footer-column {
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .footer-column h3 {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-transform: none;
+        line-height: 1.2;
+        color: #fff;
+    }
+
+    .footer-column ul {
+        padding-left: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .footer-column li {
+        margin-bottom: 7px;
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    /* === КОНТАКТНАЯ ИНФОРМАЦИЯ === */
+.contact-info {
+        margin-top: 0;
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px; /* ← ОСНОВНОЙ ОТСТУП МЕЖДУ ВСЕМИ ЭЛЕМЕНТАМИ */
+    }
+
+    /* Телефон */
+    .phone-center {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 15px;
+        font-weight: 500;
+        color: #fff;
+        text-decoration: none;
+        padding: 4px 0; /* Отступ внутри элемента */
+        margin: 0;
+    }
+
+    /* Адрес */
+    .contact-info p {
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0 !important; /* Сбрасываем все внешние отступы */
+        white-space: pre-line;
+        color: #fff;
+        padding: 0;
+    }
+
+    /* Соцсети */
+    .social-icons {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px !important; /* Отступ сверху от адреса */
+        padding: 8px 0 !important; /* Внутренние отступы для высоты блока */
+        position: relative;
+    }
+
+    .social-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background-color: #333;
+        padding: 0;
+        margin: 0;
+    }
+
+    .social-icon img {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* === ГОРИЗОНТАЛЬНАЯ ПОЛОСКА ПОСЛЕ СОЦСЕТЕЙ === */
+    .social-icons {
+        position: relative;
+    }
+
+    /* === НИЖНЯЯ ЧАСТЬ ФУТЕРА === */
+    .footer-bottom {
+        padding: 12px 15px 0;
+        font-size: 13px;
+    }
+
+    /* ВСЁ В НИЖНЕЙ ЧАСТИ СТАНОВИТСЯ СЕРЫМ */
+    .footer-bottom,
+    .footer-bottom div,
+    .footer-bottom a {
+        color: #999 !important; /* Серый цвет для всего */
+    }
+
+    /* Специфичные стили для ссылок */
+    .footer-bottom a {
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .footer-bottom a:hover {
+        color: #ccc !important; /* При наведении чуть светлее */
+    }
+
+    /* Структура остаётся прежней */
+    .footer-bottom > div:first-child {
+        order: 1;
+    }
+
+    .footer-bottom > div:last-child {
+        order: 2;
+        display: flex;
+        gap: 15px;
+    }
+
+    /* === УБИРАЕМ ВСЕ ЛИШНИЕ ОТСТУПЫ === */
+    .container {
+        padding: 0 15px;
+    }
+
+    /* === ТОЧНЫЕ ЦВЕТА И РАЗМЕРЫ === */
+    .footer-column a {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .footer-column a:hover {
+        opacity: 0.8;
+    }
 }
