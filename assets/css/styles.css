@@ -31,7 +31,6 @@ body {
     padding: 0 20px;
 }
 
-
 /* =============================================================================
    ВЕРХНЯЯ ПАНЕЛЬ (TOP BAR)
    Информационная строка вверху страницы
@@ -66,29 +65,7 @@ body {
     margin-left: 20px;
 }
 
-/* Переключатель темы в верхней панели */
-.theme-toggle {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-/* Стили для иконок переключателя темы */
-.theme-icon {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    margin: 0 5px;
-    flex-shrink: 0;
-}
-
+/* Переключатель темы */
 .theme-toggle {
     display: flex;
     align-items: center;
@@ -100,6 +77,18 @@ body {
     opacity: 0.8;
 }
 
+/* Иконки переключателя темы */
+.theme-icon {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    margin: 0 5px;
+    flex-shrink: 0;
+}
 
 /* =============================================================================
    ОСНОВНОЙ ХЕДЕР
@@ -130,11 +119,9 @@ body {
 .catalog-btn {
     width: 158px;
     height: 54px;
-    box-sizing: border-box;
     background-color: #AAAAAA;
     color: #FFFFFF;
     border: none;
-    padding: 0;
     border-radius: 10px;
     font-weight: 400;
     font-size: 19px;
@@ -151,7 +138,7 @@ body {
 }
 
 /* =============================================================================
-   СТИЛИ ДЛЯ ПОИСКОВОЙ СТРОКИ (ОБНОВЛЕННЫЕ)
+   ПОИСКОВАЯ СТРОКА
 ============================================================================= */
 .search-bar {
     width: 500px;
@@ -162,36 +149,30 @@ body {
     background-color: #FDDCDC80;
     border-radius: 4px;
     overflow: visible;
-    /* Убраны лишние отступы */
-    padding: 0;
 }
 
+/* Поле ввода */
 .search-bar input {
     flex: 1;
-    padding: 10px 15px;
+    padding: 10px 15px 10px 15px;
     border: none;
-    border-radius: 4px;
     background-color: transparent;
     height: 100%;
-    box-sizing: border-box;
     outline: none;
     color: var(--text-dark);
-    /* Убран placeholder по умолчанию */
     font-style: italic;
 }
 
-/* Скрытие placeholder по умолчанию */
+/* Анимация placeholder */
 .search-bar input::placeholder {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-/* Показ placeholder только при наведении */
 .search-bar:hover input::placeholder {
     opacity: 1;
 }
 
-/* Скрытие placeholder при фокусе */
 .search-bar input:focus::placeholder {
     opacity: 0;
 }
@@ -209,7 +190,7 @@ body {
     z-index: 2;
 }
 
-/* Выпадающий список - изначально скрыт */
+/* Выпадающие подсказки */
 .search-suggestions {
     position: absolute;
     top: 100%;
@@ -221,13 +202,12 @@ body {
     margin-top: 4px;
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    display: none; /* Скрыто по умолчанию */
+    display: none;
     padding: 4px 0;
 }
 
-/* Показывать при наведении на поисковую строку */
+/* Отображение подсказок */
 .search-bar:hover .search-suggestions,
-/* Показывать при фокусе на поле ввода */
 .search-bar input:focus ~ .search-suggestions {
     display: block;
 }
@@ -245,36 +225,21 @@ body {
     background-color: #f0c9c9;
 }
 
-/* Иконка в выпадающем списке */
+/* Иконка в подсказках */
 .search-suggestion-item .search-icon {
     width: 18px;
     height: 18px;
     opacity: 0.7;
 }
 
-/* Убраны лишние стили для поисковой строки */
-.search-bar {
-    padding: 0;
-}
-
-.search-bar input {
-    padding-right: 40px; /* Отступ для кнопки поиска */
-}
-
-/* Иконки в хедере (корзина, избранное и т.д.) */
+/* =============================================================================
+   ИКОНКИ ХЕДЕРА
+   Корзина, избранное и другие элементы
+============================================================================= */
 .header-icons {
     display: flex;
     align-items: center;
     gap: 20px;
-    flex-wrap: wrap;
-}
-
-.header-icon {
-    background-color: transparent !important;
-    border-radius: 0 !important;
-    width: auto !important;
-    height: auto !important;
-    margin: 0 !important;
 }
 
 .header-icon-item {
@@ -285,7 +250,6 @@ body {
     gap: 4px;
     position: relative;
     cursor: pointer;
-
 }
 
 .header-icon-item img {
@@ -306,7 +270,7 @@ body {
     line-height: 1;
 }
 
-/* Специальные элементы хедера */
+/* Элементы с выпадающим меню */
 .dropdown-link {
     display: inline-flex;
     align-items: center;
@@ -315,26 +279,28 @@ body {
     font-weight: 500;
     gap: 4px;
     position: relative;
+    line-height: 1;
 }
 
+/* Стрелка выпадающего меню */
 .dropdown-arrow {
     width: 8px;
     height: 5px;
     display: inline-block;
     vertical-align: text-bottom;
-    margin-left: 2px;
+    margin-left: 4px;
     margin-bottom: -1px;
     flex-shrink: 0;
 }
 
 .dropdown-arrow path {
-    stroke: #000000;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
-.dropdown-link {
-    line-height: 1;
-}
-
+/* Контакты */
 .phone-center {
     text-decoration: none;
     color: var(--text-dark);
@@ -352,13 +318,6 @@ body {
     outline: none;
 }
 
-.phone-link {
-    color: var(--text-dark);
-    text-decoration: none;
-    margin-left: 20px;
-}
-
-
 /* =============================================================================
    ФУТЕР
    Нижний блок сайта с информацией и ссылками
@@ -370,6 +329,7 @@ body {
     margin-top: 50px;
 }
 
+/* Сетка колонок футера */
 .footer-content {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -403,6 +363,7 @@ body {
     color: #fff;
 }
 
+/* Контактная информация */
 .contact-info {
     margin-top: 10px;
 }
@@ -411,13 +372,16 @@ body {
     display: block;
     margin-bottom: 8px;
 }
-/* Стиль для адреса в футере — ЧЕТКО 18px */
+
+/* Адрес в футере */
 .footer .contact-info p {
     font-size: 14px !important;
     margin: 8px 0 0 !important;
     line-height: 1.4 !important;
     white-space: normal !important;
 }
+
+/* Социальные сети */
 .social-icons {
     display: flex;
     gap: 10px;
@@ -435,8 +399,8 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    box-sizing: border-box; /* Важно для точных размеров */
-    padding: 7.5px; /* (40px - 25px) / 2 = 7.5px отступ со всех сторон */
+    box-sizing: border-box;
+    padding: 7.5px;
 }
 
 .social-icon:hover {
@@ -447,25 +411,21 @@ body {
     width: 25px;
     height: 25px;
     display: block;
-    object-fit: contain; /* Сохраняет пропорции иконки */
-    margin: 0; /* Убирает возможные отступы */
+    object-fit: contain;
+    margin: 0;
 }
-/* Стрелка в футере — 10x10px белый треугольник */
+
+/* Стрелка в футере */
 .footer-arrow {
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 4px;
-  flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+    flex-shrink: 0;
 }
 
-/* Убираем все стили для старой стрелки */
-.dropdown-arrow,
-.dropdown-arrow-down {
-  display: none !important;
-}
-
+/* Нижняя часть футера */
 .footer-bottom {
     border-top: 1px solid #333;
     padding-top: 20px;
@@ -482,68 +442,314 @@ body {
 }
 
 .footer .contact-info .phone-center {
-  color: #FFFFFF !important; /* Белый цвет текста */
-  text-decoration: none;
+    color: #FFFFFF !important;
+    text-decoration: none;
 }
 
 /* =============================================================================
-   МОБИЛЬНАЯ ВЕРСИЯ HEADER (для экранов до 768px)
+   АДАПТИВНЫЕ СТИЛИ ДЛЯ ПЛАНШЕТОВ (769px - 1150px)
+============================================================================= */
+@media (min-width: 769px) and (max-width: 1140px) {
+    /* Верхняя панель */
+    .top-bar {
+        display: flex;
+        padding: 4px 0;
+    }
+    
+    .top-bar-content {
+        font-size: 12px;
+        gap: 15px;
+    }
+    
+    .top-bar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .top-bar-left a {
+        margin-right: 0;
+    }
+    
+    /* Основной хедер */
+    .header {
+        padding: 15px 0;
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 15px;
+    }
+    
+    /* Логотип */
+    .logo {
+        font-size: 24px;
+        flex-shrink: 0;
+    }
+    
+    /* Кнопка каталога */
+    .catalog-btn {
+        width: 110px;
+        height: 44px;
+        font-size: 16px;
+        border-radius: 8px;
+        flex-shrink: 0;
+    }
+    
+    /* Поисковая строка */
+    .search-bar {
+        flex-grow: 1;
+        max-width: 380px;
+        min-width: 220px;
+        height: 44px;
+    }
+    
+    .search-bar input {
+        font-size: 14px;
+        padding: 0 15px;
+    }
+    
+    /* Иконки хедера */
+    .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-shrink: 0;
+    }
+    
+    .header-icon-item {
+        gap: 4px;
+    }
+    
+    .header-icon-item img {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .header-icon-item span {
+        font-size: 11px;
+    }
+    
+    .dropdown-link {
+        font-size: 14px;
+    }
+    
+    .dropdown-arrow {
+        width: 7px;
+        height: 4px;
+    }
+    
+    /* Футер */
+    .footer {
+        padding: 35px 0 15px;
+    }
+    
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+        padding: 0 15px;
+    }
+    
+    .footer-column h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+    
+    .footer-column a {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    
+    /* Контактная информация */
+    .contact-info {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .phone-center {
+        font-size: 14px;
+        gap: 5px;
+        color: #000000;
+    }
+    
+    .phone-center .dropdown-arrow {
+        width: 8px;
+        height: 5px;
+        margin-left: 4px;
+        margin-bottom: -1px;
+    }
+    
+    .contact-info p {
+        font-size: 13px;
+        line-height: 1.4;
+        margin: 0 !important;
+        white-space: normal;
+    }
+    
+    /* Социальные сети */
+    .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: flex-start;
+    }
+    
+    .social-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        padding: 5px;
+    }
+    
+    .social-icon img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* Нижняя часть футера */
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        padding: 15px 15px 0;
+        border-top: 1px solid #333;
+        gap: 0;
+        text-align: left;
+    }
+    
+    .footer-bottom > div:first-child {
+        order: 1;
+        font-size: 12px;
+        color: #999;
+    }
+    
+    .footer-bottom > div:last-child {
+        order: 2;
+        display: flex;
+        gap: 15px;
+        font-size: 12px;
+        color: #999;
+    }
+    
+    /* Критические исправления */
+    .footer-column {
+        min-width: 0;
+    }
+    
+    .footer-column ul {
+        padding-left: 0;
+    }
+    
+    .footer-column li {
+        margin-bottom: 7px;
+    }
+    
+    /* Общие адаптивные стили */
+    .container {
+        padding: 0 15px;
+    }
+    
+    .header-left,
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+        min-width: fit-content;
+    }
+    
+    .header-center {
+        flex-grow: 1;
+        min-width: 220px;
+        max-width: 380px;
+    }
+    
+    /* Скрытие элементов */
+    .theme-toggle {
+        display: none;
+    }
+    
+    /* Оптимизация отступов */
+    .header-content {
+        overflow: hidden;
+    }
+    
+    .footer {
+        padding: 30px 0 15px;
+    }
+    
+    .social-icons {
+        margin-top: 15px;
+    }
+}
+
+/* =============================================================================
+   МОБИЛЬНАЯ ВЕРСИЯ (до 768px)
 ============================================================================= */
 @media (max-width: 768px) {
-    /* Скрываем top bar */
+    /* Скрытие верхней панели */
     .top-bar {
         display: none;
     }
-
-    /* Основные изменения в header */
+    
+    /* Основной хедер */
     .header {
         padding: 8px 0;
         border-bottom: 1px solid var(--border-color);
     }
-
-    /* Делаем header-content грид-контейнером с двумя строками */
+    
+    /* Грид-структура хедера */
     .header-content {
         display: grid;
         grid-template-columns: auto 1fr auto;
-        grid-template-rows: auto;
         grid-template-areas: "left search catalog";
         gap: 8px;
         align-items: center;
     }
-        .header-left {
+    
+    .header-left {
         grid-area: left;
         display: flex;
         align-items: center;
-        gap: 12px; /* расстояние между логотипом и иконками */
+        gap: 12px;
         white-space: nowrap;
     }
-
-    /* Логотип - в первой ячейке первой строки */
-  .logo {
-    margin: 0;
-    padding: 0; /* Убираем внутренние отступы */
-    flex-shrink: 0;
-    width: 100px; /* Fixed (100px) */
-    height: 25px; /* Fixed (20px) — исправляем ошибку "height: px" */
-    overflow: hidden;
-    align-self: flex-start; /* Прижимаем к ВЕРХНЕЙ границе grid-ячейки */
-    position: relative; /* Для контроля z-index */
-    top: 0; /* Чётко фиксируем верхнее положение */
-    z-index: 5; /* Чтобы не перекрывался другими элементами */
-  }
-
-  .logo-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Сохраняет пропорции без обрезки */
-    display: block;
-    position: absolute; /* Фиксируем позицию внутри контейнера */
-    top: 0;
-    left: 0;
-    margin: 0; /* Убираем все отступы у изображения */
-  }
-
-    /* Поисковая строка - занимает максимум места */
+    
+    /* Логотип */
+    .logo {
+        margin: 0;
+        padding: 0;
+        flex-shrink: 0;
+        width: 100px;
+        height: 25px;
+        overflow: hidden;
+        align-self: flex-start;
+        position: relative;
+        top: 0;
+        z-index: 5;
+    }
+    
+    .logo-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+    
+    /* Поисковая строка */
     .search-bar {
         grid-area: search;
         width: 100%;
@@ -551,43 +757,45 @@ body {
         margin: 0;
         flex: 1;
     }
-
-    /* Увеличиваем поле ввода поиска */
+    
     .search-bar input {
         width: 100%;
         font-size: 14px;
         padding: 0 12px;
         box-sizing: border-box;
     }
-
+    
     /* Кнопка каталога */
-  .catalog-btn {
-    grid-area: catalog;
-    width: 84px; /* Fixed (64px) */
-    height: 32px; /* Fixed (22px) */
-    font-size: 13px;
-    border-radius: 10px; /* Radius: 10px */
-    padding: 1px 8px; /* Top/Bottom: 1px, Left/Right: 8px */
-    flex-shrink: 0;
-    /* Убран justify-self: end — grid-area уже определяет расположение */
-    /* Убран min-width: 70px — теперь ширина фиксированная */
-  }
-
-    /* Иконки - на второй строке, занимают всю ширину */
-.header-icons {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0;
-    margin: 0;
-    padding: 0;
-    border: none;
-    flex-wrap: nowrap;
-    margin-top: -25px;
-}
-
-    /* Уменьшаем иконки до 12px */
+    .catalog-btn {
+        grid-area: catalog;
+        width: 84px;
+        height: 32px;
+        font-size: 13px;
+        border-radius: 10px;
+        padding: 1px 8px;
+        flex-shrink: 0;
+    }
+    
+    /* Иконки хедера */
+    .header-icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+        flex-wrap: nowrap;
+        margin-top: -25px;
+    }
+    
+    .header-icon-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
     .header-icon-item img {
         margin: 0;
         padding: 0;
@@ -595,38 +803,21 @@ body {
         height: 12px;
         object-fit: contain;
         min-width: 25px;
-        
     }
-
-    /* Контейнер для иконок */
-    .header-icon-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }
-
-    /* Скрываем текстовые надписи под иконками */
+    
     .header-icon-item span {
         display: none;
     }
-
-    /* Скрываем лупу в поиске на мобильной версии */
+    
+    /* Поиск на мобильных */
     .search-bar button {
         display: none;
     }
-
-    /* Убираем отступ для кнопки поиска, так как её нет */
+    
     .search-bar input {
         padding-right: 12px;
     }
-
-    /* Убираем отступы у контейнера для мобильной версии */
-    .container {
-        padding: 0 10px;
-    }
-
-    /* Показываем placeholder всегда на мобильных устройствах */
+    
     .search-bar input::placeholder {
         opacity: 1 !important;
         font-style: normal;
@@ -635,28 +826,28 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
-    /* Убираем hover-эффекты для иконок на мобильных устройствах */
+    
+    /* Интерактивность на мобильных */
     .header-icon-item:hover img {
         transform: none;
     }
-
-    /* Специально для маленьких иконок улучшаем видимость */
-    .header-icon-item {
-        background-color: transparent;
-        border-radius: 4px;
-        transition: background-color 0.2s;
-    }
-
+    
     .header-icon-item:active {
         background-color: rgba(0, 0, 0, 0.05);
     }
+    
+    /* Контейнер */
+    .container {
+        padding: 0 10px;
+    }
+    
+    /* Футер */
     .footer {
         background-color: #000 !important;
         color: #fff;
         padding: 20px 0 12px;
     }
-
+    
     .footer-content {
         display: flex;
         flex-direction: column;
@@ -664,12 +855,12 @@ body {
         margin-bottom: 20px;
         padding: 0 15px;
     }
-
+    
     .footer-column {
         margin-bottom: 0;
         width: 100%;
     }
-
+    
     .footer-column h3 {
         font-size: 15px;
         font-weight: 700;
@@ -678,29 +869,28 @@ body {
         line-height: 1.2;
         color: #fff;
     }
-
+    
     .footer-column ul {
         padding-left: 0;
         margin: 0;
         list-style: none;
     }
-
+    
     .footer-column li {
         margin-bottom: 7px;
         font-size: 14px;
         line-height: 1.3;
     }
-
-    /* === КОНТАКТНАЯ ИНФОРМАЦИЯ === */
-.contact-info {
+    
+    /* Контактная информация */
+    .contact-info {
         margin-top: 0;
         padding-top: 10px;
         display: flex;
         flex-direction: column;
-        gap: 16px; /* ← ОСНОВНОЙ ОТСТУП МЕЖДУ ВСЕМИ ЭЛЕМЕНТАМИ */
+        gap: 16px;
     }
-
-    /* Телефон */
+    
     .phone-center {
         display: flex;
         align-items: center;
@@ -710,93 +900,83 @@ body {
         font-weight: 500;
         color: #fff;
         text-decoration: none;
-        padding: 4px 0; /* Отступ внутри элемента */
+        padding: 4px 0;
         margin: 0;
     }
-
-    /* Адрес */
+    
     .contact-info p {
         font-size: 14px;
         line-height: 1.4;
-        margin: 0 !important; /* Сбрасываем все внешние отступы */
+        margin: 0 !important;
         white-space: pre-line;
         color: #fff;
         padding: 0;
     }
-
-    /* Соцсети */
+    
+    /* Социальные сети */
     .social-icons {
         display: flex;
         gap: 12px;
-        margin-top: 8px !important; /* Отступ сверху от адреса */
-        padding: 8px 0 !important; /* Внутренние отступы для высоты блока */
+        margin-top: 8px !important;
+        padding: 8px 0 !important;
         position: relative;
     }
-
+    
     .social-icon {
-        width: 32px;
-        height: 32px;
+        width: 50px;
+        height: 50px;
         border-radius: 8px;
         background-color: #333;
-        padding: 0;
+        padding: 10px;
         margin: 0;
     }
-
+    
     .social-icon img {
-        width: 18px;
-        height: 18px;
+        width: 30px;
+        height: 30px;
     }
-
-    /* === ГОРИЗОНТАЛЬНАЯ ПОЛОСКА ПОСЛЕ СОЦСЕТЕЙ === */
-    .social-icons {
-        position: relative;
-    }
-
-    /* === НИЖНЯЯ ЧАСТЬ ФУТЕРА === */
+    
+    /* Нижняя часть футера */
     .footer-bottom {
         padding: 12px 15px 0;
         font-size: 13px;
     }
-
-    /* ВСЁ В НИЖНЕЙ ЧАСТИ СТАНОВИТСЯ СЕРЫМ */
+    
     .footer-bottom,
     .footer-bottom div,
     .footer-bottom a {
-        color: #999 !important; /* Серый цвет для всего */
+        color: #999 !important;
     }
-
-    /* Специфичные стили для ссылок */
+    
     .footer-bottom a {
         text-decoration: none;
         white-space: nowrap;
     }
-
+    
     .footer-bottom a:hover {
-        color: #ccc !important; /* При наведении чуть светлее */
+        color: #ccc !important;
     }
-
-    /* Структура остаётся прежней */
+    
     .footer-bottom > div:first-child {
         order: 1;
     }
-
+    
     .footer-bottom > div:last-child {
         order: 2;
         display: flex;
         gap: 15px;
     }
-
-    /* === УБИРАЕМ ВСЕ ЛИШНИЕ ОТСТУПЫ === */
+    
+    /* Финальные правки */
     .container {
         padding: 0 15px;
     }
-
-    /* === ТОЧНЫЕ ЦВЕТА И РАЗМЕРЫ === */
+    
     .footer-column a {
         color: #fff;
         opacity: 1;
     }
-
+    
     .footer-column a:hover {
         opacity: 0.8;
     }
