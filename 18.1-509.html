@@ -238,25 +238,23 @@
             font-size: 14px;
         }
         
-        /* Контейнер для вкладок */
-        .tab-content-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 5%;
-            min-height: 600px;
-            position: relative;
-        }
+.tab-content-container {
+    max-width: 1400px; /* Увеличиваем максимальную ширину */
+    margin: 20px auto; /* Уменьшаем верхний и нижний отступ */
+    padding: 0 2%; /* Уменьшаем боковые отступы */
+    min-height: 500px; /* Уменьшаем минимальную высоту */
+    position: relative;
+}
         
-        .tab-content {
-            display: none;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            animation: fadeIn 0.5s ease;
-            position: relative;
-            z-index: 1;
-        }
+.tab-content {
+    display: none;
+    background: transparent; /* Убираем белый фон */
+    border-radius: 10px; /* Уменьшаем скругление углов */
+    padding: 20px; /* Уменьшаем внутренние отступы */
+    animation: fadeIn 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
         
         .tab-content.active {
             display: block;
@@ -273,15 +271,16 @@
             }
         }
         
-        .tab-content h2 {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f1f1f1;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+.tab-content h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f1f1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 24px; /* Увеличиваем размер заголовка */
+}
         
         .tab-content h2 i {
             color: #3498db;
