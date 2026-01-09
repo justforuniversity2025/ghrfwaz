@@ -1269,32 +1269,641 @@
         <!-- Контейнер для контента вкладок -->
         <div class="tab-content-container">
             <!-- Главная -->
-            <div id="main-tab" class="tab-content active">
-                <h2><i class="fas fa-home"></i> Главная</h2>
-                <div class="welcome-text">
-                    <p><span class="status not-ready">✗</span>Добро пожаловать на учебный портал группы 18.1-509! Здесь вы найдете всю необходимую информацию для успешного обучения.</p>
-                    <p>Используйте вкладки вверху для навигации по разделам портала. Все материалы обновляются ежедневно.</p>
-                    <p>На сегодня у вас запланировано 4 занятия и 3 домашних задания к выполнению.</p>
+<!-- Главная -->
+<div id="main-tab" class="tab-content active">
+    <!-- Аниме-фон -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 300px;
+        background: linear-gradient(135deg, 
+            rgba(255, 182, 193, 0.8) 0%, 
+            rgba(173, 216, 230, 0.9) 50%,
+            rgba(221, 160, 221, 0.8) 100%);
+        z-index: 0;
+        overflow: hidden;
+    ">
+        <!-- Аниме облака -->
+        <div style="
+            position: absolute;
+            width: 200px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 100px;
+            top: 50px;
+            left: 10%;
+            animation: floatCloud 20s infinite linear;
+        "></div>
+        <div style="
+            position: absolute;
+            width: 150px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 100px;
+            top: 100px;
+            right: 15%;
+            animation: floatCloud 25s infinite linear reverse;
+        "></div>
+        
+        <!-- Аниме солнце -->
+        <div style="
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #FFD700;
+            border-radius: 50%;
+            top: 40px;
+            right: 10%;
+            box-shadow: 0 0 40px #FFA500,
+                        0 0 80px rgba(255, 165, 0, 0.3);
+        "></div>
+        
+        <!-- Сакура листья -->
+        <div style="
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #FFB6C1;
+            border-radius: 50% 0;
+            transform: rotate(45deg);
+            top: 150px;
+            left: 20%;
+            animation: fallLeaf 15s infinite linear;
+        "></div>
+        <div style="
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #FFB6C1;
+            border-radius: 50% 0;
+            transform: rotate(45deg);
+            top: 80px;
+            right: 25%;
+            animation: fallLeaf 18s infinite linear 2s;
+        "></div>
+    </div>
+
+        
+        <!-- Аниме-календарь событий -->
+        <div style="
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 3px solid #87CEEB;
+            position: relative;
+            overflow: hidden;
+        ">
+            <!-- Декоративные элементы -->
+            <div style="
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                width: 100px;
+                height: 100px;
+                background: rgba(255, 182, 193, 0.2);
+                border-radius: 50%;
+                z-index: 0;
+            "></div>
+            
+            <h3 style="
+                color: #4169E1;
+                margin-bottom: 25px;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                position: relative;
+                z-index: 1;
+            ">
+                <i class="fas fa-calendar-star" style="color: #FFD700;"></i>
+                📅 Календарь Событий
+                <div style="
+                    margin-left: auto;
+                    font-size: 14px;
+                    color: #9370DB;
+                    background: #F5F5FF;
+                    padding: 5px 15px;
+                    border-radius: 15px;
+                    border: 2px solid #E6E6FA;
+                ">
+                    Январь 2025
+                </div>
+            </h3>
+            
+            <!-- Список событий в аниме-стиле -->
+            <div class="anime-events">
+                <!-- 12 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(255, 105, 180, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 5px solid #FF69B4;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #FF69B4, #FF1493);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                            position: relative;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">12</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                            <div style="
+                                position: absolute;
+                                top: -5px;
+                                right: -5px;
+                                width: 20px;
+                                height: 20px;
+                                background: #FFD700;
+                                border-radius: 50%;
+                                border: 2px solid white;
+                            "></div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-laptop-code" style="color: #9370DB;"></i>
+                                    ИНФОРМАТИКА
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #FF69B4, #FF1493);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
+                                ">ЭКЗАМЕН</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 13:00</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-4, 235</span>
+                                <span><i class="fas fa-user-graduate"></i> Булатова С.В.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="anime-event-details" style="
+                        display: none;
+                        padding-top: 15px;
+                        margin-top: 15px;
+                        border-top: 2px dashed #FFB6C1;
+                        animation: slideDown 0.3s ease;
+                    ">
+                        <div style="
+                            background: rgba(255, 182, 193, 0.1);
+                            padding: 12px;
+                            border-radius: 10px;
+                            border: 2px solid #FFB6C1;
+                        ">
+                            <div style="color: #2c3e50; font-weight: 600; margin-bottom: 8px;">
+                                <i class="fas fa-exclamation-circle" style="color: #FF69B4;"></i>
+                                Не забудь:
+                            </div>
+                            <ul style="color: #666; font-size: 13px; margin: 0; padding-left: 20px;">
+                                <li>Зачётную книжку</li>
+                                <li>Выучить материал</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="features">
-                    <div class="feature-card">
-                        <i class="fas fa-calendar-check"></i>
-                        <h3>Расписание</h3>
-                        <p>Актуальное расписание занятий на неделю</p>
+                <!-- 16 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(135, 206, 235, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 5px solid #87CEEB;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #87CEEB, #4682B4);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">16</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-calculator" style="color: #4169E1;"></i>
+                                    МАТ. АНАЛИЗ - Консультация
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #87CEEB, #4682B4);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(135, 206, 235, 0.3);
+                                ">КОНСУЛЬТАЦИЯ</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 10:30</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-4, 450</span>
+                                <span><i class="fas fa-user-graduate"></i> Губочкина Н.И.</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <i class="fas fa-book"></i>
-                        <h3>Домашние задания</h3>
-                        <p>Задания и сроки их выполнения</p>
+                </div>
+                
+                <!-- 17 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(255, 105, 180, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 5px solid #FF69B4;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #FF69B4, #FF1493);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">17</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-calculator" style="color: #9370DB;"></i>
+                                    МАТЕМАТИЧЕСКИЙ АНАЛИЗ
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #FF69B4, #FF1493);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
+                                ">ЭКЗАМЕН</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 13:00</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-4, 235</span>
+                                <span><i class="fas fa-user-graduate"></i> Губочкина Н.И.</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <i class="fas fa-file-download"></i>
-                        <h3>Лекции</h3>
-                        <p>Лекции, презентации и учебные материалы</p>
+                </div>
+                
+                <!-- 19 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(135, 206, 235, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 5px solid #87CEEB;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #87CEEB, #4682B4);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">19</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-code" style="color: #4169E1;"></i>
+                                    ПРОГРАММИРОВАНИЕ - Консультация
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #87CEEB, #4682B4);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(135, 206, 235, 0.3);
+                                ">КОНСУЛЬТАЦИЯ</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 13:00</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-2, 405</span>
+                                <span><i class="fas fa-user-graduate"></i> Булатова С.В.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 22 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(255, 105, 180, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 5px solid #FF69B4;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #FF69B4, #FF1493);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">22</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-code" style="color: #9370DB;"></i>
+                                    ПРОГРАММИРОВАНИЕ
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #FF69B4, #FF1493);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
+                                ">ЭКЗАМЕН</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 13:00</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-4, 236</span>
+                                <span><i class="fas fa-user-graduate"></i> Булатова С.В.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 23 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(135, 206, 235, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    border-left: 5px solid #87CEEB;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #87CEEB, #4682B4);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">23</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-flask" style="color: #4169E1;"></i>
+                                    ХИМИЯ - Консультация
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #87CEEB, #4682B4);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(135, 206, 235, 0.3);
+                                ">КОНСУЛЬТАЦИЯ</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 11:00</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-1, 139</span>
+                                <span><i class="fas fa-user-graduate"></i> Сиппель И.Я.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 27 января -->
+                <div class="anime-event-item" style="
+                    background: linear-gradient(135deg, 
+                        rgba(255, 105, 180, 0.1) 0%, 
+                        rgba(255, 255, 255, 0.9) 100%);
+                    border-radius: 15px;
+                    padding: 15px;
+                    border-left: 5px solid #FF69B4;
+                    position: relative;
+                    overflow: hidden;
+                    transition: transform 0.3s;
+                    cursor: pointer;
+                " onclick="toggleEventDetails(this)">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="
+                            width: 60px;
+                            height: 60px;
+                            background: linear-gradient(135deg, #FF69B4, #FF1493);
+                            border-radius: 12px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            flex-shrink: 0;
+                        ">
+                            <div style="font-size: 20px; font-weight: bold;">27</div>
+                            <div style="font-size: 12px;">ЯНВ</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                                <div style="font-weight: bold; color: #2c3e50; font-size: 16px;">
+                                    <i class="fas fa-flask" style="color: #9370DB;"></i>
+                                    ХИМИЯ
+                                </div>
+                                <span style="
+                                    background: linear-gradient(45deg, #FF69B4, #FF1493);
+                                    color: white;
+                                    padding: 3px 10px;
+                                    border-radius: 12px;
+                                    font-size: 11px;
+                                    font-weight: bold;
+                                    box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
+                                ">ЭКЗАМЕН</span>
+                            </div>
+                            <div style="display: flex; gap: 15px; color: #666; font-size: 13px;">
+                                <span><i class="far fa-clock"></i> 13:00</span>
+                                <span><i class="fas fa-map-marker-alt"></i> УЛК-1, 420</span>
+                                <span><i class="fas fa-user-graduate"></i> Сиппель И.Я.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+<style>
+    /* Анимации для аниме-стиля */
+    @keyframes floatCloud {
+        0% { transform: translateX(-100px); }
+        100% { transform: translateX(calc(100vw + 100px)); }
+    }
+    
+    @keyframes fallLeaf {
+        0% { 
+            transform: translateY(-100px) rotate(45deg); 
+            opacity: 0;
+        }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { 
+            transform: translateY(calc(100vh + 100px)) rotate(225deg); 
+            opacity: 0;
+        }
+    }
+    
+    @keyframes slideDown {
+        from { 
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Эффекты при наведении на события */
+    .anime-event-item:hover {
+        transform: translateX(5px) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+</style>
+
+<script>
+// Функция для переключения вкладок
+function switchToTab(tabName) {
+    // Удаляем активный класс у всех вкладок
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    
+    // Добавляем активный класс к целевой вкладке
+    const targetTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+    if (targetTab) targetTab.classList.add('active');
+    
+    // Скрываем все содержимое вкладок
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Показываем целевой контент
+    const targetContent = document.getElementById(`${tabName}-tab`);
+    if (targetContent) targetContent.classList.add('active');
+}
+
+// Функция для раскрытия деталей события
+function toggleEventDetails(eventItem) {
+    const details = eventItem.querySelector('.anime-event-details');
+    if (details) {
+        // Закрываем другие открытые детали
+        document.querySelectorAll('.anime-event-details').forEach(d => {
+            if (d !== details) d.style.display = 'none';
+        });
+        
+        // Переключаем текущие детали
+        if (details.style.display === 'block') {
+            details.style.display = 'none';
+        } else {
+            details.style.display = 'block';
+        }
+    }
+}
+
+// Добавляем интерактивность при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    // Добавляем анимацию появления для событий
+    const eventItems = document.querySelectorAll('.anime-event-item');
+    eventItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
+        item.style.animation = 'slideDown 0.5s ease forwards';
+        item.style.opacity = '0';
+    });
+});
+</script>
             
             <!-- Расписание -->
             <div id="schedule-tab" class="tab-content">
