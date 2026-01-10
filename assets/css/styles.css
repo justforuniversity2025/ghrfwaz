@@ -117,6 +117,9 @@ body {
 
 /* Кнопка каталога */
 .catalog-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 158px;
     height: 54px;
     background-color: #AAAAAA;
@@ -128,11 +131,9 @@ body {
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-decoration: none; /* Убираем подчеркивание */
+    font-family: 'Inter', sans-serif; /* Убедимся, что шрифт такой же */
 }
-
 .catalog-btn:hover {
     background-color: #AAAAAA;
 }
@@ -250,7 +251,10 @@ body {
     gap: 4px;
     position: relative;
     cursor: pointer;
+    text-decoration: none; /* Убираем подчеркивание для ссылок */
+    color: inherit; /* Наследуем цвет текста */
 }
+
 
 .header-icon-item img {
     width: 24px;
@@ -417,14 +421,19 @@ body {
 
 /* Стрелка в футере */
 .footer-arrow {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: text-top; /* Изменено с middle на text-top */
     margin-left: 4px;
+    margin-top: -1px; /* Добавлено для точной настройки */
     flex-shrink: 0;
 }
-
+.footer .phone-center .dropdown-arrow {
+    vertical-align: text-top;
+    margin-left: 4px;
+    margin-top: 6px;
+}
 /* Нижняя часть футера */
 .footer-bottom {
     border-top: 1px solid #333;
