@@ -4435,12 +4435,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="exam-subject">Программирование</div>
                     <div class="exam-details">УЛК-4, ауд. 236, ИС, ст. препод. Булатова С.В.</div>
                     <!-- Кнопка вопросов -->
-                    <div class="exam-actions">
-                        <button class="exam-questions-btn" data-exam="programming_exam">
-                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
-                        </button>
-                    </div>
+<div class="exam-actions">
+    <button class="exam-materials-btn" data-target="programming-lectures">
+        <i class="fas fa-file-pdf"></i> Материалы для подготовки
+    </button>
+    <button class="exam-questions-btn" data-exam="programming_exam">
+        <i class="fas fa-question-circle"></i> Вопросы к экзамену
+    </button>
+</div>
+<!-- Лекции по программированию (скрыты по умолчанию) -->
+<div class="history-lectures" id="programming-lectures" style="display: none;">
+    <button class="lecture-toggle-btn">
+        1
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="lecture-content-full">
+        <h4>Лекция 1: 1</h4>
+        <p>1</p>
+        <!-- Добавьте ваши материалы -->
+    </div>
+    
+    <button class="lecture-toggle-btn">
+        1
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="lecture-content-full">
+        <h4>1</h4>
+        <p>1</p>
+        <!-- Добавьте ваши материалы -->
+    </div>
+    
+    <!-- Добавьте больше лекций по мере необходимости -->
+</div>
                     <!-- Вопросы (скрыты по умолчанию) -->
+
 <div class="exam-questions" id="programming_exam_questions">
     <div class="questions-list">
         <ol>
@@ -4486,12 +4514,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="exam-subject">Химия</div>
                     <div class="exam-details">УЛК-1, ауд. 420, ХиЭ, доцент Сиппель И.Я.</div>
-                    <!-- Кнопка вопросов -->
-                    <div class="exam-actions">
-                        <button class="exam-questions-btn" data-exam="chemistry_exam">
-                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
-                        </button>
-                    </div>
+<!-- Кнопки материалов и вопросов -->
+<div class="exam-actions">
+    <button class="exam-materials-btn" data-target="chemistry-lectures">
+        <i class="fas fa-file-pdf"></i> Материалы для подготовки
+    </button>
+    <button class="exam-questions-btn" data-exam="chemistry_exam">
+        <i class="fas fa-question-circle"></i> Вопросы к экзамену
+    </button>
+</div>
+<!-- Лекции по химии (скрыты по умолчанию) -->
+<div class="history-lectures" id="chemistry-lectures" style="display: none;">
+    <button class="lecture-toggle-btn">
+        Лекция 1: 1
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="lecture-content-full">
+        <h4>Лекция 1: 1</h4>
+        <p>Здесь будут материалы по химии...</p>
+        <!-- Добавьте ваши материалы -->
+    </div>
+    
+    <button class="lecture-toggle-btn">
+        Лекция 2: 1
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="lecture-content-full">
+        <h4>Лекция 2: 1</h4>
+        <p>Дополнительные материалы...</p>
+        <!-- Добавьте ваши материалы -->
+    </div>
+    
+    <!-- Добавьте больше лекций по мере необходимости -->
+</div>
                     <!-- Вопросы (скрыты по умолчанию) -->
 <div class="exam-questions" id="chemistry_exam_questions">
     <div class="questions-list">
@@ -4918,22 +4973,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Кнопка "Материалы для подготовки" для истории
-        if (e.target.id === 'history-materials-btn' || e.target.closest('#history-materials-btn')) {
-            e.preventDefault();
-            const lecturesDiv = document.getElementById('history-lectures');
-            
-            if (lecturesDiv) {
-                // Переключаем видимость лекций
-                lecturesDiv.style.display = lecturesDiv.style.display === 'block' ? 'none' : 'block';
-                
-                // Закрываем вопросы по истории, если они открыты
-                const historyQuestions = document.getElementById('history_russia_questions');
-                if (historyQuestions) {
-                    historyQuestions.style.display = 'none';
-                }
-            }
-        }
+// Обработка всех кнопок "Материалы для подготовки"
+if (e.target.classList.contains('exam-materials-btn') || e.target.closest('.exam-materials-btn')) {
+    e.preventDefault();
+    const btn = e.target.classList.contains('exam-materials-btn') ? e.target : e.target.closest('.exam-materials-btn');
+    const targetId = btn.getAttribute('data-target');
+    const lecturesDiv = document.getElementById(targetId);
+    
+    if (lecturesDiv) {
+        // Переключаем видимость лекций
+        lecturesDiv.style.display = lecturesDiv.style.display === 'block' ? 'none' : 'block';
+        
+        // Закрываем вопросы по тому же предмету, если они открыты
+        const examItem = btn.closest('.exam-item');
+        const allQuestions = examItem.querySelectorAll('.exam-questions');
+        allQuestions.forEach(q => {
+            q.style.display = 'none';
+        });
+    }
+}
         // Кнопка "Материалы для подготовки" для информатики
 if (e.target.id === 'informatics-materials-btn' || e.target.closest('#informatics-materials-btn')) {
     e.preventDefault();

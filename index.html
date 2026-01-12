@@ -1,1077 +1,408 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <meta name="robots" content="noindex">
-  <title>🎓Для одногруппников</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-:root {
-  --primary: #ff6699;
-  --secondary: #8a53ff;
-  --accent: #48d1cc;
-  --bg: #fcf9f2;
-  --card-bg: #fff5f0;
-  --text: #000;
-  --shadow: rgba(0,0,0,0.2);
-  --border-radius: 16px;
-  --transition: all 0.3s ease;
-  --week-btn-text: #000;
-}
-.dark-theme {
-  --bg: #121212;
-  --card-bg: #1e1e1e;
-  --text: #fff;
-  --shadow: rgba(0,0,0,0.4);
-  --week-btn-text: rgba(255,255,255,0.9);
-}
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, sans-serif; }
-body { background:var(--bg); color:var(--text); line-height:1.5; transition:var(--transition); }
-header {
-  background:linear-gradient(135deg, var(--primary), var(--secondary));
-  padding:0.8rem 1.4rem;
-  box-shadow:0 3px 15px var(--shadow);
-  position:sticky; top:0; z-index:100;
-  display:flex; justify-content:space-between; align-items:center;
-  gap:0.9rem; flex-wrap:wrap; height:60px;
-}
-.theme-toggle {
-  background:rgba(255,255,255,0.3); backdrop-filter:blur(10px);
-  border:none; color:white; width:36px; height:36px; border-radius:50%;
-  font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center;
-  transition:var(--transition);
-}
-.theme-toggle:hover {
-  background:rgba(255,255,255,0.5); transform:rotate(15deg) scale(1.1);
-}
-.nav-btn, .week-toggle-btn {
-  background:rgba(255,255,255,0.35); backdrop-filter:blur(10px); border:none;
-  color:var(--week-btn-text); padding:0.6rem 1.2rem; margin:0;
-  border-radius:55px; font-weight:700; font-size:1.05rem; cursor:pointer;
-  transition:var(--transition); white-space:nowrap; flex-shrink:0; min-width:100px;
-  text-align:center; box-shadow:0 3px 12px var(--shadow);
-  text-shadow:0 1px 2px rgba(0,0,0,0.1);
-}
-.nav-btn:hover, .nav-btn.active, .week-toggle-btn:hover, .week-toggle-btn.active {
-  background:white; color:var(--primary); transform:translateY(-3px) scale(1.05);
-  box-shadow:0 6px 18px var(--shadow);
-}
-@media (max-width:768px) {
-  header { padding:0.5rem 1rem; height:50px; gap:0.6rem; }
-  .nav-btn, .week-toggle-btn { padding:0.4rem 0.8rem; font-size:0.9rem; min-width:60px; }
-  .theme-toggle { width:30px; height:30px; font-size:12px; }
-}
-.dark-theme .week-toggle-btn {
-  color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.4);
-  background:rgba(255,255,255,0.2);
-}
-main { max-width:1200px; margin:1.8rem auto; padding:0 1.2rem; }
-.section { display:none; animation:fadeIn 0.6s ease; }
-.section.active { display:block; }
-h2 { margin:1.8rem 0 1.4rem; color:var(--text); font-size:1.7rem; font-weight:750;
-     display:flex; align-items:center; gap:12px; }
-p, li { font-size:1.05rem; font-weight:550; color:var(--text); }
-.today-tomorrow { display:flex; gap:1.2rem; flex-wrap:wrap; }
-.day-column { flex:1; min-width:260px; }
-.day-header {
-  background:linear-gradient(to right, var(--primary), var(--accent));
-  color:white; padding:0.9rem; border-radius:var(--border-radius) var(--border-radius) 0 0;
-  font-weight:750; text-align:center; font-size:1.15rem;
-  box-shadow:0 3px 8px var(--shadow); animation:pulse 2s infinite;
-}
-@keyframes pulse {
-  0% { transform:scale(1); } 50% { transform:scale(1.02); } 100% { transform:scale(1); }
-}
-.lesson-card {
-  background:var(--card-bg); border-radius:0 0 var(--border-radius) var(--border-radius);
-  padding:1.1rem; margin-bottom:1.1rem; box-shadow:0 6px 18px var(--shadow);
-  transition:var(--transition); color:var(--text); border-left:4px solid var(--accent);
-}
-.lesson-card:hover {
-  transform:translateY(-5px); box-shadow:0 8px 22px var(--shadow);
-  border-left:4px solid var(--primary);
-}
-.lesson-time {
-  font-size:1.02rem; color:var(--accent); margin-bottom:0.3rem;
-  display:flex; align-items:center; gap:6px; font-weight:700;
-}
-.lesson-title {
-  font-weight:800; color:var(--text); margin-bottom:0.3rem; font-size:1.3rem;
-  transition:color 0.3s ease;
-}
-.lesson-title[data-type="лекция"] {
-  background:linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip:text; color:transparent;
-}
-.lesson-title[data-type="лабораторная"],
-.lesson-title[data-type="лаб."] {
-  background:linear-gradient(135deg, var(--accent), var(--secondary));
-  -webkit-background-clip:text; color:transparent;
-}
-.lesson-title[data-type="практика"] {
-  background:linear-gradient(135deg, var(--secondary), var(--accent));
-  -webkit-background-clip:text; color:transparent;
-}
-.lesson-meta { font-size:0.95rem; color:var(--text); margin-bottom:0.5rem; font-weight:600; }
-.dark-theme .lesson-meta { color:#ccc; text-shadow:0 1px 2px rgba(0,0,0,0.2); }
-.hw-toggle {
-  background:linear-gradient(135deg, var(--primary), var(--secondary));
-  color:white; border:none; padding:0.45rem 1rem; border-radius:22px;
-  font-size:0.92rem; cursor:pointer; margin-top:0.6rem; transition:var(--transition);
-  font-weight:700; display:flex; align-items:center; gap:7px;
-  box-shadow:0 3px 10px var(--shadow);
-}
-.hw-toggle:hover { opacity:0.95; transform:scale(1.03); }
-.hw-content {
-  margin-top: 0.8rem;
-  padding: 0.9rem 0.6rem; /* ← тоже уменьшено */
-  background: var(--bg);
-  border-radius: 10px;
-  display: none;
-  font-size: 1.02rem;
-  border-left: 3px solid var(--accent);
-  color: var(--text);
-  font-weight: 550;
-  box-shadow: 0 4px 12px var(--shadow);
-}
-.hw-checkbox { display:flex; align-items:center; gap:10px; margin-top:0.7rem; }
-.hw-checkbox input { width:20px; height:20px; cursor:pointer; }
-.hw-checkbox label { font-size:0.98rem; font-weight:550; cursor:pointer; }
-.full-schedule-list, .homework-list  {
-  display:flex; flex-direction:column; gap:1.3rem;
-}
-.schedule-item, .homework-date, .lecture-subject-card {
-  background:var(--card-bg); padding:1.3rem; border-radius:var(--border-radius);
-  box-shadow:0 5px 15px var(--shadow); color:var(--text); transition:transform 0.2s;
-}
-.schedule-item:hover, .homework-date:hover, .lecture-subject-card:hover {
-  transform:translateY(-5px);
-}
-.schedule-week-header {
-  background:linear-gradient(to right, var(--secondary), var(--primary));
-  color:white; padding:0.8rem; border-radius:var(--border-radius);
-  margin-bottom:1.1rem; text-align:center; font-weight:750; font-size:1.3rem;
-  animation:wave 4s infinite;
-}
-@keyframes wave {
-  0% { transform:scale(1); } 50% { transform:scale(1.03); } 100% { transform:scale(1); }
-}
-.homework-date h3 { margin-bottom:0.8rem; color:var(--primary); font-size:1.5rem; font-weight:750; }
-.homework-item { margin-top:0.8rem; padding-left:1.2rem; border-left:3px solid var(--accent);
-                 color:var(--text); font-size:1.05rem; font-weight:550; }
-footer {
-  text-align:center; padding:2.2rem; margin-top:3rem; color:#aaa; font-size:1.02rem;
-  border-top:1px solid var(--card-bg); font-weight:550;
-}
-
-body:not(.dark-theme) .highlight { color:#000; }
-.schedule-item {
-  position:relative; padding:1.5rem; border-left:3px solid var(--accent); overflow:hidden;
-}
-.schedule-item::before,
-.schedule-item::after {
-  content:''; position:absolute; left:-16px; width:12px; height:12px; border-radius:50%;
-}
-.schedule-item::before { top:1.5rem; background:var(--primary); }
-.schedule-item::after { bottom:1.5rem; background:var(--secondary); }
-.schedule-item p {
-  margin:0.6rem 0; border-left:2px solid var(--accent); padding-left:1rem;
-}
-.schedule-item p strong { font-weight:700; color:var(--text); }
-.schedule-item p small {
-  font-size:0.9rem; color:#777; display:block; margin-top:0.3rem;
-}
-.solution-images {
-  display:flex; flex-direction:column; flex-wrap:wrap; gap:0.8rem; margin-top:0.8rem;
-}
-.solution-images img {
-  width:100%; max-width:600px; border-radius:8px; box-shadow:0 4px 10px var(--shadow);
-}
-.solution-text {
-  margin: 0;
-  padding: 1rem 0.6rem; /* верх/низ = 1rem, лево/право = 0.6rem */
-  white-space: pre-line;
-  font-size: 1.05rem;
-  line-height: 1.5;
-  color: var(--text);
-  background: var(--bg);
-  border-radius: 8px;
-  font-weight: 550;
-}
-.hw-files a {
-  display: inline-block;
-  margin-top: 0.4rem;
-  padding: 0.4rem 0.8rem;
-  background: var(--accent);
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: var(--transition);
-}
-.hw-files a:hover {
-  background: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px var(--shadow);
-}
-/* --- Modal for task image --- */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none; align-items: center; justify-content: center;
-  z-index: 9999;
-}
-.modal {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 1rem;
-  box-shadow: 0 12px 40px var(--shadow);
-  max-width: 90vw; max-height: 90vh;
-  display: flex; flex-direction: column; gap: 0.8rem; align-items: center;
-  border-left: 4px solid var(--accent);
-}
-.modal img {
-  max-width: 85vw; max-height: 70vh; border-radius: 10px;
-  box-shadow: 0 6px 18px var(--shadow);
-}
-.modal-close {
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
-  color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 12px;
-  font-weight: 750; cursor: pointer; box-shadow: 0 3px 12px var(--shadow);
-}
-.modal-close:hover { transform: translateY(-2px); opacity: 0.95; }
-
-/* Кнопка "Посмотреть задание" рядом с ДЗ */
-.view-task-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  margin-top: 0.4rem; margin-right: 0.4rem;
-  padding: 0.45rem 0.9rem; border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--secondary));
-  color: white; font-weight: 700; border: none; cursor: pointer;
-  box-shadow: 0 3px 10px var(--shadow); transition: var(--transition);
-}
-.view-task-btn i { font-size: 0.95rem; }
-.view-task-btn:hover { transform: translateY(-2px) scale(1.02); }
-/* ===== Минималистичное расписание ===== */
-.schedule-accordion {
-  display: flex;
-  flex-direction: column;
-  gap: .9rem;
-}
-
-/* Карточка дня */
-.day-acc {
-  background: var(--card-bg);
-  border-radius: 14px;
-  box-shadow: 0 6px 18px var(--shadow);
-  border: 1px solid rgba(0,0,0,.04);
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.day-acc:hover { transform: translateY(-2px); box-shadow: 0 10px 24px var(--shadow); }
-
-/* Заголовок дня */
-.day-acc summary {
-  list-style: none;
-  cursor: pointer;
-  padding: .9rem 1rem;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: .8rem;
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
-  color: #fff;
-  font-weight: 800;
-  border: none;
-  user-select: none;
-}
-.day-acc summary::-webkit-details-marker { display: none; }
-
-.day-acc .count {
-  font-weight: 800;
-  font-size: .9rem;
-  padding: .2rem .6rem;
-  border-radius: 999px;
-  background: rgba(255,255,255,.22);
-  border: 1px solid rgba(255,255,255,.35);
-}
-
-/* Список пар */
-.lessons-min {
-  display: flex;
-  flex-direction: column;
-  gap: .4rem;
-  padding: .6rem .8rem 1rem;
-}
-
-/* Одна пара */
-.ln {
-  display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: .8rem;
-  align-items: start;
-  background: var(--bg);
-  border-radius: 12px;
-  padding: .65rem .75rem;
-  border-left: 4px solid var(--accent);
-}
-.ln .t { 
-  font-weight: 800; 
-  font-size: .98rem; 
-  text-align: center;
-  background: rgba(72,209,204,.12);
-  border: 1px solid rgba(72,209,204,.28);
-  border-radius: 10px; 
-  padding: .32rem .4rem;
-  color: var(--text);
-}
-.ln .s { 
-  font-weight: 800; 
-  font-size: 1.06rem; 
-  margin-bottom: .1rem; 
-  color: var(--text);
-}
-.ln .m { 
-  font-size: .92rem; 
-  opacity: .8; 
-  font-weight: 600;
-}
-
-/* Цвет по типу, без лишних подписей */
-.ln.lec { border-left-color: #ff6699; }
-.ln.lab { border-left-color: #48d1cc; }
-.ln.pr  { border-left-color: #8a53ff; }
-
-.ln.lec .t { background: rgba(255,102,153,.12); border-color: rgba(255,102,153,.32); }
-.ln.lab .t { background: rgba(72,209,204,.12);  border-color: rgba(72,209,204,.32); }
-.ln.pr  .t { background: rgba(138,83,255,.12);  border-color: rgba(138,83,255,.32); }
-
-/* Пустой день */
-.day-empty-min { 
-  padding: .9rem 1rem; 
-  color: #9aa0a6; 
-  font-weight: 700; 
-  border-top: 1px solid rgba(0,0,0,.06);
-  background: var(--card-bg);
-}
-
-/* Тёмная тема — тоньше рамки */
-.dark-theme .day-acc { border-color: rgba(255,255,255,.06); }
-/* ===== Аккордеон дней на главной ===== */
-.home-accordion{display:flex;flex-direction:column;gap:.9rem;}
-.home-acc{background:var(--card-bg);border-radius:14px;box-shadow:0 6px 18px var(--shadow);
-  border:1px solid rgba(0,0,0,.04);overflow:hidden;transition:transform .2s,box-shadow .2s}
-.home-acc:hover{transform:translateY(-2px);box-shadow:0 10px 24px var(--shadow)}
-.home-acc summary{list-style:none;cursor:pointer;padding:.9rem 1rem;display:flex;
-  align-items:center;justify-content:space-between;gap:.8rem;background:
-  linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;font-weight:800}
-.home-acc summary::-webkit-details-marker{display:none}
-.home-acc .date-sub{font-weight:700;font-size:.92rem;opacity:.9}
-.acc-lessons{display:flex;flex-direction:column;gap:.5rem;padding:.6rem .8rem 1rem}
-.acc-lesson{display:grid;grid-template-columns:96px 1fr;gap:.8rem;align-items:start;
-  background:var(--bg);border-radius:12px;padding:.65rem .75rem;border-left:4px solid var(--accent)}
-.acc-lesson .t{font-weight:800;font-size:.98rem;text-align:center;background:rgba(72,209,204,.12);
-  border:1px solid rgba(72,209,204,.28);border-radius:10px;padding:.32rem .4rem;color:var(--text)}
-.acc-lesson .s{font-weight:800;font-size:1.06rem;margin-bottom:.1rem;color:var(--text)}
-.acc-lesson .m{font-size:.92rem;opacity:.8;font-weight:600}
-.acc-lesson.lec{border-left-color:#ff6699}
-.acc-lesson.lab{border-left-color:#48d1cc}
-.acc-lesson.pr{border-left-color:#8a53ff}
-.hw-inline{margin-top:.4rem}
-.hw-head{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-.hw-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;
-  padding:.38rem .8rem;border-radius:10px;font-weight:750;cursor:pointer;box-shadow:0 3px 10px var(--shadow)}
-.hw-content{margin-top:.5rem;padding:.6rem;border-left:3px solid var(--accent);background:var(--bg);
-  border-radius:8px;display:none}
-.hw-done{display:inline-flex;gap:.4rem;align-items:center;font-size:.92rem;font-weight:650}
-.dark-theme .home-acc{border-color:rgba(255,255,255,.06)}
-/* Бейдж типа занятия рядом с предметом */
-.ln .badge-type,
-.acc-lesson .badge-type{
-  display:inline-block;
-  margin-left:.45rem;
-  padding:.06rem .5rem;
-  border-radius:8px;
-  font-size:.78rem;
-  font-weight:800;
-  border:1px solid transparent;
-  vertical-align:middle;
-}
-
-/* Раскраска под тип */
-.ln.lec .badge-type, .acc-lesson.lec .badge-type {
-  background:rgba(255,102,153,.12);
-  border-color:rgba(255,102,153,.35);
-}
-.ln.lab .badge-type, .acc-lesson.lab .badge-type {
-  background:rgba(72,209,204,.12);
-  border-color:rgba(72,209,204,.32);
-}
-.ln.pr  .badge-type, .acc-lesson.pr .badge-type {
-  background:rgba(138,83,255,.12);
-  border-color:rgba(138,83,255,.32);
-}
-.ln.mix .badge-type, .acc-lesson.mix .badge-type {
-  background:linear-gradient(90deg, rgba(255,102,153,.12), rgba(138,83,255,.12));
-  border-color:rgba(255,255,255,.25);
-}
-.map-btn{
-  display:inline-flex; align-items:center; gap:8px;
-  margin-top:.6rem; padding:.55rem 1rem; border-radius:12px;
-  background:linear-gradient(135deg,var(--accent),var(--secondary));
-  color:#fff; text-decoration:none; font-weight:750; box-shadow:0 3px 10px var(--shadow);
-  transition:var(--transition);
-}
-.map-btn:hover{ transform:translateY(-2px) scale(1.02);
-  background:linear-gradient(135deg,var(--secondary),var(--primary)); }
-.map-btn i{ font-size:1rem; }
-.plan-btn{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:.55rem 1rem; border-radius:12px; border:none; cursor:pointer;
-  background:linear-gradient(135deg,var(--accent),var(--secondary));
-  color:#fff; font-weight:800; box-shadow:0 3px 10px var(--shadow);
-  transition:var(--transition);
-}
-.plan-btn:hover{ transform:translateY(-2px) scale(1.02);
-  background:linear-gradient(135deg,var(--secondary),var(--primary)); }
-.plan-btn i{ font-size:1rem; }
-
-.plan-box{
-  display:none; /* спрятано по умолчанию */
-  margin-top:.8rem; padding:1rem; border-left:4px solid var(--accent);
-  background:var(--card-bg); border-radius:12px; box-shadow:0 6px 18px var(--shadow);
-}
-.plan-box img{ max-width:100%; height:auto; border-radius:8px; }
-/* ===== Лекции: аккордеон по предметам ===== */
-.holiday-card{border-left-color:#ff6699}
-
-  </style>
+       <link rel="stylesheet" href="templatemo-noir-fashion.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>18.1-509 | Академический портал</title>
 </head>
 <body>
-<header>
-  <nav>
-    <button class="nav-btn active" data-tab="home">Главная</button>
-    <button class="nav-btn" data-tab="schedule">Расписание</button>
-    <button class="nav-btn" data-tab="homework">ДЗ</button>
-  </nav>
-  <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
-    <i class="fas fa-moon"></i>
-  </button>
-</header>
-<main>
-  <section id="home" class="section active">
-  <div id="home-accordion" class="home-accordion"></div>
-  <!-- остальной контент секции оставь -->
-
-   <h2><i class="fas fa-info-circle"></i> Информация</h2>
-    <p>Сдайте преподу справки о группе здоровья по физре (практике)</p>
-    <a class="map-btn" href="https://yandex.ru/maps/236/naberezhnye-chelny/?ll=52.392390%2C55.727655&mode=usermaps&source=constructorLink&um=constructor%3A2df08f1c09fc9173b1229610e5fd46b51d3922d2abd8bc7a9ebb8999f026bfb1&z=15"
-   target="_blank" rel="noopener">
-  <i class="fas fa-map-location-dot"></i> Все корпуса и общежития на карте
-</a>
-
-    <h2><i class="fas fa-graduation-cap"></i> Учебный план</h2>
-    <div>
-  <button id="planToggle" class="plan-btn">
-    <i class="fas fa-table"></i> 1 курс
-  </button>
-
-  <div id="planBox" class="plan-box" aria-hidden="true">
-    <!-- Используй свой путь к картинке с таблицей -->
-    <img src="assets/img/a6.jpeg" alt="Учебный план: 1 курс">
-  </div>
-</div>
-
- 
-    <h2><i class="fas fa-tasks"></i> Критерии оценивания</h2>
-    <p>Итоговая оценка складывается из:</p>
-    <ul style="margin-left:2rem;margin-top:0.8rem;">
-      <li>50% — посещение и активность на парах</li>
-      <li>50% — результат зачёта</li>
-    </ul>
-    <p style="margin-top:1.5rem;"><strong>Шкала оценок:</strong></p>
-    <ul style="margin-left:2rem;">
-      <li>ниже 56 баллов — не сдал ❌</li>
-      <li>56–70 — Удовлетворительно ✅</li>
-      <li>71–85 — Хорошо ✅</li>
-      <li>86–100 — Отлично ✅</li>
-    </ul>
-  </section>
-  <section id="schedule" class="section">
-    <div style="display:flex;gap:1rem;margin:1.8rem 0;justify-content:center;flex-wrap:wrap;">
-      <button class="week-toggle-btn active" id="week-upper">Верхняя неделя</button>
-      <button class="week-toggle-btn" id="week-lower">Нижняя неделя</button>
+    <!-- Вход в систему -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-container">
+            <svg class="login-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="50,10 20,50 50,90 80,50" fill="none" stroke="#ff3366" stroke-width="3"/>
+                <circle cx="50" cy="50" r="5" fill="#ff3366"/>
+            </svg>
+            <h2 class="login-title">18.1-509</h2>
+            <p class="login-subtitle">Академический портал группы</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Введите пароль" autocomplete="off">
+            <button id="loginBtn" class="login-btn">Войти</button>
+            <div id="loginError" class="login-error">Неверный пароль</div>
+        </div>
     </div>
-    <div class="full-schedule-list" id="full-schedule"></div>
-  </section>
-  <section id="homework" class="section">
-    <h2><i class="fas fa-pen"></i> Домашнее задание</h2>
-    <div class="homework-list" id="homework-list"></div>
-  </section>
-</main>
-<footer>© 2025 Сделано с ❤ для одногруппников</footer>
-<div id="taskModal" class="modal-overlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
-    <img id="taskModalImg" src="" alt="Задание" />
-    <button id="taskModalClose" class="modal-close">Закрыть</button>
-  </div>
-</div>
-<script>
-// ===== ТЕМА =====
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-const savedTheme = localStorage.getItem('theme');
-const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-let currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
 
-function applyTheme(theme) {
-  if (theme === 'dark') {
-    body.classList.add('dark-theme');
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    localStorage.setItem('theme', 'dark');
-  } else {
-    body.classList.remove('dark-theme');
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    localStorage.setItem('theme', 'light');
-  }
-}
-applyTheme(currentTheme);
-themeToggle.addEventListener('click', () => {
-  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  applyTheme(currentTheme);
-});
+    <!-- Навигация -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo-link">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="50,10 20,50 50,90 80,50" fill="none" stroke="#ff3366" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="5" fill="#ff3366"/>
+                </svg>
+                <span class="logo-text">18.1-509</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-tab="home">Главная</a></li>
+                <li><a href="#" class="nav-link" data-tab="schedule">Расписание</a></li>
+                <li><a href="#" class="nav-link" data-tab="homework">ДЗ</a></li>
+                <li><a href="#" class="nav-link" data-tab="lectures">Лекции</a></li>
+                <li><a href="#" class="nav-link" data-tab="exams">Зачёты</a></li>
+                <li><a href="#" class="nav-link" data-tab="tests">Экзамены</a></li>
+                <li><a href="#" class="nav-cta">Сессия 2025</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
 
-// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
-function getMoscowDate() {
-  const now = new Date();
-  return new Date(now.getTime() + (now.getTimezoneOffset() + 180) * 60000);
-}
-function formatDate(date) {
-  const days = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
-  const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-  return `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]}`;
-}
-function addDays(date, days) {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-}
-function getWeekType(date) {
-  const semesterStart = new Date(2024, 8, 2);
-  const diffWeeks = Math.floor((date - semesterStart) / (7 * 24 * 60 * 60 * 1000));
-  return diffWeeks % 2 === 0 ? 'upper' : 'lower';
-}
-const HOLIDAYS = [{ m: 10, d: 4, name: 'День народного единства' }]; // 10 = ноябрь
-
-function getHoliday(date){
-  const m = date.getMonth();
-  const d = date.getDate();
-  return HOLIDAYS.find(x => x.m === m && x.d === d) || null;
-}
-
-
-// ===== ХРАНЕНИЕ ВЫПОЛНЕННЫХ ДЗ =====
-function getCompletedTasks() {
-  const saved = localStorage.getItem('completedHomework');
-  return saved ? JSON.parse(saved) : {};
-}
-function setCompletedTask(key, completed) {
-  const tasks = getCompletedTasks();
-  tasks[key] = completed;
-  localStorage.setItem('completedHomework', JSON.stringify(tasks));
-}
-
-// ===== ДАННЫЕ =====
-const scheduleData = {
-  upper: {
-    1: [{time:"08:00–09:30",subject:"Физкультура",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"профессор Москвин Николай Геннадьевна",hw:""},
-        {time:"09:40–11:10",subject:"Химия",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"доцент Сиппель Ирина Яковлевна",hw:""},
-        {time:"11:50–13:20",subject:"Химия",type:"лаб.",room:"УЛК-1, ауд. 145/143",teacher:"доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович",hw:"Защита лаб для второй группы"},
-        {time:"13:30–15:00",subject:"Химия",type:"лаб.",room:"УЛК-1, ауд. 145/143",teacher:"доцент Сиппель Ирина Яковлевна / Шарафутдинов Рафик Низамутдинович",hw:""}],
-    2: [{time:"08:00–09:30",subject:"Основы российской государственности",type:"практика",room:"УЛК-1, ауд. 454",teacher:"доцент Яковлева Марина Геннадьевна",hw:""},
-        {time:"09:40–11:10",subject:"Основы российской государственности",type:"практика",room:"УЛК-1, ауд. 454",teacher:"доцент Яковлева Марина Геннадьевна",hw:""},
-        {time:"11:50–13:20",subject:"Информатика",type:"лаб.",room:"УЛК-2, ауд. 401/418",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:""}],
-    3: [{time:"08:00–09:30",subject:"История России",type:"практика",room:"УЛК-1, ауд. 420",teacher:"доцент Бессонова Татьяна Викторовна",hw:""},
-        {time:"09:40–11:10",subject:"История России",type:"лекция",room:"УЛК-1, ауд. 414",teacher:"доцент Бессонова Татьяна Викторовна",hw:""},
-        {time:"11:50–13:20",subject:"Иностранный язык (2 подгр.)",type:"практика",room:"УЛК-1, ауд. 326",teacher:"доцент Славина Лилия Рустамовна",hw:""}],
-    5: [{time:"08:00–09:30",subject:"Математический анализ",type:"практика",room:"УЛК-2, ауд. 432",teacher:"доцент Губочкина Наталья Ивановна",hw:"на листочке в whatsapp"},
-        {time:"09:40–11:10",subject:"Математический анализ",type:"лекция",room:"УЛК-2, ауд. 302",teacher:"доцент Губочкина Наталья Ивановна",hw:""},
-        {time:"11:50–13:20",subject:"Физическая культура и спорт",type:"практика",room:"спорткомплекс, ауд. 24",teacher:"преп. Камалетдинов Марат Шавкитович",hw:""},
-        {time:"13:30–15:00",subject:"Иностранный язык (1 подгр.)",type:"практика",room:"УЛК-4, ауд. 208",teacher:"ст.преп. Мустафина Лилия Рашидовна",hw:""}],
-      },
-  lower: {
-    1: [{time:"09:40–11:10",subject:"Химия",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"доцент Сиппель Ирина Яковлевна",hw:""},
-        {time:"11:50–13:20",subject:"Основы российской государственности",type:"лекция",room:"УЛК-1, ауд. 420",teacher:"доцент Яковлева Марина Геннадьевна",hw:""}],
-    2: [{time:"08:00–09:30",subject:"Программирование",type:"лаб.",room:"УЛК-2, ауд. 405/406",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:"лабы по блок схемам и C#"},
-        {time:"09:40–11:10",subject:"Информатика",type:"лаб.",room:"УЛК-2, ауд. 401/418",teacher:"ст.преп. Булатова Светлана Владимировна / Шигапова Л.Ф.",hw:"Выполнить лабораторные работы по Excel за первый семестр"},
-        {time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"практика",room:"УЛК-2 · ауд. 330",teacher:"доцент Феоктистова Лидия Александровна/Рзаева Татьяна Васильевна",hw:"Инженерная компьютерная графика:  9 (прошлое дз), 22 (3), 23, 38, задание на А3"},
-        {time:"13:30–15:00",subject:"Введение в профессиональную деятельность",type:"лекция/практика",room:"УЛК-2 · ауд. 417",teacher:"доцент Валиев Рустам Асгатович",hw:""}],
-    3: [{time:"09:40–11:10",subject:"История России",type:"лекция",room:"УЛК-1, ауд. 414",teacher:"доцент Бессонова Татьяна Викторовна",hw:""},
-        {time:"11:50–13:20",subject:"Инженерная компьютерная графика",type:"лекция",room:"УЛК-2, ауд. 341",teacher:"доцент Феоктистова Лидия Александровна",hw:""}],
-    4: [{time:"08:00–09:30",subject:"Аналитическая геометрия",type:"практика",room:"УЛК-2, ауд. 302",teacher:"доцент Костин Андрей Викторович",hw:"2.94,2.98"},
-        {time:"09:40–11:10",subject:"Аналитическая геометрия",type:"лекция",room:"УЛК-2, ауд. 302",teacher:"доцент Костин Андрей Викторович",hw:""},
-        {time:"11:50–13:20",subject:"Аналитическая геометрия",type:"практика",room:"УЛК-2, ауд. 432",teacher:"доцент Костин Андрей Викторович",hw:""}],
-    5: [{time:"08:00–09:30",subject:"Математический анализ",type:"практика",room:"УЛК-2, ауд. 432",teacher:"доцент Губочкина Наталья Ивановна",hw:"на листочке"},
-        {time:"09:40–11:10",subject:"Математический анализ",type:"лекция",room:"УЛК-2, ауд. 302",teacher:"доцент Губочкина Наталья Ивановна",hw:""},
-        {time:"11:50–13:20",subject:"Информатика",type:"лекция",room:"УЛК-5, ауд. 305",teacher:"ст.преп. Булатова Светлана Владимировна",hw:""},
-        {time:"13:30–15:00",subject:"Программирование",type:"лекция",room:"УЛК-5, ауд. 308",teacher:"ст.преп. Булатова Светлана Владимировна",hw:""}]
-  }
-};
-const homeworkData = {
-  "2025-12-01": [{hw:"Информатика: Выполнить лабораторные работы по Excel и по базам данных за первый семестр", 
-  files: ["ЛАБОРАТОРНЫЕ РАБОТЫ по Электронной таблице MS Excel(2).doc", "Лабораторные работы 1-5 по Базам данных.pdf"], solution:{text: "пока не сделано"}
-  },
-  {hw:"Программирование: Выполнить лабораторные работы по Блок схемам и C# за первый семестр",
-    files: ["1_курс1_семестр_темы_лаб_раб..docx"], solution:{text: "пока не сделано"}
-  }],
-    "2025-10-21": [{hw:"Инженерная компьютерная графика:  9 (прошлое дз), 22 (3), 23, 38, задание на А3",files: ["дз 2.pdf","УМП_Сборник_задач_по_НГ.pdf"],
-    solution:{text: "пока не сделано"}
-    }  
-  ],
-      "2025-10-23": [{hw:"Аналитическая геометрия:  2.94, 2.98", taskImage: "assets/img/a4.jpeg",
-        solution:{text: "пока не сделано"}
-      }  
-  ],
-        "2025-10-24": [{hw:"Математический анализ: на листочке", taskImage: "assets/img/a5.jpeg",
-          solution:{text: "пока не сделано"}
-        }  
-  ],
-          "2025-10-27": [{hw:"Химия (2 группа): Подготовиться к защите лабораторных работ, выучить лекцию химическая связь", 
-          solution:{text: "пока не сделано"}
-        }  
-  ],
-          "2025-10-29": [{hw:"История России: Семинар 2 и 3", 
-  files: ["Семинары по истории 1 семестр(1).docx"], solution:{text: "пока не сделано"}
-  },
-            {hw:"Иностранный язык (2 подгр.) : учебник 365 часть 2. unit 2: слова знать, Unit 4: 2 и 3, кто не до сдал, рассказать about myself и unit 2 13 стр it`s time to talk",
-          solution:{text: "пока не сделано"}
-        }  
-  ],
-  "2025-10-17": [{
-    hw:"Математический анализ: на листочке в whatsapp",
-     solution: {
-      images: ["assets/img/a1.jpeg", "assets/img/a2.jpeg"]
-    }
- }],
-  
-  "2025-10-15": [{
-    hw:"Иностранный язык (2 подгр.): Выучить текст About Myself",
-    solution:{text:`About Myself\n\nLet me introduce myself. My name is Alexander, Alex for short. My full name is Alexander Sergeyevich Orlov. Orlov is my surname. Alexander is my first name and Sergeyevich is my patronymic. I’m nearly eighteen—next Thursday is my birthday. Now I’m a first-year student. I study at the Institute. Every day I attend lectures. In January and June I take examinations. I get good or excellent marks in all the subjects. When I graduate from the Institute I want to work as an engineer.\n\nI have a large family. My parents have two more children besides me. Thus I have got an elder brother and a younger sister. My sister Helen is just out of school. She is sixteen. She is very fond of music and her dream is to become a pianist. My brother, whose name is Michael, is eight years my senior. He is twenty six already. He is a builder. He is married and has a family of his own. They are four in the family. He has a wife and two children— a son and a daughter. They are twins.\n\nMy parents are not old at all. Father is fifty and mother is three years his junior. My father is a doctor. He works in a hospital. He is very busy, he has a lot of patients and does all he can to help them. My mother is a book-keeper. She works at an office. She too has a lot of work. Still, she finds time to look after the house and to take care of all of us.\n\nMy grandfather is not yet a pensioner, though he is over seventy. He is still full of the life energy. My grandmother is also in very good health. She does most of the cooking. Of course mother helps her and so does my sister. In the evening we all come together and either watch TV or just talk about the events of the day. We are all great friends. I love my relatives dearly.`}
-  }],
-  "2025-10-13": [{hw:"Химия: Доделать самостоялку Второй подгруппе"}]
-};
-// ===== РЕНДЕР =====
-function renderCompactSchedule(container, date) {
-  const day = date.getDay();
-  const weekType = getWeekType(date);
-  const holiday = getHoliday(date);
-if (holiday){
-  container.innerHTML = `
-    <div class="lesson-card holiday-card" style="text-align:center;">
-      <div style="font-weight:800;">${date.getDate()} ${['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'][date.getMonth()]} — ${holiday.name}</div>
-      <div style="opacity:.85;margin-top:.35rem;">Выходной</div>
-    </div>`;
-  return;
-}
-  const lessons = scheduleData[weekType]?.[day] || [];
-  container.innerHTML = lessons.length ? '' : '<div class="lesson-card" style="text-align:center;color:#888;">Выходной 🌸</div>';
-  lessons.forEach(lesson => {
-    const card = document.createElement('div');
-    card.className = 'lesson-card';
-    let cardHTML = `
-      <div class="lesson-time"><i class="far fa-clock"></i> ${lesson.time}
-        <span class="lesson-subject" data-type="${lesson.type}">${lesson.subject}</span>
-      </div>
-      <div class="lesson-meta">${lesson.type} · ${lesson.room}</div>`;
-    if (lesson.hw) {
-      const hwKey = `${formatDate(date)}|${lesson.hw}`;
-      const isCompleted = getCompletedTasks()[hwKey] === true;
-      cardHTML += `
-        <button class="hw-toggle" data-hw-key="${hwKey}">ДЗ <i class="fas fa-chevron-down"></i></button>
-        <div class="hw-content" style="display:none;">${lesson.hw}</div>`;
-    }
-    card.innerHTML = cardHTML;
-    container.appendChild(card);
-    if (lesson.hw) {
-      const toggleBtn = card.querySelector('.hw-toggle');
-      const hwContent = card.querySelector('.hw-content');
-      toggleBtn.addEventListener('click', () => {
-        const isShown = hwContent.style.display === 'block';
-        hwContent.style.display = isShown ? 'none' : 'block';
-        toggleBtn.innerHTML = isShown ?
-          'ДЗ <i class="fas fa-chevron-down"></i>' :
-          'Скрыть <i class="fas fa-chevron-up"></i>';
-      });
-    }
-  });
-}
-function classifyType(raw){
-  const s = (raw || '').toLowerCase();
-  if (s.includes('лекция') && s.includes('практи')) return { cls:'mix', label:'лек./пр.' };
-  if (s.includes('лаб')) return { cls:'lab', label:'лаб.' };
-  if (s.includes('практи')) return { cls:'pr', label:'практика' };
-  return { cls:'lec', label:'лекция' };
-}
-function renderFullSchedule(weekType = 'upper') {
-  const container = document.getElementById('full-schedule');
-  container.innerHTML = '';
-
-  const dayNames = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
-  const lessonsByDay = scheduleData[weekType] || {};
-
-  const acc = document.createElement('div');
-  acc.className = 'schedule-accordion';
-
-  // Пн–Сб
-  for (let day = 1; day <= 5; day++) {
-    const items = lessonsByDay[day] || [];
-    const details = document.createElement('details');
-    details.className = 'day-acc';
-
-    const sum = document.createElement('summary');
-    sum.innerHTML = `
-      <span>${dayNames[day]}</span>
-      <span class="count">${items.length || 0}</span>
-    `;
-    details.appendChild(sum);
-
-    if (!items.length) {
-      const empty = document.createElement('div');
-      empty.className = 'day-empty-min';
-      empty.textContent = 'Выходной';
-      details.appendChild(empty);
-      acc.appendChild(details);
-      continue;
-    }
-
-    const list = document.createElement('div');
-    list.className = 'lessons-min';
-
-    items.forEach(lesson => {
-      const line = document.createElement('div');
-const { cls, label } = classifyType(lesson.type);
-line.className = `ln ${cls}`;
-line.innerHTML = `
-  <div class="t">${lesson.time}</div>
-  <div>
-    <div class="s">
-      ${lesson.subject}
-      <span class="badge-type">${label}</span>
+    <!-- Мобильная навигация -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul class="mobile-nav-links">
+            <li><a href="#" data-tab="home">Главная</a></li>
+            <li><a href="#" data-tab="schedule">Расписание</a></li>
+            <li><a href="#" data-tab="homework">ДЗ</a></li>
+            <li><a href="#" data-tab="lectures">Лекции</a></li>
+            <li><a href="#" data-tab="exams">Зачёты</a></li>
+            <li><a href="#" data-tab="tests">Экзамены</a></li>
+        </ul>
     </div>
-    <div class="m">${lesson.room}${lesson.teacher ? ` · ${lesson.teacher}` : ''}</div>
-  </div>
-`;
 
-      list.appendChild(line);
-    });
+    <!-- Главная секция -->
+    <section class="hero" id="homeSection">
+        <div class="hero-bg"></div>
+        <div class="hero-container">
+            <div class="hero-left">
+                <div class="hero-badge">Январь 2025</div>
+                <h1 class="hero-title">
+                    <span>Академический</span>
+                    <span>Портал <span class="accent">18.1-509</span></span>
+                </h1>
+                <p class="hero-description">
+                    Полный доступ к расписанию, материалам лекций, домашним заданиям и экзаменам.
+                    Вся необходимая информация для успешной учёбы в одном месте.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">7</span>
+                        <span class="stat-label">Предметов</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Экзаменов</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Готовность</span>
+                    </div>
+                </div>
+                <div class="cta-group">
+                    <a href="#" class="cta-button primary" data-tab="schedule">Расписание</a>
+                    <a href="#" class="cta-button outline" data-tab="tests">Экзамены</a>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="calendar-grid">
+                    <!-- Январь 2025 события будут заполнены через JS -->
+                </div>
+            </div>
+        </div>
+    </section>
 
-    details.appendChild(list);
-    acc.appendChild(details);
-  }
+    <!-- Секции контента -->
+    <section class="content-section" id="scheduleSection">
+        <div class="section-header">
+            <h2 class="section-title">Расписание занятий</h2>
+            <p class="section-subtitle">1 семестр 2024/2025 учебного года</p>
+        </div>
+        
+        <div class="week-tabs">
+            <button class="week-tab active" data-week="upper">Верхняя неделя</button>
+            <button class="week-tab" data-week="lower">Нижняя неделя</button>
+        </div>
+        
+        <div id="upperWeekSchedule">
+            <!-- Расписание верхней недели -->
+        </div>
+        
+        <div id="lowerWeekSchedule" class="hidden">
+            <!-- Расписание нижней недели -->
+        </div>
+    </section>
 
-  container.appendChild(acc);
+    <section class="content-section" id="homeworkSection">
+        <div class="section-header">
+            <h2 class="section-title">Домашние задания</h2>
+            <p class="section-subtitle">Актуальные задания по всем предметам</p>
+        </div>
+        
+        <div class="homework-grid" id="homeworkGrid">
+            <!-- Домашние задания -->
+        </div>
+    </section>
 
-  document.getElementById('week-upper').classList.toggle('active', weekType === 'upper');
-  document.getElementById('week-lower').classList.toggle('active', weekType === 'lower');
+    <section class="content-section" id="lecturesSection">
+        <div class="section-header">
+            <h2 class="section-title">Лекции и материалы</h2>
+            <p class="section-subtitle">Все учебные материалы в одном месте</p>
+        </div>
+        
+        <div class="exam-grid" id="lecturesGrid">
+            <!-- Лекции -->
+        </div>
+    </section>
 
-  // НИЧЕГО не открываем автоматически
-  container.querySelectorAll('.day-acc').forEach(d => { d.open = false; });
+    <section class="content-section" id="examsSection">
+        <div class="section-header">
+            <h2 class="section-title">Зачёты</h2>
+            <p class="section-subtitle">Декабрь 2024 - Январь 2025</p>
+        </div>
+        
+        <div class="exam-grid" id="examsGrid">
+            <!-- Зачёты -->
+        </div>
+    </section>
 
+    <section class="content-section" id="testsSection">
+        <div class="section-header">
+            <h2 class="section-title">Экзамены</h2>
+            <p class="section-subtitle">Январская сессия 2025</p>
+        </div>
+        
+        <div class="exam-grid" id="testsGrid">
+            <!-- Экзамены -->
+        </div>
+    </section>
 
-}
+    <script>
+        // Данные для сайта
+        const siteData = {
+            password: "study2024",
+            events: [
+                { date: "12 января", subject: "Информатика", type: "экзамен", details: "13:00, УЛК-4, 235", description: "Экзамен по информатике" },
+                { date: "16 января", subject: "Мат. анализ", type: "консультация", details: "10:30, УЛК-4, 450", description: "Консультация перед экзаменом" },
+                { date: "17 января", subject: "Мат. анализ", type: "экзамен", details: "13:00, УЛК-4, 235", description: "Экзамен по математическому анализу" },
+                { date: "19 января", subject: "Программирование", type: "консультация", details: "13:00, УЛК-2, 405", description: "Консультация по программированию" },
+                { date: "22 января", subject: "Программирование", type: "экзамен", details: "13:00, УЛК-4, 236", description: "Экзамен по программированию" },
+                { date: "23 января", subject: "Химия", type: "консультация", details: "11:00, УЛК-1, 139", description: "Консультация по химии" },
+                { date: "27 января", subject: "Химия", type: "экзамен", details: "13:00, УЛК-1, 420", description: "Экзамен по химии" }
+            ],
+            schedule: {
+                upper: [
+                    { day: "Понедельник", lessons: [
+                        { time: "08:00", subject: "Физическая культура", type: "Лекция", details: "УЛК-1, 420" },
+                        { time: "09:40", subject: "Химия", type: "Лекция", details: "УЛК-1, 420" },
+                        { time: "11:50", subject: "Химия", type: "Лаб. работа", details: "УЛК-1, 145/143" }
+                    ]},
+                    { day: "Вторник", lessons: [
+                        { time: "08:00", subject: "Основы российской государственности", type: "Практика", details: "УЛК-1, 454" },
+                        { time: "09:40", subject: "Основы российской государственности", type: "Практика", details: "УЛК-1, 454" },
+                        { time: "11:50", subject: "Информатика", type: "Лаб. работа", details: "УЛК-2, 401/418" }
+                    ]}
+                ],
+                lower: [
+                    { day: "Понедельник", lessons: [
+                        { time: "09:40", subject: "Химия", type: "Лекция", details: "УЛК-1, 420" },
+                        { time: "11:50", subject: "Основы российской государственности", type: "Лекция", details: "УЛК-1, 420" }
+                    ]},
+                    { day: "Вторник", lessons: [
+                        { time: "08:00", subject: "Программирование", type: "Лаб. работа", details: "УЛК-2, 405/406" },
+                        { time: "09:40", subject: "Информатика", type: "Лаб. работа", details: "УЛК-2, 401/418" },
+                        { time: "11:50", subject: "Инженерная компьютерная графика", type: "Практика", details: "УЛК-2, 330" }
+                    ]}
+                ]
+            },
+            homework: [
+                { subject: "Математика", topic: "Алгебра", due: "15.10.2024", description: "Решить задачи №125-140 из учебника" },
+                { subject: "Физика", topic: "Механика", due: "12.10.2024", description: "Подготовить лабораторную работу №5" },
+                { subject: "Программирование", topic: "Python", due: "18.10.2024", description: "Написать программу для обработки CSV-файлов" }
+            ],
+            exams: [
+                { date: "18 декабря 11:50", subject: "Аналитическая геометрия", type: "зачет", details: "УЛК-2, 432" },
+                { date: "24 декабря 11:50", subject: "Иностранный язык", type: "зачет", details: "УЛК-1, 326" },
+                { date: "24 декабря 15:40", subject: "История России", type: "зачет", details: "УЛК-1, 406" }
+            ],
+            tests: [
+                { date: "12 января 13:00", subject: "Информатика", type: "экзамен", details: "УЛК-4, 235" },
+                { date: "17 января 13:00", subject: "Мат. анализ", type: "экзамен", details: "УЛК-4, 235" },
+                { date: "22 января 13:00", subject: "Программирование", type: "экзамен", details: "УЛК-4, 236" },
+                { date: "27 января 13:00", subject: "Химия", type: "экзамен", details: "УЛК-1, 420" }
+            ]
+        };
 
+        // Элементы DOM
+        const loginOverlay = document.getElementById('loginOverlay');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-links a, .cta-button');
+        const sections = document.querySelectorAll('.content-section');
+        const weekTabs = document.querySelectorAll('.week-tab');
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
 
-function renderHomework() {
-  const container = document.getElementById('homework-list');
-  const now = getMoscowDate();
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-  const allDates = Object.keys(homeworkData);
-  if (allDates.length === 0) {
-    container.innerHTML = '<p style="text-align:center;color:#888;">Домашнее задание пока не добавлено.</p>';
-    return;
-  }
-
-  // Разделяем даты на актуальные и прошедшие
-  const futureOrToday = [];
-  const past = [];
-
-  allDates.forEach(dateStr => {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    const date = new Date(y, m - 1, d);
-    if (date >= todayStart) {
-      futureOrToday.push(dateStr);
-    } else {
-      past.push(dateStr);
-    }
-  });
-
-  // Сортируем обе группы по возрастанию даты
-futureOrToday.sort((a, b) => new Date(a) - new Date(b));
-past.sort((a, b) => new Date(b) - new Date(a));
-
-  // Сначала актуальные, потом прошедшие
-  const sortedDates = [...futureOrToday, ...past];
-
-  container.innerHTML = '';
-
-  sortedDates.forEach(dateStr => {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    const date = new Date(y, m - 1, d);
-    const isPast = date < todayStart;
-
-    const dayDiv = document.createElement('div');
-    dayDiv.className = 'homework-date';
-    if (isPast) {
-      dayDiv.style.opacity = '0.7';
-      dayDiv.style.borderLeft = '3px solid #aaa';
-    }
-
-    dayDiv.innerHTML = `<h3>${formatDate(date)}${isPast ? ' <small>(прошло)</small>' : ''}</h3>`;
-
-    homeworkData[dateStr].forEach(item => {
-      const hwKey = `${dateStr}|${item.hw}`;
-      const hasSolution = false;
-      const hasFiles = item.files && Array.isArray(item.files) && item.files.length > 0;
-
-      let homeworkHTML = item.hw;
-const taskImg = item.taskImage || (Array.isArray(item.taskImages) ? item.taskImages[0] : null);
-if (taskImg) {
-  homeworkHTML += `
-    <button class="view-task-btn" data-img="${taskImg}">
-      <i class="fas fa-image"></i> Посмотреть задание
-    </button>
-  `;
-}
-
-      // Добавляем ссылки на файлы, если они есть
-      if (hasFiles) {
-        homeworkHTML += `<div class="hw-files" style="margin-top:0.6rem;">`;
-        item.files.forEach(fileUrl => {
-          // Извлекаем имя файла из URL (убираем параметры после ?)
-          const fileName = decodeURIComponent(fileUrl.split('/').pop().split('?')[0]) || 'Файл';
-          homeworkHTML += `
-            <a href="${fileUrl}" download="${fileName}" target="_blank"
-               style="display:inline-block; margin-top:0.4rem; padding:0.4rem 0.8rem;
-                      background:var(--accent); color:white; text-decoration:none;
-                      border-radius:8px; font-size:0.95rem; font-weight:600;">
-              📥 Скачать: ${fileName}
-            </a>`;
-        });
-        homeworkHTML += `</div>`;
-      }
-
-      // Добавляем кнопку "Решение", если есть
-      if (hasSolution) {
-        homeworkHTML += `
-          <button class="solution-toggle" data-hw-key="${hwKey}">Решение <i class="fas fa-chevron-down"></i></button>
-          <div class="solution-content" style="display:none;"></div>`;
-      }
-
-      const homeworkItem = document.createElement('div');
-      homeworkItem.className = 'homework-item';
-      homeworkItem.innerHTML = homeworkHTML;
-      const viewBtn = homeworkItem.querySelector('.view-task-btn');
-if (viewBtn) {
-  viewBtn.addEventListener('click', () => openTaskModal(viewBtn.dataset.img));
-}
-      dayDiv.appendChild(homeworkItem);
-
-      // Обработчик для кнопки "Решение"
-      if (hasSolution) {
-        const btn = homeworkItem.querySelector('.solution-toggle');
-        const content = homeworkItem.querySelector('.solution-content');
-        btn.addEventListener('click', () => {
-          const isShown = content.style.display === 'block';
-          content.style.display = isShown ? 'none' : 'block';
-          content.innerHTML = (item.solution.text ? `<div class="solution-text">${item.solution.text}</div>` : '') +
-            (item.solution.images?.length ? `<div class="solution-images">${item.solution.images.map(img => `<img src="${img}" alt="Решение">`).join('')}</div>` : '');
-          btn.innerHTML = isShown ?
-            'Решение <i class="fas fa-chevron-down"></i>' :
-            'Скрыть <i class="fas fa-chevron-up"></i>';
-        });
-      }
-    });
-
-    container.appendChild(dayDiv);
-  });
-}
-
-// ===== ИНИЦИАЛИЗАЦИЯ =====
-function init() {
-  const now = getMoscowDate();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const tomorrow = addDays(today, 1);
-renderHomeAccordion();
-
-  renderFullSchedule();
-  renderHomework();
-  initPlanToggle();
-}
-
-// ===== СОБЫТИЯ =====
-document.querySelectorAll('.nav-btn').forEach(btn =>
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  })
-);
-document.getElementById('week-upper').addEventListener('click', () => renderFullSchedule('upper'));
-document.getElementById('week-lower').addEventListener('click', () => renderFullSchedule('lower'));
-
-window.addEventListener('load', init);
-// ===== МОДАЛКА С ИЗОБРАЖЕНИЕМ ЗАДАНИЯ =====
-function openTaskModal(imgUrl) {
-  const overlay = document.getElementById('taskModal');
-  const img = document.getElementById('taskModalImg');
-  img.src = imgUrl;
-  overlay.style.display = 'flex';
-  overlay.setAttribute('aria-hidden', 'false');
-  // фокус на кнопку закрытия для доступности
-  setTimeout(() => document.getElementById('taskModalClose').focus(), 0);
-}
-
-function closeTaskModal() {
-  const overlay = document.getElementById('taskModal');
-  const img = document.getElementById('taskModalImg');
-  overlay.style.display = 'none';
-  overlay.setAttribute('aria-hidden', 'true');
-  img.src = '';
-}
-
-// закрытие по клику на фон и по Esc
-(() => {
-  const overlay = document.getElementById('taskModal');
-  const closeBtn = document.getElementById('taskModalClose');
-  if (!overlay || !closeBtn) return;
-
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeTaskModal();
-  });
-  closeBtn.addEventListener('click', closeTaskModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && overlay.style.display === 'flex') closeTaskModal();
-  });
-})();
-function dateISO(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function renderHomeAccordion(){
-  const box = document.getElementById('home-accordion');
-  if(!box) return;
-  box.innerHTML = '';
-
-  const nowMSK = getMoscowDate();
-  const base = new Date(nowMSK.getFullYear(), nowMSK.getMonth(), nowMSK.getDate());
-  const labels = [
-    {shift:-1, title:'Вчера'},
-    {shift: 0, title:'Сегодня'},
-    {shift: 1, title:'Завтра'},
-    {shift: 2, title:'Послезавтра'}
-  ];
-  const dayNames = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
-  const monthNames = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-
-  labels.forEach(({shift,title})=>{
-    const d = addDays(base, shift);
-    const weekType = getWeekType(d);
-    const day = d.getDay();
-    const lessons = scheduleData[weekType]?.[day] || [];
-const holiday = getHoliday(d);
-    const details = document.createElement('details');
-    details.className = 'home-acc';
-    // открываем только сегодня по умолчанию
-    details.open = false;
-
-    const sum = document.createElement('summary');
-    sum.innerHTML = `
-      <span>${title}</span>
-      <span class="date-sub">${dayNames[day]}, ${d.getDate()} ${monthNames[d.getMonth()]}</span>
-    `;
-    details.appendChild(sum);
-
-    const wrap = document.createElement('div');
-    wrap.className = 'acc-lessons';
-
-if (holiday) {
-  const empty = document.createElement('div');
-  empty.className = 'day-empty-min';
-  empty.textContent = `${d.getDate()} ${monthNames[d.getMonth()]} — ${holiday.name}. Выходной`;
-  wrap.appendChild(empty);
-} else if(!lessons.length){
-  const empty = document.createElement('div');
-  empty.className = 'day-empty-min';
-  empty.textContent = 'Выходной';
-  wrap.appendChild(empty);
-} else {
-  lessons.forEach(lesson=>{
-        const line = document.createElement('div');
-const { cls, label } = classifyType(lesson.type);
-line.className = `acc-lesson ${cls}`;
-        line.innerHTML = `
-          <div class="t">${lesson.time}</div>
-          <div>
-             <div class="s">
-      ${lesson.subject}
-      <span class="badge-type">${label}</span>
-    </div>
-            <div class="m">${lesson.room}${lesson.teacher ? ` · ${lesson.teacher}` : ''}</div>
-            ${lesson.hw ? `<div class="hw-inline">
-              <div class="hw-head">
-                <button class="hw-btn">ДЗ</button>
-                <label class="hw-done">
-                  <input type="checkbox" class="hw-check">
-                  выполнено
-                </label>
-              </div>
-              <div class="hw-content">${lesson.hw}</div>
-            </div>` : ``}
-          </div>
-        `;
-        // поведение ДЗ с сохранением в localStorage
-        if(lesson.hw){
-          const hwKey = `${dateISO(d.getFullYear(), d.getMonth(), d.getDate())}|${lesson.subject}|${lesson.time}|${lesson.hw}`;
-          const btn = line.querySelector('.hw-btn');
-          const cnt = line.querySelector('.hw-content');
-          const chk = line.querySelector('.hw-check');
-
-          // восстановление состояния
-          const saved = getCompletedTasks()[hwKey] === true;
-          if(saved) chk.checked = true;
-
-          btn.addEventListener('click', ()=>{
-            const isShown = cnt.style.display === 'block';
-            cnt.style.display = isShown ? 'none' : 'block';
-            btn.textContent = isShown ? 'ДЗ' : 'Скрыть';
-          });
-          chk.addEventListener('change', (e)=>{
-            setCompletedTask(hwKey, e.target.checked);
-          });
+        // Проверка пароля
+        function checkAuth() {
+            return localStorage.getItem('auth') === 'true';
         }
-        wrap.appendChild(line);
-      });
-    }
 
-    details.appendChild(wrap);
-    box.appendChild(details);
-  });
-}
-function initPlanToggle(){
-  const btn = document.getElementById('planToggle');
-  const box = document.getElementById('planBox');
-  if(!btn || !box) return;
-  btn.addEventListener('click', ()=>{
-    const open = box.style.display === 'block';
-    box.style.display = open ? 'none' : 'block';
-    box.setAttribute('aria-hidden', open ? 'true' : 'false');
-  });
-}
+        // Авторизация
+        loginBtn.addEventListener('click', () => {
+            if (passwordInput.value === siteData.password) {
+                localStorage.setItem('auth', 'true');
+                loginOverlay.classList.add('hidden');
+                loadContent();
+            } else {
+                loginError.style.display = 'block';
+                passwordInput.style.borderColor = '#ff3366';
+            }
+        });
 
-</script>
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
+        // Загрузка контента
+        function loadContent() {
+            // Календарь событий
+            const calendarGrid = document.querySelector('.calendar-grid');
+            calendarGrid.innerHTML = siteData.events.map(event => `
+                <div class="calendar-card">
+                    <div class="event-date">${event.date}</div>
+                    <div class="event-type ${event.type}">${event.type}</div>
+                    <h3 class="event-subject">${event.subject}</h3>
+                    <p class="event-details">${event.details}</p>
+                    <p class="text-secondary">${event.description}</p>
+                </div>
+            `).join('');
+
+            // Расписание
+            function renderSchedule(week) {
+                const schedule = siteData.schedule[week];
+                const container = week === 'upper' ? 
+                    document.getElementById('upperWeekSchedule') : 
+                    document.getElementById('lowerWeekSchedule');
+                
+                container.innerHTML = schedule.map(day => `
+                    <div class="day-schedule">
+                        <div class="day-header">
+                            <h3>${day.day}</h3>
+                            <span>${week === 'upper' ? 'Верхняя неделя' : 'Нижняя неделя'}</span>
+                        </div>
+                        ${day.lessons.map(lesson => `
+                            <div class="lesson-item">
+                                <div class="lesson-time">${lesson.time}</div>
+                                <div>
+                                    <h4 class="lesson-subject">${lesson.subject}</h4>
+                                    <div class="event-type">${lesson.type}</div>
+                                    <p class="lesson-info">${lesson.details}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `).join('');
+            }
+
+            renderSchedule('upper');
+            renderSchedule('lower');
+
+            // Домашние задания
+            document.getElementById('homeworkGrid').innerHTML = siteData.homework.map(hw => `
+                <div class="homework-card">
+                    <div class="homework-header">
+                        <div class="subject-badge">${hw.subject}</div>
+                        <span class="due-date">До ${hw.due}</span>
+                    </div>
+                    <h3>${hw.topic}</h3>
+                    <p class="mt-4">${hw.description}</p>
+                </div>
+            `).join('');
+
+            // Зачёты
+            document.getElementById('examsGrid').innerHTML = siteData.exams.map(exam => `
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <h3>${exam.subject}</h3>
+                        <div class="exam-type ${exam.type}">${exam.type}</div>
+                    </div>
+                    <div class="event-date">${exam.date}</div>
+                    <p class="exam-details">${exam.details}</p>
+                </div>
+            `).join('');
+
+            // Экзамены
+            document.getElementById('testsGrid').innerHTML = siteData.tests.map(test => `
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <h3>${test.subject}</h3>
+                        <div class="exam-type ${test.type}">${test.type}</div>
+                    </div>
+                    <div class="event-date">${test.date}</div>
+                    <p class="exam-details">${test.details}</p>
+                </div>
+            `).join('');
+        }
+
+        // Навигация
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === sectionId + 'Section') {
+                    section.classList.add('active');
+                }
+            });
+
+            // Обновление активных ссылок
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.tab === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Прокрутка к секции
+            if (sectionId === 'home') {
+                document.getElementById('homeSection').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById(sectionId + 'Section').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Закрытие мобильного меню
+            mobileNav.classList.remove('active');
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.dataset.tab;
+                if (sectionId) showSection(sectionId);
+            });
+        });
+
+        // Переключение недель в расписании
+        weekTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                weekTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const week = tab.dataset.week;
+                document.getElementById('upperWeekSchedule').classList.toggle('hidden', week !== 'upper');
+                document.getElementById('lowerWeekSchedule').classList.toggle('hidden', week !== 'lower');
+            });
+        });
+
+        // Мобильное меню
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Инициализация
+        if (checkAuth()) {
+            loginOverlay.classList.add('hidden');
+            loadContent();
+        }
+
+        // Скрытая кнопка выхода (двойной клик по логотипу)
+        document.querySelector('.logo-link').addEventListener('dblclick', () => {
+            if (confirm('Выйти из системы?')) {
+                localStorage.removeItem('auth');
+                window.location.reload();
+            }
+        });
+    </script>
 </body>
 </html>
