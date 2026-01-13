@@ -4275,7 +4275,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <!-- Кнопка вопросов -->
                     <div class="exam-actions">
                         <button class="exam-questions-btn" data-exam="math_analysis_exam">
-                            <i class="fas fa-question-circle"></i> Вопросы к экзамену
+                            <i class="fas fa-question-circle"></i> Вариант 0
                         </button>
                     </div>
                     <!-- Вопросы (скрыты по умолчанию) -->
@@ -4566,17 +4566,79 @@ document.addEventListener('DOMContentLoaded', function() {
         Вопрос 1: Современная теория строения атома. Корпускулярно-волновые свойства элементарных частиц. Уравнение де Бройля. Принцип неопределенности Гейзенберга. Волновая функция. Уравнение Шредингера.
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="lecture-content-full">
-        <h4></h4>
-    </div>
+<div class="lecture-content-full">
+    <p><strong>Современная теория строения атома</strong></p>
+    <p>Современная теория строения атома основана на законах квантовой механики — науки, изучающей закономерности и законы движения микрообъектов.</p>
+
+    <p><strong>1. Двойственная (корпускулярно-волновая) природа элементарных частиц</strong></p>
+    <p>В 1924 году Луи де Бройль выдвинул гипотезу о корпускулярно-волновой двойственности (дуализме) электрона.</p>
+    <p><strong>Суть:</strong> электрон проявляет свойства волны и частицы. Позднее это было экспериментально подтверждено в опытах по дифракции и интерференции электронов (на кристаллах).</p>
+
+    <p><strong>Уравнение де Бройля</strong></p>
+    \[λ = \frac{h}{m \cdot v}\]
+    <p><strong>Частице</strong>, имеющей массу m и движущейся со скоростью v, соответствует волна длиной λ.</p>
+    <p><strong>Для электрона:</strong> m = 9·10⁻²⁸ г, скорость v = 10⁶ м/с, с движением электрона ассоциируется волна длиной λ = 10⁻¹⁰ м.</p>
+    <p><strong>h — постоянная Планка.</strong></p>
+    <p><em>Чем меньше масса частицы, тем больше длина волны.</em></p>
+
+    <p><strong>2. Принцип неопределенности Гейзенберга (1926 г)</strong></p>
+    \[Δq \cdot Δv ≥ \frac{h}{m}\]
+    <p>Δq — неопределённость нахождения (координат) частицы</p>
+    <p>Δv — неопределённость скорости частица</p>
+    <p><strong>Невозможно одновременно определить и скорость (или импульс), и положение микрочастицы (её координаты).</strong></p>
+    <p>В каждый момент времени можно определить лишь одно из этих свойств.</p>
+    
+    <p><strong>Волновая функция Ψ</strong></p>
+    <p>Квантовая механика описывает движение электрона с помощью волновой функции Ψ(x,y,z), где x, y, z — координаты точки.</p>
+    <p><strong>Физический смысл:</strong> Ψ² характеризует вероятность нахождения электрона в данной точке пространства.</p>
+    <p>Пространство вокруг ядра, в котором пребывание электрона наиболее вероятно — <strong>орбиталь</strong> (вероятность 95% и >).</p>
+
+    <p><strong>Волновое уравнение Шредингера (1926 г)</strong></p>
+    \[H \cdot Ψ = E \cdot Ψ\]
+    <p>E — полная энергия электрона</p>
+    <p>H — оператор Гамильтона</p>
+</div>
 
     <button class="lecture-toggle-btn">
         Вопрос 2: Квантовые числа: главное, орбитальное, магнитное и спиновое. Энергетические уровни, подуровни и орбитали
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="lecture-content-full">
-        <h4></h4>
-    </div>
+<div class="lecture-content-full">
+    <p>Электроны в атоме распределяются по уровням, подуровням и орбиталям.</p>
+    <p>Движение электронов в атоме упрощённо характеризуется квантовыми числами.</p>
+    <p><strong>n – главное квантовое число</strong>, характеризует размеры и энергию электронного облака.<br>
+    Принимает значения: <code>n = 1, 2, 3, 4, 5, 6, 7.....</code><br>
+    Каждому значению главного квантового числа <code>n</code> соответствует свой энергетический уровень. В системе Менделеева N периода отвечает значению максимального <code>n</code>.</p>
+    <p><strong>l – орбитальное (побочное, азимутальное) квантовое число</strong>, характеризует форму электронного облака.<br>
+    Принимает значения: <code>l = 0, 1, 2, ... (n – 1)</code><br>
+    Каждому значению орбитального квантового числа <code>l</code> соответствует свой энергетический подуровень.<br>
+    Обозначение энергетических подуровней:<br>
+    <code>l = 0</code> → <code>s</code> – подуровень<br>
+    <code>l = 1</code> → <code>p</code> – подуровень<br>
+    <code>l = 2</code> → <code>d</code> – подуровень<br>
+    <code>l = 3</code> → <code>f</code> – подуровень</p>
+    <p>Число подуровней на каждом энергетическом уровне:<br>
+    <code>n = 1</code> → <code>l = 0 (s)</code> → 1 подуровень<br>
+    <code>n = 2</code> → <code>l = 0 (s), l = 1 (p)</code> → 2 подуровня<br>
+    <code>n = 3</code> → <code>l = 0 (s), l = 1 (p), l = 2 (d)</code> → 3 подуровня<br>
+    <code>n = 4</code> → <code>l = 0 (s), l = 1 (p), l = 2 (d), l = 3 (f)</code> → 4 подуровня</p>
+    <p><strong>m<sub>l</sub> – магнитное квантовое число</strong>, характеризует пространственную ориентацию электронных облаков.<br>
+    Принимает значения: <code>m<sub>l</sub> = –l, ..., 0, ..., +l</code><br>
+    Всего значений: <code>2l + 1</code><br>
+    Каждому значению <code>m<sub>l</sub></code> соответствует своя орбиталь.<br>
+    Количество орбиталей на различных подуровнях:<br>
+    <code>l = 0 (s)</code>, <code>m<sub>l</sub> = 0</code> → 1 орбиталь<br>
+    <code>l = 1 (p)</code>, <code>m<sub>l</sub> = -1, 0, 1</code> → 3 орбитали<br>
+    <code>l = 2 (d)</code>, <code>m<sub>l</sub> = -2, -1, 0, 1, 2</code> → 5 орбиталей<br>
+    <code>l = 3 (f)</code>, <code>m<sub>l</sub> = -3, -2, -1, 0, 1, 2, 3</code> → 7 орбиталей</p>
+    <p>Квантовые числа <code>n, l, m<sub>l</sub></code> полностью характеризуют орбиталь.</p>
+    <p><strong>m<sub>s</sub> (s) – спиновое квантовое число (спин)</strong>, характеризует собственный магнитный момент вращения электрона вокруг своей оси.<br>
+    Спин – от англ. «spin» (кручение, вращение)<br>
+    <code>m<sub>s</sub> (s)</code> принимает 2 значения:<br>
+    <code>m<sub>s</sub> (s) = +1/2</code> , <code>m<sub>s</sub> (s) = –1/2</code>.<br>
+    ↑ ↓<br>
+    Квантовые числа <code>n, l, m<sub>l</sub>, m<sub>s</sub> (s)</code> полностью определяют состояние электрона в атоме.</p>
+</div>
 
     <button class="lecture-toggle-btn">
         Вопрос 3: Принципы заполнения атомных орбиталей атомов: принцип Паули, правило Хунда, принцип минимума энергии. Формы электронных орбиталей: s-, p- орбитали.
@@ -5538,6 +5600,156 @@ modalStyles.textContent = `
 document.head.appendChild(modalStyles);
 
 console.log('Модальное окно для изображений готово к работе');
+// ====== СОХРАНЕНИЕ И ВОССТАНОВЛЕНИЕ СОСТОЯНИЯ СТРАНИЦЫ ======
+
+// Сохранение состояния при закрытии/обновлении страницы
+function savePageState() {
+    const state = {
+        scrollPosition: window.scrollY,
+        activeTab: document.querySelector('.tab.active')?.getAttribute('data-tab') || 'main',
+        activeWeekTab: document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper',
+        expandedSections: getExpandedSections()
+    };
+    localStorage.setItem('pageState', JSON.stringify(state));
+}
+
+// Получение раскрытых секций (лекции, вопросы и т.д.)
+function getExpandedSections() {
+    const expanded = {};
+    
+    // Проверяем раскрытые лекции по истории
+    document.querySelectorAll('.history-lectures .lecture-content-full').forEach((section, index) => {
+        if (section.style.display === 'block') {
+            expanded[`history_${index}`] = true;
+        }
+    });
+    
+    // Проверяем раскрытые вопросы к экзаменам
+    document.querySelectorAll('.exam-questions').forEach((section, index) => {
+        if (section.style.display === 'block') {
+            expanded[`questions_${index}`] = true;
+        }
+    });
+    
+    // Проверяем раскрытые материалы
+    document.querySelectorAll('.history-lectures').forEach((section, index) => {
+        if (section.style.display === 'block') {
+            expanded[`materials_${index}`] = true;
+        }
+    });
+    
+    return expanded;
+}
+
+// Восстановление состояния при загрузке страницы
+function restorePageState() {
+    const savedState = localStorage.getItem('pageState');
+    if (!savedState) return;
+    
+    const state = JSON.parse(savedState);
+    
+    // Восстанавливаем активную вкладку
+    setTimeout(() => {
+        if (state.activeTab) {
+            const targetTab = document.querySelector(`.tab[data-tab="${state.activeTab}"]`);
+            if (targetTab && !targetTab.classList.contains('active')) {
+                targetTab.click();
+            }
+        }
+        
+        // Восстанавливаем активную неделю в расписании
+        if (state.activeWeekTab) {
+            const targetWeekTab = document.querySelector(`.week-tab[data-week="${state.activeWeekTab}"]`);
+            if (targetWeekTab && !targetWeekTab.classList.contains('active')) {
+                targetWeekTab.click();
+            }
+        }
+        
+        // Восстанавливаем раскрытые секции
+        if (state.expandedSections) {
+            restoreExpandedSections(state.expandedSections);
+        }
+        
+        // Восстанавливаем позицию прокрутки (с небольшой задержкой для полной загрузки контента)
+        setTimeout(() => {
+            if (state.scrollPosition) {
+                window.scrollTo(0, state.scrollPosition);
+            }
+        }, 100);
+    }, 100);
+}
+
+// Восстановление раскрытых секций
+function restoreExpandedSections(expandedSections) {
+    Object.keys(expandedSections).forEach(key => {
+        if (key.startsWith('history_')) {
+            const index = key.replace('history_', '');
+            const lectureBtns = document.querySelectorAll('.history-lectures .lecture-toggle-btn');
+            if (lectureBtns[index]) {
+                lectureBtns[index].click();
+            }
+        }
+        
+        if (key.startsWith('questions_')) {
+            const index = key.replace('questions_', '');
+            const questionBtns = document.querySelectorAll('.exam-questions-btn');
+            if (questionBtns[index]) {
+                questionBtns[index].click();
+            }
+        }
+        
+        if (key.startsWith('materials_')) {
+            const index = key.replace('materials_', '');
+            const materialBtns = document.querySelectorAll('.exam-materials-btn');
+            if (materialBtns[index]) {
+                materialBtns[index].click();
+            }
+        }
+    });
+}
+
+// ====== ОБРАБОТЧИКИ СОБЫТИЙ ======
+
+// Сохраняем состояние перед обновлением/закрытием
+window.addEventListener('beforeunload', savePageState);
+
+// Восстанавливаем состояние после загрузки страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Ждем, пока пользователь войдет и отобразится основной контент
+    const checkContentInterval = setInterval(() => {
+        if (document.getElementById('main-content').classList.contains('visible')) {
+            clearInterval(checkContentInterval);
+            
+            // Восстанавливаем состояние
+            restorePageState();
+            
+            // Также сохраняем состояние при кликах на вкладки
+            document.querySelectorAll('.tab, .week-tab, .exam-questions-btn, .exam-materials-btn, .lecture-toggle-btn').forEach(element => {
+                element.addEventListener('click', function() {
+                    setTimeout(savePageState, 50); // Небольшая задержка перед сохранением
+                });
+            });
+        }
+    }, 100);
+});
+
+// ====== СОХРАНЕНИЕ ПОЛЯ ВВОДА ПАРОЛЯ ======
+// Чтобы при обновлении не приходилось вводить пароль заново (опционально)
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password-input');
+    const savedPassword = localStorage.getItem('savedPassword');
+    
+    if (savedPassword && passwordInput) {
+        passwordInput.value = savedPassword;
+    }
+    
+    // Сохраняем пароль при вводе
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+            localStorage.setItem('savedPassword', this.value);
+        });
+    }
+});
 </script>
 
 </body>
