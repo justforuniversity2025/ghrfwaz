@@ -1195,6 +1195,29 @@
     .gallery-category {
         text-align: center;
     }
+    /* Улучшение для изображений */
+.image-container {
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover {
+    transform: translateY(-3px);
+}
+
+.enlargeable-image {
+    transition: all 0.3s ease;
+}
+
+.enlargeable-image:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Адаптивность для фото в вопросах */
+@media (max-width: 768px) {
+    .image-container {
+        margin-bottom: 15px;
+    }
+}
 }
     </style>
 </head>
@@ -4281,14 +4304,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     <!-- Вопросы (скрыты по умолчанию) -->
 <div class="exam-questions" id="math_analysis_exam_questions">
     <div class="questions-list">
-<div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-    <div class="image-container" style="cursor: pointer; display: inline-block; max-width: 100%;">
-        <img src="вариант_0.jpeg" 
-             alt="Вариант 0" 
-             class="enlargeable-image"
-             style="width: 100%; max-width: 600px; height: auto; border: 3px solid #3498db; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <div class="image-container" style="cursor: pointer; display: inline-block; max-width: 100%;">
+                <img src="вариант_0.jpeg" 
+                     alt="Вариант 0" 
+                     class="enlargeable-image"
+                     style="width: 100%; max-width: 600px; height: auto; border: none; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            </div>
+        </div>
     </div>
-</div></div></div></div>
+</div></div>
                 
                 <div class="exam-item">
                     <div class="exam-header">
@@ -4684,9 +4709,43 @@ document.addEventListener('DOMContentLoaded', function() {
     <p><strong>m<sub>s</sub> (s) – спиновое квантовое число (спин)</strong>, характеризует собственный магнитный момент вращения электрона вокруг своей оси.<br>
     Спин – от англ. «spin» (кручение, вращение)<br>
     <code>m<sub>s</sub> (s)</code> принимает 2 значения:<br>
-    <code>m<sub>s</sub> (s) = +1/2</code> , <code>m<sub>s</sub> (s) = –1/2</code>.<br>
-    ↑ ↓<br>
+    <code>m<sub>s</sub> (s) = +1/2</code> , <code>m<sub>s</sub> (s) = –1/2</code>.
+    <div style="margin: 20px 0;">
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <div>
+            <img src="assets/img/strelka.png" alt="" class="enlargeable-image" style="border-radius: 8px;">
+        </div>
+        <div>
+            <img src="assets/img/strelka2.png" alt="" class="enlargeable-image" style="border-radius: 8px;">
+        </div>
+    </div>
+</div>
     Квантовые числа <code>n, l, m<sub>l</sub>, m<sub>s</sub> (s)</code> полностью определяют состояние электрона в атоме.</p>
+<p><strong>Формы электронных орбиталей</strong></p>
+    <p><strong>1. s-орбитали (l = 0)</strong></p>
+    <p>S-орбитали имеют сферическую симметрию (форму шара).</p>
+    <img src="assets/img/orbital-s.png" alt="s-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+<p><strong>2. p-орбитали (l = 1)</strong></p>
+<p>p-орбитали имеют форму гантели.</p>
+<p>Три p-орбитали в атоме взаимно перпендикулярны (ортогональны).</p>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+    <img src="assets/img/orbital-px.png" alt="p-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+    <img src="assets/img/orbital-py.png" alt="p-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+    <img src="assets/img/orbital-pz.png" alt="p-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+</div>
+<p><strong>3. d-орбитали (l = 2)</strong></p>
+<p>d-орбитали имеют более сложную форму, чем p-орбитали.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+    <img src="assets/img/orbital-d1.png" alt="d-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+    <img src="assets/img/orbital-d2.png" alt="d-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+    <img src="assets/img/orbital-d3.png" alt="d-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+    <img src="assets/img/orbital-d4.png" alt="d-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+    <img src="assets/img/orbital-d5.png" alt="d-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
+</div>
+
+<p><strong>4. f-орбитали (l = 3)</strong></p>
+<p>f-орбитали имеют ещё более сложную форму.</p>
+<img src="assets/img/orbital-f.png" alt="f-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
 </div>
 
     <button class="lecture-toggle-btn">
@@ -5799,6 +5858,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 </script>
 
 </body>
