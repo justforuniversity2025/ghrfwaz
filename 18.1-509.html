@@ -10,18 +10,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true}
-            ],
-            throwOnError: false
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -1219,7 +1208,88 @@
     }
 }
 }
+/* Кнопка скрытия/показа header */
+.header-toggle-btn {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(52, 152, 219, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
+.header-toggle-btn:hover {
+    background: rgba(41, 128, 185, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.header-toggle-btn i {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Иконка меняется при скрытом header */
+header.hidden + .tab-content-container ~ .header-toggle-btn i {
+    transform: rotate(180deg);
+}
+
+/* Стили для header */
+header {
+    transition: transform 0.4s ease;
+    transform: translateY(0);
+}
+
+header.hidden {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Поднимаем контент */
+.tab-content-container {
+    transition: margin-top 0.4s ease;
+}
+
+header.hidden + .tab-content-container {
+    margin-top: -80px;
+}
+.exam-tasks-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #FF9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.exam-tasks-btn:hover {
+    background: #F57C00;
+}
+
+.exam-tasks-btn i {
+    margin-right: 5px;
+}
     </style>
 </head>
 <body>
@@ -4324,11 +4394,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="exam-subject">Программирование</div>
                     <div class="exam-details">УЛК-4, ауд. 236, ИС, ст. препод. Булатова С.В.</div>
                     <!-- Кнопка вопросов -->
-<div class="exam-actions">
-    <button class="exam-materials-btn" data-target="programming-lectures">
-        <i class="fas fa-file-pdf"></i> Материалы для подготовки
-    </button>
-</div>
+    <!-- Кнопка вопросов -->
+    <div class="exam-actions">
+        <button class="exam-materials-btn" data-target="programming-lectures">
+            <i class="fas fa-file-pdf"></i> Материалы для подготовки
+        </button>
+        <a href="Задачи.html" class="exam-tasks-btn" target="_blank">
+            <i class="fas fa-tasks"></i> Задачи
+        </a>
+    </div>
 <!-- Лекции по программированию (скрыты по умолчанию) -->
 <div class="history-lectures" id="programming-lectures" style="display: none;">
     <button class="lecture-toggle-btn">
@@ -4410,17 +4484,52 @@ document.addEventListener('DOMContentLoaded', function() {
     </button>
     <div class="lecture-content-full">
         <p><strong>Алгоритм часто наглядно представляют в виде блок-схемы, где применяются стандартные графические блоки.</strong></p>
-        <p>Главные блоки блок-схемы:</p>
-        <ul>
-            <li><strong>Ограничитель (Start/End)</strong> – эллипс или закруглённый прямоугольник, обозначает начало и конец алгоритма.</li>
-            <li><strong>Блок операции</strong> – прямоугольник, означает выполнение вычисления или присваивания.</li>
-            <li><strong>Блок ввода/вывода</strong> – параллелограмм, обозначает операции чтения данных и вывода результатов.</li>
-            <li><strong>Блок ветвления (условие)</strong> – ромб, проверяет условие (да/нет) и развивает процесс по разным ветвям.</li>
-            <li><strong>Блок цикла</strong> – два разделённых символа или специальные метки, отвечают за начало и конец повторения набора операций.</li>
-            <li><strong>Соединитель</strong> – кружок или маленький овал, связывает разные части схемы.</li>
-        </ul>
-        <p>Эти блоки позволяют графически описывать алгоритмы: начало, операции, ввод/вывод, проверки и циклы.</p>
-    </div>
+    <p>Главные блоки блок-схемы:</p>
+    
+    <ul>
+        <li>
+            <strong>Ограничитель (Start/End)</strong>
+            <ul>
+                <li><strong>Форма:</strong> эллипс или закруглённый прямоугольник</li>
+                <li><strong>Назначение:</strong> обозначает начало и конец алгоритма</li>
+            </ul>
+        </li>
+        
+        <li>
+            <strong>Блок операции</strong>
+            <ul>
+                <li><strong>Форма:</strong> прямоугольник</li>
+                <li><strong>Назначение:</strong> выполняет вычисления или присваивания (например, x = x + 1)</li>
+            </ul>
+        </li>
+        
+        <li>
+            <strong>Блок ввода/вывода</strong>
+            <ul>
+                <li><strong>Форма:</strong> параллелограмм</li>
+                <li><strong>Назначение:</strong> операции чтения данных (ввод) и вывода результатов</li>
+            </ul>
+        </li>
+        
+        <li>
+            <strong>Блок ветвления (условие)</strong>
+            <ul>
+                <li><strong>Форма:</strong> ромб</li>
+                <li><strong>Назначение:</strong> проверяет условие и развивает процесс по разным ветвям (например, «да/нет»)</li>
+            </ul>
+        </li>
+        
+        <li>
+            <strong>Блок цикла</strong>
+            <ul>
+                <li><strong>Форма:</strong> специальные метки или два разделённых символа (иногда прямоугольники с пометками «начало цикла» и «конец цикла»)</li>
+                <li><strong>Назначение:</strong> повторение набора операций до выполнения условия</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <p>Эти блоки позволяют графически описывать алгоритмы: начало, операции, ввод/вывод, проверки и циклы.</p>
+</div>
     
     <button class="lecture-toggle-btn">
         Вопрос 4: Основные алгоритмические структуры.
@@ -4434,6 +4543,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <li><strong>Цикл (итерация)</strong> – повторение блока команд, пока истинно заданное условие (циклы for, while, do..while).</li>
         </ul>
         <p>Иногда выделяют и подпрограммы (функции/методы), когда часть алгоритма вынесена в отдельный именованный блок с параметрами. Эти структуры комбинируются для построения сложных программ.</p>
+    <img src="assets/img/for.jpeg" alt="d-орбиталь" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
     </div>
     
     <button class="lecture-toggle-btn">
@@ -4452,7 +4562,8 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <p>Например, корректная программа выдаёт верный ответ для всех допустимых входных данных, надёжная устойчива к нетипичным ситуациям, эффективна по времени/памяти.</p>
         <p><strong>Тестирование</strong> – это процесс проверки программы на наличие ошибок: выполнение набора тестовых случаев и сравнение результатов с ожидаемыми.</p>
-        <p><strong>Отладка (debugging)</strong> – этап разработки, на котором найденные ошибки локализуют и исправляют. При тестировании создают тестовые сценарии (unit-тесты, интеграционные тесты и т.д.) и проверяют работу программы. Если тест выявил ошибку, отладчик или разработчик использует средства IDE (точки останова, трассировка) для поиска причины и её исправления.</p>
+        <p><strong>Отладка (debugging)</strong> – это процесс поиска и исправления ошибок, которые обнаружились при тестировании.
+Разработчик использует инструменты (например, точки останова, пошаговое выполнение, просмотр значений переменных)</p>
     </div>
     
     <button class="lecture-toggle-btn">
@@ -4470,6 +4581,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <li><strong>Метод</strong> – именованный блок кода в классе.</li>
         </ul>
         <p>Язык C# регистрочувствителен (имена myVar и MyVar различны). Комментарии (//, /*...*/) игнорируются компилятором и служат для пояснений в коде.</p>
+
     </div>
     
     <button class="lecture-toggle-btn">
@@ -6025,8 +6137,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
+// ====== УПРАВЛЕНИЕ HEADER ПО КНОПКЕ ======
+(function() {
+    console.log('Скрипт управления header загружен');
+    
+    // Ждем полной загрузки DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM загружен, ищем элементы...');
+        
+        const toggleBtn = document.getElementById('header-toggle-btn');
+        const header = document.querySelector('header');
+        const tabContentContainer = document.querySelector('.tab-content-container');
+        
+        console.log('Кнопка найдена:', toggleBtn);
+        console.log('Header найден:', header);
+        console.log('Контейнер найден:', tabContentContainer);
+        
+        if (!toggleBtn) {
+            console.error('Кнопка не найдена!');
+            return;
+        }
+        
+        if (!header) {
+            console.error('Header не найден!');
+            return;
+        }
+        
+        // Восстанавливаем состояние из localStorage
+        const isHeaderHidden = localStorage.getItem('headerHidden') === 'true';
+        console.log('Сохраненное состояние:', isHeaderHidden);
+        
+        if (isHeaderHidden) {
+            header.classList.add('hidden');
+            if (tabContentContainer) {
+                tabContentContainer.style.marginTop = '-80px';
+            }
+            updateIcon(true);
+        }
+        
+        // Обработчик клика
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Клик по кнопке!');
+            
+            if (header.classList.contains('hidden')) {
+                console.log('Показываем header');
+                header.classList.remove('hidden');
+                if (tabContentContainer) {
+                    tabContentContainer.style.marginTop = '0';
+                }
+                updateIcon(false);
+                localStorage.setItem('headerHidden', 'false');
+            } else {
+                console.log('Скрываем header');
+                header.classList.add('hidden');
+                if (tabContentContainer) {
+                    tabContentContainer.style.marginTop = '-80px';
+                }
+                updateIcon(true);
+                localStorage.setItem('headerHidden', 'true');
+            }
+        });
+        
+        function updateIcon(isHidden) {
+            const icon = toggleBtn.querySelector('i');
+            if (isHidden) {
+                icon.className = 'fas fa-eye';
+            } else {
+                icon.className = 'fas fa-eye-slash';
+            }
+        }
+        
+        console.log('Обработчики установлены успешно!');
+    });
+})();
 </script>
-
+<button id="header-toggle-btn" class="header-toggle-btn" title="Скрыть/показать шапку">
+    <i class="fas fa-eye-slash"></i>
+</button>
 </body>
 </html>

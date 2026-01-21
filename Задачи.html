@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блок-схемы алгоритмов</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .schemas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+            gap: 25px;
+        }
+        
+        .schema-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .schema-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .schema-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .schema-diagram {
+            min-height: 300px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            overflow: auto;
+        }
+        
+        .schema-description {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #555;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        #theme-toggle {
+            background-color: #2c3e50;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        @media (max-width: 768px) {
+            .schemas-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .schema-card {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Стили для темной темы */
+        body.dark-theme {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .schema-card {
+            background-color: #162447;
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .schema-title {
+            color: #64b5f6;
+        }
+        
+        body.dark-theme .schema-diagram {
+            background-color: #1f4068;
+            border-color: #0f3460;
+        }
+        
+        body.dark-theme .schema-description {
+            background-color: #1b1b2f;
+            color: #b0b0b0;
+        }
+        
+        body.dark-theme button {
+            background-color: #1f4068;
+        }
+        
+        body.dark-theme button:hover {
+            background-color: #162447;
+        }
+        
+        body.dark-theme footer {
+            color: #aaa;
+            border-top-color: #0f3460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        
+        <div class="schemas-container">
+            <!-- Алгоритм 1 -->
+            <div class="schema-card">
+                <h3 class="schema-title">1. Максимальное из двух чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b"/]
+    B --> C{"a > b?"}
+    C -->|Да| D["max = a"]
+    C -->|Нет| E["max = b"]
+    D --> F[/"Вывод max"/]
+    E --> F
+    F --> G(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм определяет максимальное из двух введенных чисел. Сравнивает a и b, затем присваивает значение максимального числа переменной max.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 2 -->
+            <div class="schema-card">
+                <h3 class="schema-title">2. Минимальное из двух чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b"/]
+    B --> C{"a < b?"}
+    C -->|Да| D["min = a"]
+    C -->|Нет| E["min = b"]
+    D --> F[/"Вывод min"/]
+    E --> F
+    F --> G(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм находит минимальное из двух введенных чисел. Сравнивает a и b, затем присваивает значение минимального числа переменной min.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 3 -->
+            <div class="schema-card">
+                <h3 class="schema-title">3. Табулирование функции y=f(x)</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод x_start, x_end, step"/]
+    B --> C["x = x_start"]
+    C --> D{"x <= x_end?"}
+    D -->|Да| E["y = f(x)"]
+    E --> F[/"Вывод x, y"/]
+    F --> G["x = x + step"]
+    G --> D
+    D -->|Нет| H(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм табулирования функции. Принимает начальное и конечное значения x, а также шаг изменения. Вычисляет y для каждого x в заданном диапазоне.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 4 -->
+            <div class="schema-card">
+                <h3 class="schema-title">4. Максимальное из трех чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C{"a > b?"}
+    C -->|Да| D{"a > c?"}
+    C -->|Нет| E{"b > c?"}
+    D -->|Да| F["max = a"]
+    D -->|Нет| G["max = c"]
+    E -->|Да| H["max = b"]
+    E -->|Нет| I["max = c"]
+    F --> J[/"Вывод max"/]
+    G --> J
+    H --> J
+    I --> J
+    J --> K(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм находит максимальное из трех чисел. Сравнивает a с b и c, затем b с c, чтобы определить наибольшее значение.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 5 -->
+            <div class="schema-card">
+                <h3 class="schema-title">5. Минимальное из трех чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C{"a < b?"}
+    C -->|Да| D{"a < c?"}
+    C -->|Нет| E{"b < c?"}
+    D -->|Да| F["min = a"]
+    D -->|Нет| G["min = c"]
+    E -->|Да| H["min = b"]
+    E -->|Нет| I["min = c"]
+    F --> J[/"Вывод min"/]
+    G --> J
+    H --> J
+    I --> J
+    J --> K(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм находит минимальное из трех чисел. Сравнивает a с b и c, затем b с c, чтобы определить наименьшее значение.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 6 -->
+            <div class="schema-card">
+                <h3 class="schema-title">6. Сумма max и min из трех чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C["Найти max из a,b,c"]
+    B --> D["Найти min из a,b,c"]
+    C --> E["sum = max + min"]
+    D --> E
+    E --> F[/"Вывод sum"/]
+    F --> G(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет сумму максимального и минимального из трех чисел. Сначала находит max и min, затем вычисляет их сумму.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 7 -->
+            <div class="schema-card">
+                <h3 class="schema-title">7. Разность max и min из трех чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C["Найти max из a,b,c"]
+    B --> D["Найти min из a,b,c"]
+    C --> E["diff = max - min"]
+    D --> E
+    E --> F[/"Вывод diff"/]
+    F --> G(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет разность между максимальным и минимальным из трех чисел. Находит max и min, затем вычисляет их разность.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 8 -->
+            <div class="schema-card">
+                <h3 class="schema-title">8. Произведение max и min из пяти чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c, d, e"/]
+    B --> C["max = a, min = a"]
+    C --> D{"b > max?"}
+    D -->|Да| E["max = b"]
+    D -->|Нет| F{"b < min?"}
+    F -->|Да| G["min = b"]
+    E --> H{"c > max?"}
+    G --> H
+    F -->|Нет| H
+    H -->|Да| I["max = c"]
+    H -->|Нет| J{"c < min?"}
+    J -->|Да| K["min = c"]
+    I --> L{"d > max?"}
+    K --> L
+    J -->|Нет| L
+    L -->|Да| M["max = d"]
+    L -->|Нет| N{"d < min?"}
+    N -->|Да| O["min = d"]
+    M --> P{"e > max?"}
+    O --> P
+    N -->|Нет| P
+    P -->|Да| Q["max = e"]
+    P -->|Нет| R{"e < min?"}
+    R -->|Да| S["min = e"]
+    Q --> T["product = max * min"]
+    S --> T
+    R -->|Нет| T
+    T --> U[/"Вывод product"/]
+    U --> V(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм находит максимальное и минимальное из пяти чисел, затем вычисляет их произведение. Последовательно сравнивает все числа для определения max и min.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 9 -->
+            <div class="schema-card">
+                <h3 class="schema-title">9. Количество четных чисел из трех заданных</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C["count = 0"]
+    C --> D{"a % 2 == 0?"}
+    D -->|Да| E["count = count + 1"]
+    D -->|Нет| F{"b % 2 == 0?"}
+    E --> F
+    F -->|Да| G["count = count + 1"]
+    F -->|Нет| H{"c % 2 == 0?"}
+    G --> H
+    H -->|Да| I["count = count + 1"]
+    H -->|Нет| J[/"Вывод count"/]
+    I --> J
+    J --> K(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество четных чисел среди трех заданных. Проверяет каждое число на четность и увеличивает счетчик при выполнении условия.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 10 -->
+            <div class="schema-card">
+                <h3 class="schema-title">10. Количество нулей из пяти чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод пяти чисел"/]
+    B --> C["count = 0, i = 1"]
+    C --> D{"i <= 5?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num == 0?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество нулей среди пяти введенных чисел. Использует цикл для ввода чисел и проверки каждого на равенство нулю.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 11 -->
+            <div class="schema-card">
+                <h3 class="schema-title">11. Количество положительных и отрицательных чисел из пяти</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B["pos = 0, neg = 0, i = 1"]
+    B --> C{"i <= 5?"}
+    C -->|Да| D[/"Ввод числа num"/]
+    D --> E{"num > 0?"}
+    E -->|Да| F["pos = pos + 1"]
+    E -->|Нет| G{"num < 0?"}
+    G -->|Да| H["neg = neg + 1"]
+    F --> I["i = i + 1"]
+    H --> I
+    G -->|Нет| I
+    I --> C
+    C -->|Нет| J[/"Вывод pos, neg"/]
+    J --> K(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество положительных и отрицательных чисел среди пяти введенных. Нулевые числа не учитываются ни в одной из категорий.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 12 -->
+            <div class="schema-card">
+                <h3 class="schema-title">12. Среднее арифметическое трех чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C["sum = a + b + c"]
+    C --> D["average = sum / 3"]
+    D --> E[/"Вывод average"/]
+    E --> F(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет среднее арифметическое трех чисел. Сначала находит сумму чисел, затем делит ее на количество чисел (3).
+                </div>
+            </div>
+            
+            <!-- Алгоритм 13 -->
+            <div class="schema-card">
+                <h3 class="schema-title">13. Сумма четных чисел из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["sum = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 2 == 0?"}
+    F -->|Да| G["sum = sum + num"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод sum"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет сумму четных чисел из последовательности n целых чисел. Проверяет каждое число на четность и добавляет к сумме, если условие выполняется.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 14 -->
+            <div class="schema-card">
+                <h3 class="schema-title">14. Количество чисел, кратных 3 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["count = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 3 == 0?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество чисел, кратных 3, из последовательности n целых чисел. Проверяет каждое число на делимость на 3 без остатка.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 15 -->
+            <div class="schema-card">
+                <h3 class="schema-title">15. Количество чисел, кратных 3 и 7 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["count = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 3 == 0 И num % 7 == 0?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество чисел, кратных одновременно 3 и 7 (т.е. кратных 21), из последовательности n целых чисел.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 16 -->
+            <div class="schema-card">
+                <h3 class="schema-title">16. Произведение чисел, кратных 5 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["product = 1, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 5 == 0?"}
+    F -->|Да| G["product = product * num"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод product"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет произведение чисел, кратных 5, из последовательности n целых чисел. Начальное значение произведения равно 1.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 17 -->
+            <div class="schema-card">
+                <h3 class="schema-title">17. Сумма чисел, кратных 3 и 5 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["sum = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 3 == 0 ИЛИ num % 5 == 0?"}
+    F -->|Да| G["sum = sum + num"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод sum"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет сумму чисел, кратных 3 ИЛИ 5, из последовательности n целых чисел. Числа, кратные и 3, и 5 (15, 30 и т.д.) учитываются один раз.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 18 -->
+            <div class="schema-card">
+                <h3 class="schema-title">18. Сумма положительных чисел, кратных 7 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["sum = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num > 0 И num % 7 == 0?"}
+    F -->|Да| G["sum = sum + num"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод sum"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет сумму положительных чисел, кратных 7, из последовательности n целых чисел. Учитывает только положительные числа, делящиеся на 7 без остатка.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 19 -->
+            <div class="schema-card">
+                <h3 class="schema-title">19. Количество чисел, кратных 5 или 7 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["count = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 5 == 0 ИЛИ num % 7 == 0?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["i = i + 1"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество чисел, кратных 5 ИЛИ 7, из последовательности n целых чисел. Числа, кратные и 5, и 7 (35, 70 и т.д.) учитываются один раз.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 20 -->
+            <div class="schema-card">
+                <h3 class="schema-title">20. Количество четных и нечетных чисел из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["even = 0, odd = 0, i = 1"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 2 == 0?"}
+    F -->|Да| G["even = even + 1"]
+    F -->|Нет| H["odd = odd + 1"]
+    G --> I["i = i + 1"]
+    H --> I
+    I --> D
+    D -->|Нет| J[/"Вывод even, odd"/]
+    J --> K(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество четных и нечетных чисел из последовательности n целых чисел. Учитывает все числа, включая нуль (который считается четным).
+                </div>
+            </div>
+            
+            <!-- Алгоритм 21 -->
+            <div class="schema-card">
+                <h3 class="schema-title">21. Количество четных и нечетных чисел из трех заданных</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C["even = 0, odd = 0"]
+    C --> D{"a % 2 == 0?"}
+    D -->|Да| E["even = even + 1"]
+    D -->|Нет| F["odd = odd + 1"]
+    E --> G{"b % 2 == 0?"}
+    F --> G
+    G -->|Да| H["even = even + 1"]
+    G -->|Нет| I["odd = odd + 1"]
+    H --> J{"c % 2 == 0?"}
+    I --> J
+    J -->|Да| K["even = even + 1"]
+    J -->|Нет| L["odd = odd + 1"]
+    K --> M[/"Вывод even, odd"/]
+    L --> M
+    M --> N(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество четных и нечетных чисел среди трех заданных. Проверяет каждое число на четность и обновляет соответствующий счетчик.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 22 -->
+            <div class="schema-card">
+                <h3 class="schema-title">22. Количество цифр в n-значном числе</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод числа num"/]
+    B --> C["count = 0, temp = num"]
+    C --> D{"temp != 0?"}
+    D -->|Да| E["count = count + 1"]
+    E --> F["temp = temp // 10"]
+    F --> D
+    D -->|Нет| G[/"Вывод count"/]
+    G --> H(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество цифр в заданном целом числе. Последовательно удаляет последнюю цифру числа (целочисленным делением на 10) и увеличивает счетчик.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 23 -->
+            <div class="schema-card">
+                <h3 class="schema-title">23. Количество нечетных цифр в n-значном числе</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод числа num"/]
+    B --> C["count = 0, temp = num"]
+    C --> D{"temp != 0?"}
+    D -->|Да| E["digit = temp % 10"]
+    E --> F{"digit % 2 != 0?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["temp = temp // 10"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество нечетных цифр в заданном целом числе. Извлекает каждую цифру числа и проверяет ее на нечетность.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 24 -->
+            <div class="schema-card">
+                <h3 class="schema-title">24. Количество цифр 5 в n-значном числе</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод числа num"/]
+    B --> C["count = 0, temp = num"]
+    C --> D{"temp != 0?"}
+    D -->|Да| E["digit = temp % 10"]
+    E --> F{"digit == 5?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["temp = temp // 10"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество цифр 5 в заданном целом числе. Извлекает каждую цифру числа и проверяет, равна ли она 5.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 25 -->
+            <div class="schema-card">
+                <h3 class="schema-title">25. Количество цифр 2 в n-значном числе</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод числа num"/]
+    B --> C["count = 0, temp = num"]
+    C --> D{"temp != 0?"}
+    D -->|Да| E["digit = temp % 10"]
+    E --> F{"digit == 2?"}
+    F -->|Да| G["count = count + 1"]
+    G --> H["temp = temp // 10"]
+    F -->|Нет| H
+    H --> D
+    D -->|Нет| I[/"Вывод count"/]
+    I --> J(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм подсчитывает количество цифр 2 в заданном целом числе. Извлекает каждую цифру числа и проверяет, равна ли она 2.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 26 -->
+            <div class="schema-card">
+                <h3 class="schema-title">26. Произведение четных цифр в n-значном числе</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод числа num"/]
+    B --> C["product = 1, temp = num, hasEven = ложь"]
+    C --> D{"temp != 0?"}
+    D -->|Да| E["digit = temp % 10"]
+    E --> F{"digit % 2 == 0?"}
+    F -->|Да| G["product = product * digit"]
+    G --> H["hasEven = истина"]
+    H --> I["temp = temp // 10"]
+    F -->|Нет| I
+    I --> D
+    D -->|Нет| J{"hasEven == истина?"}
+    J -->|Да| K[/"Вывод product"/]
+    J -->|Нет| L[/"Вывод 'Нет четных цифр'"/]
+    K --> M(["Конец"])
+    L --> M
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет произведение четных цифр в заданном целом числе. Если четных цифр нет, выводит соответствующее сообщение.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 27 -->
+            <div class="schema-card">
+                <h3 class="schema-title">27. Сумма цифр в n-значном числе</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод числа num"/]
+    B --> C["sum = 0, temp = num"]
+    C --> D{"temp != 0?"}
+    D -->|Да| E["digit = temp % 10"]
+    E --> F["sum = sum + digit"]
+    F --> G["temp = temp // 10"]
+    G --> D
+    D -->|Нет| H[/"Вывод sum"/]
+    H --> I(["Конец"])
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет сумму всех цифр в заданном целом числе. Извлекает каждую цифру и добавляет ее к общей сумме.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 28 -->
+            <div class="schema-card">
+                <h3 class="schema-title">28. Произведение чисел, кратных 3, 6 и 9 из n чисел</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод n"/]
+    B --> C["product = 1, i = 1, found = ложь"]
+    C --> D{"i <= n?"}
+    D -->|Да| E[/"Ввод числа num"/]
+    E --> F{"num % 3 == 0 И num % 6 == 0 И num % 9 == 0?"}
+    F -->|Да| G["product = product * num"]
+    G --> H["found = истина"]
+    H --> I["i = i + 1"]
+    F -->|Нет| I
+    I --> D
+    D -->|Нет| J{"found == истина?"}
+    J -->|Да| K[/"Вывод product"/]
+    J -->|Нет| L[/"Вывод 'Нет подходящих чисел'"/]
+    K --> M(["Конец"])
+    L --> M
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм вычисляет произведение чисел, кратных одновременно 3, 6 и 9 (т.е. кратных 18), из последовательности n целых чисел.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 29 -->
+            <div class="schema-card">
+                <h3 class="schema-title">29. Проверка на пифагоровы числа из трех заданных</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C["Сортировать a, b, c по возрастанию"]
+    C --> D["a² + b² == c²?"]
+    D -->|Да| E[/"Вывод 'Числа пифагоровы'"/]
+    D -->|Нет| F[/"Вывод 'Числа не пифагоровы'"/]
+    E --> G(["Конец"])
+    F --> G
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм проверяет, являются ли три заданных числа пифагоровой тройкой. Сортирует числа по возрастанию, затем проверяет выполнение теоремы Пифагора.
+                </div>
+            </div>
+            
+            <!-- Алгоритм 30 -->
+            <div class="schema-card">
+                <h3 class="schema-title">30. Решение квадратного уравнения ax²+bx+c=0</h3>
+                <div class="schema-diagram">
+                    <div class="mermaid">
+graph TD
+    A(["Начало"]) --> B[/"Ввод a, b, c"/]
+    B --> C{"a == 0?"}
+    C -->|Да| D[/"Вывод 'Не квадратное уравнение'"/]
+    C -->|Нет| E["D = b² - 4*a*c"]
+    E --> F{"D > 0?"}
+    F -->|Да| G["x1 = (-b + √D) / (2*a)"]
+    G --> H["x2 = (-b - √D) / (2*a)"]
+    H --> I[/"Вывод x1, x2"/]
+    F -->|Нет| J{"D == 0?"}
+    J -->|Да| K["x = -b / (2*a)"]
+    K --> L[/"Вывод x"/]
+    J -->|Нет| M[/"Вывод 'Нет действительных корней'"/]
+    I --> N(["Конец"])
+    L --> N
+    M --> N
+    D --> N
+                    </div>
+                </div>
+                <div class="schema-description">
+                    Алгоритм решает квадратное уравнение ax²+bx+c=0. Вычисляет дискриминант и находит корни в зависимости от его значения.
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <script>
+        // Инициализация Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                curve: 'linear',
+                htmlLabels: true,
+                useMaxWidth: true
+            },
+            securityLevel: 'loose'
+        });
+        
+        // Переключение темы
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            // Переинициализация Mermaid при смене темы
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+        });
+        
+        // Обновление всех диаграмм
+        document.getElementById('refresh-all').addEventListener('click', function() {
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+        });
+        
+        // Развернуть все диаграммы
+        document.getElementById('expand-all').addEventListener('click', function() {
+            const diagrams = document.querySelectorAll('.schema-diagram');
+            diagrams.forEach(diagram => {
+                diagram.style.height = 'auto';
+                diagram.style.overflow = 'visible';
+            });
+        });
+        
+        // Свернуть все диаграммы
+        document.getElementById('collapse-all').addEventListener('click', function() {
+            const diagrams = document.querySelectorAll('.schema-diagram');
+            diagrams.forEach(diagram => {
+                diagram.style.height = '300px';
+                diagram.style.overflow = 'auto';
+            });
+        });
+        
+        // Автоматическое обновление диаграмм при изменении размера окна
+        window.addEventListener('resize', function() {
+            setTimeout(() => {
+                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            }, 300);
+        });
+    </script>
+</body>
+</html>
