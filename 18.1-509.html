@@ -1309,6 +1309,196 @@ header.hidden + .tab-content-container {
 .exam-tasks-btn i {
     margin-right: 5px;
 }
+/* Стили для inline-кода в тексте */
+code {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.9em;
+    font-weight: 500;
+    border: none;
+    box-shadow: 0 4px 6px rgba(106, 17, 203, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+code:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(106, 17, 203, 0.3);
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+}
+
+code::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+code:hover::before {
+    left: 100%;
+}
+
+/* Стили для блоков кода (pre + code) */
+pre {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    border-radius: 16px;
+    padding: 0;
+    margin: 25px 0;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(30, 60, 114, 0.3);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+pre::before {
+    content: 'CODE';
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    z-index: 2;
+}
+
+pre code {
+    background: transparent;
+    color: #e4e4e4;
+    padding: 50px 25px 25px;
+    border-radius: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    display: block;
+    overflow-x: auto;
+    box-shadow: none;
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    position: relative;
+}
+
+/* Стили для строк кода */
+pre code .line {
+    padding: 2px 0;
+    transition: background 0.2s ease;
+}
+
+pre code .line:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Номера строк */
+pre code .line-number {
+    display: inline-block;
+    width: 40px;
+    text-align: right;
+    margin-right: 20px;
+    color: rgba(255, 255, 255, 0.3);
+    user-select: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding-right: 15px;
+}
+
+/* Подсветка синтаксиса для популярных языков */
+pre code .keyword {
+    color: #ff79c6;
+    font-weight: bold;
+}
+
+pre code .string {
+    color: #f1fa8c;
+}
+
+pre code .comment {
+    color: #6272a4;
+    font-style: italic;
+}
+
+pre code .function {
+    color: #50fa7b;
+}
+
+pre code .number {
+    color: #bd93f9;
+}
+
+pre code .class {
+    color: #8be9fd;
+}
+
+pre code .operator {
+    color: #ff79c6;
+}
+
+pre code .attribute {
+    color: #50fa7b;
+}
+
+/* Кнопка копирования кода (опционально, требует JS) */
+pre .copy-button {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 2;
+}
+
+pre .copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Анимация для успешного копирования */
+pre .copy-button.copied {
+    background: #50fa7b;
+    color: #1e3c72;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    pre {
+        border-radius: 12px;
+        margin: 15px -10px;
+    }
+    
+    pre code {
+        padding: 40px 15px 15px;
+        font-size: 13px;
+    }
+    
+    pre::before {
+        left: 15px;
+        top: 10px;
+        font-size: 11px;
+    }
+    
+    pre .copy-button {
+        top: 10px;
+        right: 10px;
+        padding: 5px 12px;
+        font-size: 11px;
+    }
+}
     </style>
 </head>
 <body>
@@ -4624,61 +4814,153 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="fas fa-chevron-down"></i>
     </button>
     <div class="lecture-content-full">
-        <p><strong>В C# встроенные типы данных делятся на типы-значения (value types) и ссылочные типы (reference types).</strong></p>
-        <p><strong>Типы-значения</strong> хранят данные непосредственно (например: целые int, double, bool, char, а также структуры и перечисления enum).</p>
-        <p><strong>Ссылочные типы</strong> хранят ссылки на объекты в куче (например: string, массивы, объекты классов).</p>
-        <p>Например, int и double – типы-значения, string и любой класс – ссылочные. Value types имеют свои размеры и копируются при присваивании, а reference types копируют лишь ссылку на один и тот же объект.</p>
+        <img src="assets/img/num.png" alt="в" class="enlargeable-image" style="border-radius: 8px; margin: 10px 0;">
     </div>
     
     <button class="lecture-toggle-btn">
         Вопрос 8: Операторы ввода-вывода. Форматный вывод.
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="lecture-content-full">
-        <p><strong>Для консольного ввода-вывода в C# используют класс System.Console:</strong></p>
-        <ul>
-            <li><strong>Вывод:</strong> Console.WriteLine() (вывод с переходом на новую строку) и Console.Write() (без перехода).</li>
-            <li><strong>Форматный вывод:</strong> можно использовать интерполяцию строк ($"Имя: {name}, Возраст: {age}") или форматную строку с плейсхолдерами (Console.WriteLine("Имя: {0}, Возраст: {1}", name, age)).</li>
-            <li><strong>Ввод:</strong> Console.ReadLine() читает строку из консоли, Console.Read() читает один символ.</li>
-        </ul>
-        <p>Обычно ReadLine() используется для ввода текстовых данных или чисел (после чего строку разбирают в число).</p>
-        <p>Таким образом, ввод-вывод осуществляют стандартные методы Console, а форматирование – либо встроенными методами, либо с помощью средств языка (интерполяция, String.Format, спецификаторы формата).</p>
-    </div>
+<div class="lecture-content-full">
+    <p><strong>Операторы ввода-вывода. Форматный вывод в C#</strong></p>
+    <p>В языке C# ввод и вывод данных в консольных приложениях осуществляется с помощью класса Console, определённого в пространстве имён System. Данный класс предоставляет стандартные средства взаимодействия программы с пользователем через консоль.</p>
+    <p><strong>Операторы вывода:</strong></p>
+    <ul>
+        <li><strong>Console.Write()</strong> — выводит данные в консоль без перехода на новую строку;</li>
+        <li><strong>Console.WriteLine()</strong> — выводит данные в консоль с переходом на новую строку.</li>
+    </ul>
+    <p><strong>Операторы ввода:</strong></p>
+    <ul>
+        <li><strong>Console.ReadLine()</strong> — считывает строку текста, введённую пользователем;</li>
+        <li><strong>Console.Read()</strong> — считывает следующий символ из входного потока;</li>
+        <li><strong>Console.ReadKey()</strong> — считывает нажатую клавишу без ожидания перевода строки.</li>
+    </ul>
+    <p><strong>Форматный вывод</strong> используется для управления видом выводимых данных. В C# применяется несколько способов форматирования:</p>
+    <ul>
+        <li><strong>Составное форматирование</strong> — используется строка формата с позиционными заполнителями:
+            <br><code>Console.WriteLine("x = {0}, y = {1}", x, y);</code>
+        </li>
+        <li><strong>Интерполяция строк</strong> — более современный и наглядный способ форматирования:
+            <br><code>Console.WriteLine($"x = {x}, y = {y}");</code>
+        </li>
+        <li><strong>Форматные спецификаторы</strong> — позволяют задать представление чисел и дат:
+            <br><code>Console.WriteLine("Число: {0:F2}", a);</code>
+        </li>
+    </ul>
+    <p>Форматный вывод позволяет управлять количеством знаков после запятой, выравниванием, шириной поля и формой представления данных, что повышает наглядность и удобство восприятия информации пользователем.</p>
+</div>
+
     
     <button class="lecture-toggle-btn">
         Вопрос 9: Оператор присваивания.
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="lecture-content-full">
-        <p><strong>В C# оператор присваивания = записывает значение правого операнда в левую переменную (или поле, элемент массива).</strong></p>
-        <p>Например, a = b; присвоит a то же значение, что и b. Результатом выражения a = b является значение, присвоенное переменной a (как правило, возвращается сам a). Операнд справа должен быть совместимого типа с левым.</p>
-        <p>Присваивание правоассоциативно, т.е. выражение a = b = c равно a = (b = c).</p>
-        <p>Существуют также <strong>составные операторы</strong> (+=, -=, *=, /= и др.), которые эквивалентны сочетанию операции и присваивания (например, x += 3 эквивалентно x = x + 3, при этом x вычисляется один раз).</p>
-    </div>
+<div class="lecture-content-full">
+    <p><strong>Оператор присваивания в C#</strong></p>
+    <p>Оператор присваивания в языке C# используется для записи значения выражения в переменную или другой изменяемый объект. Базовым оператором присваивания является знак равенства <code>=</code>.</p>
+    <p>При выполнении операции присваивания сначала вычисляется выражение, расположенное справа от оператора <code>=</code>, после чего полученное значение присваивается левому операнду. Левый операнд должен быть переменной, полем, свойством или элементом массива.</p>
+    <p><strong>Простейший пример присваивания:</strong></p>
+    <p><code>int a = 10;</code></p>
+    <p><strong>Составные операторы присваивания</strong> объединяют арифметическую или логическую операцию с присваиванием:</p>
+    <ul>
+        <li><strong>+=</strong> — сложение с присваиванием;</li>
+        <li><strong>-=</strong> — вычитание с присваиванием;</li>
+        <li><strong>*=</strong> — умножение с присваиванием;</li>
+        <li><strong>/=</strong> — деление с присваиванием;</li>
+        <li><strong>%=</strong> — взятие остатка с присваиванием;</li>
+        <li><strong>&=, |=, ^=</strong> — побитовые и логические операции с присваиванием.</li>
+    </ul>
+    <p><strong>Пример составного присваивания:</strong></p>
+    <p><code>a += 5;</code></p>
+    <p>Эквивалентно выражению <code>a = a + 5;</code>.</p>
+    <p>Оператор присваивания в C# имеет правую ассоциативность, что позволяет выполнять цепочки присваиваний, например: <code>a = b = c = 0;</code>. Тип значения, присваиваемого переменной, должен быть совместим с типом левого операнда.</p>
+</div>
+
     
     <button class="lecture-toggle-btn">
         Вопрос 10: Условный оператор и логические выражения. Вложенность условных операторов.
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="lecture-content-full">
-        <p><strong>Условный оператор if проверяет логическое выражение (булевый тип). Если выражение истинно, выполняется блок if; иначе – блок else (при наличии).</strong></p>
-        <p>Условие может содержать логические операторы сравнения (==, !=, <, >, <=, >=) и логические связки (&&, ||, !).</p>
-        <p>Для нескольких проверок используют цепочку if–else if–else (вложенность условных операторов): если одно условие ложно, проверяют следующее.</p>
-        <p>C# также имеет <strong>тернарный условный оператор ?:</strong> (формат cond ? expr1 : expr2) для выбора одного из двух выражений.</p>
-        <p>Вложение if позволяет организовывать многоуровневые условия: первый встретившийся истинный if выполняется, остальные пропускаются.</p>
-        <p>Логические выражения и условия совместно реализуют разветвления в алгоритмах.</p>
-    </div>
+<div class="lecture-content-full">
+    <p><strong>Условный оператор и логические выражения в C#</strong></p>
+    <p>Условный оператор используется для организации ветвления программы, то есть выполнения различных участков кода в зависимости от истинности или ложности логического выражения.</p>
+    <p>В языке C# основным условным оператором является оператор <code>if</code>. Он проверяет логическое выражение, результатом которого является значение типа <code>bool</code>.</p>
+    <p><strong>Общая форма условного оператора:</strong></p>
+    <p><code>if (условие) { инструкции; }</code></p>
+    <p>При необходимости может использоваться оператор <code>else</code>, определяющий альтернативную ветвь выполнения:</p>
+    <p><code>if (условие) { инструкции; } else { инструкции; }</code></p>
+    <p><strong>Логические выражения</strong> строятся с использованием операций сравнения и логических операторов. В C# используются следующие операторы сравнения:</p>
+    <ul>
+        <li><strong>==</strong> — равно;</li>
+        <li><strong>!=</strong> — не равно;</li>
+        <li><strong>&gt;</strong> — больше;</li>
+        <li><strong>&lt;</strong> — меньше;</li>
+        <li><strong>&gt;=</strong> — больше или равно;</li>
+        <li><strong>&lt;=</strong> — меньше или равно.</li>
+    </ul>
+    <p>Для объединения логических выражений применяются логические операторы:</p>
+    <ul>
+        <li><strong>&amp;&amp;</strong> — логическое И;</li>
+        <li><strong>||</strong> — логическое ИЛИ;</li>
+        <li><strong>!</strong> — логическое НЕ.</li>
+    </ul>
+    <p><strong>Вложенность условных операторов</strong> используется, когда внутри одной условной конструкции требуется выполнить дополнительную проверку. В этом случае один оператор <code>if</code> располагается внутри другого.</p>
+    <p><strong>Пример вложенного условного оператора:</strong></p>
+    <p><pre><code>
+if (a &gt; 0)
+{
+    if (a &lt; 10)
+    {
+        Console.WriteLine("Число от 1 до 9");
+    }
+}
+</code></pre></p>
+    <p>Вложенные условные операторы позволяют реализовывать сложную логику принятия решений, однако чрезмерная вложенность ухудшает читаемость программы, поэтому рекомендуется использовать логические выражения или конструкции <code>else if</code>.</p>
+</div>
+
     
     <button class="lecture-toggle-btn">
         Вопрос 11: Оператор выбора. Перечисляемый тип данных.
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="lecture-content-full">
-        <p><strong>Оператор выбора – это, прежде всего, конструкция switch.</strong> Она сравнивает значение некоторого выражения с константными метками case и выполняет соответствующий блок кода.</p>
-        <p>В отличие от if, switch хорошо подходит для выбора из многих вариантов.</p>
-        <p><strong>Перечисляемый тип (enum)</strong> – специальный пользовательский тип, задаваемый набором именованных констант (обычно целых).</p>
-        <p>После объявления enum можно создавать переменные этого типа и присваивать им одно из перечисленных значений. Перечисления делают код более понятным и служат для ветвлений по смысловым константам.</p>
-    </div>
+<div class="lecture-content-full">
+    <p><strong>Оператор выбора и перечисляемый тип данных в C#</strong></p>
+    <p>Оператор выбора используется для выполнения одного из нескольких возможных вариантов кода в зависимости от значения выражения. В языке C# для этого применяется оператор <code>switch</code>.</p>
+    <p><strong>Оператор switch</strong> сравнивает значение выражения с набором константных значений и передаёт управление соответствующей ветви программы.</p>
+    <p><strong>Общая форма оператора switch:</strong></p>
+    <p><pre><code>
+switch (выражение)
+{
+    case значение1:
+        инструкции;
+        break;
+    case значение2:
+        инструкции;
+        break;
+    default:
+        инструкции;
+        break;
+}
+</code></pre></p>
+    <p>Выражение в операторе <code>switch</code> должно иметь тип, допускающий сравнение с константами (целочисленные типы, char, string, перечисления). Ключевое слово <code>break</code> завершает выполнение выбранной ветви.</p>
+    <p><strong>Перечисляемый тип данных (enum)</strong> используется для задания набора именованных целочисленных констант. Он повышает читаемость кода и снижает вероятность ошибок при использовании числовых значений.</p>
+    <p><strong>Объявление перечисляемого типа:</strong></p>
+    <p><pre><code>
+enum Day
+{
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
+}
+</code></pre></p>
+    <p>Каждому элементу перечисления соответствует целочисленное значение, начиная с 0 по умолчанию. При необходимости значения могут быть заданы явно.</p>
+    <p>Перечисляемые типы часто используются совместно с оператором <code>switch</code>, так как обеспечивают наглядный и безопасный выбор вариантов выполнения программы.</p>
+</div>
+
     
     <button class="lecture-toggle-btn">
         Вопрос 12: Операторы цикла.
