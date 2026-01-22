@@ -735,7 +735,59 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-        
+        /* Исправление для изображений в лекциях и вопросах */
+.lecture-content-full img,
+.exam-questions img,
+.tab-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 15px auto;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Для мобильных и планшетов */
+@media (max-width: 1024px) {
+    .lecture-content-full img,
+    .exam-questions img,
+    .tab-content img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Для десктопов с большими экранами */
+@media (min-width: 1025px) {
+    .lecture-content-full img,
+    .exam-questions img,
+    .tab-content img {
+        max-width: 90% !important;
+        height: auto !important;
+    }
+}
+
+/* Контейнеры для изображений */
+.image-container {
+    max-width: 100%;
+    overflow: hidden;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Обеспечиваем адаптивность для всех встроенных изображений */
+.enlargeable-image {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Галерея */
+.gallery-img-placeholder {
+    max-width: 100%;
+    height: auto;
+}
         /* Вопросы к экзаменам */
         .exam-questions {
             display: none;
@@ -5864,6 +5916,9 @@ Console.WriteLine(name.Contains("ё")); // True</code></pre>
     <button class="exam-materials-btn" data-target="chemistry-lectures">
         <i class="fas fa-file-pdf"></i> Материалы для подготовки
     </button>
+        <a href="43.html" class="exam-tasks-btn" target="_blank">
+            <i class="fas fa-tasks"></i> Задачи(пока нету)
+        </a>
 </div>
 <!-- Лекции по химии (скрыты по умолчанию) -->
 <div class="history-lectures" id="chemistry-lectures" style="display: none;">
