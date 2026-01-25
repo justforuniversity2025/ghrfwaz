@@ -6674,12 +6674,128 @@ Console.WriteLine(name.Contains("ё")); // True</code></pre>
 
 </div>
 
-    <button class="lecture-toggle-btn">
-        Вопрос 16: Зависимость скорости химической реакции от концентрации и от температуры. Кинетическое уравнение. Константа скорости реакции. Порядок реакции. Правило Ванг-Гоффа, уравнение Арреннуса. Энергия активации.
-        <i class="fas fa-chevron-down"></i>
-    </button>
-    <div class="lecture-content-full">
-        <h4></h4>
+<button class="lecture-toggle-btn">
+    Вопрос 16: Зависимость скорости химической реакции от концентрации и от температуры. Кинетическое уравнение. Константа скорости реакции. Порядок реакции. Правило Вант-Гоффа, уравнение Аррениуса. Энергия активации.
+    <i class="fas fa-chevron-down"></i>
+</button>
+<div class="lecture-content-full">
+    <p><strong>Зависимость скорости реакции от концентрации.</strong></p>
+    <p><strong>Закон действующих масс (К. Гульдберг-Вааге, 1867 г.):</strong></p>
+    <p>При постоянной температуре скорость химической реакции прямо пропорциональна произведению концентраций реагирующих веществ в степенях их стехиометрических коэффициентов.</p>
+
+    <p><strong>Для реакции:</strong></p>
+    <div style="text-align: center; margin: 5px 0;">
+        \[ A_{(г)} + B_{(г)} = AB_{(г)} \]
+    </div>
+    <p><strong>Кинетическое уравнение:</strong></p>
+    <div style="text-align: center; margin: 5px 0;">
+        \[ V = k \cdot C_A \cdot C_B \]
+    </div>
+    <p><strong>V</strong> — скорость химической реакции,</p>
+    <p><strong>C<sub>A</sub>, C<sub>B</sub></strong> — концентрации реагентов A и B.</p>
+
+    <p><strong>В общем случае для реакции:</strong></p>
+    <div style="text-align: center; margin: 5px 0;">
+        \[ aA + bB = cC + dD \]
+    </div>
+    <p><strong>Кинетическое уравнение:</strong></p>
+    <div style="text-align: center; margin: 5px 0;">
+        \[ V = k \cdot C_A^a \cdot C_B^b \]
+    </div>
+    <p><strong>k</strong> — константа скорости реакции.</p>
+    <p><strong>Концентрации твёрдых веществ не входят в кинетическое уравнение.</strong></p>
+    <p><strong>Величина k</strong> зависит от природы реагирующих веществ, от температуры, но не зависит от концентрации реагентов.</p>
+
+    <p><strong>Порядок реакции (n)</strong> — это эмпирическая величина, равная сумме показателей степеней, с которыми концентрации реагентов входят в выражение для скорости реакции:</p>
+    <div style="text-align: center; margin: 5px 0;">
+        \[ n = a + b \]
+    </div>
+
+    <p><strong>Кинетическая классификация химических реакций:</strong></p>
+    <ol>
+        <li><strong>По величине молекулярности:</strong></li>
+        <p><strong>Молекулярность реакции</strong> — число молекул, участвующих в элементарном акте.</p>
+        <p>Реакции бывают: мономолекулярные (одномолекулярные), бимолекулярные, тримолекулярные.</p>
+
+        <li><strong>По величине порядка реакции:</strong></li>
+        <ul>
+            <li>Реакции 1 порядка.</li>
+            <li>Реакции 2 порядка.</li>
+            <li>Реакции 3 порядка.</li>
+        </ul>
+    </ol>
+
+    <p><strong>Примеры:</strong></p>
+    <ol>
+        <li><strong>В реакции:</strong></li>
+        <div style="text-align: center; margin: 5px 0;">
+            \[ 2\,HCl_{(г)} = H_{2(г)} + Cl_{2(г)} \]
+        </div>
+        <p>давление увеличили в 3 раза. Скорость реакции при этом возросла:</p>
+        <ul>
+            <li>–: в 3 раза</li>
+            <li>–: в 6 раз</li>
+            <li><strong>+:</strong> в 9 раз</li>
+            <li>–: в 27 раз</li>
+        </ul>
+        <p><strong>Кинетическое уравнение:</strong> \( V = k \cdot C^2(HCl) \)</p>
+        <p><strong>Обозначим:</strong> \( C(HCl) = x \) (начальная концентрация HCl)</p>
+        <p><strong>При увеличении давления в 3 раза концентрация реагирующего вещества увеличилась тоже в 3 раза.</strong></p>
+        <p><strong>Вначале:</strong> \( V_1 = k \cdot x^2 \),</p>
+        <p><strong>После:</strong> \( V_2 = k \cdot (3x)^2 = 9 \cdot k \cdot x^2 = 9 \cdot V_1 \)</p>
+    </ol>
+
+    <p><strong>Зависимость скорости от температуры (Правило Вант-Гоффа):</strong></p>
+    <p>При увеличении температуры на 10 градусов скорость простой реакции возрастает в 2 ÷ 4 раза.</p>
+    <div style="text-align: center; margin: 10px 0;">
+        \[ V = V_0 \cdot \gamma^{\frac{T - T_0}{10}} \]
+    </div>
+    <p>где:</p>
+    <ul>
+        <li><strong>T > T<sub>0</sub></strong>,</li>
+        <li><strong>γ</strong> — температурный коэффициент (обычно 2–4).</li>
+    </ul>
+
+    <p><strong>Пример:</strong></p>
+    <ol>
+        <li>Температурный коэффициент реакции = 2.</li>
+        <li>Как изменится скорость химической реакции при повышении температуры с 40 до 80 °C?</li>
+    </ol>
+    <p><strong>Решение:</strong></p>
+    <p>По уравнению Вант-Гоффа:</p>
+    <div style="text-align: center; margin: 5px 0;">
+        \[ V = V_0 \cdot \gamma^{\frac{T - T_0}{10}} \]
+    </div>
+    <p><strong>T – T<sub>0</sub> = 80 – 40 = 40</strong></p>
+    <p><strong>V = V<sub>0</sub> · 2<sup>4</sup> = V<sub>0</sub> · 16</strong>.</p>
+    <p><strong>Ответ:</strong> скорость реакции увеличится в 16 раз.</p>
+
+    <p><strong>Уравнение Аррениуса:</strong></p>
+    <div style="display: flex; align-items: center; gap: 20px; margin: 15px 0;">
+        <div style="background: #ffff99; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center;">
+            \[ k = A \cdot e^{-\frac{E_{акт}}{R \cdot T}} \]
+        </div>
+        <div style="font-size: 0.9em; line-height: 1.4;">
+            <strong>k</strong> — константа скорости реакции;<br>
+            <strong>A</strong> — предэкспоненциальный множитель;<br>
+            <strong>E<sub>акт</sub></strong> — энергия активации.
+        </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 20px; margin: 15px 0;">
+        <div style="background: #ffff99; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center;">
+            \[ \lg \frac{k_2}{k_1} = \frac{E_{акт}}{2{,}3 \cdot R} \left( \frac{1}{T_1} - \frac{1}{T_2} \right) \]
+        </div>
+    </div>
+
+            <p><strong>Энергия активации (E<sub>a</sub>, кДж/моль)</strong> — это избыточный запас энергии молекулы над средне статистическим запасом энергии, позволяющий молекуле реализовать хим. взаимодействие.</p>
+
+            <p><strong>Предэкспоненциальный множитель A</strong> отражает частоту столкновения и ориентацию реагирующих частиц.</p>
+        <p>Энергетический профиль одноступенчатой экзотермической реакции</p>
+            <div style="text-align: center; margin: 15px 0;">
+        <img src="assets/img/image21.png" alt="Изменение концентрации реагирующего вещества во времени" class="enlargeable-image" style="border-radius: 8px; max-width: 100%;">
+    </div>
+    <p>Энергия активации  численно равна разности энергий переходного и исходного состояний. </p>
     </div>
 
     <button class="lecture-toggle-btn">
