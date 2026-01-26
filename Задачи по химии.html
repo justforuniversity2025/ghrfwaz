@@ -1,1 +1,158 @@
-нету
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Химия — Задачи</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin: 0;
+      padding: 16px 0;
+    }
+    .task {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .task-number {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #2980b9;
+    }
+    .toggle-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .toggle-btn:hover {
+      background: #2980b9;
+    }
+    .solution {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background: #e8f4fc;
+      border-left: 4px solid #3498db;
+      border-radius: 4px;
+    }
+    .solution p {
+      margin: 6px 0;
+    }
+    .schema {
+      font-family: monospace;
+      background: #f0f8ff;
+      padding: 8px;
+      border-radius: 4px;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    .subscript {
+      vertical-align: sub;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Задачи:</h1>
+
+  <!-- Задача 1 -->
+  <div class="task">
+    <div class="task-number">1. Коррозия металлов</div>
+    <p>Fe находится в контакте с Zn. Написать уравнения коррозионных процессов:</p>
+    <ul>
+      <li><strong>а)</strong> в кислой среде</li>
+      <li><strong>б)</strong> во влажном воздухе</li>
+    </ul>
+    <button class="toggle-btn" onclick="toggleSolution('sol1')">Решение</button>
+    <div id="sol1" class="solution">
+      <p><strong>а) в кислой среде</strong></p>
+      <p>Схема ГЭ: Zn | HCl р-р | Fe</p>
+      <p>φ⁰<sub>Zn</sub> = –0,76 В — анод, φ⁰<sub>Fe</sub> = –0,44 В — катод</p>
+      <p>А: Zn – 2ē → Zn²⁺</p>
+      <p>К(Fe): 2H⁺ + 2ē → H₂↑ — водородная деполяризация</p>
+      <p>Zn + 2HCl = ZnCl₂ + H₂↑</p>
+
+      <p><strong>б) во влажном воздухе</strong></p>
+      <p>Схема ГЭ: Zn | H₂O, O₂ | Fe</p>
+      <p>А: Zn – 2ē → Zn²⁺</p>
+      <p>К(Fe): 2H₂O + O₂ + 4ē → 4OH⁻ — кислородная деполяризация</p>
+      <p>2Zn + 2H₂O + O₂ = 2Zn(OH)₂</p>
+    </div>
+  </div>
+
+  <!-- Задача 2 -->
+  <div class="task">
+    <div class="task-number">2. Коррозия при контакте с железом</div>
+    <p>Определить, какой металл наиболее подвержен электрохимической коррозии при контакте с Fe:</p>
+    <ul>
+      <li><strong>а)</strong> Al</li>
+      <li><strong>б)</strong> Mn</li>
+      <li><strong>в)</strong> Mg</li>
+    </ul>
+    <button class="toggle-btn" onclick="toggleSolution('sol2')">Решение</button>
+    <div id="sol2" class="solution">
+      <p><strong>Решение:</strong></p>
+      <p>При контакте двух металлов более активный металл становится анодом и разрушается.</p>
+      <p>Сравним стандартные потенциалы:</p>
+      <p>φ⁰<sub>Al</sub> = –1,66 В — анод</p>
+      <p>φ⁰<sub>Mn</sub> = –1,18 В — анод</p>
+      <p>φ⁰<sub>Mg</sub> = –2,36 В — анод</p>
+      <p>φ⁰<sub>Fe</sub> = –0,44 В — катод</p>
+      <p>Чем меньше значение φ⁰ (чем более отрицательное), тем активнее металл и тем быстрее он окисляется.</p>
+      <p>→ Mg имеет самый низкий потенциал → он будет разрушаться в первую очередь.</p>
+      <p><strong>Ответ: в) Mg</strong></p>
+    </div>
+  </div>
+
+  <!-- Задача 3 -->
+  <div class="task">
+    <div class="task-number">2. Гальванический элемент</div>
+    <p>Составить схему ГЭ Якоби-Даниэля из Fe и Mg-пластин.</p>
+    <button class="toggle-btn" onclick="toggleSolution('sol3')">Решение</button>
+    <div id="sol3" class="solution">
+      <p><strong>Схема ГЭ:</strong></p>
+      <div class="schema">
+        A ← e⁻ → K<br>
+        Mg | MgSO₄ || FeSO₄ | Fe
+      </div>
+      <p>φ⁰<sub>Mg</sub> = –2,36 В — анод</p>
+      <p>φ⁰<sub>Fe</sub> = –0,44 В — катод</p>
+      <p>А(Mg): Mg – 2ē → Mg²⁺</p>
+      <p>К(Fe): Fe²⁺ + 2ē → Fe</p>
+      <p>Суммарно: Mg + Fe²⁺ → Mg²⁺ + Fe</p>
+      <p>ЭДС = φ<sub>катода</sub> – φ<sub>анода</sub> = –0,44 – (–2,36) = 1,92 В</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleSolution(id) {
+      const sol = document.getElementById(id);
+      if (sol.style.display === "block") {
+        sol.style.display = "none";
+      } else {
+        sol.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
