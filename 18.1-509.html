@@ -411,7 +411,7 @@
             const currentYear = now.getFullYear();
             
             // Если сегодня уже после 4 февраля, берем следующий год
-            const targetDate = new Date(currentYear, 1, 4); // февраль это 1 (0-январь, 1-февраль)
+            const targetDate = new Date(currentYear, 1, 6); // февраль это 1 (0-январь, 1-февраль)
             if (now > targetDate) {
                 targetDate.setFullYear(currentYear + 1);
             }
