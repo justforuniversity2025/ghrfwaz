@@ -533,7 +533,16 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
                     display: none !important;
                 }
             }
-        }</style>
+        }
+        .day-table td.empty-slot {
+    background: #f8f9fa;
+    border-left: 4px solid #ddd;
+}
+
+.schedule-table td.empty-slot {
+    background: #f8f9fa;
+    border-left: 4px solid #ddd;
+}</style>
 </head>
 <body>
     <!-- Экран входа -->
@@ -1762,129 +1771,199 @@ document.addEventListener('DOMContentLoaded', function() {
         // ====== МОБИЛЬНАЯ КАРУСЕЛЬ ДНЕЙ ======
         
         // Функция для создания мобильной карусели из таблицы
-        function createMobileCarousel(tableId, weekId) {
-            const table = document.querySelector(`#${weekId} .schedule-table`);
-            if (!table) return null;
-            
-            // Получаем заголовки дней
-            const headerRow = table.querySelector('thead tr');
-            const dayHeaders = Array.from(headerRow.querySelectorAll('th')).slice(1); // Пропускаем "Время"
-            
-            // Получаем данные таблицы
-            const timeSlots = [];
-            const dayData = {};
-            
-            // Инициализируем объекты для каждого дня
-            dayHeaders.forEach((header, index) => {
-                const dayName = header.textContent.trim();
-                dayData[dayName] = [];
-            });
-            
-            // Собираем данные из строк таблицы
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach(row => {
-                const timeCell = row.querySelector('.time-cell');
-                const time = timeCell ? timeCell.textContent.trim() : '';
-                
-                const dayCells = Array.from(row.querySelectorAll('td')).slice(1); // Пропускаем ячейку времени
-                
-                dayCells.forEach((cell, dayIndex) => {
-                    const dayName = dayHeaders[dayIndex].textContent.trim();
-                    
-                    if (cell.textContent.trim()) {
-                        // Копируем содержимое ячейки
-const cellContent = cell.innerHTML; // ✅ Только содержимое ячейки
-dayData[dayName].push({
-    time: time,
-    content: cellContent
-});
-                    }
-                });
-            });
-            
-            
-            // Создаем HTML для карусели
-            const days = Object.keys(dayData);
-            const carouselId = `${weekId}-carousel`;
-            
-            let carouselHTML = `
-                <div class="day-carousel" id="${carouselId}">
-                    <div class="carousel-header">
-                        <button class="carousel-arrow left-arrow" onclick="prevDay('${carouselId}')">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <div class="carousel-day">${days[0]}</div>
-                        <button class="carousel-arrow right-arrow" onclick="nextDay('${carouselId}')">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="carousel-body">
-            `;
-            
-            // Создаем таблицы для каждого дня
-            days.forEach((day, index) => {
-                const lessons = dayData[day];
-                
-                if (lessons.length > 0) {
-                    carouselHTML += `
-                        <div class="day-table-container" data-day="${day}" style="display: ${index === 0 ? 'block' : 'none'}">
-                            <table class="day-table">
-                                <thead>
-                                    <tr>
-                                        <th>Время</th>
-                                        <th>Занятие</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                    `;
-                    
-                    lessons.forEach(lesson => {
-                        carouselHTML += `
-                            <tr>
-                                <td class="time-cell">${lesson.time}</td>
-                                <td>${lesson.content}</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    carouselHTML += `
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
-                } else {
-                    carouselHTML += `
-                        <div class="day-table-container" data-day="${day}" style="display: ${index === 0 ? 'block' : 'none'}">
-                            <div class="no-lessons">
-                                <i class="far fa-calendar-times"></i><br>
-                                Нет занятий
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            
-            carouselHTML += `
-                    </div>
-                    <div class="carousel-indicator">
-            `;
-            
-            // Добавляем индикаторы
-            days.forEach((day, index) => {
-                carouselHTML += `
-                    <div class="indicator-dot ${index === 0 ? 'active' : ''}" 
-                         onclick="goToDay('${carouselId}', ${index})"
-                         title="${day}"></div>
-                `;
-            });
-            
-            carouselHTML += `
-                    </div>
-                </div>
-            `;
-            
-            return carouselHTML;
+function createMobileCarousel(tableId, weekId) {
+    const table = document.querySelector(`#${weekId} .schedule-table`);
+    if (!table) return null;
+    
+    // Получаем заголовки дней
+    const headerRow = table.querySelector('thead tr');
+    const dayHeaders = Array.from(headerRow.querySelectorAll('th')).slice(1); // Пропускаем "Время"
+    
+    // Собираем ВСЕ временные слоты из таблицы
+    const allTimeSlots = [];
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const timeCell = row.querySelector('.time-cell');
+        if (timeCell) {
+            const time = timeCell.textContent.trim();
+            if (time && !allTimeSlots.includes(time)) {
+                allTimeSlots.push(time);
+            }
         }
+    });
+    
+    // Сортируем временные слоты по времени начала
+    allTimeSlots.sort((a, b) => {
+        const timeToMinutes = (timeStr) => {
+            const [time, period] = timeStr.split('-')[0].split(/(?=[А-Я])/);
+            const [hours, minutes] = time.split(':').map(Number);
+            let total = hours * 60 + minutes;
+            if (period && period.includes('дня')) {
+                if (hours < 12) total += 12 * 60; // PM
+            }
+            return total;
+        };
+        return timeToMinutes(a) - timeToMinutes(b);
+    });
+    
+    // Получаем данные таблицы
+    const dayData = {};
+    
+    // Инициализируем объекты для каждого дня
+    dayHeaders.forEach((header, index) => {
+        const dayName = header.textContent.trim();
+        dayData[dayName] = {};
+        
+        // Инициализируем пустые слоты для всех времен
+        allTimeSlots.forEach(time => {
+            dayData[dayName][time] = {
+                content: '',
+                class: ''
+            };
+        });
+    });
+    
+    // Заполняем данные из таблицы
+    rows.forEach(row => {
+        const timeCell = row.querySelector('.time-cell');
+        if (!timeCell) return;
+        
+        const time = timeCell.textContent.trim();
+        if (!time) return;
+        
+        const dayCells = Array.from(row.querySelectorAll('td')).slice(1); // Пропускаем ячейку времени
+        
+        dayCells.forEach((cell, dayIndex) => {
+            const dayName = dayHeaders[dayIndex].textContent.trim();
+            
+            if (cell.textContent.trim()) {
+                // Копируем содержимое ячейки
+                const cellContent = cell.innerHTML;
+                
+                // Определяем классы из оригинальной ячейки
+                let cellClass = '';
+                if (cell.classList.contains('lecture')) cellClass = 'lecture';
+                else if (cell.classList.contains('practice')) cellClass = 'practice';
+                else if (cell.classList.contains('lab')) cellClass = 'lab';
+                if (cell.classList.contains('temporary-lesson')) cellClass += ' temporary-lesson';
+                
+                // Сохраняем данные
+                dayData[dayName][time] = {
+                    content: cellContent,
+                    class: cellClass
+                };
+            }
+        });
+    });
+    
+    // Создаем HTML для карусели
+    const days = Object.keys(dayData);
+    const carouselId = `${weekId}-carousel`;
+    
+    let carouselHTML = `
+        <div class="day-carousel" id="${carouselId}">
+            <div class="carousel-header">
+                <button class="carousel-arrow left-arrow" onclick="prevDay('${carouselId}')">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-day">${days[0]}</div>
+                <button class="carousel-arrow right-arrow" onclick="nextDay('${carouselId}')">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="carousel-body">
+    `;
+    
+    // Создаем таблицы для каждого дня
+    days.forEach((day, index) => {
+        const dayLessons = dayData[day];
+        
+        carouselHTML += `
+            <div class="day-table-container" data-day="${day}" style="display: ${index === 0 ? 'block' : 'none'}">
+                <table class="day-table">
+                    <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Занятие</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        let hasLessons = false;
+        
+        // Создаем строки для ВСЕХ временных слотов
+        allTimeSlots.forEach(time => {
+            const lesson = dayLessons[time];
+            
+            if (lesson.content) {
+                hasLessons = true;
+carouselHTML += `
+    <tr>
+        <td class="time-cell">${time}</td>
+        <td class="${lesson.class}" 
+            data-original="${lesson.content.replace(/"/g, '&quot;')}"
+            data-original-class="${lesson.class}">
+            ${lesson.content}
+        </td>
+    </tr>
+`;
+            } else {
+                // Пустой слот (окно)
+                carouselHTML += `
+                    <tr>
+                        <td class="time-cell">${time}</td>
+                        <td class="empty-slot">
+                            <div style="text-align: center; color: #ccc; padding: 15px 5px;">
+                                <i class="far fa-clock"></i><br>
+                                <small>Нет пары</small>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        });
+        
+        if (!hasLessons) {
+            // Если вообще нет занятий в этот день (хотя маловероятно)
+            carouselHTML += `
+                <tr>
+                    <td colspan="2" style="text-align: center; padding: 30px; color: #95a5a6; font-style: italic;">
+                        <i class="far fa-calendar-times"></i><br>
+                        Нет занятий
+                    </td>
+                </tr>
+            `;
+        }
+        
+        carouselHTML += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+    });
+    
+    carouselHTML += `
+            </div>
+            <div class="carousel-indicator">
+    `;
+    
+    // Добавляем индикаторы
+    days.forEach((day, index) => {
+        carouselHTML += `
+            <div class="indicator-dot ${index === 0 ? 'active' : ''}" 
+                 onclick="goToDay('${carouselId}', ${index})"
+                 title="${day}"></div>
+        `;
+    });
+    
+    carouselHTML += `
+            </div>
+        </div>
+    `;
+    
+    return carouselHTML;
+}
         
         // Функции для управления каруселью
         function getCarouselState(carouselId) {
@@ -2029,51 +2108,41 @@ dayData[dayName].push({
             }
         }
         
-        function filterMobileSchedule(group) {
-            // Применяем фильтрацию ко всем таблицам в каруселях
-            document.querySelectorAll('.day-table td').forEach(cell => {
-                const lessonText = cell.textContent.toLowerCase();
-                
-                let belongsToGroup = 'both';
-                
-                if (lessonText.includes('1 подгр') || lessonText.includes('1-ая') || lessonText.includes('1 группа')) {
-                    belongsToGroup = 'group1';
-                } else if (lessonText.includes('2 подгр') || lessonText.includes('2-ая') || lessonText.includes('2 группа')) {
-                    belongsToGroup = 'group2';
-                }
-                
-                const row = cell.closest('tr');
-                
-                if (group === 'both' || belongsToGroup === 'both' || belongsToGroup === group) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            
-            // Проверяем, есть ли видимые строки в каждой таблице
-            document.querySelectorAll('.day-table-container').forEach(container => {
-                const table = container.querySelector('.day-table');
-                const visibleRows = table.querySelectorAll('tbody tr[style="display: table-row;"]');
-                const noLessonsDiv = container.querySelector('.no-lessons');
-                
-                if (visibleRows.length === 0) {
-                    if (!noLessonsDiv) {
-                        const newNoLessons = document.createElement('div');
-                        newNoLessons.className = 'no-lessons';
-                        newNoLessons.innerHTML = '<i class="far fa-calendar-times"></i><br>Нет занятий для выбранной группы';
-                        table.style.display = 'none';
-                        container.appendChild(newNoLessons);
-                    }
-                } else {
-                    const existingNoLessons = container.querySelector('.no-lessons');
-                    if (existingNoLessons) {
-                        existingNoLessons.remove();
-                        table.style.display = 'table';
-                    }
-                }
-            });
+function filterMobileSchedule(group) {
+    // Для всех ячеек с атрибутом data-original (занятия)
+    document.querySelectorAll('.day-table td[data-original]').forEach(cell => {
+        const originalContent = cell.getAttribute('data-original');
+        const originalClass = cell.getAttribute('data-original-class');
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = originalContent;
+        const lessonText = tempDiv.textContent || tempDiv.innerText || '';
+
+        let belongsToGroup = 'both';
+        
+        if (lessonText.includes('1 подгр') || lessonText.includes('1-ая') || lessonText.includes('1 группа')) {
+            belongsToGroup = 'group1';
+        } else if (lessonText.includes('2 подгр') || lessonText.includes('2-ая') || lessonText.includes('2 группа')) {
+            belongsToGroup = 'group2';
         }
+
+        if (group === 'both' || belongsToGroup === 'both' || belongsToGroup === group) {
+            // Показываем занятие
+            cell.innerHTML = originalContent;
+            cell.className = originalClass;
+        } else {
+            // Показываем окно
+            cell.innerHTML = '<div style="text-align: center; color: #ccc; padding: 15px 5px;"><i class="far fa-clock"></i><br><small>Нет пары</small></div>';
+            cell.className = 'empty-slot';
+        }
+    });
+    
+    // Также нужно обработать ячейки, которые уже были "окнами" (не имеют data-original)
+    // Они должны оставаться как "окна" всегда
+    document.querySelectorAll('.day-table td.empty-slot:not([data-original])').forEach(cell => {
+        cell.innerHTML = '<div style="text-align: center; color: #ccc; padding: 15px 5px;"><i class="far fa-clock"></i><br><small>Нет пары</small></div>';
+        cell.className = 'empty-slot';
+    });
+}
         
         // Обновляем фильтрацию при переключении недель
         document.querySelectorAll('.week-tab').forEach(tab => {
