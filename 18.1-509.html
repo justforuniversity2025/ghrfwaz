@@ -334,7 +334,206 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
         display: inline-block;
         margin-left: 10px;
     }
-}</style>
+}
+        /* Стили для мобильной карусели дней */
+        @media (max-width: 768px) {
+            .compact-schedule {
+                overflow-x: visible;
+            }
+            
+            .schedule-table {
+                display: none; /* Скрываем таблицу на мобильных */
+            }
+            
+            .mobile-schedule-container {
+                display: block;
+                position: relative;
+                min-height: 500px;
+            }
+            
+            .day-carousel {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                overflow: hidden;
+            }
+            
+            .carousel-header {
+                background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
+                color: white;
+                padding: 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+            }
+            
+            .carousel-day {
+                font-size: 18px;
+                font-weight: 600;
+                text-align: center;
+                flex: 1;
+            }
+            
+            .carousel-arrow {
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s;
+            }
+            
+            .carousel-arrow:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.1);
+            }
+            
+            .carousel-arrow:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+            }
+            
+            .carousel-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+                background: #f8f9fa;
+            }
+            
+            .indicator-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #ddd;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+            
+            .indicator-dot.active {
+                background: #3498db;
+                transform: scale(1.2);
+            }
+            
+            .day-table {
+                width: 100%;
+                border-collapse: collapse;
+                background: white;
+            }
+            
+            .day-table th {
+                background: #f8f9fa;
+                color: #2c3e50;
+                padding: 12px 10px;
+                text-align: center;
+                font-weight: 600;
+                border: 1px solid #eef2f7;
+            }
+            
+            .day-table td {
+                padding: 12px 10px;
+                border: 1px solid #eef2f7;
+                vertical-align: top;
+            }
+            
+            .time-cell {
+                background: #f8f9fa;
+                font-weight: 600;
+                color: #2c3e50;
+                text-align: center;
+                width: 100px;
+            }
+            
+            .day-table td strong {
+                display: block;
+                color: #1a2a6c;
+                margin-bottom: 6px;
+                font-size: 14px;
+                line-height: 1.3;
+            }
+            
+            .day-table td .type {
+                display: inline-block;
+                padding: 3px 8px;
+                background: #e3f2fd;
+                color: #1565c0;
+                border-radius: 10px;
+                font-size: 11px;
+                font-weight: 600;
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+            
+            .day-table td .room, .day-table td .teacher {
+                display: block;
+                font-size: 11px;
+                color: #666;
+                margin-top: 2px;
+                line-height: 1.4;
+            }
+            
+            .day-table td.lecture {
+                border-left: 4px solid #4CAF50;
+                background: linear-gradient(to right, rgba(76, 175, 80, 0.05), white);
+            }
+            
+            .day-table td.practice {
+                border-left: 4px solid #2196F3;
+                background: linear-gradient(to right, rgba(33, 150, 243, 0.05), white);
+            }
+            
+            .day-table td.lab {
+                border-left: 4px solid #FF9800;
+                background: linear-gradient(to right, rgba(255, 152, 0, 0.05), white);
+            }
+            
+            .temporary-lesson {
+                position: relative;
+                background: rgba(255, 0, 0, 0.05) !important;
+                border-left: 4px solid #ff0000 !important;
+            }
+            
+            .temporary-lesson::after {
+                content: 'Временное';
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                background: #ff0000;
+                color: white;
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-size: 10px;
+                font-weight: bold;
+            }
+            
+            .no-lessons {
+                padding: 30px;
+                text-align: center;
+                color: #95a5a6;
+                font-style: italic;
+                background: white;
+                border: 1px solid #eef2f7;
+                border-radius: 0 0 12px 12px;
+            }
+            
+            /* Показываем обычную таблицу только на десктопе */
+            @media (min-width: 769px) {
+                .schedule-table {
+                    display: table !important;
+                }
+                
+                .mobile-schedule-container {
+                    display: none !important;
+                }
+            }
+        }</style>
 </head>
 <body>
     <!-- Экран входа -->
@@ -1352,6 +1551,10 @@ document.addEventListener('DOMContentLoaded', function() {
             </tbody>
         </table>
     </div>
+                <!-- Мобильная карусель (видна на мобильных) -->
+            <div class="mobile-schedule-container" id="upper-week-mobile">
+                <!-- Карусель будет сгенерирована JavaScript -->
+            </div>
 </div>
                 
 <div id="lower-week" class="schedule-container">
@@ -1550,9 +1753,340 @@ document.addEventListener('DOMContentLoaded', function() {
             </tbody>
         </table>
     </div>
+                <div class="mobile-schedule-container" id="lower-week-mobile">
+                <!-- Карусель будет сгенерирована JavaScript -->
+            </div>
 </div>
             </div>
+            <script>
+        // ====== МОБИЛЬНАЯ КАРУСЕЛЬ ДНЕЙ ======
+        
+        // Функция для создания мобильной карусели из таблицы
+        function createMobileCarousel(tableId, weekId) {
+            const table = document.querySelector(`#${weekId} .schedule-table`);
+            if (!table) return null;
             
+            // Получаем заголовки дней
+            const headerRow = table.querySelector('thead tr');
+            const dayHeaders = Array.from(headerRow.querySelectorAll('th')).slice(1); // Пропускаем "Время"
+            
+            // Получаем данные таблицы
+            const timeSlots = [];
+            const dayData = {};
+            
+            // Инициализируем объекты для каждого дня
+            dayHeaders.forEach((header, index) => {
+                const dayName = header.textContent.trim();
+                dayData[dayName] = [];
+            });
+            
+            // Собираем данные из строк таблицы
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const timeCell = row.querySelector('.time-cell');
+                const time = timeCell ? timeCell.textContent.trim() : '';
+                
+                const dayCells = Array.from(row.querySelectorAll('td')).slice(1); // Пропускаем ячейку времени
+                
+                dayCells.forEach((cell, dayIndex) => {
+                    const dayName = dayHeaders[dayIndex].textContent.trim();
+                    
+                    if (cell.textContent.trim()) {
+                        // Копируем содержимое ячейки
+const cellContent = cell.innerHTML; // ✅ Только содержимое ячейки
+dayData[dayName].push({
+    time: time,
+    content: cellContent
+});
+                    }
+                });
+            });
+            
+            
+            // Создаем HTML для карусели
+            const days = Object.keys(dayData);
+            const carouselId = `${weekId}-carousel`;
+            
+            let carouselHTML = `
+                <div class="day-carousel" id="${carouselId}">
+                    <div class="carousel-header">
+                        <button class="carousel-arrow left-arrow" onclick="prevDay('${carouselId}')">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="carousel-day">${days[0]}</div>
+                        <button class="carousel-arrow right-arrow" onclick="nextDay('${carouselId}')">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="carousel-body">
+            `;
+            
+            // Создаем таблицы для каждого дня
+            days.forEach((day, index) => {
+                const lessons = dayData[day];
+                
+                if (lessons.length > 0) {
+                    carouselHTML += `
+                        <div class="day-table-container" data-day="${day}" style="display: ${index === 0 ? 'block' : 'none'}">
+                            <table class="day-table">
+                                <thead>
+                                    <tr>
+                                        <th>Время</th>
+                                        <th>Занятие</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+                    
+                    lessons.forEach(lesson => {
+                        carouselHTML += `
+                            <tr>
+                                <td class="time-cell">${lesson.time}</td>
+                                <td>${lesson.content}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    carouselHTML += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    carouselHTML += `
+                        <div class="day-table-container" data-day="${day}" style="display: ${index === 0 ? 'block' : 'none'}">
+                            <div class="no-lessons">
+                                <i class="far fa-calendar-times"></i><br>
+                                Нет занятий
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            carouselHTML += `
+                    </div>
+                    <div class="carousel-indicator">
+            `;
+            
+            // Добавляем индикаторы
+            days.forEach((day, index) => {
+                carouselHTML += `
+                    <div class="indicator-dot ${index === 0 ? 'active' : ''}" 
+                         onclick="goToDay('${carouselId}', ${index})"
+                         title="${day}"></div>
+                `;
+            });
+            
+            carouselHTML += `
+                    </div>
+                </div>
+            `;
+            
+            return carouselHTML;
+        }
+        
+        // Функции для управления каруселью
+        function getCarouselState(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return null;
+            
+            const containers = carousel.querySelectorAll('.day-table-container');
+            const days = Array.from(containers).map(c => c.getAttribute('data-day'));
+            const currentIndex = Array.from(containers).findIndex(c => c.style.display === 'block');
+            
+            return {
+                carousel,
+                containers,
+                days,
+                currentIndex
+            };
+        }
+        
+        function updateCarousel(carouselId, newIndex) {
+            const state = getCarouselState(carouselId);
+            if (!state) return;
+            
+            const { carousel, containers, days, currentIndex } = state;
+            
+            // Скрываем все дни
+            containers.forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            // Показываем выбранный день
+            if (containers[newIndex]) {
+                containers[newIndex].style.display = 'block';
+            }
+            
+            // Обновляем заголовок
+            const dayTitle = carousel.querySelector('.carousel-day');
+            if (dayTitle && days[newIndex]) {
+                dayTitle.textContent = days[newIndex];
+            }
+            
+            // Обновляем индикаторы
+            const dots = carousel.querySelectorAll('.indicator-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === newIndex);
+            });
+            
+            // Обновляем состояние кнопок
+            const leftArrow = carousel.querySelector('.left-arrow');
+            const rightArrow = carousel.querySelector('.right-arrow');
+            
+            if (leftArrow) leftArrow.disabled = newIndex === 0;
+            if (rightArrow) rightArrow.disabled = newIndex === days.length - 1;
+        }
+        
+        function prevDay(carouselId) {
+            const state = getCarouselState(carouselId);
+            if (!state || state.currentIndex <= 0) return;
+            
+            updateCarousel(carouselId, state.currentIndex - 1);
+        }
+        
+        function nextDay(carouselId) {
+            const state = getCarouselState(carouselId);
+            if (!state || state.currentIndex >= state.days.length - 1) return;
+            
+            updateCarousel(carouselId, state.currentIndex + 1);
+        }
+        
+        function goToDay(carouselId, dayIndex) {
+            updateCarousel(carouselId, dayIndex);
+        }
+        
+        // Инициализация каруселей при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ждем, пока основной контент станет видимым
+            const checkInterval = setInterval(() => {
+                if (document.getElementById('main-content').classList.contains('visible')) {
+                    clearInterval(checkInterval);
+                    
+                    // Создаем карусели для обеих недель
+                    const upperCarousel = createMobileCarousel('upper-week', 'upper-week');
+                    const lowerCarousel = createMobileCarousel('lower-week', 'lower-week');
+                    
+                    if (upperCarousel) {
+                        document.getElementById('upper-week-mobile').innerHTML = upperCarousel;
+                    }
+                    
+                    if (lowerCarousel) {
+                        document.getElementById('lower-week-mobile').innerHTML = lowerCarousel;
+                    }
+                    
+                    // Инициализируем фильтрацию для мобильных каруселей
+                    initMobileFilter();
+                    
+                    // Переключаем вид при изменении размера окна
+                    window.addEventListener('resize', toggleMobileView);
+                    
+                    // Вызываем сразу для установки правильного вида
+                    toggleMobileView();
+                }
+            }, 100);
+        });
+        
+        // Функция переключения между таблицей и каруселью
+        function toggleMobileView() {
+            const isMobile = window.innerWidth < 769;
+            
+            // Показываем/скрываем таблицы и карусели
+            document.querySelectorAll('.schedule-table').forEach(table => {
+                table.style.display = isMobile ? 'none' : 'table';
+            });
+            
+            document.querySelectorAll('.mobile-schedule-container').forEach(container => {
+                container.style.display = isMobile ? 'block' : 'none';
+            });
+        }
+        
+        // Фильтрация для мобильных каруселей
+        function initMobileFilter() {
+            const groupRadios = document.querySelectorAll('input[name="group"]');
+            
+            groupRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const selectedGroup = this.value;
+                    filterMobileSchedule(selectedGroup);
+                    
+                    // Сохраняем выбор в localStorage
+                    localStorage.setItem('selectedGroup', selectedGroup);
+                });
+            });
+            
+            // Восстанавливаем выбранную группу
+            const savedGroup = localStorage.getItem('selectedGroup');
+            if (savedGroup) {
+                const radioToSelect = document.querySelector(`input[name="group"][value="${savedGroup}"]`);
+                if (radioToSelect) {
+                    radioToSelect.checked = true;
+                    filterMobileSchedule(savedGroup);
+                }
+            } else {
+                filterMobileSchedule('both');
+            }
+        }
+        
+        function filterMobileSchedule(group) {
+            // Применяем фильтрацию ко всем таблицам в каруселях
+            document.querySelectorAll('.day-table td').forEach(cell => {
+                const lessonText = cell.textContent.toLowerCase();
+                
+                let belongsToGroup = 'both';
+                
+                if (lessonText.includes('1 подгр') || lessonText.includes('1-ая') || lessonText.includes('1 группа')) {
+                    belongsToGroup = 'group1';
+                } else if (lessonText.includes('2 подгр') || lessonText.includes('2-ая') || lessonText.includes('2 группа')) {
+                    belongsToGroup = 'group2';
+                }
+                
+                const row = cell.closest('tr');
+                
+                if (group === 'both' || belongsToGroup === 'both' || belongsToGroup === group) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Проверяем, есть ли видимые строки в каждой таблице
+            document.querySelectorAll('.day-table-container').forEach(container => {
+                const table = container.querySelector('.day-table');
+                const visibleRows = table.querySelectorAll('tbody tr[style="display: table-row;"]');
+                const noLessonsDiv = container.querySelector('.no-lessons');
+                
+                if (visibleRows.length === 0) {
+                    if (!noLessonsDiv) {
+                        const newNoLessons = document.createElement('div');
+                        newNoLessons.className = 'no-lessons';
+                        newNoLessons.innerHTML = '<i class="far fa-calendar-times"></i><br>Нет занятий для выбранной группы';
+                        table.style.display = 'none';
+                        container.appendChild(newNoLessons);
+                    }
+                } else {
+                    const existingNoLessons = container.querySelector('.no-lessons');
+                    if (existingNoLessons) {
+                        existingNoLessons.remove();
+                        table.style.display = 'table';
+                    }
+                }
+            });
+        }
+        
+        // Обновляем фильтрацию при переключении недель
+        document.querySelectorAll('.week-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                setTimeout(() => {
+                    const activeGroup = document.querySelector('input[name="group"]:checked');
+                    if (activeGroup) {
+                        filterMobileSchedule(activeGroup.value);
+                    }
+                }, 100);
+            });
+        });
+    </script>
             <!-- Домашнее задание -->
             <div id="homework-tab" class="tab-content">
                 <h2><i class="fas fa-tasks"></i> Домашние задания<span class="status not-ready">✗</span></h2>
