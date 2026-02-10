@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>18.1-509</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -53,7 +54,7 @@ header { background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);  color: 
 .tab.active { background: rgba(52, 152, 219, 0.3); border-color: #3498db; }
 .tab.active:after { content: ''; position: absolute; bottom: -5px; left: 15px; width: calc(100% - 30px); height: 3px; background: #3498db; border-radius: 2px; }
 .tab i { font-size: 16px; }
-.tab-text { font-size: 14px; }
+.tab-text { display: none; }
 .tab-content-container { max-width: 1400px; margin: 0px auto; padding: 0 0%; min-height: 500px; position: relative; }
 .tab-content { display: none; background: transparent; border-radius: 10px; padding: 20px; animation: fadeIn 0.5s ease; position: relative; z-index: 1; }
 .tab-content.active { display: block; }
@@ -542,6 +543,185 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
 .schedule-table td.empty-slot {
     background: #f8f9fa;
     border-left: 4px solid #ddd;
+}
+/* Стили для нового раздела лекций */
+.lectures-subjects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.subject-btn {
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border: 2px solid #3498db;
+    border-radius: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+}
+
+.subject-btn:hover {
+    background: #e3f2fd;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.subject-btn.active {
+    background: #3498db;
+    color: white;
+    border-color: #2980b9;
+}
+
+.subject-btn.active i {
+    color: white;
+}
+
+.subject-btn i {
+    font-size: 20px;
+    color: #3498db;
+    width: 30px;
+}
+
+.subject-lectures {
+    margin-top: 30px;
+    animation: slideDown 0.3s ease;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.subject-lectures .lecture-item {
+    margin-bottom: 20px;
+    border-left: 5px solid #3498db;
+}
+
+/* Стили для кнопок переключения внутри лекций */
+.lecture-toggle-btn {
+    width: 100%;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #2c3e50;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+.lecture-toggle-btn:hover {
+    background: #e3f2fd;
+}
+
+.lecture-toggle-btn.active {
+    background: #e3f2fd;
+    border-color: #2980b9;
+}
+
+.lecture-toggle-btn i {
+    transition: transform 0.3s;
+}
+
+.lecture-toggle-btn.active i {
+    transform: rotate(180deg);
+}
+
+.lecture-content-full {
+    display: none;
+    padding: 20px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+/* Анимация для раскрытия лекций */
+.lecture-content-full {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.lecture-content-full[style*="display: block"] {
+    max-height: 100000px; /* Достаточно большое значение */
+}
+.lecture-content-full h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.lecture-content-full pre {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.lecture-content-full code {
+    background: transparent;
+    color: #333;
+    padding: 0;
+    border-radius: 0;
+    font-family: 'Consolas', monospace;
+}
+
+/* Анимация появления */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .lectures-subjects-container {
+        grid-template-columns: 1fr;
+        gap: 5px !important;
+    }
+    
+    .subject-btn {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+        min-height: 40px !important;
+        margin-bottom: 5px !important;
+        justify-content: space-between !important;
+    }
+    
+    .subject-btn i {
+        font-size: 16px !important;
+        width: 20px !important;
+    }
+    
+    /* На мобильных - лекции появляются под кнопкой в аккордеоне */
+    .subject-lectures {
+        position: relative !important;
+        top: 0 !important;
+        margin-top: 0 !important;
+        padding: 10px !important;
+        background: white !important;
+        border-radius: 0 0 8px 8px !important;
+        border-top: none !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+    }
 }</style>
 </head>
 <body>
@@ -618,8 +798,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
         
         <!-- Контейнер для контента вкладок -->
         <div class="tab-content-container">
-            <!-- Главная -->
-<!-- Главная -->
+
 <!-- Главная -->
 <div id="main-tab" class="tab-content active">
     
@@ -1651,110 +1830,1436 @@ function filterMobileSchedule(group) {
         });
     </script>
             <!-- Домашнее задание -->
-            <div id="homework-tab" class="tab-content">
-                <h2><i class="fas fa-tasks"></i> Домашние задания<span class="status not-ready">✗</span></h2>
-                
-                <div class="homework-item">
-                    <h3>
-                        <span>Математика <span class="subject">Алгебра</span></span>
-                        <span class="due-date">Срок: до 15.10.2024</span>
-                    </h3>
-                    <p>Решить задачи №125-140 из учебника. Особое внимание уделить задачам на логарифмические уравнения. Подготовить доказательство теоремы о производной сложной функции.</p>
+<!-- Домашнее задание -->
+<div id="homework-tab" class="tab-content">
+    <h2><i class="fas fa-tasks"></i> Домашние задания<span class="status not-ready">✗</span></h2>
+    
+    <!-- Кнопка для открытия файлов -->
+    <div style="margin-bottom: 20px;">
+        <button id="files-toggle-btn" class="download-btn" style="font-size: 16px; padding: 12px 25px;">
+            <i class="fas fa-folder-open"></i> Файлы
+        </button>
+    </div>
+    
+    <!-- Контейнер для файлов (скрыт по умолчанию) -->
+    <div id="files-container" style="display: none; margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+        <button id="files-back-btn" class="download-btn" style="background: #7f8c8d; margin-bottom: 15px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
+        
+        <div id="files-list">
+            <!-- Файлы будут загружены через JS -->
+        </div>
+    </div>
+    
+    <!-- Вертикальная полоса с датами (таймлайн) -->
+    <div style="display: flex; margin-top: 20px; min-height: 500px;">
+        <!-- Левая колонка: таймлайн -->
+        <div id="homework-timeline" style="width: 200px; min-width: 200px; margin-right: 20px;">
+            <div style="position: sticky; top: 100px;">
+                <h3 style="margin-bottom: 15px;"><i class="fas fa-calendar-alt"></i> Сроки</h3>
+                <div id="timeline-dates" style="position: relative; padding-left: 20px;">
+                    <!-- Даты будут добавлены через JS -->
+                    <div class="timeline-line" style="position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: #3498db;"></div>
                 </div>
-                
-                <div class="homework-item">
-                    <h3>
-                        <span>Физика <span class="subject">Механика</span></span>
-                        <span class="due-date">Срок: до 12.10.2024</span>
-                    </h3>
-                    <p>Подготовить лабораторную работу №5 "Изучение закона сохранения энергии". Ответить на контрольные вопросы 1-10 в конце главы 4. Решить задачи на движение тела под углом к горизонту.</p>
-                </div>
-                
-                <div class="homework-item">
-                    <h3>
-                        <span>Программирование <span class="subject">Python</span></span>
-                        <span class="due-date">Срок: до 18.10.2024</span>
-                    </h3>
-                    <p>Написать программу для обработки данных из CSV-файла с использованием библиотеки Pandas. Реализовать функции фильтрации, сортировки и визуализации данных. Код загрузить на GitHub.</p>
-                </div>
-                
-                <div class="homework-item">
-                    <h3>
-                        <span>История <span class="subject">Новейшая история</span></span>
-                        <span class="due-date">Срок: до 20.10.2024</span>
-                    </h3>
-                    <p>Подготовить реферат на тему "Основные политические и экономические изменения в Европе после Второй мировой войны". Объем: 10-12 страниц. Использовать не менее 5 источников.</p>
+            </div>
+        </div>
+        
+        <!-- Правая колонка: список ДЗ -->
+        <div id="homework-list-container" style="flex: 1;">
+            <!-- Ближайшие ДЗ -->
+            <div id="upcoming-homework" style="margin-bottom: 30px;">
+                <h3 style="margin-bottom: 15px; color: #2c3e50; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-clock" style="color: #3498db;"></i> Ближайшие задания
+                </h3>
+                <div id="upcoming-list">
+                    <!-- Ближайшие задания будут загружены через JS -->
                 </div>
             </div>
             
-            <!-- Лекции -->
-            <div id="lectures-tab" class="tab-content">
-                <h2><i class="fas fa-chalkboard-teacher"></i> Лекции<span class="status not-ready">✗</span></h2>
-                
-                <div class="lecture-item">
-                    <div class="lecture-icon">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div class="lecture-content">
-                        <h3>Лекция по математике: Дифференциальные уравнения</h3>
-                        <p>Полный конспект лекции с примерами решения дифференциальных уравнений первого и второго порядка.</p>
-                        <!-- ВСТАВЬТЕ ССЫЛКУ НА ФАЙЛ -->
-                        <a href="https://example.com/math_lecture1.pdf" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> Скачать PDF (3.2 МБ)
-                        </a>
-                        <!-- ВСТАВЬТЕ ССЫЛКУ НА ПРЕДПРОСМОТР -->
-                        <a href="https://example.com/preview/math_lecture1" class="download-btn" target="_blank">
-                            <i class="fas fa-eye"></i> Предпросмотр
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="lecture-item">
-                    <div class="lecture-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="lecture-content">
-                        <h3>Видеолекция по физике: Законы термодинамики</h3>
-                        <p>Наглядное объяснение основных законов термодинамики с экспериментальными демонстрациями.</p>
-                        <!-- ВСТАВЬТЕ ССЫЛКУ НА ВИДЕО -->
-                        <a href="https://example.com/video/physics_thermo" class="download-btn" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> Смотреть онлайн
-                        </a>
-                        <!-- ВСТАВЬТЕ ССЫЛКУ ДЛЯ СКАЧИВАНИЯ ВИДЕО -->
-                        <a href="https://example.com/video/physics_thermo.mp4" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> Скачать (450 МБ)
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="lecture-item">
-                    <div class="lecture-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="lecture-content">
-                        <h3>Практикум по программированию: Работа с базами данных</h3>
-                        <p>Примеры кода на Python для подключения к базам данных SQLite и PostgreSQL.</p>
-                        <!-- ВСТАВЬТЕ ССЫЛКУ НА АРХИВ -->
-                        <a href="https://example.com/archive/programming_db.zip" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> Скачать архив (5.7 МБ)
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="lecture-item">
-                    <div class="lecture-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="lecture-content">
-                        <h3>Презентация по экономике: Макроэкономические показатели</h3>
-                        <p>Слайды с графиками и таблицами, объясняющие основные макроэкономические показатели.</p>
-                        <!-- ВСТАВЬТЕ ССЫЛКУ НА PPTX -->
-                        <a href="https://example.com/presentation/economics_macro.pptx" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> Скачать PPTX (8.1 МБ)
-                        </a>
-                    </div>
+            <!-- Прошлые ДЗ -->
+            <div id="past-homework">
+                <h3 style="margin-bottom: 15px; color: #2c3e50; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-history" style="color: #95a5a6;"></i> Прошлые задания
+                </h3>
+                <div id="past-list">
+                    <!-- Прошлые задания будут загружены через JS -->
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Стили для нового раздела ДЗ -->
+<style>
+    /* Стили для таймлайна */
+    .timeline-date {
+        position: relative;
+        padding: 10px 0;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .timeline-date:hover {
+        transform: translateX(5px);
+        background: rgba(52, 152, 219, 0.1);
+        padding-left: 10px;
+        border-radius: 5px;
+    }
+    
+    .timeline-date::before {
+        content: '';
+        position: absolute;
+        left: -23px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #3498db;
+        border: 3px solid white;
+        box-shadow: 0 0 0 2px #3498db;
+        z-index: 2;
+        transition: all 0.3s;
+    }
+    
+    .timeline-date:hover::before {
+        transform: translateY(-50%) scale(1.2);
+    }
+    
+    .timeline-date.active::before {
+        background: #e74c3c;
+        box-shadow: 0 0 0 2px #e74c3c;
+        transform: translateY(-50%) scale(1.3);
+    }
+    
+    .timeline-date.passed::before {
+        background: #95a5a6;
+        box-shadow: 0 0 0 2px #95a5a6;
+    }
+    
+    .timeline-date.today::before {
+        background: #2ecc71;
+        box-shadow: 0 0 0 2px #2ecc71;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+    }
+    
+    .date-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    
+    .date-info {
+        font-size: 12px;
+        color: #7f8c8d;
+    }
+    
+    .date-count {
+        display: inline-block;
+        padding: 2px 8px;
+        background: #3498db;
+        color: white;
+        border-radius: 10px;
+        font-size: 11px;
+        margin-left: 5px;
+    }
+    
+    /* Стили для файлов */
+    .file-item {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        border-left: 4px solid #3498db;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .file-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .file-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .file-name {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .file-size {
+        font-size: 12px;
+        color: #7f8c8d;
+    }
+    
+    .file-children {
+        margin-top: 10px;
+        padding-left: 20px;
+        border-left: 2px solid #eee;
+        display: none;
+    }
+    
+    .file-child {
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .download-file-btn {
+        padding: 4px 8px;
+        background: #2ecc71;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: all 0.3s;
+    }
+    
+    .download-file-btn:hover {
+        background: #27ae60;
+    }
+    
+    /* Стили для ДЗ */
+    .homework-assignment {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        border-left: 5px solid #3498db;
+        position: relative;
+        transition: all 0.3s;
+    }
+    
+    .homework-assignment:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .homework-assignment.past {
+        border-left-color: #95a5a6;
+        opacity: 0.9;
+    }
+    
+    .homework-assignment.today {
+        border-left-color: #2ecc71;
+        box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.1);
+    }
+    
+    .hw-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+    
+    .hw-subject {
+        display: inline-block;
+        padding: 4px 12px;
+        background: #e3f2fd;
+        color: #1976d2;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .hw-due-date {
+        color: #e74c3c;
+        font-weight: 600;
+        font-size: 14px;
+    }
+    
+    .hw-due-date.passed {
+        color: #95a5a6;
+    }
+    
+    .hw-due-date.today {
+        color: #2ecc71;
+    }
+    
+    .hw-description {
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+    
+    .hw-status {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .status-pending {
+        background: #fff3e0;
+        color: #ef6c00;
+    }
+    
+    .status-completed {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+    
+    .status-overdue {
+        background: #ffebee;
+        color: #c62828;
+    }
+    
+    /* Индикатор, что элемент привязан к таймлайну */
+    .timeline-highlight {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #3498db;
+        animation: blink 2s infinite;
+    }
+    
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+    
+    /* Для мобильных */
+    @media (max-width: 768px) {
+        #homework-timeline {
+            width: 120px;
+            min-width: 120px;
+            margin-right: 10px;
+        }
+        
+        .date-label {
+            font-size: 12px;
+        }
+        
+        .date-info {
+            font-size: 10px;
+        }
+    }
+</style>
+
+<script>
+// ====== ФУНКЦИОНАЛ ДЛЯ ДОМАШНИХ ЗАДАНИЙ ======
+document.addEventListener('DOMContentLoaded', function() {
+    // Текущая дата (можно заменить на реальную)
+    const TODAY = new Date('2026-02-11'); // 11 февраля 2026
+    // Для тестирования: завтра = 12 февраля 2026
+    const TOMORROW = new Date(TODAY);
+    TOMORROW.setDate(TODAY.getDate() + 1);
+    
+    // Данные для домашних заданий
+    const homeworkData = [
+        {
+            id: 1,
+            subject: "Интегралы и дифференциальные уравнения",
+            title: "Задачи на логарифмические уравнения",
+            description: "Решить задачи №125-140 из учебника. Особое внимание уделить задачам на логарифмические уравнения. Подготовить доказательство теоремы о производной сложной функции.",
+            dueDate: "2026-02-06",
+            status: "pending"
+        },
+        {
+            id: 2,
+            subject: "Физика",
+            title: "Изучение закона сохранения энергии",
+            description: "Подготовить лабораторную работу №5 'Изучение закона сохранения энергии'. Ответить на контрольные вопросы 1-10 в конце главы 4. Решить задачи на движение тела под углом к горизонту.",
+            dueDate: "2026-02-10",
+            status: "completed"
+        },
+        {
+            id: 3,
+            subject: "Программирование",
+            title: "Обработка CSV-файлов",
+            description: "Написать программу для обработки данных из CSV-файла с использованием библиотеки Pandas. Реализовать функции фильтрации, сортировки и визуализации данных. Код загрузить на GitHub.",
+            dueDate: "2026-02-18",
+            status: "pending"
+        },
+        {
+            id: 4,
+            subject: "История России",
+            title: "Основные политические и экономические изменения в Европе",
+            description: "Подготовить реферат на тему 'Основные политические и экономические изменения в Европе после Второй мировой войны'. Объем: 10-12 страниц. Использовать не менее 5 источников.",
+            dueDate: "2026-02-20",
+            status: "overdue"
+        },
+        {
+            id: 5,
+            subject: "Информатика",
+            title: "Алгоритмы и структуры данных",
+            description: "Реализовать алгоритм быстрой сортировки и сравнить его производительность с сортировкой слиянием на массивах разного размера.",
+            dueDate: "2026-02-25",
+            status: "pending"
+        },
+        {
+            id: 6,
+            subject: "Иностранный язык (1 группа)",
+            title: "Формальное и неформальное письмо",
+            description: "Выучить слова из модуля 5. Сделать по вариантам: формальное письмо (официальное обращение) или неформальное письмо (дружеское). Объем: 150-200 слов.",
+            dueDate: "2026-02-18", // Новое задание
+            status: "pending"
+        }
+    ];
+
+    // Данные для таймлайна (будут сгенерированы автоматически)
+    let timelineDates = [];
+
+    // Файлы для загрузки
+    const filesData = [
+        {
+            name: "инструкция.txt",
+            size: "2.1 КБ",
+            children: [],
+            url: "#" // Здесь должен быть реальный URL
+        }
+    ];
+
+    // Генерация 25 вариантов
+    for (let i = 1; i <= 25; i++) {
+        const variantNum = i.toString().padStart(2, '0');
+        filesData.push({
+            name: `вариант_${variantNum}`,
+            size: "Папка",
+            children: [
+                { 
+                    name: `вариант_${variantNum}.txt`, 
+                    size: `${14 + i % 5} КБ`, 
+                    url: "#" // Здесь должен быть реальный URL
+                }
+            ]
+        });
+    }
+
+    // Инициализация
+    function initHomeworkTab() {
+        generateTimelineDates();
+        renderTimeline();
+        renderHomeworkLists();
+        initFilesSection();
+        setupTimelineNavigation();
+    }
+
+    // Генерация дат для таймлайна из домашних заданий
+    function generateTimelineDates() {
+        const dateMap = new Map();
+        
+        // Собираем все уникальные даты из ДЗ
+        homeworkData.forEach(hw => {
+            const date = hw.dueDate;
+            if (!dateMap.has(date)) {
+                dateMap.set(date, {
+                    date: date,
+                    count: 0,
+                    homeworkIds: []
+                });
+            }
+            const dateInfo = dateMap.get(date);
+            dateInfo.count++;
+            dateInfo.homeworkIds.push(hw.id);
+        });
+        
+        // Преобразуем в массив
+        timelineDates = Array.from(dateMap.values())
+            .map(item => ({
+                date: item.date,
+                label: formatDateForTimeline(item.date),
+                count: item.count,
+                homeworkIds: item.homeworkIds
+            }))
+            .sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        // Добавляем сегодняшнюю дату, если ее нет
+        const todayStr = formatDate(TODAY);
+        if (!timelineDates.find(d => d.date === todayStr)) {
+            timelineDates.push({
+                date: todayStr,
+                label: "Сегодня",
+                count: 0,
+                homeworkIds: [],
+                isToday: true
+            });
+        }
+        
+        // Добавляем важные даты
+        timelineDates.push({
+            date: "2026-02-10",
+            label: "Начало семестра",
+            count: 0,
+            homeworkIds: [],
+            isEvent: true
+        });
+        
+        timelineDates.push({
+            date: "2026-06-30",
+            label: "Конец семестра",
+            count: 0,
+            homeworkIds: [],
+            isEvent: true
+        });
+        
+        // Сортируем по дате
+        timelineDates.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    // Рендер таймлайна
+    function renderTimeline() {
+        const timelineEl = document.getElementById('timeline-dates');
+        timelineEl.innerHTML = '<div class="timeline-line" style="position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: #3498db;"></div>';
+        
+        timelineDates.forEach((dateItem, index) => {
+            const dateEl = document.createElement('div');
+            dateEl.className = 'timeline-date';
+            dateEl.dataset.date = dateItem.date;
+            dateEl.dataset.homeworkIds = dateItem.homeworkIds.join(',');
+            
+            if (dateItem.isToday) {
+                dateEl.classList.add('today');
+            } else if (dateItem.isEvent) {
+                dateEl.classList.add('event');
+            }
+            
+            // Проверяем, прошла ли дата
+            const itemDate = new Date(dateItem.date);
+            if (itemDate < TODAY && !dateItem.isToday && !dateItem.isEvent) {
+                dateEl.classList.add('passed');
+            }
+            
+            // Проверяем, сегодня ли
+            if (formatDate(itemDate) === formatDate(TODAY)) {
+                dateEl.classList.add('today');
+            }
+            
+            dateEl.innerHTML = `
+                <div class="date-label">
+                    ${dateItem.label}
+                    ${dateItem.count > 0 ? `<span class="date-count">${dateItem.count}</span>` : ''}
+                </div>
+                <div class="date-info">${formatDateShort(dateItem.date)}</div>
+            `;
+            
+            timelineEl.appendChild(dateEl);
+        });
+    }
+
+    // Рендер списков ДЗ
+    function renderHomeworkLists() {
+        const upcomingList = document.getElementById('upcoming-list');
+        const pastList = document.getElementById('past-list');
+        
+        upcomingList.innerHTML = '';
+        pastList.innerHTML = '';
+        
+        // Сортируем ДЗ по дате
+        const sortedHomework = [...homeworkData].sort((a, b) => 
+            new Date(a.dueDate) - new Date(b.dueDate)
+        );
+        
+        sortedHomework.forEach(hw => {
+            const hwDate = new Date(hw.dueDate);
+            const isPast = hwDate < TODAY;
+            const isToday = formatDate(hwDate) === formatDate(TODAY);
+            
+            const hwEl = document.createElement('div');
+            hwEl.className = `homework-assignment ${isPast ? 'past' : ''} ${isToday ? 'today' : ''}`;
+            hwEl.id = `hw-${hw.id}`;
+            hwEl.dataset.dueDate = hw.dueDate;
+            hwEl.dataset.timelineDate = hw.dueDate;
+            
+            hwEl.innerHTML = `
+                <div class="timeline-highlight" title="Привязано к таймлайну"></div>
+                <div class="hw-header">
+                    <div>
+                        <h4 style="margin: 0 0 5px 0; color: #2c3e50;">${hw.title}</h4>
+                        <span class="hw-subject">${hw.subject}</span>
+                    </div>
+                    <div class="hw-due-date ${isPast ? 'passed' : ''} ${isToday ? 'today' : ''}">
+                        <i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}
+                        ${isToday ? ' (сегодня!)' : ''}
+                    </div>
+                </div>
+                <div class="hw-description">${hw.description}</div>
+                <div>
+                    <span class="hw-status status-${hw.status}">
+                        ${getStatusText(hw.status)}
+                    </span>
+                    ${isPast ? '<span style="margin-left: 10px; color: #95a5a6; font-size: 12px;"><i class="fas fa-history"></i> Прошлый срок</span>' : ''}
+                </div>
+            `;
+            
+            if (isPast) {
+                pastList.appendChild(hwEl);
+            } else {
+                upcomingList.appendChild(hwEl);
+            }
+        });
+        
+        // Если нет ближайших заданий
+        if (upcomingList.children.length === 0) {
+            upcomingList.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #95a5a6;">
+                    <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                    <p>Все задания выполнены! 🎉</p>
+                </div>
+            `;
+        }
+        
+        // Если нет прошлых заданий
+        if (pastList.children.length === 0) {
+            pastList.innerHTML = '<p style="color: #95a5a6; text-align: center; padding: 30px;">Нет прошлых заданий</p>';
+        }
+        
+        // Автоматический перенос заданий на следующий день
+        checkAndMoveOverdueHomework();
+    }
+
+    // Настройка навигации по таймлайну
+    function setupTimelineNavigation() {
+        const timelineDates = document.querySelectorAll('.timeline-date');
+        
+        timelineDates.forEach(dateEl => {
+            dateEl.addEventListener('click', function() {
+                // Удаляем активный класс у всех дат
+                document.querySelectorAll('.timeline-date').forEach(d => {
+                    d.classList.remove('active');
+                });
+                
+                // Добавляем активный класс к выбранной дате
+                this.classList.add('active');
+                
+                // Получаем ID заданий для этой даты
+                const homeworkIds = this.dataset.homeworkIds;
+                
+                if (homeworkIds) {
+                    const ids = homeworkIds.split(',').filter(id => id !== '');
+                    
+                    if (ids.length > 0) {
+                        // Прокручиваем к первому заданию с этой датой
+                        const firstHwId = ids[0];
+                        const hwElement = document.getElementById(`hw-${firstHwId}`);
+                        
+                        if (hwElement) {
+                            // Плавная прокрутка к элементу
+                            hwElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            
+                            // Подсветка элемента
+                            highlightHomeworkElement(hwElement);
+                        }
+                    } else if (this.classList.contains('today')) {
+                        // Если кликнули на "Сегодня", показываем ближайшие задания
+                        const upcomingSection = document.getElementById('upcoming-homework');
+                        if (upcomingSection) {
+                            upcomingSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                }
+                
+                // Для событий в таймлайне (начало/конец семестра)
+                if (this.classList.contains('event')) {
+                    // Показываем соответствующий раздел
+                    const dateStr = this.dataset.date;
+                    if (dateStr === '2026-02-10') {
+                        // Начало семестра - показываем первые задания
+                        const firstHomework = document.querySelector('.homework-assignment');
+                        if (firstHomework) {
+                            firstHomework.scrollIntoView({ behavior: 'smooth' });
+                            highlightHomeworkElement(firstHomework);
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    // Подсветка элемента ДЗ
+    function highlightHomeworkElement(element) {
+        // Убираем подсветку у всех элементов
+        document.querySelectorAll('.homework-assignment').forEach(hw => {
+            hw.style.boxShadow = '';
+            hw.style.transform = '';
+        });
+        
+        // Подсвечиваем выбранный элемент
+        element.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.3), 0 5px 20px rgba(0,0,0,0.1)';
+        element.style.transform = 'translateY(-5px)';
+        
+        // Убираем подсветку через 3 секунды
+        setTimeout(() => {
+            element.style.boxShadow = '';
+            element.style.transform = '';
+        }, 3000);
+    }
+
+    // Инициализация секции с файлами
+    function initFilesSection() {
+        const toggleBtn = document.getElementById('files-toggle-btn');
+        const backBtn = document.getElementById('files-back-btn');
+        const filesContainer = document.getElementById('files-container');
+        const filesList = document.getElementById('files-list');
+        
+        // Рендер файлов
+        filesList.innerHTML = '';
+        filesData.forEach((file, index) => {
+            const fileEl = document.createElement('div');
+            fileEl.className = 'file-item';
+            fileEl.innerHTML = `
+                <div class="file-header">
+                    <div class="file-name">
+                        <i class="${file.children.length ? 'far fa-folder' : 'far fa-file-alt'}"></i>
+                        ${file.name}
+                    </div>
+                    <div class="file-size">${file.size}</div>
+                </div>
+                ${file.children.length ? `
+                    <div class="file-children" style="display: none;">
+                        ${file.children.map(child => `
+                            <div class="file-child">
+                                <div>${child.name}</div>
+                                <a href="${child.url || '#'}" class="download-file-btn" ${child.url ? 'download' : ''}>
+                                    <i class="fas fa-download"></i> Скачать
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+            `;
+            
+            // Клик по файлу/папке
+            if (file.children.length) {
+                const header = fileEl.querySelector('.file-header');
+                const childrenContainer = fileEl.querySelector('.file-children');
+                
+                header.addEventListener('click', (e) => {
+                    if (!e.target.closest('.download-file-btn')) {
+                        if (childrenContainer.style.display === 'block') {
+                            childrenContainer.style.display = 'none';
+                            header.querySelector('i').className = 'far fa-folder';
+                        } else {
+                            childrenContainer.style.display = 'block';
+                            header.querySelector('i').className = 'far fa-folder-open';
+                        }
+                    }
+                });
+            } else {
+                // Для инструкции - сразу даем скачать
+                const header = fileEl.querySelector('.file-header');
+                header.style.cursor = 'pointer';
+                header.addEventListener('click', () => {
+                    if (file.url) {
+                        window.open(file.url, '_blank');
+                    } else {
+                        // Если нет URL, создаем временный файл для скачивания
+                        downloadTextFile(file.name, `Инструкция по выполнению домашних заданий.\n\n1. Выберите свой вариант (1-25).\n2. Скачайте файл с заданием.\n3. Выполните задание согласно требованиям.\n4. Сдайте работу до указанного срока.\n\nУдачи в учебе!`);
+                    }
+                });
+            }
+            
+            filesList.appendChild(fileEl);
+        });
+        
+        // Показать/скрыть файлы
+        toggleBtn.addEventListener('click', () => {
+            filesContainer.style.display = 'block';
+            toggleBtn.style.display = 'none';
+            
+            // Плавная прокрутка к файлам
+            setTimeout(() => {
+                filesContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        });
+        
+        // Кнопка "Назад"
+        backBtn.addEventListener('click', () => {
+            filesContainer.style.display = 'none';
+            toggleBtn.style.display = 'inline-block';
+            
+            // Закрыть все вложенные файлы
+            document.querySelectorAll('.file-children').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.file-header i').forEach(icon => {
+                if (icon.className.includes('folder-open')) {
+                    icon.className = 'far fa-folder';
+                }
+            });
+        });
+    }
+
+    // Автоматический перенос заданий на следующий день
+    function checkAndMoveOverdueHomework() {
+        // В реальном приложении здесь была бы проверка с сервером
+        // Сейчас просто имитируем логику
+        
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(now.getDate() + 1);
+        
+        // Для тестирования: если сегодня 11 февраля, то задания на 12 февраля еще не просрочены
+        // Но задания на 10 февраля уже должны быть в "прошлых"
+        
+        console.log('Проверка просроченных заданий...');
+        console.log('Сегодня:', formatDate(TODAY));
+        console.log('Завтра:', formatDate(TOMORROW));
+        
+        // В реальном приложении здесь была бы отправка запроса на сервер
+        // для обновления статуса заданий
+    }
+
+    // Функция для скачивания текстового файла
+    function downloadTextFile(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    // Вспомогательные функции
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0]; // YYYY-MM-DD
+    }
+
+    function formatDateForDisplay(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    }
+
+    function formatDateForTimeline(dateString) {
+        const date = new Date(dateString);
+        const today = new Date(TODAY);
+        
+        if (formatDate(date) === formatDate(today)) {
+            return "Сегодня";
+        }
+        
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        if (formatDate(date) === formatDate(tomorrow)) {
+            return "Завтра";
+        }
+        
+        // Если дата в пределах недели - показываем день недели
+        const diffDays = Math.floor((date - today) / (1000 * 60 * 60 * 24));
+        if (diffDays >= 0 && diffDays < 7) {
+            const days = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+            return days[date.getDay()];
+        }
+        
+        // Иначе - просто дату
+        return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+    }
+
+    function formatDateShort(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'numeric'
+        });
+    }
+
+    function getStatusText(status) {
+        const statusMap = {
+            pending: 'В процессе',
+            completed: 'Выполнено',
+            overdue: 'Просрочено'
+        };
+        return statusMap[status] || status;
+    }
+
+    // Инициализируем при загрузке
+    if (document.getElementById('homework-tab')) {
+        initHomeworkTab();
+    }
+    
+    // Обновление статуса каждые 5 минут (в реальном приложении)
+    setInterval(() => {
+        checkAndMoveOverdueHomework();
+    }, 5 * 60 * 1000);
+});
+</script>
+            
+            <!-- Лекции -->
+<div id="lectures-tab" class="tab-content">
+    <h2><i class="fas fa-chalkboard-teacher"></i> Лекции и материалы</h2>
+    
+    <div class="lectures-subjects-container">
+        <!-- Кнопки предметов -->
+        <button class="subject-btn" data-subject="math">
+            <i class="fas fa-calculator"></i> Интегралы и дифференциальные уравнения
+        </button>
+        
+        <button class="subject-btn" data-subject="algebra">
+            <i class="fas fa-superscript"></i> Линейная алгебра и функции нескольких переменных
+        </button>
+        
+        <button class="subject-btn" data-subject="physics">
+            <i class="fas fa-atom"></i> Физика
+        </button>
+        
+        <button class="subject-btn" data-subject="programming">
+            <i class="fas fa-code"></i> Программирование
+        </button>
+        
+        <button class="subject-btn" data-subject="informatics">
+            <i class="fas fa-laptop-code"></i> Информатика
+        </button>
+        
+        <button class="subject-btn" data-subject="bipit">
+            <i class="fas fa-microchip"></i> Базовые информационные процессы и технологии
+        </button>
+        
+        <button class="subject-btn" data-subject="language">
+            <i class="fas fa-language"></i> Иностранный язык
+        </button>
+        
+        <button class="subject-btn" data-subject="history">
+            <i class="fas fa-landmark"></i> История России
+        </button>
+        
+        <button class="subject-btn" data-subject="graphics">
+            <i class="fas fa-drafting-compass"></i> Инженерная и компьютерная графика
+        </button>
+        
+        <button class="subject-btn" data-subject="sport">
+            <i class="fas fa-running"></i> Элект.курсы по ФКиС
+        </button>
+        
+        <button class="subject-btn" data-subject="library">
+            <i class="fas fa-book"></i> Основы библиотечных, библиографических и информационных знаний
+        </button>
+    </div>
+    
+    <!-- Блоки лекций по предметам (скрыты по умолчанию) -->
+    
+    <!-- Интегралы и дифференциальные уравнения -->
+    <div class="subject-lectures" id="math-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Сборник задач</h3>
+                <a href="Сборник задач.pdf" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (7.2 МБ)
+                </a>
+            </div>
+        </div>
+        
+        <!-- Выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+
+
+    </div>
+    
+    <!-- Линейная алгебра -->
+    <div class="subject-lectures" id="algebra-lectures" style="display: none;">
+
+        
+        <!-- Выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            Лекция 1: Повторение
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+<p><strong>Лекция.</strong></p>
+<p><em>§1. Свойства линейно зависимых и независимых систем арифметических векторов.</em></p>
+<p><strong>Свойство 1.</strong> Если в САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m, \vec{o}\} \) входит нулевой вектор, то она линейно зависимая.</p>
+<p><em>Д-во.</em> \( 0 \cdot \vec{x}_1 + 0 \cdot \vec{x}_2 + \dots + 0 \cdot \vec{x}_m + 1 \cdot \vec{o} = \vec{o} \)  \(\Rightarrow\) (по определению линейной зависимости САВ) \(\Rightarrow\) САВ — линейно зависима. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Свойство 2.</strong> Если в САВ входят пропорциональные векторы, например \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m, \lambda \vec{x}_1\} \), то она линейно зависима.</p>
+<p><em>Д-во.</em> \( \lambda \vec{x}_1 = \lambda \vec{x}_1 + 0 \cdot \vec{x}_2 + \dots + 0 \cdot \vec{x}_m \), где \( \lambda \ne 0 \). \(\Rightarrow\) (по теореме о линейной зависимости САВ) \(\Rightarrow\) САВ — линейно зависима. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Свойство 3.</strong> Если в САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) входит линейно зависимая подсистема АВ, например, \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_k\} \), где \( k < m \), то она линейно зависима.</p>
+<p><em>Д-во.</em> Так как \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_k\} \) — ЛЗСАВ, то \( \alpha_1 \vec{x}_1 + \alpha_2 \vec{x}_2 + \dots + \alpha_k \vec{x}_k = \vec{o} \), где \( \alpha_i = 0 \) (одновременно) \(\Rightarrow\) \( \alpha_1 \vec{x}_1 + \alpha_2 \vec{x}_2 + \dots + \alpha_k \vec{x}_k + 0 \cdot \vec{x}_{k+1} + \dots + 0 \cdot \vec{x}_m = \vec{o} \) \(\Rightarrow\) (по определению линейной зависимости САВ) \(\Rightarrow\) САВ — линейно зависима. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Свойство 4.</strong> Если САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) линейно независима, то любая её подсистема также линейно независима, например, \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_k\} \), где \( k < m \).</p>
+<p><em>Д-во</em> (методом от противного). Пусть \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) — ЛНСАВ, а её подсистема \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_k\} \), где \( k < m \), линейно зависима. Тогда по свойству 3) исходная САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) является линейно зависимой. Пришли к противоречию. Следовательно \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_k\} \), где \( k < m \), линейно независима. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Свойство 5.</strong> Система \( n \)-мерных единичных векторов \( \{\vec{e}_1, \vec{e}_2, \dots, \vec{e}_n\} \) является линейно независимой.</p>
+<p><em>Д-во.</em> Составим векторное равенство \( \alpha_1 \vec{e}_1 + \alpha_2 \vec{e}_2 + \dots + \alpha_n \vec{e}_n = \vec{o} \) \(\Rightarrow\)</p>
+<p>\( \Rightarrow \alpha_1 \begin{pmatrix}1\\0\\\vdots\\0\end{pmatrix} + \alpha_2 \begin{pmatrix}0\\1\\\vdots\\0\end{pmatrix} + \dots + \alpha_n \begin{pmatrix}0\\0\\\vdots\\1\end{pmatrix} = \begin{pmatrix}0\\0\\\vdots\\0\end{pmatrix} \) \(\Rightarrow\) 
+\(
+\begin{cases}
+\alpha_1 = 0 \\
+\alpha_2 = 0 \\
+\quad\vdots \\
+\alpha_n = 0
+\end{cases}
+\Rightarrow \alpha_1 = \alpha_2 = \dots = \alpha_n = 0 \) \(\Rightarrow\) \( \{\vec{e}_1, \vec{e}_2, \dots, \vec{e}_n\} \) линейно независима. <strong>Ч.Т.Д.</strong></p>
+<p><strong>Свойство 6.</strong> Если число векторов в САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) больше, чем их размерность, то такая САВ является линейной зависимой.</p>
+<p><em>Д-во.</em> Составим векторное равенство \( \lambda_1 \vec{x}_1 + \lambda_2 \vec{x}_2 + \dots + \lambda_m \vec{x}_m = \vec{o} \). \(\Rightarrow\)</p>
+<p>\( \Rightarrow \lambda_1 \begin{pmatrix}x_{11}\\x_{21}\\\vdots\\x_{n1}\end{pmatrix} + \lambda_2 \begin{pmatrix}x_{12}\\x_{22}\\\vdots\\x_{n2}\end{pmatrix} + \dots + \lambda_m \begin{pmatrix}x_{1m}\\x_{2m}\\\vdots\\x_{nm}\end{pmatrix} = \begin{pmatrix}0\\0\\\vdots\\0\end{pmatrix} \) \(\Rightarrow\) 
+\(
+\begin{cases}
+\alpha_1 x_{11} + \alpha_2 x_{12} + \dots + \alpha_m x_{1m} = 0 \\
+\alpha_1 x_{21} + \alpha_2 x_{22} + \dots + \alpha_m x_{2m} = 0 \\
+\qquad\vdots \\
+\alpha_1 x_{n1} + \alpha_2 x_{n2} + \dots + \alpha_m x_{nm} = 0
+\end{cases}
+\). Так как полученная СЛАУ является однородной СЛАУ из \( n \) уравнений с \( m \) неизвестными \( \alpha_1, \alpha_2, \dots, \alpha_m \), где \( n < m \), то она всегда имеет бесконечно много ненулевых решений. Таким образом, всегда существуют ненулевые наборы значений \( \alpha_1, \alpha_2, \dots, \alpha_m \), при которых выполняется равенство \( \lambda_1 \vec{x}_1 + \lambda_2 \vec{x}_2 + \dots + \lambda_m \vec{x}_m = \vec{o} \). Следовательно, САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) является линейно зависимой. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Свойство 7.</strong> (критерий линейной зависимости САВ, теорема Штейниша) Если каждый из векторов САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) является линейной комбинацией векторов САВ \( \{\vec{y}_1, \vec{y}_2, \dots, \vec{y}_k\} \), где \( k < m \), то САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) является линейно зависимой.</p>
+<p><em>Д-во.</em> По условию: \( \vec{x}_1 = \alpha_1^1 \vec{y}_1 + \alpha_2^1 \vec{y}_2 + \dots + \alpha_k^1 \vec{y}_k \), …, \( \vec{x}_m = \alpha_1^m \vec{y}_1 + \alpha_2^m \vec{y}_2 + \dots + \alpha_k^m \vec{y}_k \). Составим векторное равенство \( \lambda_1 \vec{x}_1 + \lambda_2 \vec{x}_2 + \dots + \lambda_m \vec{x}_m = \vec{o} \) \(\Rightarrow\)</p>
+<p>\( \Rightarrow \lambda_1 (\alpha_1^1 \vec{y}_1 + \alpha_2^1 \vec{y}_2 + \dots + \alpha_k^1 \vec{y}_k) + \lambda_2 (\alpha_1^2 \vec{y}_1 + \alpha_2^2 \vec{y}_2 + \dots + \alpha_k^2 \vec{y}_k) + \dots + \lambda_m (\alpha_1^m \vec{y}_1 + \alpha_2^m \vec{y}_2 + \dots + \alpha_k^m \vec{y}_k) = \vec{o} \) \(\Rightarrow\)</p>
+<p>\( \Rightarrow (\lambda_1 \alpha_1^1 + \lambda_2 \alpha_1^2 + \dots + \lambda_m \alpha_1^m) \cdot \vec{y}_1 + (\lambda_1 \alpha_2^1 + \lambda_2 \alpha_2^2 + \dots + \lambda_m \alpha_2^m) \cdot \vec{y}_2 + \dots + (\lambda_1 \alpha_k^1 + \lambda_2 \alpha_k^2 + \dots + \lambda_m \alpha_k^m) \cdot \vec{y}_k = \vec{o} \).</p>
+<p>Полученное равенство всегда выполняется при условии</p>
+<p>\(
+\begin{cases}
+\lambda_1 \alpha_1^1 + \lambda_2 \alpha_1^2 + \dots + \lambda_m \alpha_1^m = 0 \\
+\lambda_1 \alpha_2^1 + \lambda_2 \alpha_2^2 + \dots + \lambda_m \alpha_2^m = 0 \\
+\qquad\vdots \\
+\lambda_1 \alpha_k^1 + \lambda_2 \alpha_k^2 + \dots + \lambda_m \alpha_k^m = 0
+\end{cases}
+\).</p>
+<p>Полученная СЛАУ является однородной СЛАУ из \( k \) уравнений с \( m \) неизвестными \( \lambda_1, \lambda_2, \dots, \lambda_m \), где \( k < m \). Такая СЛАУ всегда имеет бесконечно много ненулевых решений. Тогда всегда существуют ненулевые наборы значений \( \lambda_1, \lambda_2, \dots, \lambda_m \), при которых выполняется равенство \( \lambda_1 \vec{x}_1 + \lambda_2 \vec{x}_2 + \dots + \lambda_m \vec{x}_m = \vec{o} \). Следовательно, САВ \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) линейно зависима. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>§2. Базис и ранг САВ. Координаты вектора в заданном базисе САВ. Теорема о единственности разложения вектора САВ по её базису.</strong></p>
+
+<p><strong>Определение 2.1.</strong> Базисом САВ \( S = \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) называют упорядоченную систему векторов \( B_s = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_k) \), удовлетворяющую условиям:</p>
+<p>1) \( \vec{b}_i \in S,\; i = \overline{1,k} \);</p>
+<p>2) система \( B_s \) линейно независима;</p>
+<p>3) любой вектор \( \vec{x}_i \in S \) представляется в виде</p>
+<p>\( \vec{x}_i = \alpha_1^i \vec{b}_1 + \alpha_2^i \vec{b}_2 + \dots + \alpha_k^i \vec{b}_k. \qquad (2.1) \)</p>
+<p>где \( \alpha_1^i, \alpha_2^i, \dots, \alpha_k^i \) некоторые числа.</p>
+<p>Коэффициенты \( \alpha_1^i, \alpha_2^i, \dots, \alpha_k^i \) называют <em>координатами</em> вектора \( \vec{x}_i \) в базисе \( B_s \), а формулу (2.1) называют <em>разложением</em> вектора \( \vec{x}_i \) по базису \( B_s \) и пишут: \( \vec{x}_i = (\alpha_1^i, \alpha_2^i, \dots, \alpha_k^i)_{B_s} \).</p>
+
+<p><strong>Замечание.</strong> Коэффициенты \( \alpha_1^i, \alpha_2^i, \dots, \alpha_k^i \) можно обозначать и так \( \alpha_{1i}, \alpha_{2i}, \dots, \alpha_{ki} \).</p>
+
+<p><strong>Замечание.</strong> Различных базисов у САВ может быть не один. Но все базисы содержат одно и то же число векторов.</p>
+
+<p><strong>Теорема 2.1</strong> (о единственности разложения вектора по базису). Разложение любого вектора \( \vec{x}_i \in S = \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) по базису \( B_s = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_k) \) является единственным.</p>
+<p><em>Д-во</em> (методом от противного). Пусть \( \vec{x}_i \in S = \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) раскладывается по базису \( B_s = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_k) \) двумя разными способами:</p>
+<p>\( \vec{x}_i = \alpha_1^i \vec{b}_1 + \alpha_2^i \vec{b}_2 + \dots + \alpha_k^i \vec{b}_k. \qquad (2.2) \)</p>
+<p>\( \vec{x}_i = \beta_1^i \vec{b}_1 + \beta_2^i \vec{b}_2 + \dots + \beta_k^i \vec{b}_k. \qquad (2.3) \)</p>
+<p>Вычтем из (2.2) равенство (2.3). Получим:</p>
+<p>\( \vec{o} = (\alpha_1^i - \beta_1^i) \vec{b}_1 + (\alpha_2^i - \beta_2^i) \vec{b}_2 + \dots + (\alpha_k^i - \beta_k^i) \vec{b}_k. \qquad (2.4) \)</p>
+<p>Так как \( B_s = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_k) \) линейно независима, то равенство (2.4) имеет место только при условии \( \alpha_1^i - \beta_1^i = \alpha_2^i - \beta_2^i = \dots = \alpha_k^i - \beta_k^i = 0 \) \(\Rightarrow\) \( \alpha_1^i = \beta_1^i, \alpha_2^i = \beta_2^i, \dots, \alpha_k^i = \beta_k^i \). Пришли к противоречию с исходным предположением. Следовательно, разложение единственно. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Определение 2.2.</strong> Рангом системы векторов \( S = \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) называют число векторов в любом из её базисов \( B_s = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_k) \) и обозначают \( \mathrm{rang}\,S \) или \( r(S) \).</p>
+
+<p><strong>Вычисление \( \mathrm{rang}\,S \).</strong> Вычисляют ранг \( S = \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) через ранг матрицы \( A \), столбцами которой являются компоненты векторов системы \( S = \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_m\} \) по формуле \( \mathrm{rang}\,S = \mathrm{rang}\,A \). Если \( \mathrm{rang}\,S \) меньше числа векторов в системе, то система векторов линейно зависима, в противном случае — линейно независима.</p>
+
+<p>Всего базисов (отличающихся составом) может быть \( C_m^k = \dfrac{m!}{k!\,(m-k)!} \), где \( m \) — число векторов в системе, \( k \) — ранг системы векторов. Все базисы САВ находят через базисные миноры \( M_k^s \) матрицы \( A \). Базис САВ образуют только векторы, отвечающие столбцам базисного минора. Для нахождения всех базисов САВ (отличающихся составом) следует перебрать все базисные миноры матрицы \( A \).</p>
+
+<p><strong>Пример 2.1.</strong> Найти координаты вектора \( \vec{d} = (2,5,0) \) в базисе \( B = (\vec{a}, \vec{b}, \vec{c}) \), где \( \vec{a} = (1,2,-1) \), \( \vec{b} = (3,6,1) \), \( \vec{c} = (3,9,3) \).</p>
+
+<p><strong>Решение:</strong></p>
+<p>1) Записываем разложение вектора \( \vec{d} = (2,5,0) \) по базису \( B = (\vec{a}, \vec{b}, \vec{c}) \):</p>
+<p>\( \vec{d} = \alpha_1 \vec{a} + \alpha_2 \vec{b} + \alpha_3 \vec{c} \).</p>
+<p>2) Подставляем в равенство заданные векторы. Получаем:</p>
+<p>\( 
+\begin{pmatrix}
+2 \\ 5 \\ 0
+\end{pmatrix}
+= \alpha_1 \begin{pmatrix} 1 \\ 2 \\ -1 \end{pmatrix}
++ \alpha_2 \begin{pmatrix} 3 \\ 6 \\ 1 \end{pmatrix}
++ \alpha_3 \begin{pmatrix} 3 \\ 9 \\ 3 \end{pmatrix}
+\).</p>
+<p>3) Переходим от векторного равенства к СЛАУ:</p>
+<p>\(
+\begin{cases}
+\alpha_1 + 3\alpha_2 + 3\alpha_3 = 2 \\
+2\alpha_1 + 6\alpha_2 + 9\alpha_3 = 5 \\
+-\alpha_1 + \alpha_2 + 3\alpha_3 = 0
+\end{cases}
+\)</p>
+<p>и решаем её любым известным способом (например, методом Гаусса). Получим \( \alpha_1 = 1, \alpha_2 = 0, \alpha_3 = \dfrac{1}{3} \).</p>
+<p>\( B = (\vec{a}, \vec{b}, \vec{c}): \vec{d}_B = 1 \cdot \vec{a} + 0 \cdot \vec{b} + \dfrac{1}{3} \vec{c} = \left(1, 0, \dfrac{1}{3}\right)_B \).</p>
+
+<p><strong>Ответ:</strong> \( \vec{d}_B = 1 \cdot \vec{a} + 0 \cdot \vec{b} + \dfrac{1}{3} \vec{c} = \left(1, 0, \dfrac{1}{3}\right)_B \).</p>
+
+<p><strong>Пример 2.2.</strong> Найти ранг и все базисы (отличающиеся составом) САВ \( S = \{\vec{x}_1, \vec{x}_2, \vec{x}_3, \vec{x}_4\} \), где \( \vec{x}_1 = (4, -1, 3, -2) \), \( \vec{x}_2 = (8, -2, 6, -4) \), \( \vec{x}_3 = (3, -1, 4, -2) \), \( \vec{x}_4 = (6, -2, 8, -4) \).</p>
+
+<p><strong>Решение:</strong></p>
+<p>1) Составляем матрицу \( A = \begin{pmatrix}
+4 & 8 & 3 & 6 \\
+-1 & -2 & -1 & -2 \\
+3 & 6 & 4 & 8 \\
+-2 & -4 & -2 & -4
+\end{pmatrix} \) и находим её ранг методом Гаусса:</p>
+<p>\(
+\begin{pmatrix}
+4 & 8 & 3 & 6 &|& 21 \\
+-1 & -2 & -1 & -2 &|& -6 \\
+3 & 6 & 4 & 8 &|& 21 \\
+-2 & -4 & -2 & -4 &|& -12
+\end{pmatrix}
+\Rightarrow
+\begin{pmatrix}
+\vec{x}_1 & \vec{x}_2 & \vec{x}_3 & \vec{x}_4 \\
+1 & 0 & 2 & 0 &|& 3 \\
+0 & 1 & 0 & 2 &|& 3
+\end{pmatrix}
+\Rightarrow
+M_2^5 = \begin{vmatrix} 1 & 0 \\ 0 & 1 \end{vmatrix} = 1 \ne 0 \Rightarrow \mathrm{rang}\,A = 2 \).</p>
+
+<p>2) Находим ранг: \( \mathrm{rang}\,S = \mathrm{rang}\,A = 2 \).</p>
+
+<p>3) Находим базис \( S = \{\vec{x}_1, \vec{x}_2, \vec{x}_3, \vec{x}_4\} \) по базисному минору \( M_2^5 = \begin{vmatrix} \vec{x}_1 & \vec{x}_2 \\ 1 & 0 \\ 0 & 1 \end{vmatrix} = 1 \ne 0 \) \(\Rightarrow\) \( B_s^{(1)} = (\vec{x}_1, \vec{x}_2) \).</p>
+
+<p>4) Находим, перебирая все базисные миноры, другие (отличающиеся составом) базисы \( S = \{\vec{x}_1, \vec{x}_2, \vec{x}_3, \vec{x}_4\} \):</p>
+<p>\( M_2^6 = \begin{vmatrix} \vec{x}_1 & \vec{x}_4 \\ 1 & 0 \\ 0 & 2 \end{vmatrix} = 2 \ne 0 \Rightarrow B_s^{(2)} = (\vec{x}_1, \vec{x}_4) \);<br/>
+\( M_2^7 = \begin{vmatrix} \vec{x}_2 & \vec{x}_3 \\ 0 & 2 \\ 1 & 0 \end{vmatrix} = -2 \ne 0 \Rightarrow B_s^{(3)} = (\vec{x}_2, \vec{x}_3) \);<br/>
+\( M_2^8 = \begin{vmatrix} \vec{x}_3 & \vec{x}_4 \\ 2 & 0 \\ 0 & 2 \end{vmatrix} = 4 \ne 0 \Rightarrow B_s^{(4)} = (\vec{x}_3, \vec{x}_4) \).</p>
+
+<p>САВ \( \{\vec{x}_1, \vec{x}_2\} \), \( \{\vec{x}_1, \vec{x}_4\} \) не могут быть базисами, так как \( \begin{vmatrix} \vec{x}_1 & \vec{x}_3 \\ 1 & 2 \\ 0 & 0 \end{vmatrix} = 0 \), \( \begin{vmatrix} \vec{x}_2 & \vec{x}_4 \\ 0 & 0 \\ 1 & 2 \end{vmatrix} = 0 \) и базисных миноров нет — но в данном случае все четыре пары дают ненулевые миноры, поэтому все перечисленные выше являются базисами.</p>
+
+<p><strong>Лекция.</strong></p>
+<p><em>§3. Линейное пространство: определение, примеры. Изоморфизм ЛП.</em></p>
+
+<p><strong>Определение 1.1.</strong> Линейным пространством называют множество \( L \) элементов \( x, y, z, \dots \) любой природы, если выполнены три условия:</p>
+<p>1) введена операция сложения элементов \( L \), т.е. \( \forall x, y \in L \) соответствует элемент \( z = x + y \in L \), называемый суммой элементов \( x, y \);</p>
+<p>2) введена операция умножения элемента \( L \) на число, т.е. \( \forall x \in L \), \( \forall \alpha \in \mathbb{R} \) соответствует элемент \( y = \alpha \cdot x \in L \), называемый произведением элемента \( x \) на действительное число \( \alpha \);</p>
+<p>3) указанные операции подчиняются аксиомам линейного пространства:</p>
+<p>а) \( x + y = y + x \) (аксиома коммутативности);</p>
+<p>б) \( (x + y) + z = x + (y + z) \) (аксиома ассоциативности относительно операции сложения);</p>
+<p>в) \( (\alpha\beta)x = \alpha(\beta x) \) (аксиома ассоциативности относительно операции умножения на число);</p>
+<p>г) \( \alpha(x + y) = \alpha x + \alpha y \) (аксиома дистрибутивности относительно операции сложения);</p>
+<p>д) \( (\alpha + \beta)x = \alpha x + \beta x \) (аксиома дистрибутивности относительно операции умножения на число);</p>
+<p>е) для \( \forall x \): \( 1 \cdot x = x \);</p>
+<p>ж) \( \exists \) элемент \( o \in L \): \( x + o = x \) для \( \forall x \);</p>
+<p>з) \( \exists \) элемент \( (-x) \in L \): \( x + (-x) = o \) для \( \forall x \).</p>
+<p>Здесь \( \alpha, \beta \in \mathbb{R} \) — действительные числа.</p>
+
+<p>Элемент \( o \) называют <strong>нулевым элементом</strong>, элемент \( (-x) \) называют <strong>противоположным элементом</strong> (к элементу \( x \)).</p>
+
+<p>Линейное пространство, состоящее только из нулевого элемента, называют <strong>нулевым</strong>. Множество \( L \), обладающее свойствами 1) и 2), называют <strong>замкнутым</strong> относительно операций сложения элементов и умножения элемента на число.</p>
+
+<p>Если в определении линейного пространства числа \( \alpha, \beta \in \mathbb{C} \), то \( L \) называют <strong>комплексным линейным пространством</strong>.</p>
+
+<p><strong>Примеры линейных пространств.</strong></p>
+<p>1. Множество \( V_2 \) и \( V_3 \) — множество всех свободных геометрических векторов на плоскости и в пространстве с введёнными для них операциями сложения и умножения вектора на число.</p>
+<p>2. Множество \( \mathbb{R}^n \) — множество всех арифметических \( n \)-мерных векторов \( \vec{x} = (x_1, x_2, \dots, x_n) \) с введёнными для них операциями сложения и умножения арифметического вектора на число.</p>
+<p>3. Множество \( M_{mn}(\mathbb{R}) \) — множество всех матриц размерности \( m \times n \), элементами которых являются действительные числа.</p>
+<p>4. Множество \( K_n[x] \) — множество всех многочленов</p>
+<p>\( P_n(x) = a_0 x^n + a_1 x^{n-1} + \dots + a_n x^0 \).</p>
+<p>5. Множество всех решений однородной СЛАУ</p>
+<p>\(
+\begin{cases}
+\alpha_{11}x_1 + \dots + \alpha_{1n}x_n = 0 \\
+\quad\vdots \\
+\alpha_{m1}x_1 + \dots + \alpha_{mn}x_n = 0
+\end{cases}
+\)</p>
+<p>ранг которой меньше числа неизвестных.</p>
+
+<p>6. Множество \( C_{[a,b]} \) — множество всех непрерывных на отрезке \( [a,b] \) функций \( f(x) \).</p>
+
+<p><strong>Определение 1.2.</strong> Два ЛП \( L_1 \) и \( L_2 \) называют <strong>изоморфными</strong>, если между ними можно установить линейное взаимно однозначное отображение \( A: L_1 \leftrightarrow L_2 \).</p>
+
+<p><strong>Теорема 1.1.</strong> Два конечномерных ЛП изоморфны тогда и только тогда, когда они имеют одинаковую размерность. Все \( n \)-мерные ЛП изоморфны пространству \( \mathbb{R}^n \).</p>
+
+<p>Данное утверждение позволяет изучать свойства ЛП одной размерности \( n \) с элементами любой природы, изучая их на примере пространства \( \mathbb{R}^n \).</p>
+
+<p><strong>§4. Линейное пространство арифметических векторов \( \mathbb{R}^n \). Базис, канонический базис, ранг, размерность \( \mathbb{R}^n \). Теорема о единственности разложения АВ в данном базисе \( \mathbb{R}^n \). Критерий линейной независимости системы из \( n \) векторов \( \mathbb{R}^n \).</strong></p>
+
+<p><strong>Определение 2.1.</strong> Линейное пространство называют <strong>пространством арифметических векторов</strong> (линейным векторным пространством, арифметическим пространством, координатным пространством) и обозначают \( \mathbb{R}^n \), если его элементами являются арифметические векторы.</p>
+<p><strong>Определение 2.2.</strong> Базисом \( \mathbb{R}^n \) называют любую упорядоченную систему его векторов \( B_{\mathbb{R}^n} = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_m) \), для которой выполнены условия:</p>
+<p>1) система \( B_{\mathbb{R}^n} \) линейно независима;</p>
+<p>2) каждый элемент \( \vec{x} \in \mathbb{R}^n \) может быть представлен в виде линейной комбинации векторов системы \( B_{\mathbb{R}^n} \), т.е. в виде</p>
+<p>\( \vec{x} = \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \dots + \alpha_m \vec{b}_m. \qquad (2.1) \)</p>
+<p>где \( \alpha_1, \alpha_2, \dots, \alpha_m \in \mathbb{R} \) — действительные числа.</p>
+
+<p><strong>Теорема 2.1.</strong> В линейном пространстве \( \mathbb{R}^n \) разложение любого \( \vec{x} \in \mathbb{R}^n \) по данному базису \( B_{\mathbb{R}^n} = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_m) \) единственно.</p>
+<p><em>Д-во</em> (методом от противного). Предположим, что существует два разных разложения</p>
+<p>\( \vec{x} = \alpha_1 \vec{b}_1 + \dots + \alpha_m \vec{b}_m \),<br/>
+\( \vec{x} = \beta_1 \vec{b}_1 + \dots + \beta_m \vec{b}_m \).</p>
+<p>Вычитая, получаем \( (\alpha_1 - \beta_1)\vec{b}_1 + \dots + (\alpha_m - \beta_m)\vec{b}_m = \vec{o} \). Поскольку \( B_{\mathbb{R}^n} \) линейно независима, все коэффициенты нулевые: \( \alpha_i = \beta_i \), \( i = \overline{1,m} \). Противоречие. Следовательно, разложение единственно. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Теорема 2.2.</strong> В линейном пространстве \( \mathbb{R}^n \) любая система его векторов, состоящая из \( (n+1) \) вектора, всегда линейно зависима.</p>
+<p><em>Д-во.</em> Рассмотрим систему векторов \( \{\vec{x}_1, \vec{x}_2, \dots, \vec{x}_n, \vec{x}_{n+1}\} \). Составим для неё векторное равенство \( \alpha_1 \vec{x}_1 + \alpha_2 \vec{x}_2 + \dots + \alpha_n \vec{x}_n + \alpha_{n+1} \vec{x}_{n+1} = \vec{o} \). \(\Rightarrow\)</p>
+<p>\( \Rightarrow \alpha_1 \begin{pmatrix}x_{11}\\x_{21}\\\vdots\\x_{n1}\end{pmatrix} + \dots + \alpha_{n+1} \begin{pmatrix}x_{1,n+1}\\x_{2,n+1}\\\vdots\\x_{n,n+1}\end{pmatrix} = \begin{pmatrix}0\\0\\\vdots\\0\end{pmatrix} \) \(\Rightarrow\) система \( n \) однородных уравнений с \( n+1 \) неизвестными \( \alpha_1, \dots, \alpha_{n+1} \), которая всегда имеет ненулевое решение. Следовательно, САВ линейно зависима. <strong>Ч.Т.Д.</strong></p>
+
+<p><strong>Теорема 2.3.</strong> В ЛП \( \mathbb{R}^n \) любая упорядоченная линейно независимая система из \( n \) векторов является его базисом.</p>
+<p><em>Д-во.</em> Пусть система векторов \( \vec{b}_1, \vec{b}_2, \dots, \vec{b}_n \in \mathbb{R}^n \) линейно независима. Тогда система \( \vec{x}, \vec{b}_1, \vec{b}_2, \dots, \vec{b}_n \in \mathbb{R}^n \) из \( (n+1) \) элемента является линейно зависимой (по теореме 2.2), где \( \vec{x} \) — произвольный элемент \( \mathbb{R}^n \). По определению линейной зависимости выполняется равенство \( \alpha_0 \vec{x} + \alpha_1 \vec{b}_1 + \dots + \alpha_n \vec{b}_n = \vec{o} \), где \( \alpha_0 \ne 0 \) (в противном случае пришли бы к противоречию с линейной независимостью \( \vec{b}_1, \dots, \vec{b}_n \)). Тогда \( \alpha_0 \ne 0 \), и получаем</p>
+<p>\( \vec{x} = \left(-\frac{\alpha_1}{\alpha_0}\right) \vec{b}_1 + \left(-\frac{\alpha_2}{\alpha_0}\right) \vec{b}_2 + \dots + \left(-\frac{\alpha_n}{\alpha_0}\right) \vec{b}_n \).</p>
+<p>Таким образом, любой вектор \( \vec{x} \in \mathbb{R}^n \) представим в виде линейной комбинации линейно независимой системы векторов \( \vec{b}_1, \dots, \vec{b}_n \), т.е. эта система — базис \( \mathbb{R}^n \). <strong>Ч.Т.Д.</strong></p>
+<p>На основании теоремы 2.3, базисом \( \mathbb{R}^n \) является всякая упорядоченная система из \( n \) линейно независимых векторов: \( B_{\mathbb{R}^n} = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n) \). Представление \( \vec{x} = \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \dots + \alpha_n \vec{b}_n \) называют <strong>разложением вектора</strong> \( \vec{x} \in \mathbb{R}^n \) по базису \( B_{\mathbb{R}^n} \), коэффициенты \( \alpha_1, \alpha_2, \dots, \alpha_n \in \mathbb{R} \) — <strong>координатами вектора</strong> в базисе \( B_{\mathbb{R}^n} \), и пишут \( \vec{x} = (\alpha_1, \alpha_2, \dots, \alpha_n)_{B_{\mathbb{R}^n}} \). Запись \( \vec{x} = (\alpha_1, \alpha_2, \dots, \alpha_n)_{B_{\mathbb{R}^n}} \) называют <strong>координатной записью</strong> АВ \( \vec{x} \in \mathbb{R}^n \) в заданном базисе \( B_{\mathbb{R}^n} \).</p>
+
+<p><strong>Теорема 2.4</strong> (критерий линейной независимости системы из \( n \) векторов \( \mathbb{R}^n \)).<br/>
+Всякая упорядоченная система из \( n \) векторов \( (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n) \) образует базис \( \mathbb{R}^n \) тогда и только тогда, когда \( \mathrm{rang}\,(\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n) = n \).<br/>
+Всякая упорядоченная система из \( n \) векторов \( (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n) \) образует базис \( \mathbb{R}^n \) тогда и только тогда, когда определитель, столбцами которого являются компоненты векторов \( \vec{b}_1, \vec{b}_2, \dots, \vec{b}_n \), отличен от нуля.</p>
+
+<p><strong>Определение 2.3.</strong> Каноническим базисом \( \mathbb{R}^n \) называют базис \( (\vec{e}_1, \vec{e}_2, \dots, \vec{e}_n) \), где<br/>
+\( \vec{e}_1 = (1,0,0,\dots,0) \), \( \vec{e}_2 = (0,1,0,\dots,0) \), …, \( \vec{e}_n = (0,0,\dots,0,1) \) — единичные векторы.</p>
+
+<p>В каноническом базисе запись \( \vec{x} = (x_1, x_2, \dots, x_n) \) означает запись \( \vec{x} = x_1 \vec{e}_1 + x_2 \vec{e}_2 + \dots + x_n \vec{e}_n \), т.е. компоненты АВ являются его координатами. Канонический базис в координатной записи АВ не указывается: он предполагается «по умолчанию».</p>
+
+<p><strong>Определение 2.4.</strong> Рангом пространства \( \mathbb{R}^n \) называют число векторов в любом из его базисов. Ранг \( \mathbb{R}^n \) очевидно равен \( n \).</p>
+
+<p><strong>Определение 2.5.</strong> Размерностью пространства \( \mathbb{R}^n \) называют ранг \( \mathbb{R}^n \). Обозначают \( \dim \mathbb{R}_n \). Очевидно \( \dim \mathbb{R}_n = n \).</p>
+
+<p>Различных базисов в ЛП \( \mathbb{R}^n \) может быть не один, но число векторов в них всегда равно \( n \).</p>
+
+<p><strong>§5. Координаты вектора \( \mathbb{R}^n \), линейные операции над векторами в координатной форме. Преобразование координат вектора при замене базиса.</strong></p>
+
+<p>Согласно определению базиса, базис \( B_{\mathbb{R}^n} = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n) \) является упорядоченной системой. Порядок векторов в базисе определяется их нумерацией. Фиксация порядка позволяет заменить линейную комбинацию \( \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \dots + \alpha_n \vec{b}_n \) упорядоченным набором коэффициентов \( (\alpha_1, \alpha_2, \dots, \alpha_n) \), а саму запись — координатной формой.</p>
+
+<p>Запись \( \vec{x} = \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \dots + \alpha_n \vec{b}_n \) заменяет более короткой координатной записью \( \vec{x} = (\alpha_1, \alpha_2, \dots, \alpha_n)_{B_{\mathbb{R}^n}} \). Кроме того, фиксация порядка позволяет перейти к матричной форме:</p>
+<p>\( \vec{x} = \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \dots + \alpha_n \vec{b}_n = (\vec{b}_1\ \vec{b}_2\ \dots\ \vec{b}_n) \cdot \begin{pmatrix} \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n \end{pmatrix} = B \cdot X \), где \( X = \begin{pmatrix} \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n \end{pmatrix} \) — матрица-столбец координат вектора в заданном базисе, \( B = (\vec{b}_1\ \vec{b}_2\ \dots\ \vec{b}_n) \) — матрица-строка, элементами которой являются векторы \( \vec{b}_i \).</p>
+
+<p>Рассмотрим выполнение линейных операций над АВ, заданными в одном базисе \( B_{\mathbb{R}^n} \). Пусть \( \vec{x} = (x_1, x_2, \dots, x_n)_{B_{\mathbb{R}^n}} \), \( \vec{y} = (y_1, y_2, \dots, y_n)_{B_{\mathbb{R}^n}} \). Тогда:</p>
+<p>\( \vec{x} + \vec{y} = (x_1, x_2, \dots, x_n)_B + (y_1, y_2, \dots, y_n)_B = (x_1 + y_1, x_2 + y_2, \dots, x_n + y_n)_B \),</p>
+<p>\( \alpha \cdot \vec{x} = \alpha \cdot (x_1, x_2, \dots, x_n)_B = (\alpha x_1, \alpha x_2, \dots, \alpha x_n)_B \).</p>
+
+<p>Таким образом, при сложении двух векторов \( \vec{x}, \vec{y} \in \mathbb{R}^n \), записанных в координатной форме, их координаты в одном и том же базисе складываются, а при умножении вектора на число его координаты умножаются на это число.</p>
+
+<p>В ЛП все базисы <strong>равноправны</strong>. Тот или иной базис выбирают исходя из конкретных обстоятельств. Иногда удобно для представления элементов ЛП использовать несколько базисов. Тогда возникает задача преобразования координат элементов ЛП при переходе от одного базиса ЛП к другому.</p>
+
+<p>Пусть в линейном пространстве \( \mathbb{R}^n \) заданы два базиса: старый \( B_{\mathbb{R}^n} = (\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n) \) и новый \( B'_{\mathbb{R}^n} = (\vec{b}'_1, \vec{b}'_2, \dots, \vec{b}'_n) \). Разложим каждый вектор нового базиса по старому:</p>
+<p>\( \vec{b}'_1 = c_{11} \vec{b}_1 + c_{21} \vec{b}_2 + \dots + c_{n1} \vec{b}_n \),<br/>
+\( \vec{b}'_2 = c_{12} \vec{b}_1 + c_{22} \vec{b}_2 + \dots + c_{n2} \vec{b}_n \),<br/>
+\(\dots\)<br/>
+\( \vec{b}'_n = c_{1n} \vec{b}_1 + c_{2n} \vec{b}_2 + \dots + c_{nn} \vec{b}_n \).</p>
+<p>Матрицу \( C = \begin{pmatrix}
+c_{11} & c_{12} & \dots & c_{1n} \\
+c_{21} & c_{22} & \dots & c_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+c_{n1} & c_{n2} & \dots & c_{nn}
+\end{pmatrix} \) называют <strong>матрицей перехода</strong> от старого базиса \( B \) к новому \( B' \). Элементы \( c_{ij} \) — координаты вектора \( \vec{b}'_j \) в старом базисе \( B \), т.е. \( \vec{b}'_j = (c_{1j}, c_{2j}, \dots, c_{nj})_B \).</p>
+
+<p>Коэффициенты разложения векторов нового базиса по старому базису являются элементами матрицы перехода \( U \). Матрица перехода \( U \) обладает следующими свойствами:</p>
+<p>1) Матрица \( U \) — невырожденная и, следовательно, имеет обратную матрицу \( U^{-1} \);</p>
+<p>2) Матрица \( U^{-1} \) является матрицей перехода от нового базиса \( B'_{\mathbb{R}^n} \) к старому базису \( B_{\mathbb{R}^n} \);</p>
+<p>3) Если в ЛП заданы три базиса \( B_{\mathbb{R}^n} \), \( \tilde{B}_{\mathbb{R}^n} \), \( \tilde{\tilde{B}}_{\mathbb{R}^n} \) с матрицами перехода \( U \) и \( \tilde{U} \), то переход от базиса \( B_{\mathbb{R}^n} \) к базису \( \tilde{\tilde{B}}_{\mathbb{R}^n} \) осуществляется матрицей \( U \cdot \tilde{U} \).</p>
+<p>Действительно: \( \tilde{B} = B \cdot U \), \( \tilde{\tilde{B}} = \tilde{B} \cdot \tilde{U} \Rightarrow \tilde{\tilde{B}} = (B \cdot U) \cdot \tilde{U} = B \cdot (U \cdot \tilde{U}) \).</p>
+
+<p>Координаты \( X \) вектора \( \vec{x} \) при изменении базиса будут преобразовываться следующим образом:</p>
+<p>\( \vec{x} = B \cdot X = B^* \cdot X^* = B \cdot U \cdot X^* \Rightarrow \boxed{X = U \cdot X^*} \)</p>
+<p>или</p>
+<p>\( \vec{x} = B^* \cdot X^* = B \cdot X = B^* \cdot U^{-1} \cdot X \Rightarrow \boxed{X^* = U^{-1} \cdot X} \)</p>
+<p>где \( U \) — матрица перехода от старого базиса к новому, \( U^{-1} \) — матрица перехода от нового базиса к старому.</p>
+</div>
+    </div>
+    
+    <!-- Физика -->
+    <div class="subject-lectures" id="physics-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (3.5 МБ)
+                </a>
+            </div>
+        </div>
+        
+        <!-- Выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+    </div>
+    
+    <!-- Программирование -->
+    <div class="subject-lectures" id="programming-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (2.8 МБ)
+                </a>
+            </div>
+        </div>
+        
+        <!-- Выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+        
+        <!-- Ещё одна выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+    </div>
+    
+    <!-- Информатика -->
+    <div class="subject-lectures" id="informatics-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (4.2 МБ)
+                </a>
+            </div>
+        </div>
+        
+        <!-- Выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+        
+        <!-- Ещё одна выдвижная лекция -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+    </div>
+    
+    <!-- БИПИТ -->
+    <div class="subject-lectures" id="bipit-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (3.1 МБ)
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Иностранный язык -->
+    <div class="subject-lectures" id="language-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (2.5 МБ)
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- История России -->
+    <div class="subject-lectures" id="history-lectures" style="display: none;">
+        <!-- Здесь будут лекции по истории (перенесенные из зачетов) -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+        
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+        
+        <!-- Добавим ещё одну лекцию по истории для примера -->
+        <button class="lecture-toggle-btn">
+            Шаблон
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">
+
+        </div>
+    </div>
+    
+    <!-- Инженерная графика -->
+    <div class="subject-lectures" id="graphics-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (5.3 МБ)
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ФКиС -->
+    <div class="subject-lectures" id="sport-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (1.8 МБ)
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Библиотечные знания -->
+    <div class="subject-lectures" id="library-lectures" style="display: none;">
+        <div class="lecture-item">
+            <div class="lecture-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="lecture-content">
+                <h3>Шаблон</h3>
+                <a href="#" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> Скачать PDF (2.7 МБ)
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
             
             <!-- Зачёты -->
             <div id="exams-tab" class="tab-content">
@@ -3365,9 +4870,30 @@ function savePageState() {
         activeWeekTab: document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper',
         expandedSections: getExpandedSections()
     };
+    
+    // Добавить сохранение состояния лекций
+    const activeSubjectBtn = document.querySelector('.subject-btn.active');
+    if (activeSubjectBtn) {
+        state.activeSubject = activeSubjectBtn.getAttribute('data-subject');
+        
+        // Сохраняем открытые лекции внутри предмета
+        const subjectSection = document.getElementById(state.activeSubject + '-lectures');
+        if (subjectSection) {
+            const expandedLectures = [];
+            subjectSection.querySelectorAll('.lecture-toggle-btn.active').forEach(btn => {
+                // Находим индекс лекции
+                const allBtns = subjectSection.querySelectorAll('.lecture-toggle-btn');
+                const index = Array.from(allBtns).indexOf(btn);
+                if (index !== -1) {
+                    expandedLectures.push(index);
+                }
+            });
+            state.expandedLectures = expandedLectures;
+        }
+    }
+    
     localStorage.setItem('pageState', JSON.stringify(state));
 }
-
 // Получение раскрытых секций (лекции, вопросы и т.д.)
 function getExpandedSections() {
     const expanded = {};
@@ -3404,36 +4930,58 @@ function restorePageState() {
     const state = JSON.parse(savedState);
     
     // Восстанавливаем активную вкладку
-    setTimeout(() => {
-        if (state.activeTab) {
-            const targetTab = document.querySelector(`.tab[data-tab="${state.activeTab}"]`);
-            if (targetTab && !targetTab.classList.contains('active')) {
-                targetTab.click();
-            }
+    if (state.activeTab) {
+        const targetTab = document.querySelector(`.tab[data-tab="${state.activeTab}"]`);
+        if (targetTab && !targetTab.classList.contains('active')) {
+            targetTab.click();
         }
-        
-        // Восстанавливаем активную неделю в расписании
-        if (state.activeWeekTab) {
-            const targetWeekTab = document.querySelector(`.week-tab[data-week="${state.activeWeekTab}"]`);
-            if (targetWeekTab && !targetWeekTab.classList.contains('active')) {
-                targetWeekTab.click();
-            }
+    }
+    
+    // Восстанавливаем активную неделю в расписании
+    if (state.activeWeekTab) {
+        const targetWeekTab = document.querySelector(`.week-tab[data-week="${state.activeWeekTab}"]`);
+        if (targetWeekTab && !targetWeekTab.classList.contains('active')) {
+            targetWeekTab.click();
         }
-        
-        // Восстанавливаем раскрытые секции
-        if (state.expandedSections) {
-            restoreExpandedSections(state.expandedSections);
-        }
-        
-        // Восстанавливаем позицию прокрутки (с небольшой задержкой для полной загрузки контента)
+    }
+    
+    // Восстанавливаем раскрытые секции (вопросы, материалы)
+    if (state.expandedSections) {
+        restoreExpandedSections(state.expandedSections);
+    }
+    
+    // Восстанавливаем состояние лекций
+    if (state.activeSubject) {
+        // Ждем, пока инициализируются лекции
         setTimeout(() => {
-            if (state.scrollPosition) {
-                window.scrollTo(0, state.scrollPosition);
+            const subjectBtn = document.querySelector(`.subject-btn[data-subject="${state.activeSubject}"]`);
+            if (subjectBtn) {
+                // Активируем предмет
+                subjectBtn.click();
+                
+                // Открываем сохраненные лекции
+                setTimeout(() => {
+                    const subjectSection = document.getElementById(state.activeSubject + '-lectures');
+                    if (subjectSection && state.expandedLectures) {
+                        const lectureBtns = subjectSection.querySelectorAll('.lecture-toggle-btn');
+                        state.expandedLectures.forEach(index => {
+                            if (lectureBtns[index]) {
+                                lectureBtns[index].click();
+                            }
+                        });
+                    }
+                }, 300); // Даем время на загрузку контента
             }
-        }, 100);
-    }, 100);
+        }, 500); // Даем время на инициализацию вкладки
+    }
+    
+    // Восстанавливаем позицию прокрутки
+    setTimeout(() => {
+        if (state.scrollPosition) {
+            window.scrollTo(0, state.scrollPosition);
+        }
+    }, 1000); // Увеличиваем задержку для полной загрузки
 }
-
 // Восстановление раскрытых секций
 function restoreExpandedSections(expandedSections) {
     Object.keys(expandedSections).forEach(key => {
@@ -3581,6 +5129,142 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Обработчики установлены успешно!');
     });
 })();
+// ====== РАЗДЕЛ ЛЕКЦИЙ - ИСПРАВЛЕННЫЙ КОД ======
+console.log('Загрузка раздела лекций...');
+
+// Делаем переменные для хранения состояния
+let lecturesInitialized = false;
+
+function initLecturesSimple() {
+    if (lecturesInitialized) return;
+    
+    console.log('Простая инициализация лекций...');
+    
+    // 1. Обработчик для предметов
+    document.querySelectorAll('.subject-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Останавливаем всплытие
+            e.stopPropagation();
+            
+            console.log('Предмет клик:', this.dataset.subject);
+            
+            const subject = this.dataset.subject;
+            const target = document.getElementById(subject + '-lectures');
+            
+            if (!target) {
+                console.error('Не найдена секция:', subject + '-lectures');
+                return;
+            }
+            
+            // Проверяем, активна ли уже кнопка
+            const isActive = this.classList.contains('active');
+            
+            // Скрываем все секции
+            document.querySelectorAll('.subject-lectures').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Убираем active со всех кнопок
+            document.querySelectorAll('.subject-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            
+            if (!isActive) {
+                // Показываем нужную секцию
+                this.classList.add('active');
+                target.style.display = 'block';
+                
+                // Сохраняем состояние
+                setTimeout(savePageState, 100);
+            }
+            
+            // Плавная прокрутка
+            setTimeout(() => {
+                if (target.style.display === 'block') {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }, 100);
+        }, true);
+    });
+    
+    // 2. Обработчик для выдвижных лекций
+    document.querySelectorAll('.lecture-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Важно! Останавливаем всплытие
+            
+            // Находим контент лекции
+            let content = this.nextElementSibling;
+            
+            // Ищем элемент с классом lecture-content-full
+            while (content && !content.classList.contains('lecture-content-full')) {
+                content = content.nextElementSibling;
+            }
+            
+            if (!content) {
+                console.error('Не найден контент лекции');
+                return;
+            }
+            
+            // Переключаем видимость
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                this.classList.remove('active');
+            } else {
+                // Закрываем другие лекции в этой же секции
+                const parentSection = this.closest('.subject-lectures');
+                if (parentSection) {
+                    parentSection.querySelectorAll('.lecture-toggle-btn').forEach(otherBtn => {
+                        if (otherBtn !== this) {
+                            otherBtn.classList.remove('active');
+                            let otherContent = otherBtn.nextElementSibling;
+                            while (otherContent && !otherContent.classList.contains('lecture-content-full')) {
+                                otherContent = otherContent.nextElementSibling;
+                            }
+                            if (otherContent) {
+                                otherContent.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+                
+                content.style.display = 'block';
+                this.classList.add('active');
+                
+                // Прокрутка к контенту
+                setTimeout(() => {
+                    content.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }, 100);
+            }
+            
+            // Сохраняем состояние
+            setTimeout(savePageState, 100);
+        }, true);
+    });
+    
+    lecturesInitialized = true;
+    console.log('Лекции инициализированы!');
+}
+// Инициализируем при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM готов');
+    
+    // Инициализируем лекции через небольшую задержку
+    setTimeout(initLecturesSimple, 300);
+});
+
+// Также инициализируем при клике на вкладку "Лекции"
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.tab[data-tab="lectures"]')) {
+        console.log('Переключились на вкладку лекций');
+        setTimeout(initLecturesSimple, 200);
+    }
+});
 </script>
 <button id="header-toggle-btn" class="header-toggle-btn" title="Скрыть/показать шапку">
     <i class="fas fa-eye-slash"></i>
