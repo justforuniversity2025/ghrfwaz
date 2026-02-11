@@ -1832,7 +1832,7 @@ function filterMobileSchedule(group) {
             <!-- Домашнее задание -->
 <!-- Домашнее задание -->
 <div id="homework-tab" class="tab-content">
-    <h2><i class="fas fa-tasks"></i> Домашние задания<span class="status not-ready">✗</span></h2>
+    <h2><i class="fas fa-tasks"></i> Домашние задания</h2>
     
     <!-- Кнопка для открытия файлов -->
     <div style="margin-bottom: 20px;">
@@ -1854,8 +1854,8 @@ function filterMobileSchedule(group) {
     
     <!-- Вертикальная полоса с датами (таймлайн) -->
     <div style="display: flex; margin-top: 20px; min-height: 500px;">
-        <!-- Левая колонка: таймлайн -->
-        <div id="homework-timeline" style="width: 200px; min-width: 200px; margin-right: 20px;">
+        <!-- Левая колонка: таймлайн (скрыта на мобильных) -->
+        <div id="homework-timeline" style="width: 200px; min-width: 200px; margin-right: 20px; display: block;">
             <div style="position: sticky; top: 100px;">
                 <h3 style="margin-bottom: 15px;"><i class="fas fa-calendar-alt"></i> Сроки</h3>
                 <div id="timeline-dates" style="position: relative; padding-left: 20px;">
@@ -2031,6 +2031,8 @@ function filterMobileSchedule(group) {
         border-radius: 4px;
         font-size: 12px;
         transition: all 0.3s;
+        cursor: pointer;
+        border: none;
     }
     
     .download-file-btn:hover {
@@ -2072,13 +2074,10 @@ function filterMobileSchedule(group) {
     }
     
     .hw-subject {
-        display: inline-block;
-        padding: 4px 12px;
-        background: #e3f2fd;
-        color: #1976d2;
-        border-radius: 20px;
-        font-size: 14px;
-        font-weight: 600;
+        font-weight: 700;
+        color: #2c3e50;
+        font-size: 18px;
+        margin-bottom: 5px;
     }
     
     .hw-due-date {
@@ -2099,29 +2098,7 @@ function filterMobileSchedule(group) {
         color: #555;
         line-height: 1.5;
         margin-bottom: 15px;
-    }
-    
-    .hw-status {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 15px;
-        font-size: 12px;
-        font-weight: 600;
-    }
-    
-    .status-pending {
-        background: #fff3e0;
-        color: #ef6c00;
-    }
-    
-    .status-completed {
-        background: #e8f5e9;
-        color: #2e7d32;
-    }
-    
-    .status-overdue {
-        background: #ffebee;
-        color: #c62828;
+        font-size: 15px;
     }
     
     /* Индикатор, что элемент привязан к таймлайну */
@@ -2144,17 +2121,19 @@ function filterMobileSchedule(group) {
     /* Для мобильных */
     @media (max-width: 768px) {
         #homework-timeline {
-            width: 120px;
-            min-width: 120px;
-            margin-right: 10px;
+            display: none !important;
         }
         
-        .date-label {
+        .homework-assignment {
+            padding: 15px;
+        }
+        
+        .hw-subject {
+            font-size: 16px;
+        }
+        
+        .hw-due-date {
             font-size: 12px;
-        }
-        
-        .date-info {
-            font-size: 10px;
         }
     }
 </style>
@@ -2162,92 +2141,119 @@ function filterMobileSchedule(group) {
 <script>
 // ====== ФУНКЦИОНАЛ ДЛЯ ДОМАШНИХ ЗАДАНИЙ ======
 document.addEventListener('DOMContentLoaded', function() {
-    // Текущая дата (можно заменить на реальную)
-    const TODAY = new Date('2026-02-11'); // 11 февраля 2026
-    // Для тестирования: завтра = 12 февраля 2026
-    const TOMORROW = new Date(TODAY);
-    TOMORROW.setDate(TODAY.getDate() + 1);
+    // Текущая дата
+    const TODAY = new Date('2026-02-11');
     
-    // Данные для домашних заданий
+    // Данные для домашних заданий - ТОЛЬКО иностранный язык
     const homeworkData = [
         {
             id: 1,
-            subject: "Интегралы и дифференциальные уравнения",
-            title: "Задачи на логарифмические уравнения",
-            description: "Решить задачи №125-140 из учебника. Особое внимание уделить задачам на логарифмические уравнения. Подготовить доказательство теоремы о производной сложной функции.",
-            dueDate: "2026-02-06",
-            status: "pending"
-        },
-        {
-            id: 2,
-            subject: "Физика",
-            title: "Изучение закона сохранения энергии",
-            description: "Подготовить лабораторную работу №5 'Изучение закона сохранения энергии'. Ответить на контрольные вопросы 1-10 в конце главы 4. Решить задачи на движение тела под углом к горизонту.",
-            dueDate: "2026-02-10",
-            status: "completed"
-        },
-        {
-            id: 3,
-            subject: "Программирование",
-            title: "Обработка CSV-файлов",
-            description: "Написать программу для обработки данных из CSV-файла с использованием библиотеки Pandas. Реализовать функции фильтрации, сортировки и визуализации данных. Код загрузить на GitHub.",
-            dueDate: "2026-02-18",
-            status: "pending"
-        },
-        {
-            id: 4,
-            subject: "История России",
-            title: "Основные политические и экономические изменения в Европе",
-            description: "Подготовить реферат на тему 'Основные политические и экономические изменения в Европе после Второй мировой войны'. Объем: 10-12 страниц. Использовать не менее 5 источников.",
-            dueDate: "2026-02-20",
-            status: "overdue"
-        },
-        {
-            id: 5,
-            subject: "Информатика",
-            title: "Алгоритмы и структуры данных",
-            description: "Реализовать алгоритм быстрой сортировки и сравнить его производительность с сортировкой слиянием на массивах разного размера.",
-            dueDate: "2026-02-25",
-            status: "pending"
-        },
-        {
-            id: 6,
             subject: "Иностранный язык (1 группа)",
-            title: "Формальное и неформальное письмо",
-            description: "Выучить слова из модуля 5. Сделать по вариантам: формальное письмо (официальное обращение) или неформальное письмо (дружеское). Объем: 150-200 слов.",
-            dueDate: "2026-02-18", // Новое задание
-            status: "pending"
+            description: "Выучить слова из модуля 8. Сделать по вариантам: 1 вариант - формальное письмо и 2 вариант - неформальное письмо.",
+            dueDate: "2026-02-18"
         }
     ];
 
-    // Данные для таймлайна (будут сгенерированы автоматически)
+    // Данные для таймлайна
     let timelineDates = [];
 
-    // Файлы для загрузки
+    // === КОНФИГУРАЦИЯ ФАЙЛОВ ===
+    // ═══════════════════════════════════════════════════
+    // ЛЕГКО РЕДАКТИРУЕМЫЙ СПИСОК ФАЙЛОВ
+    // ═══════════════════════════════════════════════════
+    // Чтобы добавить файлы в варианты:
+    // 1. Создайте папки вариант_01, вариант_02 и т.д. в той же директории, где находится сайт
+    // 2. Положите нужные файлы в соответствующие папки
+    // 3. Отредактируйте массив variantFiles ниже, добавив свои файлы
+    // ═══════════════════════════════════════════════════
+    
     const filesData = [
+        // Инструкция
         {
             name: "инструкция.txt",
             size: "2.1 КБ",
-            children: [],
-            url: "#" // Здесь должен быть реальный URL
+            url: "инструкция.txt", // Файл должен лежать в той же папке
+            type: "file"
         }
     ];
 
-    // Генерация 25 вариантов
-    for (let i = 1; i <= 25; i++) {
-        const variantNum = i.toString().padStart(2, '0');
+    // === КОНФИГУРАЦИЯ ФАЙЛОВ ДЛЯ КАЖДОГО ВАРИАНТА ===
+    // ═══════════════════════════════════════════════════
+    // ВАЖНО: Создайте папки вариант_01, вариант_02 и т.д.
+    // и положите туда ваши файлы
+    // ═══════════════════════════════════════════════════
+    const variantFiles = {
+        // Пример для варианта 1 - раскомментируйте и отредактируйте
+        /*
+        "вариант_01": [
+            { name: "задание.txt", size: "15 КБ", url: "вариант_01/задание.txt" },
+            { name: "пример_решения.pdf", size: "250 КБ", url: "вариант_01/пример_решения.pdf" },
+            { name: "дополнительно.docx", size: "45 КБ", url: "вариант_01/дополнительно.docx" }
+        ],
+        */
+        
+        // Пример для варианта 2
+        /*
+        "вариант_02": [
+            { name: "задание.txt", size: "16 КБ", url: "вариант_02/задание.txt" },
+            { name: "словарь.pdf", size: "180 КБ", url: "вариант_02/словарь.pdf" }
+        ],
+        */
+        
+        // Если хотите оставить пустые папки для всех 25 вариантов (заполните позже)
+        // Оставьте этот код как есть:
+        // Автоматически создаем пустые папки для всех 25 вариантов
+        ...(() => {
+            const emptyVariants = {};
+            for (let i = 1; i <= 25; i++) {
+                const variantNum = i.toString().padStart(2, '0');
+                const folderName = `вариант_${variantNum}`;
+                emptyVariants[folderName] = [
+                    { 
+                        name: `информация.txt`, 
+                        size: "1 КБ", 
+                        url: `${folderName}/информация.txt`,
+                    }
+                ];
+            }
+            return emptyVariants;
+        })()
+    };
+
+    // Создаем папки вариантов из конфигурации
+    for (const [folderName, files] of Object.entries(variantFiles)) {
         filesData.push({
-            name: `вариант_${variantNum}`,
+            name: folderName,
             size: "Папка",
-            children: [
-                { 
-                    name: `вариант_${variantNum}.txt`, 
-                    size: `${14 + i % 5} КБ`, 
-                    url: "#" // Здесь должен быть реальный URL
-                }
-            ]
+            type: "folder",
+            children: files
         });
     }
+
+    // === ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ (если нужны) ===
+    // Раскомментируйте и отредактируйте по необходимости:
+    
+    /*
+    // Добавить отдельный файл в корень:
+    filesData.push({
+        name: "общая_инструкция.pdf",
+        size: "1.5 МБ",
+        url: "общая_инструкция.pdf",
+        type: "file"
+    });
+    
+    // Добавить папку с дополнительными материалами:
+    filesData.push({
+        name: "дополнительные_материалы",
+        size: "Папка",
+        type: "folder",
+        children: [
+            { name: "шаблон_письма.docx", size: "45 КБ", url: "дополнительные_материалы/шаблон_письма.docx" },
+            { name: "список_слов.xlsx", size: "78 КБ", url: "дополнительные_материалы/список_слов.xlsx" },
+            { name: "грамматика.pdf", size: "2.3 МБ", url: "дополнительные_материалы/грамматика.pdf" }
+        ]
+    });
+    */
 
     // Инициализация
     function initHomeworkTab() {
@@ -2301,16 +2307,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Добавляем важные даты
         timelineDates.push({
-            date: "2026-02-10",
+            date: "2026-02-09",
             label: "Начало семестра",
-            count: 0,
-            homeworkIds: [],
-            isEvent: true
-        });
-        
-        timelineDates.push({
-            date: "2026-06-30",
-            label: "Конец семестра",
             count: 0,
             homeworkIds: [],
             isEvent: true
@@ -2369,47 +2367,31 @@ document.addEventListener('DOMContentLoaded', function() {
         pastList.innerHTML = '';
         
         // Сортируем ДЗ по дате
-        const sortedHomework = [...homeworkData].sort((a, b) => 
-            new Date(a.dueDate) - new Date(b.dueDate)
-        );
+        const now = new Date(TODAY);
         
-        sortedHomework.forEach(hw => {
+        // Ближайшие задания (дата >= сегодня)
+        const upcoming = homeworkData
+            .filter(hw => new Date(hw.dueDate) >= now)
+            .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+        
+        // Прошлые задания (дата < сегодня) - сортируем по убыванию (свежие сверху)
+        const past = homeworkData
+            .filter(hw => new Date(hw.dueDate) < now)
+            .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+        
+        // Рендер ближайших заданий
+        upcoming.forEach(hw => {
             const hwDate = new Date(hw.dueDate);
-            const isPast = hwDate < TODAY;
             const isToday = formatDate(hwDate) === formatDate(TODAY);
             
-            const hwEl = document.createElement('div');
-            hwEl.className = `homework-assignment ${isPast ? 'past' : ''} ${isToday ? 'today' : ''}`;
-            hwEl.id = `hw-${hw.id}`;
-            hwEl.dataset.dueDate = hw.dueDate;
-            hwEl.dataset.timelineDate = hw.dueDate;
-            
-            hwEl.innerHTML = `
-                <div class="timeline-highlight" title="Привязано к таймлайну"></div>
-                <div class="hw-header">
-                    <div>
-                        <h4 style="margin: 0 0 5px 0; color: #2c3e50;">${hw.title}</h4>
-                        <span class="hw-subject">${hw.subject}</span>
-                    </div>
-                    <div class="hw-due-date ${isPast ? 'passed' : ''} ${isToday ? 'today' : ''}">
-                        <i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}
-                        ${isToday ? ' (сегодня!)' : ''}
-                    </div>
-                </div>
-                <div class="hw-description">${hw.description}</div>
-                <div>
-                    <span class="hw-status status-${hw.status}">
-                        ${getStatusText(hw.status)}
-                    </span>
-                    ${isPast ? '<span style="margin-left: 10px; color: #95a5a6; font-size: 12px;"><i class="fas fa-history"></i> Прошлый срок</span>' : ''}
-                </div>
-            `;
-            
-            if (isPast) {
-                pastList.appendChild(hwEl);
-            } else {
-                upcomingList.appendChild(hwEl);
-            }
+            const hwEl = createHomeworkElement(hw, isToday, false);
+            upcomingList.appendChild(hwEl);
+        });
+        
+        // Рендер прошлых заданий
+        past.forEach(hw => {
+            const hwEl = createHomeworkElement(hw, false, true);
+            pastList.appendChild(hwEl);
         });
         
         // Если нет ближайших заданий
@@ -2417,7 +2399,7 @@ document.addEventListener('DOMContentLoaded', function() {
             upcomingList.innerHTML = `
                 <div style="text-align: center; padding: 40px; color: #95a5a6;">
                     <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
-                    <p>Все задания выполнены! 🎉</p>
+                    <p>Нет ближайших заданий</p>
                 </div>
             `;
         }
@@ -2426,9 +2408,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pastList.children.length === 0) {
             pastList.innerHTML = '<p style="color: #95a5a6; text-align: center; padding: 30px;">Нет прошлых заданий</p>';
         }
+    }
+
+    // Создание элемента ДЗ
+    function createHomeworkElement(hw, isToday, isPast) {
+        const hwEl = document.createElement('div');
+        hwEl.className = `homework-assignment ${isPast ? 'past' : ''} ${isToday ? 'today' : ''}`;
+        hwEl.id = `hw-${hw.id}`;
+        hwEl.dataset.dueDate = hw.dueDate;
         
-        // Автоматический перенос заданий на следующий день
-        checkAndMoveOverdueHomework();
+        hwEl.innerHTML = `
+            <div class="timeline-highlight" title="Привязано к таймлайну"></div>
+            <div class="hw-header">
+                <div>
+                    <div class="hw-subject">${hw.subject}</div>
+                </div>
+                <div class="hw-due-date ${isPast ? 'passed' : ''} ${isToday ? 'today' : ''}">
+                    <i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}
+                    ${isToday ? ' (сегодня!)' : ''}
+                </div>
+            </div>
+            <div class="hw-description">${hw.description}</div>
+        `;
+        
+        return hwEl;
     }
 
     // Настройка навигации по таймлайну
@@ -2465,26 +2468,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                             // Подсветка элемента
                             highlightHomeworkElement(hwElement);
-                        }
-                    } else if (this.classList.contains('today')) {
-                        // Если кликнули на "Сегодня", показываем ближайшие задания
-                        const upcomingSection = document.getElementById('upcoming-homework');
-                        if (upcomingSection) {
-                            upcomingSection.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }
-                }
-                
-                // Для событий в таймлайне (начало/конец семестра)
-                if (this.classList.contains('event')) {
-                    // Показываем соответствующий раздел
-                    const dateStr = this.dataset.date;
-                    if (dateStr === '2026-02-10') {
-                        // Начало семестра - показываем первые задания
-                        const firstHomework = document.querySelector('.homework-assignment');
-                        if (firstHomework) {
-                            firstHomework.scrollIntoView({ behavior: 'smooth' });
-                            highlightHomeworkElement(firstHomework);
                         }
                     }
                 }
@@ -2523,30 +2506,36 @@ document.addEventListener('DOMContentLoaded', function() {
         filesData.forEach((file, index) => {
             const fileEl = document.createElement('div');
             fileEl.className = 'file-item';
-            fileEl.innerHTML = `
-                <div class="file-header">
-                    <div class="file-name">
-                        <i class="${file.children.length ? 'far fa-folder' : 'far fa-file-alt'}"></i>
-                        ${file.name}
-                    </div>
-                    <div class="file-size">${file.size}</div>
-                </div>
-                ${file.children.length ? `
-                    <div class="file-children" style="display: none;">
-                        ${file.children.map(child => `
-                            <div class="file-child">
-                                <div>${child.name}</div>
-                                <a href="${child.url || '#'}" class="download-file-btn" ${child.url ? 'download' : ''}>
-                                    <i class="fas fa-download"></i> Скачать
-                                </a>
-                            </div>
-                        `).join('')}
-                    </div>
-                ` : ''}
-            `;
             
-            // Клик по файлу/папке
-            if (file.children.length) {
+            if (file.type === 'folder') {
+                // Папка
+                const fileCount = file.children ? file.children.length : 0;
+                fileEl.innerHTML = `
+                    <div class="file-header">
+                        <div class="file-name">
+                            <i class="far fa-folder"></i>
+                            ${file.name}
+                        </div>
+                        <div class="file-size">${file.size} (${fileCount} файл${fileCount === 1 ? '' : fileCount > 1 && fileCount < 5 ? 'а' : 'ов'})</div>
+                    </div>
+                    ${file.children && file.children.length > 0 ? `
+                        <div class="file-children" style="display: none;">
+                            ${file.children.map(child => `
+                                <div class="file-child">
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 500;">${child.name}</div>
+                                        ${child.description ? `<div style="font-size: 11px; color: #7f8c8d; margin-top: 2px;">${child.description}</div>` : ''}
+                                    </div>
+                                    <button class="download-file-btn" data-url="${child.url}" data-filename="${child.name}">
+                                        <i class="fas fa-download"></i> Скачать
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<div class="file-children" style="display: none; padding: 10px; color: #95a5a6; font-style: italic;">Папка пуста</div>'}
+                `;
+                
+                // Клик по папке
                 const header = fileEl.querySelector('.file-header');
                 const childrenContainer = fileEl.querySelector('.file-children');
                 
@@ -2561,21 +2550,47 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
+                
             } else {
-                // Для инструкции - сразу даем скачать
+                // Файл
+                fileEl.innerHTML = `
+                    <div class="file-header" style="cursor: pointer;">
+                        <div class="file-name">
+                            <i class="far fa-file-alt"></i>
+                            ${file.name}
+                        </div>
+                        <div class="file-size">${file.size}</div>
+                    </div>
+                `;
+                
+                // Клик по файлу
                 const header = fileEl.querySelector('.file-header');
-                header.style.cursor = 'pointer';
                 header.addEventListener('click', () => {
-                    if (file.url) {
-                        window.open(file.url, '_blank');
-                    } else {
-                        // Если нет URL, создаем временный файл для скачивания
-                        downloadTextFile(file.name, `Инструкция по выполнению домашних заданий.\n\n1. Выберите свой вариант (1-25).\n2. Скачайте файл с заданием.\n3. Выполните задание согласно требованиям.\n4. Сдайте работу до указанного срока.\n\nУдачи в учебе!`);
-                    }
+                    downloadFile(file.url, file.name);
                 });
             }
             
             filesList.appendChild(fileEl);
+        });
+        
+        // Обработчик для кнопок скачивания внутри папок
+        filesList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('download-file-btn') || e.target.closest('.download-file-btn')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const btn = e.target.classList.contains('download-file-btn') ? 
+                    e.target : e.target.closest('.download-file-btn');
+                
+                const url = btn.getAttribute('data-url');
+                const filename = btn.getAttribute('data-filename');
+                
+                if (url && url !== '#') {
+                    downloadFile(url, filename);
+                } else {
+                    alert(`Файл "${filename}" не настроен. Добавьте URL в конфигурацию.`);
+                }
+            }
         });
         
         // Показать/скрыть файлы
@@ -2583,7 +2598,6 @@ document.addEventListener('DOMContentLoaded', function() {
             filesContainer.style.display = 'block';
             toggleBtn.style.display = 'none';
             
-            // Плавная прокрутка к файлам
             setTimeout(() => {
                 filesContainer.scrollIntoView({ behavior: 'smooth' });
             }, 100);
@@ -2594,7 +2608,7 @@ document.addEventListener('DOMContentLoaded', function() {
             filesContainer.style.display = 'none';
             toggleBtn.style.display = 'inline-block';
             
-            // Закрыть все вложенные файлы
+            // Закрыть все открытые папки
             document.querySelectorAll('.file-children').forEach(el => {
                 el.style.display = 'none';
             });
@@ -2606,41 +2620,90 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Автоматический перенос заданий на следующий день
-    function checkAndMoveOverdueHomework() {
-        // В реальном приложении здесь была бы проверка с сервером
-        // Сейчас просто имитируем логику
+    // Функция для скачивания файла
+    function downloadFile(url, filename) {
+        // Создаем временную ссылку для скачивания
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
         
-        const now = new Date();
-        const tomorrow = new Date(now);
-        tomorrow.setDate(now.getDate() + 1);
+        try {
+            link.click();
+            console.log(`Начато скачивание: ${filename}`);
+            
+            // Показать уведомление об успешном скачивании
+            showNotification(`Начато скачивание: ${filename}`, 'success');
+        } catch (error) {
+            console.error(`Ошибка при скачивании ${filename}:`, error);
+            
+            // Показать уведомление об ошибке
+            showNotification(`Ошибка при скачивании ${filename}. Проверьте наличие файла.`, 'error');
+        }
         
-        // Для тестирования: если сегодня 11 февраля, то задания на 12 февраля еще не просрочены
-        // Но задания на 10 февраля уже должны быть в "прошлых"
-        
-        console.log('Проверка просроченных заданий...');
-        console.log('Сегодня:', formatDate(TODAY));
-        console.log('Завтра:', formatDate(TOMORROW));
-        
-        // В реальном приложении здесь была бы отправка запроса на сервер
-        // для обновления статуса заданий
+        // Удаляем ссылку
+        setTimeout(() => {
+            document.body.removeChild(link);
+        }, 100);
     }
 
-    // Функция для скачивания текстового файла
-    function downloadTextFile(filename, text) {
-        const element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
+    // Показать уведомление
+    function showNotification(message, type) {
+        // Создаем элемент уведомления
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: ${type === 'success' ? '#2ecc71' : '#e74c3c'};
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+        
+        // Добавляем стили для анимации
+        if (!document.getElementById('notification-styles')) {
+            const styles = document.createElement('style');
+            styles.id = 'notification-styles';
+            styles.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(styles);
+        }
     }
 
     // Вспомогательные функции
     function formatDate(dateString) {
         const date = new Date(dateString);
-        return date.toISOString().split('T')[0]; // YYYY-MM-DD
+        return date.toISOString().split('T')[0];
     }
 
     function formatDateForDisplay(dateString) {
@@ -2666,14 +2729,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return "Завтра";
         }
         
-        // Если дата в пределах недели - показываем день недели
         const diffDays = Math.floor((date - today) / (1000 * 60 * 60 * 24));
         if (diffDays >= 0 && diffDays < 7) {
             const days = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
             return days[date.getDay()];
         }
         
-        // Иначе - просто дату
         return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
     }
 
@@ -2685,24 +2746,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function getStatusText(status) {
-        const statusMap = {
-            pending: 'В процессе',
-            completed: 'Выполнено',
-            overdue: 'Просрочено'
-        };
-        return statusMap[status] || status;
-    }
-
     // Инициализируем при загрузке
     if (document.getElementById('homework-tab')) {
         initHomeworkTab();
     }
-    
-    // Обновление статуса каждые 5 минут (в реальном приложении)
-    setInterval(() => {
-        checkAndMoveOverdueHomework();
-    }, 5 * 60 * 1000);
 });
 </script>
             
