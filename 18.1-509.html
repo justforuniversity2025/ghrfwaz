@@ -16,6 +16,7 @@
         renderMathInElement(document.body, {
             delimiters: [
                 {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
                 {left: '\\(', right: '\\)', display: false},
                 {left: '\\[', right: '\\]', display: true}
             ],
@@ -2180,10 +2181,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const homeworkData = [
         {
             id: 1,
-            subject: "Иностранный язык (1 группа)",
+            subject: "Иностранный язык (2 группа)",
             description: "Выучить слова из модуля 8. Сделать по вариантам: 1 вариант - формальное письмо и 2 вариант - неформальное письмо.",
-            dueDate: "2026-02-18"
+            dueDate: "2026-02-17",
+            solution: `
+            <h4>Слова 8 модуля (Education)</h4>
+            <ul style="columns: 2; column-gap: 40px;">
+                <li><strong>University</strong> – университет</li>
+                <li><strong>Lecture</strong> – лекция</li>
+                <li><strong>Seminar</strong> – семинар</li>
+                <li><strong>Assignment</strong> – задание</li>
+                <li><strong>Deadline</strong> – дедлайн</li>
+                <li><strong>Curriculum</strong> – учебный план</li>
+                <li><strong>Transcript</strong> – зачетка / транскрипт</li>
+                <li><strong>Scholarship</strong> – стипендия</li>
+                <li><strong>Graduate</strong> – выпускник</li>
+                <li><strong>Undergraduate</strong> – студент</li>
+                <li><strong>Faculty</strong> – факультет / преподавательский состав</li>
+                <li><strong>Lecture hall</strong> – лекционная аудитория</li>
+                <li><strong>Dormitory</strong> – общежитие</li>
+                <li><strong>Tuition fee</strong> – плата за обучение</li>
+                <li><strong>Bachelor’s degree</strong> – степень бакалавра</li>
+            </ul>
+            <p style="margin-top: 15px; color: #555;"><i class="fas fa-lightbulb"></i> Эти слова будут полезны при написании писем.</p>
+        `
+        },
+                {
+            id: 2,
+            subject: "Интегралы и дифференциальные уравнения",
+            description: "научиться решать задачи из 7 главы",
+            dueDate: "2026-02-17"
         }
+        
     ];
 
     // Данные для таймлайна
@@ -2443,28 +2472,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Создание элемента ДЗ
-    function createHomeworkElement(hw, isToday, isPast) {
-        const hwEl = document.createElement('div');
-        hwEl.className = `homework-assignment ${isPast ? 'past' : ''} ${isToday ? 'today' : ''}`;
-        hwEl.id = `hw-${hw.id}`;
-        hwEl.dataset.dueDate = hw.dueDate;
-        
-        hwEl.innerHTML = `
-            <div class="timeline-highlight" title="Привязано к таймлайну"></div>
-            <div class="hw-header">
-                <div>
-                    <div class="hw-subject">${hw.subject}</div>
-                </div>
-                <div class="hw-due-date ${isPast ? 'passed' : ''} ${isToday ? 'today' : ''}">
-                    <i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}
-                    ${isToday ? ' (сегодня!)' : ''}
-                </div>
+function createHomeworkElement(hw, isToday, isPast) {
+    const hwEl = document.createElement('div');
+    hwEl.className = `homework-assignment ${isPast ? 'past' : ''} ${isToday ? 'today' : ''}`;
+    hwEl.id = `hw-${hw.id}`;
+    hwEl.dataset.dueDate = hw.dueDate;
+    
+    const solutionHTML = hw.solution ? `
+        <button class="lecture-toggle-btn" style="margin-top: 15px;">
+            Решение <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="lecture-content-full">${hw.solution}</div>
+    ` : '';
+    
+    hwEl.innerHTML = `
+        <div class="timeline-highlight" title="Привязано к таймлайну"></div>
+        <div class="hw-header">
+            <div>
+                <div class="hw-subject">${hw.subject}</div>
             </div>
-            <div class="hw-description">${hw.description}</div>
-        `;
-        
-        return hwEl;
-    }
+            <div class="hw-due-date ${isPast ? 'passed' : ''} ${isToday ? 'today' : ''}">
+                <i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}
+                ${isToday ? ' (сегодня!)' : ''}
+            </div>
+        </div>
+        <div class="hw-description">${hw.description}</div>
+        ${solutionHTML}
+    `;
+    
+    return hwEl;
+}
 
     // Настройка навигации по таймлайну
     function setupTimelineNavigation() {
@@ -2853,14 +2890,231 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         
         <!-- Выдвижная лекция -->
-        <button class="lecture-toggle-btn">
-            шаблон
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="lecture-content-full">
+<!-- Выдвижная лекция: Неопределённый интеграл -->
+<button class="lecture-toggle-btn">
+    Лекция 1: Неопределённый интеграл (Теория)
+    <i class="fas fa-chevron-down"></i>
+</button>
+<div class="lecture-content-full">
+    <h4>§1. Неопределённый интеграл</h4>
+    
+    <p><strong>Определение:</strong> Функция \( F(x) \) называется <em>первообразной</em> для функции \( f(x) \) на некотором промежутке, если для всех \( x \) из этого промежутка выполняется равенство:</p>
+    <p>$$ F'(x) = f(x) \quad \text{или} \quad \frac{d}{dx}F(x) = f(x) $$</p>
 
-        </div>
+    <p><strong>Определение:</strong> Множество всех первообразных функции \( f(x) \) называется <em>неопределённым интегралом</em> и обозначается:</p>
+    <p>$$ \int f(x) \, dx $$</p>
+    
+    <p>Запись неопределённого интеграла:</p>
+    <p>$$ \int f(x) \, dx = F(x) + C $$</p>
+    <p>где \( C = \text{const} \) — произвольная постоянная.</p>
 
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>Свойства неопределённого интеграла</h4>
+
+    <p><strong>1. Связь дифференцирования и интегрирования:</strong></p>
+    <p>а) Производная от неопределённого интеграла равна подынтегральной функции:</p>
+    <p>$$ \left( \int f(x) \, dx \right)' = f(x) $$</p>
+    <p><em>Доказательство:</em> \( (\int f(x) dx)' = (F(x) + C)' = F'(x) + 0 = f(x) \).</p>
+
+    <p>б) Дифференциал от неопределённого интеграла равен подынтегральному выражению:</p>
+    <p>$$ d\left( \int f(x) \, dx \right) = f(x) \, dx $$</p>
+
+    <p><strong>2. Интеграл от дифференциала функции:</strong></p>
+    <p>$$ \int d(f(x)) = \int f'(x) \, dx = f(x) + C $$</p>
+    <p><em>Пример:</em> \( \int dx = x + C \)</p>
+
+    <p><strong>3. Вынесение постоянного множителя:</strong></p>
+    <p>$$ \int \lambda \cdot f(x) \, dx = \lambda \cdot \int f(x) \, dx $$</p>
+    <p>где \( \lambda \) — константа.</p>
+
+    <p><strong>4. Интеграл от алгебраической суммы функций:</strong></p>
+    <p>$$ \int (f(x) \pm g(x)) \, dx = \int f(x) \, dx \pm \int g(x) \, dx $$</p>
+    <p><em>Доказательство:</em> Пусть \( F'(x) = f(x) \) и \( G'(x) = g(x) \). Тогда:</p>
+    <p>$$ (F(x) \pm G(x))' = F'(x) \pm G'(x) = f(x) \pm g(x) $$</p>
+    <p>Следовательно, \( F(x) \pm G(x) \) является первообразной для \( f(x) \pm g(x) \).</p>
+     <h3 style="margin-top: 0; color: #2c3e50;">5. Инвариантность формы неопределённого интеграла</h3>
+    <p>Формула замены переменной:</p>
+    <p>$$ \int f(x) \, dx = \int f(u) \cdot du $$</p>
+    <p>где <strong>\( u = \varphi(x) \)</strong>.</p>
+    
+    <p><strong>Обоснование:</strong></p>
+    <p>Так как дифференциал первообразной не зависит от способа задания аргумента (инвариантность формы дифференциала):</p>
+    <p>$$ d(F(x)) = d(F(u)) $$</p>
+    <p>То, раскрывая дифференциалы, получаем:</p>
+    <p>$$ F'(x) \cdot dx = F'(u) \cdot du $$</p>
+    <p>где <strong>\( du = \varphi'(x) \cdot dx \)</strong>.</p>
+    <p><em>Это свойство позволяет нам формально заменять переменную под знаком интеграла.</em></p>
+    <h3>Примеры решения задач (Практика)</h3>
+
+    <p><strong>Задача 7.10 а):</strong></p>
+    <p>$$ \int \frac{1+x^2}{x+x^3} \, dx $$</p>
+    <p>Вынесем $x$ в знаменателе за скобку:</p>
+    <p>$$ = \int \frac{1+x^2}{x(1+x^2)} \, dx $$</p>
+    <p>Сокращаем на $(1+x^2)$:</p>
+    <p>$$ = \int \frac{1}{x} \, dx = \int x^{-1} \, dx = \ln|x| + C $$</p>
+
+    <p><strong>Задача 7.10 б):</strong></p>
+    <p>$$ \int \frac{\sqrt{x^2-3} - \sqrt{x^2+3}}{\sqrt{x^4-9}} \, dx $$</p>
+    <p>Заметим, что $x^4-9 = (x^2-3)(x^2+3)$, значит $\sqrt{x^4-9} = \sqrt{x^2-3} \cdot \sqrt{x^2+3}$.</p>
+    <p>Разобьем дробь на две:</p>
+    <p>$$ = \int \frac{\sqrt{x^2-3} - \sqrt{x^2+3}}{\sqrt{x^2-3} \cdot \sqrt{x^2+3}} \, dx = \int \left( \frac{\sqrt{x^2-3}}{\sqrt{x^2-3}\sqrt{x^2+3}} - \frac{\sqrt{x^2+3}}{\sqrt{x^2-3}\sqrt{x^2+3}} \right) \, dx $$</p>
+    <p>После сокращения получаем табличные интегралы:</p>
+    <p>$$ = \int \frac{1}{\sqrt{x^2+3}} \, dx - \int \frac{1}{\sqrt{x^2-3}} \, dx $$</p>
+    <p>Используем формулу $\int \frac{dx}{\sqrt{x^2 \pm a^2}} = \ln|x + \sqrt{x^2 \pm a^2}|$:</p>
+    <p>$$ = \ln|x + \sqrt{x^2+3}| - \ln|x + \sqrt{x^2-3}| + C $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <h4>§2. Методы интегрирования</h4>
+
+    <h3>1. Метод подведения под знак дифференциала</h3>
+    <p>Основная идея метода заключается в использовании свойства инвариантности формы дифференциала. Мы используем соотношение:</p>
+    <p>$$ \frac{1}{a} \cdot d(ax+b) = dx $$</p>
+
+    <p><strong>Пример 1:</strong></p>
+    <p>$$ \int \sin(2x+3) \, dx $$</p>
+    <p>Подведем $2x+3$ под знак дифференциала (для этого нужно домножить на $\frac{1}{2}$):</p>
+    <p>$$ = \frac{1}{2} \int \sin(2x+3) \cdot d(2x+3) $$</p>
+    <p>Используем табличный интеграл $\int \sin u \, du = -\cos u$:</p>
+    <p>$$ = \frac{1}{2} \left( -\cos(2x+3) \right) + C = -\frac{1}{2} \cos(2x+3) + C $$</p>
+
+    <p><strong>Пример 2 (показательная функция):</strong></p>
+    <p>$$ \int 2^{5x-2} \, dx $$</p>
+    <p>Подводим $5x-2$ под дифференциал (домножаем на $\frac{1}{5}$):</p>
+    <p>$$ = \frac{1}{5} \int 2^{5x-2} \, d(5x-2) $$</p>
+    <p>Используем формулу $\int a^u \, du = \frac{a^u}{\ln a}$:</p>
+    <p>$$ = \frac{2^{5x-2}}{5 \cdot \ln 2} + C $$</p>
+    
+    <p><em>Проверка (дифференцированием):</em></p>
+    <p>$$ \left( \frac{2^{5x-2}}{5 \ln 2} + C \right)' = \frac{1}{5 \ln 2} \cdot (2^{5x-2})' = \frac{1}{5 \ln 2} \cdot 2^{5x-2} \cdot \ln 2 \cdot (5x-2)' = $$</p>
+    <p>$$ = \frac{1}{5 \ln 2} \cdot 2^{5x-2} \cdot \ln 2 \cdot 5 = 2^{5x-2} \quad \text{(верно)} $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>2. Метод замены переменной</h3>
+    <p><strong>Теорема:</strong> Если $u = \varphi(x)$, то:</p>
+    <p>$$ \int f(x) \, dx = \int f(u) \, du $$</p>
+    
+    <p><strong>Обоснование:</strong></p>
+    <p>Так как $d(F(x)) = d(F(u))$, то:</p>
+    <p>$$ F'(x) \cdot dx = F'(u) \cdot du $$</p>
+    <p>где $du = \varphi'(x) \cdot dx$.</p>
+
+    <p><strong>Пример (подробное решение):</strong></p>
+    <p>Найти интеграл: $$ \int \cos(2x+3) \, dx $$</p>
+    <p>Введем замену:</p>
+    <p>$$ \begin{cases} t = 2x+3 \\ dt = (2x+3)' \cdot dx = 2 \cdot dx \end{cases} $$</p>
+    <p>Отсюда выразим $dx$:</p>
+    <p>$$ dx = \frac{1}{2} \, dt $$</p>
+    <p>Подставляем в интеграл:</p>
+    <p>$$ \int \cos t \cdot \frac{1}{2} \, dt = \frac{1}{2} \int \cos t \, dt = \frac{1}{2} \sin t + C $$</p>
+    <p>Возвращаемся к старой переменной:</p>
+    <p>$$ = \frac{1}{2} \sin(2x+3) + C $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>3. Метод интегрирования по частям</h3>
+<p>Формула интегрирования по частям выводится из правила дифференцирования произведения двух функций.</p>
+
+<p><strong>Вывод формулы:</strong></p>
+<p>1. Вспомним правило дифференциала произведения:</p>
+<p>$$ (u \cdot v)' = u' \cdot v + u \cdot v' $$</p>
+
+<p>2. Перейдём к дифференциалам (умножив на $dx$):</p>
+<p>$$ d(u \cdot v) = v \cdot du + u \cdot dv $$</p>
+
+<p>3. Выразим $u \cdot dv$:</p>
+<p>$$ u \cdot dv = d(u \cdot v) - v \cdot du $$</p>
+
+<p>4. Проинтегрируем обе части равенства:</p>
+<p>$$ \int u \cdot dv = \int d(u \cdot v) - \int v \cdot du $$</p>
+
+<p>Так как $\int d(f(x)) = f(x) + C$, получаем окончательную формулу:</p>
+
+
+    <p>
+        $$ \Large \int u \cdot dv = u \cdot v - \int v \cdot du $$
+    </p>
+<p>где $u$ и $v$ — некоторые функции от $x$.</p>
+    <p>Рассмотрим интеграл:</p>
+    <p>$$ \int x^2 \ln x \, dx $$</p>
+    <p>Используем метод интегрирования по частям:</p>
+    <p>$$ \begin{cases} u = \ln x, & du = \frac{1}{x} dx \\ dv = x^2 dx, & v = \frac{x^3}{3} \end{cases} $$</p>
+    <p>Тогда:</p>
+    <p>$$ \int x^2 \ln x \, dx = \frac{x^3}{3} \ln x - \int \frac{x^3}{3} \cdot \frac{1}{x} \, dx = \frac{x^3}{3} \ln x - \frac{1}{3} \int x^2 \, dx $$</p>
+    <p>$$ = \frac{1}{3} x^3 \ln x - \frac{1}{9} x^3 + C = \frac{1}{3} x^3 \left( \ln x - \frac{1}{3} \right) + C $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>§3. Интегрирование рациональных функций</h4>
+    <p>Рациональная функция имеет вид:</p>
+    <p>$$ f(x) = \frac{P_n(x)}{Q_m(x)} = \frac{a_n x^n + a_{n-1} x^{n-1} + \dots + a_0}{b_m x^m + b_{m-1} x^{m-1} + \dots + b_0} $$</p>
+    
+    <p><strong>Классификация:</strong></p>
+    <ul>
+        <li>Если $n \ge m$ — <strong>неправильная</strong> дробнорациональная функция (можно выделить целую часть делением).</li>
+        <li>Если $n < m$ — <strong>правильная</strong> дробнорациональная функция.</li>
+    </ul>
+
+    <p>Любую правильную рациональную дробь можно разложить на сумму <strong>простейших дробей</strong>. Знаменатель раскладывается на неприводимые множители вида:</p>
+    <ol>
+        <li>$(x - x_i)^k$ — где $x_i$ — корень кратности $k$.</li>
+        <li>$(x^2 + px + q)^k$ — где дискриминант $D = p^2 - 4q < 0$ (нет действительных корней).</li>
+    </ol>
+
+    <h5>Основная теорема алгебры (разложение на простейшие дроби)</h5>
+    <p>$$ \frac{P_n(x)}{Q_m(x)} = \underbrace{\frac{A_1}{x-x_1} + \dots + \frac{A_k}{(x-x_1)^k}}_{\text{действительные корни}} + \underbrace{\frac{B_1 x + C_1}{x^2+p_1 x+q_1} + \dots}_{\text{комплексные корни}} $$</p>
+    <p>где сумма показателей степеней равна степени знаменателя: $k_1 + k_2 + \dots + m_1 + m_2 + \dots = m$.</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>Метод неопределённых коэффициентов (Пример)</h4>
+    <p>Разложим дробь:</p>
+    <p>$$ f(x) = \frac{x-5}{x^2-5x+6} $$</p>
+    <p>1. Найдем корни знаменателя: $x^2-5x+6 = 0 \Rightarrow (x-2)(x-3) = 0$. Корни: $x_1=2, x_2=3$.</p>
+    <p>2. Запишем разложение:</p>
+    <p>$$ \frac{x-5}{(x-2)(x-3)} = \frac{A}{x-2} + \frac{B}{x-3} $$</p>
+    <p>3. Приведем к общему знаменателю:</p>
+    <p>$$ \frac{A(x-3) + B(x-2)}{(x-2)(x-3)} = \frac{(A+B)x - 3A - 2B}{(x-2)(x-3)} $$</p>
+    <p>4. Приравняем числители:</p>
+    <p>$$ x - 5 = (A+B)x + (-3A - 2B) $$</p>
+    <p>5. Составим систему уравнений:</p>
+    <p>$$ \begin{cases} A + B = 1 \\ -3A - 2B = -5 \end{cases} \Rightarrow \begin{cases} B = 1 - A \\ -3A - 2(1-A) = -5 \end{cases} $$</p>
+    <p>Решая систему, получаем: <strong>$A = 3, \quad B = -2$</strong>.</p>
+    <p>Итоговое разложение:</p>
+    <p>$$ f(x) = \frac{3}{x-2} - \frac{2}{x-3} $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>Интегрирование четырёх типов простейших дробей</h4>
+
+    <p><strong>Тип 1:</strong> $$ \int \frac{A}{x-a} \, dx = A \ln|x-a| + C $$</p>
+
+<p><strong>Тип 2:</strong> $$ \int \frac{A}{(x-a)^k} \, dx = A \int (x-a)^{-k} \, dx = A \frac{(x-a)^{1-k}}{1-k} + C, \quad (k not(=) 1) $$</p>
+
+    <p><strong>Тип 3:</strong> $$ \int \frac{Bx+C}{x^2+px+q} \, dx, \quad \text{где } p^2-4q < 0 $$</p>
+    <p><em>Алгоритм решения:</em></p>
+    <ol>
+        <li>Выделить полный квадрат в знаменателе: $x^2+px+q = (x+\frac{p}{2})^2 + (q - \frac{p^2}{4})$.</li>
+        <li>Разбить числитель так, чтобы одна часть была производной знаменателя ($2x+p$), а вторая — константой.</li>
+        <li>Интеграл распадается на табличный логарифмический и арктангенс.</li>
+    </ol>
+
+    <p><strong>Пример:</strong></p>
+    <p>$$ \int \frac{3x-4}{x^2+2x+6} \, dx $$</p>
+    <p>Знаменатель: $x^2+2x+6 = (x+1)^2 + 5$. Производная знаменателя: $(x^2+2x+6)' = 2x+2$.</p>
+    <p>Преобразуем числитель:</p>
+    <p>$$ 3x - 4 = \frac{3}{2}(2x+2) - 7 $$</p>
+    <p>Разбиваем интеграл:</p>
+    <p>$$ \int \frac{\frac{3}{2}(2x+2) - 7}{x^2+2x+6} \, dx = \frac{3}{2} \int \frac{2x+2}{x^2+2x+6} \, dx - 7 \int \frac{dx}{(x+1)^2 + 5} $$</p>
+    <p>1) Первый интеграл: $\frac{3}{2} \ln(x^2+2x+6)$.</p>
+    <p>2) Второй интеграл (замена $t=x+1$): $-7 \cdot \frac{1}{\sqrt{5}} \arctan\left(\frac{x+1}{\sqrt{5}}\right)$.</p>
+    <p><strong>Ответ:</strong> $$ \frac{3}{2} \ln(x^2+2x+6) - \frac{7}{\sqrt{5}} \arctan\left(\frac{x+1}{\sqrt{5}}\right) + C $$</p>
+
+    <p><strong>Тип 4:</strong> $$ \int \frac{Bx+C}{(x^2+px+q)^k} \, dx $$</p>
+    <p>Решается аналогично 3-му типу, но с использованием рекуррентных формул или замены переменной.</p>
+
+</div>
 
     </div>
     
@@ -5221,52 +5475,65 @@ function initLecturesSimple() {
     
     // 1. Обработчик для предметов
     document.querySelectorAll('.subject-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            // Останавливаем всплытие
-            e.stopPropagation();
-            
-            console.log('Предмет клик:', this.dataset.subject);
-            
-            const subject = this.dataset.subject;
-            const target = document.getElementById(subject + '-lectures');
-            
-            if (!target) {
-                console.error('Не найдена секция:', subject + '-lectures');
-                return;
+btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const subject = this.dataset.subject;
+    const target = document.getElementById(subject + '-lectures');
+    const isActive = this.classList.contains('active');
+    
+    // Скрываем все секции лекций
+    document.querySelectorAll('.subject-lectures').forEach(section => {
+        section.style.display = 'none';
+    });
+
+    if (!isActive) {
+        // 1. Выбран новый предмет: скрываем все кнопки, кроме текущей
+        document.querySelectorAll('.subject-btn').forEach(btn => {
+            if (btn !== this) {
+                btn.style.display = 'none';
+            } else {
+                // убеждаемся, что текущая кнопка видима (исходно она flex)
+                btn.style.display = 'flex';
             }
-            
-            // Проверяем, активна ли уже кнопка
-            const isActive = this.classList.contains('active');
-            
-            // Скрываем все секции
-            document.querySelectorAll('.subject-lectures').forEach(section => {
-                section.style.display = 'none';
+        });
+
+        // 2. Убираем активный класс у всех кнопок и ставим только на текущей
+        document.querySelectorAll('.subject-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        this.classList.add('active');
+
+        // 3. Показываем блок лекций выбранного предмета
+        target.style.display = 'block';
+
+        // 4. Сохраняем состояние
+        setTimeout(savePageState, 100);
+    } else {
+        // 5. Повторный клик на активный предмет: показываем все кнопки
+        document.querySelectorAll('.subject-btn').forEach(btn => {
+            btn.style.display = 'flex';   // восстанавливаем исходное отображение
+        });
+
+        // 6. Убираем активный класс
+        this.classList.remove('active');
+
+        // 7. Скрываем блок лекций (можно и другие, но они уже скрыты)
+        target.style.display = 'none';
+
+        // 8. Сохраняем состояние
+        setTimeout(savePageState, 100);
+    }
+
+    // Плавная прокрутка к блоку лекций, если он стал видимым
+    setTimeout(() => {
+        if (target.style.display === 'block') {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
-            
-            // Убираем active со всех кнопок
-            document.querySelectorAll('.subject-btn').forEach(b => {
-                b.classList.remove('active');
-            });
-            
-            if (!isActive) {
-                // Показываем нужную секцию
-                this.classList.add('active');
-                target.style.display = 'block';
-                
-                // Сохраняем состояние
-                setTimeout(savePageState, 100);
-            }
-            
-            // Плавная прокрутка
-            setTimeout(() => {
-                if (target.style.display === 'block') {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }, 100);
-        }, true);
+        }
+    }, 100);
+});
     });
     
     // 2. Обработчик для выдвижных лекций
