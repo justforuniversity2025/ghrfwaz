@@ -2249,7 +2249,62 @@ solution: `
             id: 2,
             subject: "Интегралы и дифференциальные уравнения",
             description: "научиться решать задачи из 7 главы. 7.1, 7.4, 7.8, 7.11",
-            dueDate: "2026-02-17"
+            dueDate: "2026-02-17",
+solution: `
+            <h4>Решения задач (Глава 7)</h4>
+            
+            <h5>7.1</h5>
+            <p><strong>а)</strong> $$ \\int (6x^2 + 8x + 3) \\, dx = 6 \\cdot \\frac{x^3}{3} + 8 \\cdot \\frac{x^2}{2} + 3x + C = 2x^3 + 4x^2 + 3x + C. $$</p>
+            
+            <p><strong>б)</strong> $$ \\int \\frac{dx}{x^2 + 7} = \\frac{1}{\\sqrt{7}} \\arctan\\frac{x}{\\sqrt{7}} + C. $$</p>
+            
+            <p><strong>в)</strong> Преобразуем подынтегральное выражение, используя формулу суммы кубов: 
+            $$(\\sqrt{x}+1)(x-\\sqrt{x}+1) = (\\sqrt{x})^3 + 1^3 = x\\sqrt{x} + 1.$$
+            Тогда интеграл принимает вид:
+            $$ \\int (x^{3/2} + 1) \\, dx = \\frac{x^{5/2}}{5/2} + x + C = \\frac{2}{5}x^{5/2} + x + C. $$</p>
+            
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            
+            <h5>7.4</h5>
+            <p><strong>а)</strong> Разделим почленно:
+            $$ \\int \\frac{x^3 + 2}{x} \\, dx = \\int \\left( x^2 + \\frac{2}{x} \\right) dx = \\frac{x^3}{3} + 2\\ln|x| + C. $$</p>
+            
+            <p><strong>б)</strong> Используем табличный интеграл $\\int \\frac{dx}{\\sqrt{a^2 - x^2}} = \\arcsin\\frac{x}{a}$:
+            $$ \\int \\frac{dx}{\\sqrt{8 - x^2}} = \\arcsin\\frac{x}{\\sqrt{8}} + C = \\arcsin\\frac{x}{2\\sqrt{2}} + C. $$</p>
+            
+            <p><strong>в)</strong> Раскроем скобки в числителе: $(x^2+1)(x^2-2) = x^4 - x^2 - 2$. Знаменатель $\\sqrt[3]{x^2} = x^{2/3}$. Тогда:
+            $$ \\int \\frac{x^4 - x^2 - 2}{x^{2/3}} \\, dx = \\int \\left( x^{10/3} - x^{4/3} - 2x^{-2/3} \\right) dx $$
+            $$ = \\frac{x^{13/3}}{13/3} - \\frac{x^{7/3}}{7/3} - 2 \\cdot \\frac{x^{1/3}}{1/3} + C = \\frac{3}{13}x^{13/3} - \\frac{3}{7}x^{7/3} - 6x^{1/3} + C. $$</p>
+            
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            
+            <h5>7.8</h5>
+            <p><strong>а)</strong> Раскрываем куб суммы: $(1+\\sqrt{x})^3 = 1 + 3\\sqrt{x} + 3x + x\\sqrt{x}$. Делим на $\\sqrt[3]{x} = x^{1/3}$:
+            $$ \\int \\frac{(1+\\sqrt{x})^3}{\\sqrt[3]{x}} \\, dx = \\int \\left( x^{-1/3} + 3x^{1/6} + 3x^{2/3} + x^{7/6} \\right) dx $$
+            $$ = \\frac{x^{2/3}}{2/3} + 3 \\cdot \\frac{x^{7/6}}{7/6} + 3 \\cdot \\frac{x^{5/3}}{5/3} + \\frac{x^{13/6}}{13/6} + C = \\frac{3}{2}x^{2/3} + \\frac{18}{7}x^{7/6} + \\frac{9}{5}x^{5/3} + \\frac{6}{13}x^{13/6} + C. $$</p>
+            
+            <p><strong>б)</strong> $$ \\int \\frac{dx}{3x^2 + 5} = \\frac{1}{3} \\int \\frac{dx}{x^2 + \\frac{5}{3}} = \\frac{1}{3} \\cdot \\frac{1}{\\sqrt{5/3}} \\arctan\\frac{x}{\\sqrt{5/3}} + C = \\frac{1}{\\sqrt{15}} \\arctan\\left( x\\sqrt{\\frac{3}{5}} \\right) + C. $$</p>
+            
+            <p><strong>в)</strong> Используем $\\cos 2x = \\cos^2 x - \\sin^2 x$:
+            $$ \\int \\frac{\\cos 2x}{\\cos^2 x \\sin^2 x} \\, dx = \\int \\frac{\\cos^2 x - \\sin^2 x}{\\cos^2 x \\sin^2 x} \\, dx = \\int \\left( \\frac{1}{\\sin^2 x} - \\frac{1}{\\cos^2 x} \\right) dx $$
+            $$ = \\int \\csc^2 x \\, dx - \\int \\sec^2 x \\, dx = -\\cot x - \\tan x + C. $$</p>
+            
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            
+            <h5>7.11</h5>
+            <p><strong>а)</strong> Преобразуем числитель: $1 + 2x^2 = (1 + x^2) + x^2$. Тогда:
+            $$ \\int \\frac{1 + 2x^2}{x^2(1 + x^2)} \\, dx = \\int \\left( \\frac{1 + x^2}{x^2(1 + x^2)} + \\frac{x^2}{x^2(1 + x^2)} \\right) dx = \\int \\left( \\frac{1}{x^2} + \\frac{1}{1 + x^2} \\right) dx $$
+            $$ = -\\frac{1}{x} + \\arctan x + C. $$</p>
+            
+            <p><strong>б)</strong> Предполагая, что в условии имеется в виду $\\int \\frac{3 \\cdot 2^x - 2 \\cdot 3^x}{2^x} \\, dx$:
+            $$ \\int \\frac{3 \\cdot 2^x - 2 \\cdot 3^x}{2^x} \\, dx = \\int \\left( 3 - 2 \\left(\\frac{3}{2}\\right)^x \\right) dx = 3x - 2 \\cdot \\frac{(3/2)^x}{\\ln(3/2)} + C $$
+            $$ = 3x - \\frac{2}{\\ln 3 - \\ln 2} \\left(\\frac{3}{2}\\right)^x + C. $$</p>
+            
+            <p><strong>в)</strong> Используем формулу квадрата разности и основное тригонометрическое тождество:
+            $$ \\left(\\sin\\frac{x}{2} - \\cos\\frac{x}{2}\\right)^2 = \\sin^2\\frac{x}{2} - 2\\sin\\frac{x}{2}\\cos\\frac{x}{2} + \\cos^2\\frac{x}{2} = 1 - \\sin x. $$
+            Тогда
+            $$ \\int \\left(\\sin\\frac{x}{2} - \\cos\\frac{x}{2}\\right)^2 dx = \\int (1 - \\sin x) \\, dx = x + \\cos x + C. $$</p>
+        `
         }
         
     ];
@@ -5616,6 +5671,18 @@ btn.addEventListener('click', function(e) {
                 }
                 
                 content.style.display = 'block';
+                // После того как блок стал видимым, рендерим формулы
+if (window.renderMathInElement) {
+    renderMathInElement(content, {
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false
+    });
+}
                 this.classList.add('active');
                 
                 // Прокрутка к контенту
