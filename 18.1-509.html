@@ -2175,8 +2175,9 @@ function filterMobileSchedule(group) {
 // ====== ФУНКЦИОНАЛ ДЛЯ ДОМАШНИХ ЗАДАНИЙ ======
 document.addEventListener('DOMContentLoaded', function() {
     // Текущая дата
-    const TODAY = new Date('2026-02-11');
-    
+const now = new Date();
+const TODAY = new Date(now);
+TODAY.setDate(now.getDate());
     // Данные для домашних заданий - ТОЛЬКО иностранный язык
     const homeworkData = [
         {
@@ -2188,20 +2189,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h4>Слова 8 модуля (Education)</h4>
             <ul style="columns: 2; column-gap: 40px;">
                 <li><strong>University</strong> – университет</li>
-                <li><strong>Lecture</strong> – лекция</li>
-                <li><strong>Seminar</strong> – семинар</li>
-                <li><strong>Assignment</strong> – задание</li>
-                <li><strong>Deadline</strong> – дедлайн</li>
-                <li><strong>Curriculum</strong> – учебный план</li>
-                <li><strong>Transcript</strong> – зачетка / транскрипт</li>
-                <li><strong>Scholarship</strong> – стипендия</li>
-                <li><strong>Graduate</strong> – выпускник</li>
-                <li><strong>Undergraduate</strong> – студент</li>
-                <li><strong>Faculty</strong> – факультет / преподавательский состав</li>
-                <li><strong>Lecture hall</strong> – лекционная аудитория</li>
-                <li><strong>Dormitory</strong> – общежитие</li>
-                <li><strong>Tuition fee</strong> – плата за обучение</li>
-                <li><strong>Bachelor’s degree</strong> – степень бакалавра</li>
+
             </ul>
             <p style="margin-top: 15px; color: #555;"><i class="fas fa-lightbulb"></i> Эти слова будут полезны при написании писем.</p>
         `
