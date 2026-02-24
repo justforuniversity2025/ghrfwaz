@@ -24,6 +24,12 @@
         });
     });
 </script>
+<script>
+if (!sessionStorage.getItem('reloaded')) {
+  sessionStorage.setItem('reloaded', '1');
+  location.reload(true);
+}
+</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
 body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); color: #333; min-height: 100vh; overflow-x: hidden; }
@@ -1427,7 +1433,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="room">УЛК-2, ауд. 420</span>
                         <span class="teacher">Хафизов И.К.</span>
                     </td>
-                    <td></td>
+                    <td class="practice temporary-lesson">
+    <strong>Элект.курсы по ФКиС (переносы с праздничных дней 10.03)</strong>
+    <span class="type">Практика</span>
+    <span class="room">спорткомп</span>
+    <span class="teacher">Ихсанов И.С.</span>
+    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
+        <i class="fas fa-calendar-day"></i> 10.03 (перенос)
+    </div>
+</td>
                     <td class="practice">
                         <strong>Иностранный язык 1 подгр</strong>
                         <span class="type">Практика</span>
@@ -1463,18 +1477,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
                             <i class="fas fa-calendar-day"></i> 26.02 (Один раз)
                         </div>
-                    </td>
-                                        <td class="lecture temporary-lesson">
-                        <strong>История России</strong>
-                        <div class="lesson-labels">
-                            <span class="label lecture">Лекция</span>
-                        </div>
-                        <span class="room">УЛК-1, ауд. 420</span>
-                        <span class="teacher">Бессонова Т.В.</span>
-                        <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-                            <i class="fas fa-calendar-day"></i> 27.02 (Один раз)
-                        </div>
-                    </td>
+<td class="lecture temporary-lesson">
+    <strong>История России</strong>
+    <div class="lesson-labels">
+        <span class="label lecture">Лекция</span>
+    </div>
+    <span class="room">УЛК-1, ауд. 420</span>
+    <span class="teacher">Бессонова Т.В.</span>
+    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
+        <i class="fas fa-calendar-day"></i> 27.02 (Один раз)
+    </div>
+    <hr style="margin: 10px 0; border-color: #ff0000;">
+    <strong>Элект.курсы по ФКиС (переносы с праздничных дней 27.03)</strong>
+    <span class="type">Практика</span>
+    <span class="room">спорткомп</span>
+    <span class="teacher">Ихсанов И.С.</span>
+    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
+        <i class="fas fa-calendar-day"></i> 27.03 (перенос)
+    </div>
+</td>
                 </tr>
                 <tr>
                     <td class="time-cell">17:20-18:50</td>
@@ -1799,6 +1820,9 @@ carouselHTML += `
                     
                     // Вызываем сразу для установки правильного вида
                     toggleMobileView();
+                    if (typeof window.initSemesterHomework === 'function') {
+    window.initSemesterHomework();
+}
                 }
             }, 100);
         });
@@ -1897,23 +1921,31 @@ function filterMobileSchedule(group) {
 <div id="homework-tab" class="tab-content">
     <h2><i class="fas fa-tasks"></i> Домашние задания</h2>
     
-    <!-- Кнопка для открытия файлов -->
-    <div style="margin-bottom: 20px;">
-        <button id="files-toggle-btn" class="download-btn" style="font-size: 16px; padding: 12px 25px;">
-            <i class="fas fa-folder-open"></i> Файлы
-        </button>
-    </div>
-    
-    <!-- Контейнер для файлов (скрыт по умолчанию) -->
-    <div id="files-container" style="display: none; margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
-        <button id="files-back-btn" class="download-btn" style="background: #7f8c8d; margin-bottom: 15px;">
-            <i class="fas fa-arrow-left"></i> Назад
-        </button>
-        
-        <div id="files-list">
-            <!-- Файлы будут загружены через JS -->
-        </div>
-    </div>
+<!-- Кнопки для файлов и семестровых ДЗ -->
+<div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+    <button id="files-toggle-btn" class="download-btn" style="font-size: 16px; padding: 12px 25px;">
+        <i class="fas fa-folder-open"></i> Файлы
+    </button>
+    <button id="semester-homework-toggle-btn" class="download-btn" style="font-size: 16px; padding: 12px 25px; background: #9b59b6;">
+        <i class="fas fa-book"></i> Семестровые дз
+    </button>
+</div>
+
+<!-- Контейнер для файлов -->
+<div id="files-container" style="display: none; margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+    <button id="files-back-btn" class="download-btn" style="background: #7f8c8d; margin-bottom: 15px;">
+        <i class="fas fa-arrow-left"></i> Назад
+    </button>
+    <div id="files-list"></div>
+</div>
+
+<!-- Контейнер для семестровых ДЗ -->
+<div id="semester-homework-container" style="display: none; margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+    <button id="semester-homework-back-btn" class="download-btn" style="background: #7f8c8d; margin-bottom: 15px;">
+        <i class="fas fa-arrow-left"></i> Назад
+    </button>
+    <div id="semester-homework-list"></div>
+</div>
     
     <!-- Вертикальная полоса с датами (таймлайн) -->
     <div style="display: flex; margin-top: 20px; min-height: 500px;">
@@ -2667,8 +2699,96 @@ $$
         </ul>
         <p>Успел только две по итогу( но в любом случае лабы по ворду и Excel это не дело</p>
     `
+},
+{
+    id: 9, // следующий по порядку после существующих
+    subject: "Английский язык",
+    description: `Решить модуль 8(в решении). Подготовить рассказ о городе из заданного региона. 
+        По каждому пункту 2–3 предложения: 
+        <ol>
+            <li>История города</li>
+            <li>Современное состояние</li>
+            <li>Экономическая ситуация</li>
+        </ol>
+        Распределение по студентам:
+        <ul>
+            <li>Сергей – Северная Америка</li>
+            <li>Лариса – Южная Америка</li>
+            <li>Антон – Африканские страны</li>
+            <li>Альберт – Ближний Восток</li>
+            <li>Кирилл – Северная часть Западной Европы</li>
+            <li>Михаил – Южные страны Западной Европы</li>
+            <li>Ильнур – Азия</li>
+            <li>Ранис – Индия</li>
+        </ul>`,
+    dueDate: "2026-02-24",
+    solution: `<img src="Модуль8.png" alt="Модуль 8" class="enlargeable-image" style="max-width:100%; border-radius:8px;">` // если фото есть, иначе можно оставить пустым
+},
+{
+    id: 10,
+    subject: "Интегралы и дифференциальные уравнения",
+    description: "Решить задачи из сборника: 7.15, 7.18, 7.20, 7.34, 7.42, 7.53, 7.54, 7.55, 7.81, 7.82.",
+    dueDate: "2026-02-24",
+},
+{
+    id: 11,
+    subject: "Линейная алгебра и функции нескольких переменных",
+    description: "1.88, 1.89, 1.72 б, 1.73 б, 1.75 б, 1.76 б и г, 1.90. Пару ведёт другой преподаватель.",
+    dueDate: "2026-02-25",
+    solution: `
+        <img src="image.png" alt="Решение задач по линейной алгебре" class="enlargeable-image" style="max-width:100%; border-radius:8px;">
+    `
+},
+{
+    id: 12,
+    subject: "Иностранный язык (1 группа)",
+    description: "Добавил, чтобы вы ориентировались",
+    dueDate: "2026-02-25",
+
 }
     ];
+    // Данные для семестровых домашних заданий
+const semesterHomeworkData = [
+{
+    id: 101,
+    subject: "История России",
+    description: "",
+    dueDate: "2026-02-20",
+    files: [
+        { name: "Семинары по истории 2 семестр.docx", url: "Семинары по истории 2 семестр.docx" },
+        { name: "Семинар 3.docx", url: "Семинар 3.docx" },
+        { name: "Семинар 5 (не готово).docx", url: "Семинар 5.docx" },
+        { name: "Семинар 6 (не готово).docx", url: "Семинар 6.docx" },
+        { name: "Семинар 7 (не готово).docx", url: "Семинар 7.docx" },
+        { name: "Семинар 8 (не готово).docx", url: "Семинар 8.docx" },
+        { name: "Семинар 9 (не готово).docx", url: "Семинар 9.docx" },
+    ]
+},
+    {
+        id: 102,
+        subject: "Английский язык",
+        description: "Нету",
+        dueDate: "2026-03-15"
+    },
+    {
+        id: 103,
+        subject: "Базовые ИТ и ИП",
+        description: "",
+        dueDate: "2026-02-28",
+    files: [
+        { name: "Задания по БИПИТ.pdf", url: "Задания по БИПИТ.pdf" },
+        { name: "Практическая работа 1.docx", url: "Практическая работа 1.docx" },
+        { name: "Практическая работа 2.docx", url: "Практическая работа 2.docx" },
+        { name: "Практическая работа 3 (не готово).docx", url: "Практическая работа 3.docx" },
+        { name: "Практическая работа 4 (не готово).docx", url: "Практическая работа 3.docx" },
+        { name: "Практическая работа 5 (не готово).docx", url: "Практическая работа 3.docx" },
+        { name: "Практическая работа 6 (не готово).docx", url: "Практическая работа 3.docx" },
+
+    ]
+    },
+
+    // добавьте свои задания по желанию
+];
 
     // Данные для таймлайна
     let timelineDates = [];
@@ -3142,7 +3262,58 @@ function createHomeworkElement(hw, isToday, isPast) {
             });
         });
     }
+// Инициализация секции семестровых ДЗ
+function initSemesterHomework() {
+    const toggleBtn = document.getElementById('semester-homework-toggle-btn');
+    const backBtn = document.getElementById('semester-homework-back-btn');
+    const container = document.getElementById('semester-homework-container');
+    const listEl = document.getElementById('semester-homework-list');
 
+    // Функция рендера списка заданий
+function renderSemesterHomework() {
+    let html = '';
+    semesterHomeworkData.forEach(hw => {
+        let filesHTML = '';
+        if (hw.files) {
+            filesHTML = '<ul>';
+            hw.files.forEach(file => {
+                filesHTML += `<li><a href="${file.url}" download>${file.name}</a></li>`;
+            });
+            filesHTML += '</ul>';
+        } else if (hw.solution) {
+            filesHTML = `<div class="lecture-content-full">${hw.solution}</div>`;
+        }
+
+        html += `
+            <div class="homework-assignment" style="margin-bottom: 15px;">
+                <div class="hw-header">
+                    <div class="hw-subject">${hw.subject}</div>
+                    <div class="hw-due-date"><i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}</div>
+                </div>
+                <div class="hw-description">${hw.description}</div>
+                ${filesHTML}
+            </div>
+        `;
+    });
+    document.getElementById('semester-homework-list').innerHTML = html;
+}
+    // Показать/скрыть контейнер
+    toggleBtn.addEventListener('click', () => {
+        if (container.style.display === 'block') {
+            container.style.display = 'none';
+        } else {
+            renderSemesterHomework();
+            container.style.display = 'block';
+            setTimeout(() => container.scrollIntoView({ behavior: 'smooth' }), 100);
+        }
+    });
+
+    // Кнопка "Назад"
+    backBtn.addEventListener('click', () => {
+        container.style.display = 'none';
+    });
+}
+window.initSemesterHomework = initSemesterHomework;
     // Функция для скачивания файла
     function downloadFile(url, filename) {
         // Создаем временную ссылку для скачивания
