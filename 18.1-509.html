@@ -914,6 +914,27 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
         padding: 18px;
     }
 }
+/* Десктоп по умолчанию: авто‑подбор с минимальной шириной */
+.criteria-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+/* Мобильные устройства (ширина до 768px) – четыре колонки в строку */
+@media (max-width: 768px) {
+    .criteria-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 5px !important;
+    }
+    .criteria-grid > div {
+        padding: 10px 5px !important;
+    }
+    .criteria-grid > div > div:first-child {
+        font-size: 20px !important;
+    }
+    .criteria-grid > div > div:last-child {
+        font-size: 12px !important;
+    }
+}
 </style>
 </head>
 <body>
@@ -981,53 +1002,108 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
 <div class="quick-nav">
     <div class="quick-nav-item" onclick="switchToTab('attendance')">
         <i class="fas fa-user-check"></i>
-        <span>Посещаемость</span>
     </div>
     <div class="quick-nav-item" onclick="switchToTab('exams')">
         <i class="fas fa-file-signature"></i>
-        <span>Зачёты</span>
     </div>
     <div class="quick-nav-item" onclick="switchToTab('tests')">
         <i class="fas fa-file-alt"></i>
-        <span>Экзамены</span>
     </div>
     <div class="quick-nav-item" onclick="switchToTab('gallery')">
         <i class="fas fa-images"></i>
-        <span>Галерея</span>
     </div>
     <!-- Кнопки для новых разделов -->
 <div class="quick-nav-item" onclick="switchToTab('ai')">
     <i class="fas fa-brain"></i>
-    <span>Нейросети</span>
 </div>
 <div class="quick-nav-item" onclick="switchToTab('vpn')">
     <i class="fas fa-shield-alt"></i>
-    <span>ВПН</span>
 </div>
 <div class="quick-nav-item" onclick="switchToTab('code')">
     <i class="fas fa-code"></i>
-    <span>Код</span>
 </div>
 <div class="quick-nav-item" onclick="switchToTab('casino')">
     <i class="fas fa-dice"></i>
-    <span>Казино (шутка)</span>
 </div>
+</div>
+    <!-- Критерии оценивания -->
+<div style="margin-top: 40px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+    <h3 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-star" style="color: #f39c12;"></i> Критерии оценивания
+    </h3>
+    <div class="criteria-grid" style="display: grid; gap: 15px;">
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 700; color: #e74c3c;">0-55</div>
+            <div style="font-size: 20px; font-weight: 600;">Не зачёт (2)</div>
+        </div>
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 700; color: #f39c12;">56-70</div>
+            <div style="font-size: 20px; font-weight: 600;">Зачёт (3)</div>
+        </div>
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 700; color: #2ecc71;">71-85</div>
+            <div style="font-size: 20px; font-weight: 600;">Хорошо (4)</div>
+        </div>
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 700; color: #3498db;">86-100</div>
+            <div style="font-size: 20px; font-weight: 600;">Отлично (5)</div>
+        </div>
+    </div>
+</div>
+<!-- Календарный учебный график -->
+<div style="margin-top: 30px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+    <h3 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-calendar-alt" style="color: #3498db;"></i> Календарный учебный график I курса
+    </h3>
+    <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #3498db;"></i>
+            <strong>01.09.2025 – 31.12.2025</strong> — осенний семестр (включая зачетную неделю)
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #e67e22;"></i>
+            <strong>12.01.2026 – 26.01.2026</strong> — зимняя сессия
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #2ecc71;"></i>
+            <strong>27.01.2026 – 08.02.2026</strong> — каникулы
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #3498db;"></i>
+            <strong>09.02.2026 – 10.06.2026</strong> — весенний семестр (включая зачетную неделю)
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #e74c3c;"></i>
+            <strong>11.02.2026 – 10.03.2026</strong> — дополнительная сессия (первые три недели – пересдача преподавателю, четвертая неделя – пересдача комиссии)
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #f39c12;"></i>
+            <strong>11.06.2026 – 30.06.2026</strong> — летняя сессия
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #9b59b6;"></i>
+            <strong>01.07.2026 – 14.07.2026</strong> — ознакомительная практика
+        </li>
+        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+            <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #2ecc71;"></i>
+            <strong>15.07.2026 – 31.08.2026</strong> — каникулы
+        </li>
+    </ul>
 </div>
 <!-- Описание предметов (с собственными стилями) -->
     <h2 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-book-open" style="color: #4a90e2;"></i> Описание предметов
+        <i class="fas fa-book-open" style="color: #4a90e2;"></i> Описание предметов(не работает)
     </h2>
 
     <div class="subject-desc-container">
         <!-- Математический анализ -->
         <button class="subject-desc-btn" data-target="desc-math">
             <i class="fas fa-calculator"></i>
-            <span>Мат. анализ</span>
+            <span>Интегралы</span>
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-math">
-            <p><strong>Интегралы и дифференциальные уравнения</strong></p>
-            <p>Курс посвящён методам интегрирования и решению дифференциальных уравнений. Основные темы: неопределённый и определённый интеграл, методы интегрирования, дифференциальные уравнения первого и второго порядка.</p>
+            <p>На практике проставляют баллы за ответы у доски</p>
         </div>
 
         <!-- Линейная алгебра -->
@@ -1037,8 +1113,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-linalg">
-            <p><strong>Линейная алгебра и функции нескольких переменных</strong></p>
-            <p>Векторные пространства, линейные операторы, матрицы, определители, системы линейных уравнений, функции нескольких переменных, дифференцирование.</p>
+            <p>Важно исправно делать дз</p>
         </div>
 
         <!-- Физика -->
@@ -1048,19 +1123,17 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-physics">
-            <p><strong>Физика</strong></p>
-            <p>Механика, молекулярная физика, электричество и магнетизм, оптика, атомная физика. Лабораторные работы.</p>
+            <p>32 баллов за лабораторные работы (можно сдать в любой момент) и 18 за практику (ответы у доски)</p>
         </div>
 
         <!-- Программирование -->
         <button class="subject-desc-btn" data-target="desc-prog">
             <i class="fas fa-code"></i>
-            <span>Прога</span>
+            <span>Программ.</span>
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-prog">
-            <p><strong>Программирование</strong></p>
-            <p>Основы алгоритмизации, языки программирования (C++, Python), структуры данных, объектно-ориентированное программирование.</p>
+            <p>Сдать 3 лабы</p>
         </div>
 
         <!-- Информатика -->
@@ -1070,8 +1143,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-informatics">
-            <p><strong>Информатика</strong></p>
-            <p>Теоретические основы информатики, архитектура ЭВМ, операционные системы, базы данных, компьютерные сети.</p>
+            <p>Сдать 11 лаб</p>
         </div>
 
         <!-- БИПиТ -->
@@ -1081,8 +1153,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-bipit">
-            <p><strong>Базовые информационные процессы и технологии</strong></p>
-            <p>Информационные процессы, технологии обработки информации, защита информации, основы баз данных.</p>
+            <p>Сдать 6 лаб</p>
         </div>
 
         <!-- Английский язык -->
@@ -1092,8 +1163,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-english">
-            <p><strong>Иностранный язык (английский)</strong></p>
-            <p>Грамматика, лексика, разговорная практика, чтение профессиональных текстов, подготовка к зачёту.</p>
+            <p>Сдать все долги</p>
         </div>
 
         <!-- История России -->
@@ -1103,8 +1173,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-history">
-            <p><strong>История России</strong></p>
-            <p>Основные этапы истории России, ключевые события, личности, реформы, культурное развитие.</p>
+            <p>Оценивает полноту знаний её лекций на зачёте и ставит баллы</p>
         </div>
 
         <!-- Инженерная графика -->
@@ -1114,8 +1183,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-graphics">
-            <p><strong>Инженерная и компьютерная графика</strong></p>
-            <p>Начертательная геометрия, черчение, 3D-моделирование, CAD-системы.</p>
+            <p>Научиться работать в КОМПАС 3D</p>
         </div>
 
         <!-- Физкультура -->
@@ -1125,10 +1193,11 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             <i class="fas fa-chevron-down arrow"></i>
         </button>
         <div class="subject-desc-content" id="desc-sport">
-            <p><strong>Элективные курсы по физической культуре и спорту</strong></p>
-            <p>Общая физическая подготовка, спортивные игры, лёгкая атлетика, зачётные нормативы.</p>
+            <p> Необходимо посетить 27 пар из 36 и сдать 4 норматива: 1. бег на 100м 2. бег на 3 км 3. подтягивания (девушкам отжимания) 4. Гибкость</p>
         </div>
     </div>
+
+
 
 </div>
 
@@ -1803,6 +1872,14 @@ document.addEventListener('DOMContentLoaded', function() {
     <span class="teacher">Бессонова Т.В.</span>
     <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
         <i class="fas fa-calendar-day"></i> 27.02 (Один раз)
+    </div>
+        <hr style="margin: 10px 0; border-color: #ff0000;">
+    <strong>Физика</strong>
+    <span class="type">Лекция</span>
+    <span class="room">УЛК-2, ауд. 341</span>
+    <span class="teacher">Галиакбаров А.Т.</span>
+    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
+        <i class="fas fa-calendar-day"></i> 13.03 (перенос)
     </div>
     <hr style="margin: 10px 0; border-color: #ff0000;">
     <strong>Элект.курсы по ФКиС (переносы с праздничных дней 27.03)</strong>
@@ -3614,17 +3691,18 @@ function renderSemesterHomework() {
     });
     document.getElementById('semester-homework-list').innerHTML = html;
 }
-    // Показать/скрыть контейнер
-    toggleBtn.addEventListener('click', () => {
-        if (container.style.display === 'block') {
-            container.style.display = 'none';
-        } else {
-            renderSemesterHomework();
-            container.style.display = 'block';
-            setTimeout(() => container.scrollIntoView({ behavior: 'smooth' }), 100);
-        }
-    });
+toggleBtn.addEventListener('click', () => {
+    // Скрываем кнопку, показываем контейнер
+    toggleBtn.style.display = 'none';
+    renderSemesterHomework();
+    container.style.display = 'block';
+    setTimeout(() => container.scrollIntoView({ behavior: 'smooth' }), 100);
+});
 
+backBtn.addEventListener('click', () => {
+    container.style.display = 'none';
+    toggleBtn.style.display = 'inline-block'; // или 'block', если нужно
+});
     // Кнопка "Назад"
     backBtn.addEventListener('click', () => {
         container.style.display = 'none';
