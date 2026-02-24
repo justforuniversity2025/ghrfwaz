@@ -6708,11 +6708,21 @@ console.log('Модальное окно для изображений гото�
 
 // Сохранение состояния при закрытии/обновлении страницы
 function savePageState() {
+    // Получаем текущие индексы для верхней и нижней недели
+    const upperCarousel = document.getElementById('upper-week-carousel');
+    const lowerCarousel = document.getElementById('lower-week-carousel');
+    const mobileDayIndexes = {
+        upper: upperCarousel ? getCarouselState('upper-week-carousel')?.currentIndex : 0,
+        lower: lowerCarousel ? getCarouselState('lower-week-carousel')?.currentIndex : 0
+    };
+
     const state = {
         scrollPosition: window.scrollY,
         activeTab: document.querySelector('.tab.active')?.getAttribute('data-tab') || 'main',
         activeWeekTab: document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper',
-        expandedSections: getExpandedSections()
+        expandedSections: getExpandedSections(),
+        mobileDayIndexes: mobileDayIndexes,  // <-- добавлено
+        // ... остальные поля (activeSubject, expandedLectures)
     };
     
     // Добавить сохранение состояния лекций
@@ -6818,7 +6828,17 @@ function restorePageState() {
             }
         }, 500); // Даем время на инициализацию вкладки
     }
-    
+        if (state.mobileDayIndexes) {
+        // Ждем, пока карусели будут созданы
+        setTimeout(() => {
+            if (state.mobileDayIndexes.upper !== undefined) {
+                updateCarousel('upper-week-carousel', state.mobileDayIndexes.upper);
+            }
+            if (state.mobileDayIndexes.lower !== undefined) {
+                updateCarousel('lower-week-carousel', state.mobileDayIndexes.lower);
+            }
+        }, 500); // задержка для завершения инициализации каруселей
+    }
     // Восстанавливаем позицию прокрутки
     setTimeout(() => {
         if (state.scrollPosition) {
@@ -7178,6 +7198,7 @@ document.addEventListener('click', function(e) {
         }, 500);
     });
 })();
+
 </script>
 <button id="header-toggle-btn" class="header-toggle-btn" title="Скрыть/показать шапку">
     <i class="fas fa-eye-slash"></i>
