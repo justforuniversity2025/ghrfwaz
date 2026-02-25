@@ -1092,7 +1092,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
 </div>
 <!-- Описание предметов (с собственными стилями) -->
     <h2 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-book-open" style="color: #4a90e2;"></i> Описание предметов(не работает)
+        <i class="fas fa-book-open" style="color: #4a90e2;"></i> Описание предметов
     </h2>
 
     <div class="subject-desc-container">
@@ -3139,6 +3139,20 @@ $$
     description: "Добавил, чтобы вы ориентировались",
     dueDate: "2026-02-25",
 
+},
+{
+    id: 13,
+    subject: "Программирование",
+    description: "Сделать лабораторные работы. Скачать файлы:<br><a href='Лабы по проге.docx' download>Лабы по проге.docx</a>",
+    dueDate: "2026-02-26",
+    solution: "" // можно оставить пустым или удалить это поле
+},
+{
+    id: 14,
+    subject: "Информатика",
+    description: "Сделать лабораторные работы 1 и 2. Скачать файлы:<br><a href='лаба 1 по инфе.pdf' download>Лабораторная работа 1 (PDF)</a><br><a href='лаба 2 по инфе.pdf' download>Лабораторная работа 2 (PDF)</a>",
+    dueDate: "2026-02-26",
+    solution: ""
 }
     ];
     // Данные для семестровых домашних заданий
@@ -3345,7 +3359,7 @@ const semesterHomeworkData = [
         });
         
         // Сортируем по дате
-        timelineDates.sort((a, b) => new Date(a.date) - new Date(b.date));
+        timelineDates.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 
     // Рендер таймлайна
