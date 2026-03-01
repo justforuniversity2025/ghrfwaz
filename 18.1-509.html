@@ -968,6 +968,10 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
                 </div>
                 
                 <ul class="tabs">
+                    <li class="tab" data-tab="menu">
+    <i class="fas fa-bars"></i>
+    <span class="tab-text">Меню</span>
+</li>
                     <li class="tab active" data-tab="main">
                         <i class="fas fa-home"></i>
                         <span class="tab-text">Главная</span>
@@ -995,40 +999,44 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
         
         <!-- Контейнер для контента вкладок -->
         <div class="tab-content-container">
-
+<!-- Меню вкладок -->
+<div id="menu-tab" class="tab-content">
+    <h2><i class="fas fa-bars"></i> Все разделы</h2>
+    <div class="menu-list" style="display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 0 auto;">
+        <!-- Сюда вставьте все скопированные .quick-nav-item -->
+        <div class="quick-nav-item" onclick="switchToTab('attendance')">
+            <i class="fas fa-user-check"></i> Посещаемость
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('exams')">
+            <i class="fas fa-file-signature"></i> Зачёты
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('tests')">
+            <i class="fas fa-file-alt"></i> Экзамены
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('gallery')">
+            <i class="fas fa-images"></i> Галерея
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('ai')">
+            <i class="fas fa-brain"></i> Нейросети
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('vpn')">
+            <i class="fas fa-shield-alt"></i> ВПН
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('code')">
+            <i class="fas fa-code"></i> Редактор кода
+        </div>
+        <div class="quick-nav-item" onclick="switchToTab('casino')">
+            <i class="fas fa-dice"></i> Казино
+        </div>
+    </div>
+</div>
 <!-- Главная -->
 <div id="main-tab" class="tab-content active">
     <!-- Быстрый доступ к разделам -->
-<div class="quick-nav">
-    <div class="quick-nav-item" onclick="switchToTab('attendance')">
-        <i class="fas fa-user-check"></i>
-    </div>
-    <div class="quick-nav-item" onclick="switchToTab('exams')">
-        <i class="fas fa-file-signature"></i>
-    </div>
-    <div class="quick-nav-item" onclick="switchToTab('tests')">
-        <i class="fas fa-file-alt"></i>
-    </div>
-    <div class="quick-nav-item" onclick="switchToTab('gallery')">
-        <i class="fas fa-images"></i>
-    </div>
-    <!-- Кнопки для новых разделов -->
-<div class="quick-nav-item" onclick="switchToTab('ai')">
-    <i class="fas fa-brain"></i>
-</div>
-<div class="quick-nav-item" onclick="switchToTab('vpn')">
-    <i class="fas fa-shield-alt"></i>
-</div>
-<div class="quick-nav-item" onclick="switchToTab('code')">
-    <i class="fas fa-code"></i>
-</div>
-<div class="quick-nav-item" onclick="switchToTab('casino')">
-    <i class="fas fa-dice"></i>
-</div>
-</div>
+
     <!-- Критерии оценивания -->
-<div style="margin-top: 40px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-    <h3 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+<div style="margin-top: 0px; background: white; padding: 10px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+    <h3 style="color: #2c3e50; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
         <i class="fas fa-star" style="color: #f39c12;"></i> Критерии оценивания
     </h3>
     <div class="criteria-grid" style="display: grid; gap: 15px;">
@@ -1051,40 +1059,40 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
     </div>
 </div>
 <!-- Календарный учебный график -->
-<div style="margin-top: 30px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-    <h3 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+<div style="margin-top: 10px; background: white; padding: 10px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+    <h3 style="color: #2c3e50; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
         <i class="fas fa-calendar-alt" style="color: #3498db;"></i> Календарный учебный график I курса
     </h3>
     <ul style="list-style: none; padding: 0;">
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #3498db;"></i>
             <strong>01.09.2025 – 31.12.2025</strong> — осенний семестр (включая зачетную неделю)
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #e67e22;"></i>
             <strong>12.01.2026 – 26.01.2026</strong> — зимняя сессия
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #2ecc71;"></i>
             <strong>27.01.2026 – 08.02.2026</strong> — каникулы
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #3498db;"></i>
             <strong>09.02.2026 – 10.06.2026</strong> — весенний семестр (включая зачетную неделю)
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #e74c3c;"></i>
             <strong>11.02.2026 – 10.03.2026</strong> — дополнительная сессия (первые три недели – пересдача преподавателю, четвертая неделя – пересдача комиссии)
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #f39c12;"></i>
             <strong>11.06.2026 – 30.06.2026</strong> — летняя сессия
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #9b59b6;"></i>
             <strong>01.07.2026 – 14.07.2026</strong> — ознакомительная практика
         </li>
-        <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+        <li style="margin-bottom: 0px; padding-left: 25px; position: relative;">
             <i class="fas fa-calendar-day" style="position: absolute; left: 0; top: 3px; color: #2ecc71;"></i>
             <strong>15.07.2026 – 31.08.2026</strong> — каникулы
         </li>
@@ -1701,17 +1709,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="room">УЛК-2, ауд. 412</span>
                         <span class="teacher">Костин А.В.</span>
                     </td>
-                    <td class="lab temporary-lesson">
-    <strong>Физика 1 подгр (переносы с праздничных дней на 24.02)</strong>
-    <span class="type">Лаб. работа</span>
-    <span class="room">УЛК-2, ауд. 420</span>
-    <span class="teacher">Хафизов И.К.</span>
-    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-        <i class="fas fa-calendar-day"></i> Перенос 
-    </div>
-</td>
+                    <td></td>
                     <td class="lecture temporary-lesson">
-    <strong>Линейная алгебра и функции нескольких переменных (переносы с праздничных дней на 25.02,11.03)</strong>
+    <strong>Линейная алгебра и функции нескольких переменных (переносы с праздничных дней на 11.03)</strong>
     <span class="type">Лекция</span>
     <span class="room">УЛК-2, ауд. 412</span>
     <span class="teacher">Костин А.В.</span>
@@ -1820,7 +1820,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="teacher">Хафизов И.К.</span>
                     </td>
                     <td class="practice temporary-lesson">
-    <strong>Элект.курсы по ФКиС (переносы с праздничных дней 10.03)</strong>
+    <strong>Элект.курсы по ФКиС (переносы с праздничных дней на 10.03)</strong>
     <span class="type">Практика</span>
     <span class="room">спорткомп</span>
     <span class="teacher">Ихсанов И.С.</span>
@@ -1853,27 +1853,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="lecture temporary-lesson">
-                        <strong>Основы библиотечных, библиографических и информационных знаний</strong>
-                        <div class="lesson-labels">
-                            <span class="label lecture">Лекция</span>
-                        </div>
-                        <span class="room">УБК</span>
-                        <span class="teacher">Патенко Г.Р.</span>
-                        <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-                            <i class="fas fa-calendar-day"></i> 26.02 (Один раз)
-                        </div>
+                    <td></td>
 <td class="lecture temporary-lesson">
-    <strong>История России</strong>
-    <div class="lesson-labels">
-        <span class="label lecture">Лекция</span>
-    </div>
-    <span class="room">УЛК-1, ауд. 420</span>
-    <span class="teacher">Бессонова Т.В.</span>
-    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-        <i class="fas fa-calendar-day"></i> 27.02 (Один раз)
-    </div>
-        <hr style="margin: 10px 0; border-color: #ff0000;">
     <strong>Физика</strong>
     <span class="type">Лекция</span>
     <span class="room">УЛК-2, ауд. 341</span>
@@ -1882,7 +1863,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="fas fa-calendar-day"></i> 13.03 (перенос)
     </div>
     <hr style="margin: 10px 0; border-color: #ff0000;">
-    <strong>Элект.курсы по ФКиС (переносы с праздничных дней 27.03)</strong>
+    <strong>Элект.курсы по ФКиС (переносы с праздничных дней на 27.03)</strong>
     <span class="type">Практика</span>
     <span class="room">спорткомп</span>
     <span class="teacher">Ихсанов И.С.</span>
@@ -1896,17 +1877,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="lecture temporary-lesson">
-                        <strong>Основы библиотечных, библиографических и информационных знаний</strong>
-                        <div class="lesson-labels">
-                            <span class="label lecture">Лекция</span>
-                        </div>
-                        <span class="room">УБК</span>
-                        <span class="teacher">Патенко Г.Р.</span>
-                        <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-                            <i class="fas fa-calendar-day"></i> 26.02 (Один раз)
-                        </div>
-                    </td>
+<td></td>
                     <td></td>
                     <td></td>
                 </tr>
