@@ -951,6 +951,37 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
         font-size: 12px !important;
     }
 }
+/* Заголовки групп по датам */
+.homework-date-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 25px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #d0d9e5;
+}
+
+.homework-date-header:first-of-type {
+    margin-top: 0;
+}
+
+.date-badge {
+    font-weight: 700;
+    font-size: 16px;
+    color: #2c3e50;
+    background: #e8f0fe;
+    padding: 4px 14px;
+    border-radius: 30px;
+    letter-spacing: 0.3px;
+}
+
+.date-count {
+    font-size: 13px;
+    color: #7f8c8d;
+    background: #f0f3f7;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
 </style>
 </head>
 <body>
@@ -3289,7 +3320,84 @@ $$
     description: "Сделать лабораторные работы 1 и 2. Скачать файлы:<br><a href='лаба 1 по инфе.pdf' download>Лабораторная работа 1 (PDF)</a><br><a href='лаба 2 по инфе.pdf' download>Лабораторная работа 2 (PDF)</a>",
     dueDate: "2026-02-26",
     solution: ""
-}
+},
+    {
+        id: 15,
+        subject: "Физика (1 группа)",
+        description: "Просто чтобы ориентировались.",
+        dueDate: "2026-03-02",
+        solution: ""
+    },
+    {
+        id: 16,
+        subject: "Интегралы и дифференциальные уравнения",
+        description: "7.84, 7.85, 7.90 (пока без решения)",
+        dueDate: "2026-03-03",
+        solution: ""
+    },
+    {
+        id: 17,
+        subject: "Базовые ИТ и ИП",
+        description: "Выполнить задания по вариантам.",
+        dueDate: "2026-03-03",
+        solution: ""
+    },
+    {
+        id: 18,
+        subject: "Иностранный язык (2 группа)",
+        description: "Выучить текст native town и российскую новость (2–3 предложения).",
+        dueDate: "2026-03-03",
+        solution: ""
+    },
+    {
+        id: 19,
+        subject: "Линейная алгебра и функции нескольких переменных",
+        description: "1) б; 2) г, д, е.",
+        dueDate: "2026-03-04",
+        solution: ""
+    },
+    {
+        id: 20,
+        subject: "Иностранный язык",
+        description: "Просто чтобы ориентировались.",
+        dueDate: "2026-03-04",
+        solution: ""
+    },
+    {
+        id: 21,
+        subject: "Программирование",
+        description: "Сдать все лабораторные работы.",
+        dueDate: "2026-03-05",
+        solution: ""
+    },
+    {
+        id: 22,
+        subject: "Информатика",
+        description: "Сделать полностью лабораторную работу «Шифрование».",
+        dueDate: "2026-03-05",
+        solution: ""
+    },
+    {
+        id: 23,
+        subject: "История России",
+        description: "Подготовиться к семинару №5.",
+        dueDate: "2026-03-06",
+        solution: ""
+    },
+    {
+        id: 24,
+        subject: "Базовые ИП и ИТ (1 группа)",
+        description: "Выполнить все лабораторные работы.",
+        dueDate: "2026-03-07",
+        solution: ""
+    },
+    {
+        id: 25,
+        subject: "Физика (2 группа)",
+        description: "Выполнить лабораторную работу «Измерение скорости звука в твёрдых телах».",
+        dueDate: "2026-03-07",
+        solution: ""
+    }
     ];
     // Данные для семестровых домашних заданий
 const semesterHomeworkData = [
@@ -3539,55 +3647,85 @@ const semesterHomeworkData = [
     }
 
     // Рендер списков ДЗ
-    function renderHomeworkLists() {
-        const upcomingList = document.getElementById('upcoming-list');
-        const pastList = document.getElementById('past-list');
+function renderHomeworkLists() {
+    const upcomingList = document.getElementById('upcoming-list');
+    const pastList = document.getElementById('past-list');
+    
+    upcomingList.innerHTML = '';
+    pastList.innerHTML = '';
+    
+    const now = new Date(TODAY);
+    
+    // Ближайшие задания (дата >= сегодня)
+    const upcoming = homeworkData
+        .filter(hw => hw.dueDate >= todayStr)
+        .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+    
+    const past = homeworkData
+        .filter(hw => hw.dueDate < todayStr)
+        .sort((a, b) => b.dueDate.localeCompare(a.dueDate));
+    
+    // Функция для рендера группы заданий по дате
+    function renderGroup(container, items, isPastGroup) {
+        if (items.length === 0) return;
         
-        upcomingList.innerHTML = '';
-        pastList.innerHTML = '';
+        // Группируем по дате
+        const groups = {};
+        items.forEach(item => {
+            if (!groups[item.dueDate]) groups[item.dueDate] = [];
+            groups[item.dueDate].push(item);
+        });
         
-        // Сортируем ДЗ по дате
-        const now = new Date(TODAY);
-        
-        // Ближайшие задания (дата >= сегодня)
-const upcoming = homeworkData
-    .filter(hw => hw.dueDate >= todayStr)
-    .sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-
-const past = homeworkData
-    .filter(hw => hw.dueDate < todayStr)
-    .sort((a, b) => b.dueDate.localeCompare(a.dueDate));
-        
-        // Рендер ближайших заданий
-        upcoming.forEach(hw => {
-            const hwDate = new Date(hw.dueDate);
-            const isToday = formatDate(hwDate) === formatDate(TODAY);
+        // Для каждой даты создаем заголовок и задания
+        Object.keys(groups).sort().forEach(dateStr => {
+            const dateItems = groups[dateStr];
+            const date = new Date(dateStr);
+            const formattedDate = date.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
             
-            const hwEl = createHomeworkElement(hw, isToday, false);
-            upcomingList.appendChild(hwEl);
-        });
-        
-        // Рендер прошлых заданий
-        past.forEach(hw => {
-            const hwEl = createHomeworkElement(hw, false, true);
-            pastList.appendChild(hwEl);
-        });
-        
-        // Если нет ближайших заданий
-        if (upcomingList.children.length === 0) {
-            upcomingList.innerHTML = `
-                <div style="text-align: center; padding: 40px; color: #95a5a6;">
-                    <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
-                    <p>Нет ближайших заданий</p>
-                </div>
+            // Заголовок группы
+            const groupHeader = document.createElement('div');
+            groupHeader.className = 'homework-date-header';
+            groupHeader.innerHTML = `
+                <span class="date-badge">${formattedDate}</span>
+                <span class="date-count">${dateItems.length} ${dateItems.length === 1 ? 'задание' : 'задания'}</span>
             `;
-        }
-        
-        // Если нет прошлых заданий
-        if (pastList.children.length === 0) {
-            pastList.innerHTML = '<p style="color: #95a5a6; text-align: center; padding: 30px;">Нет прошлых заданий</p>';
-        }
+            container.appendChild(groupHeader);
+            
+            // Задания этой даты
+            dateItems.forEach(hw => {
+                const hwDate = new Date(hw.dueDate);
+                const isToday = formatDate(hwDate) === formatDate(TODAY);
+                const hwEl = createHomeworkElement(hw, isToday, isPastGroup);
+                container.appendChild(hwEl);
+            });
+        });
     }
+    
+    // Рендер ближайших заданий
+    renderGroup(upcomingList, upcoming, false);
+    
+    // Рендер прошлых заданий
+    renderGroup(pastList, past, true);
+    
+    // Если нет ближайших заданий
+    if (upcomingList.children.length === 0) {
+        upcomingList.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #95a5a6;">
+                <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                <p>Нет ближайших заданий</p>
+            </div>
+        `;
+    }
+    
+    // Если нет прошлых заданий
+    if (pastList.children.length === 0) {
+        pastList.innerHTML = '<p style="color: #95a5a6; text-align: center; padding: 30px;">Нет прошлых заданий</p>';
+    }
+}
 
     // Создание элемента ДЗ
 function createHomeworkElement(hw, isToday, isPast) {
