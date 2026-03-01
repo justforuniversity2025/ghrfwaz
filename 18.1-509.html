@@ -37,12 +37,6 @@
         });
     });
 </script>
-<script>
-if (!sessionStorage.getItem('reloaded')) {
-  sessionStorage.setItem('reloaded', '1');
-  location.reload(true);
-}
-</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
 body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); color: #333; min-height: 100vh; overflow-x: hidden; }
@@ -94,7 +88,11 @@ header { background: url('image3.png') no-repeat center center / cover;  color: 
 /* Расписание */
 .week-tabs { display: flex; margin-bottom: 25px; border-radius: 10px; overflow: hidden; background: #f8f9fa; padding: 5px; }
 .week-tab { flex: 1; padding: 15px; background: transparent; border: none; color: #2c3e50; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; border-radius: 8px; }
-.week-tab.active { background: #3498db; color: white; }
+.week-tab.active {
+    background: #3498db !important;
+    color: white !important;
+    border-color: #3498db !important;
+}
 .schedule-container { display: none; }
 .schedule-container.active { display: block; }
 .day-schedule { margin-bottom: 30px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); }
@@ -1099,7 +1097,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
     </ul>
 </div>
 <!-- Описание предметов (с собственными стилями) -->
-    <h2 style="color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+    <h2 style="color: #2c3e50; margin-bottom: 5px; display: flex; align-items: center; gap: 10px;">
         <i class="fas fa-book-open" style="color: #4a90e2;"></i> Описание предметов
     </h2>
 
@@ -1354,12 +1352,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             <!-- Расписание -->
             <div id="schedule-tab" class="tab-content">
-                <h2><i class="fas fa-calendar-alt"></i> Расписание занятий</h2>
+
                 
-                <div class="week-tabs">
-                    <button class="week-tab active" data-week="upper">Верхняя неделя <span class="current-week-indicator">Текущая</span></button>
-                    <button class="week-tab" data-week="lower">Нижняя неделя</button>
-                </div>
+
                 <style>/* Стили для фильтра групп */
 .group-selector {
     animation: slideDown 0.3s ease;
@@ -1383,25 +1378,196 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .group-selector input[type="radio"]:checked {
     accent-color: #3498db;
+}
+/* Строка дней для мобильных */
+.mobile-day-selector {
+    display: none;
+    justify-content: center;
+    gap: 5px;
+    margin: 15px 0 10px;
+    padding: 0 5px;
+}
+
+@media (max-width: 768px) {
+    .mobile-day-selector {
+        display: flex;
+    }
+}
+
+.mobile-day-btn {
+    flex: 1;
+    max-width: 60px;
+    padding: 8px 0;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 30px;        /* Скруглённые углы */
+    font-weight: 600;
+    font-size: 14px;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.mobile-day-btn.active {
+    background: #3498db;
+    border-color: #2980b9;
+    color: white;
+}
+
+.mobile-day-btn:hover {
+    background: #e3f2fd;
+    border-color: #3498db;
 }</style>
-                <div class="group-selector" style="margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 10px;">
-    <h3 style="margin-bottom: 10px; color: #2c3e50; font-size: 16px;">Фильтр по группам:</h3>
-    <div style="display: flex; gap: 20px; align-items: center;">
-        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="radio" name="group" value="both" checked style="width: 18px; height: 18px;">
-            <span style="font-weight: 500;">Обе группы</span>
-        </label>
-        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="radio" name="group" value="group1" style="width: 18px; height: 18px;">
-            <span style="font-weight: 500;">1-ая группа</span>
-        </label>
-        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="radio" name="group" value="group2" style="width: 18px; height: 18px;">
-            <span style="font-weight: 500;">2-ая группа</span>
-        </label>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0px;">
+    <!-- Кнопки недель В / Н -->
+    <div style="display: flex; gap: 8px;">
+        <button class="week-tab" id="week-upper-btn" data-week="upper" style="width: 48px; height: 48px; border-radius: 12px; background: #f8f9fa; border: 2px solid #e0e0e0; font-weight: 700; font-size: 20px; cursor: pointer; transition: 0.3s;">В</button>
+        <button class="week-tab" id="week-lower-btn" data-week="lower" style="width: 48px; height: 48px; border-radius: 12px; background: #f8f9fa; border: 2px solid #e0e0e0; font-weight: 700; font-size: 20px; cursor: pointer; transition: 0.3s;">Н</button>
+    </div>
+
+    <!-- Фильтр по группам компактный -->
+    <div style="display: flex; align-items: center; gap: 15px; background: #f8f9fa; padding: 8px 15px; border-radius: 30px;">
+        <span style="font-weight: 600; color: #2c3e50;"><i class="fas fa-filter"></i> Фильтр:</span>
+        <div style="display: flex; gap: 12px;">
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                <input type="radio" name="group" value="both" checked> <span>обе</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                <input type="radio" name="group" value="group1"> <span>1</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                <input type="radio" name="group" value="group2"> <span>2</span>
+            </label>
+        </div>
     </div>
 </div>
-<script>// ====== ФИЛЬТРАЦИЯ ПО ГРУППАМ В РАСПИСАНИИ ======
+<!-- Строка дней недели для мобильных -->
+<div class="mobile-day-selector">
+    <button class="mobile-day-btn active" data-day="0">ПН</button>
+    <button class="mobile-day-btn" data-day="1">ВТ</button>
+    <button class="mobile-day-btn" data-day="2">СР</button>
+    <button class="mobile-day-btn" data-day="3">ЧТ</button>
+    <button class="mobile-day-btn" data-day="4">ПТ</button>
+    <button class="mobile-day-btn" data-day="5">СБ</button>
+</div>
+<script>
+// ====== МОБИЛЬНЫЙ ВЫБОР ДНЯ С СОХРАНЕНИЕМ ======
+(function() {
+    function isMobile() {
+        return window.innerWidth < 769;
+    }
+
+    const dayButtons = document.querySelectorAll('.mobile-day-btn');
+    if (!dayButtons.length) return;
+
+    // Загружаем сохранённый день из localStorage (по умолчанию 0 - понедельник)
+    let savedDay = localStorage.getItem('selectedDay');
+    if (savedDay === null) savedDay = '0'; // если нет сохранения, ставим понедельник
+
+    // Функция для переключения карусели на указанный день
+    function goToSavedDay(dayIndex) {
+        if (!isMobile()) return;
+        const activeWeek = document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper';
+        const carouselId = activeWeek === 'upper' ? 'upper-week-carousel' : 'lower-week-carousel';
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return false;
+        
+        // Используем существующую функцию goToDay, если она есть
+        if (typeof goToDay === 'function') {
+            goToDay(carouselId, dayIndex);
+        } else {
+            // Запасной вариант: кликаем по индикатору
+            const dots = carousel.querySelectorAll('.indicator-dot');
+            if (dots[dayIndex]) dots[dayIndex].click();
+        }
+        return true;
+    }
+
+    // Устанавливаем активную кнопку и переключаем день
+    function applySavedDay() {
+        // Сначала снимаем активность со всех
+        dayButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Ищем кнопку с data-day = savedDay
+        const targetBtn = Array.from(dayButtons).find(btn => btn.dataset.day === savedDay);
+        if (targetBtn) {
+            targetBtn.classList.add('active');
+            // Пытаемся переключить карусель
+            goToSavedDay(parseInt(savedDay, 10));
+        } else {
+            // Если не нашли, ставим понедельник
+            dayButtons[0].classList.add('active');
+            goToSavedDay(0);
+        }
+    }
+
+    // Обработчик клика по кнопке дня
+    dayButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!isMobile()) return;
+            
+            const dayIndex = this.dataset.day;
+            // Сохраняем в localStorage
+            localStorage.setItem('selectedDay', dayIndex);
+            savedDay = dayIndex; // обновляем переменную
+            
+            // Переключаем активную кнопку
+            dayButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Переключаем карусель
+            goToSavedDay(parseInt(dayIndex, 10));
+        });
+    });
+
+    // Синхронизация при переключении недели (обновляем активную кнопку по карусели)
+    document.querySelectorAll('.week-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            setTimeout(() => {
+                if (!isMobile()) return;
+                // Считываем активный день из карусели и обновляем кнопки
+                const activeWeek = document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper';
+                const carouselId = activeWeek === 'upper' ? 'upper-week-carousel' : 'lower-week-carousel';
+                const carousel = document.getElementById(carouselId);
+                if (!carousel) return;
+                const activeDot = carousel.querySelector('.indicator-dot.active');
+                if (activeDot) {
+                    const index = Array.from(carousel.querySelectorAll('.indicator-dot')).indexOf(activeDot);
+                    dayButtons.forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.day == index);
+                    });
+                    // Сохраняем этот день в localStorage
+                    localStorage.setItem('selectedDay', index.toString());
+                    savedDay = index.toString();
+                }
+            }, 150);
+        });
+    });
+
+    // При изменении размера окна
+    window.addEventListener('resize', () => {
+        if (isMobile()) {
+            // При переходе в мобильный режим применяем сохранённый день
+            applySavedDay();
+        } else {
+            // На десктопе убираем активность с кнопок (они скрыты)
+            dayButtons.forEach(b => b.classList.remove('active'));
+        }
+    });
+
+    // Инициализация: ждём, пока карусели загрузятся
+    function initMobileDay() {
+        if (document.getElementById('upper-week-carousel') && document.getElementById('lower-week-carousel')) {
+            applySavedDay();
+        } else {
+            setTimeout(initMobileDay, 100);
+        }
+    }
+    initMobileDay();
+})();
+// ====== ФИЛЬТРАЦИЯ ПО ГРУППАМ В РАСПИСАНИИ ======
 console.log('Загрузка фильтра групп...');
 
 // Функция для фильтрации расписания по группам
@@ -1668,15 +1834,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td class="time-cell">17:20-18:50</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -1871,15 +2028,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="fas fa-calendar-day"></i> 27.03 (перенос)
     </div>
 </td>
-                </tr>
-                <tr>
-                    <td class="time-cell">17:20-18:50</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-<td></td>
-                    <td></td>
-                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -6429,33 +6577,7 @@ const checkPointsInterval = setInterval(() => {
     `;
     document.head.appendChild(style);
     
-    // Автоматическое определение текущей недели (можно заменить на реальную логику)
-    function setCurrentWeek() {
-        // Здесь можно добавить реальную логику определения недели
-        // Например, по дате
-        const today = new Date();
-        // Для примеси - пусть четные недели - верхняя, нечетные - нижняя
-        const weekNumber = Math.floor(today.getDate() / 7) % 2;
-        
-        // Временно установим верхнюю неделю как текущую
-        const upperWeekTab = document.querySelector('.week-tab[data-week="upper"]');
-        const lowerWeekTab = document.querySelector('.week-tab[data-week="lower"]');
-        
-        // Удаляем индикатор текущей недели
-        document.querySelectorAll('.current-week-indicator').forEach(indicator => {
-            indicator.remove();
-        });
-        
-        // Добавляем индикатор текущей недели
-        if (weekNumber === 0) {
-            upperWeekTab.innerHTML = 'Верхняя неделя <span class="current-week-indicator">Текущая</span>';
-        } else {
-            lowerWeekTab.innerHTML = 'Нижняя неделя <span class="current-week-indicator">Текущая</span>';
-        }
-    }
-    
-    // Вызываем функцию при загрузке
-    window.addEventListener('load', setCurrentWeek);
+
     
     // Обработка кнопок вопросов к экзаменам и зачётам
     document.addEventListener('click', function(e) {
