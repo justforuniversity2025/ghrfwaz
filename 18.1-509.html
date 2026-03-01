@@ -1470,7 +1470,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="mobile-day-btn" data-day="5">СБ</button>
 </div>
 <script>
-// ====== МОБИЛЬНЫЙ ВЫБОР ДНЯ С ПОДСВЕТКОЙ И СОХРАНЕНИЕМ ======
+// ====== МОБИЛЬНЫЙ ВЫБОР ДНЯ С СОХРАНЕНИЕМ ======
 (function() {
     function isMobile() {
         return window.innerWidth < 769;
@@ -1481,7 +1481,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Загружаем сохранённый день из localStorage (по умолчанию 0 - понедельник)
     let savedDay = localStorage.getItem('selectedDay');
-    if (savedDay === null) savedDay = '0';
+    if (savedDay === null) savedDay = '0'; // если нет сохранения, ставим понедельник
 
     // Функция для переключения карусели на указанный день
     function goToSavedDay(dayIndex) {
@@ -1491,46 +1491,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousel = document.getElementById(carouselId);
         if (!carousel) return false;
         
+        // Используем существующую функцию goToDay, если она есть
         if (typeof goToDay === 'function') {
             goToDay(carouselId, dayIndex);
         } else {
+            // Запасной вариант: кликаем по индикатору
             const dots = carousel.querySelectorAll('.indicator-dot');
             if (dots[dayIndex]) dots[dayIndex].click();
         }
         return true;
     }
 
-    // Функция для подсветки кнопки по индексу дня
-    function highlightDayButton(dayIndex) {
-        dayButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.day == dayIndex);
-        });
-        // Сохраняем выбранный день в localStorage
-        localStorage.setItem('selectedDay', dayIndex);
-        savedDay = dayIndex.toString();
-    }
-
-    // Функция для синхронизации кнопок с текущим днём в карусели
-    function syncButtonsWithCarousel() {
-        if (!isMobile()) return;
-        const activeWeek = document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper';
-        const carouselId = activeWeek === 'upper' ? 'upper-week-carousel' : 'lower-week-carousel';
-        const carousel = document.getElementById(carouselId);
-        if (!carousel) return;
-        const activeDot = carousel.querySelector('.indicator-dot.active');
-        if (activeDot) {
-            const index = Array.from(carousel.querySelectorAll('.indicator-dot')).indexOf(activeDot);
-            highlightDayButton(index);
-        }
-    }
-
-    // Устанавливаем активную кнопку и переключаем день при загрузке
+    // Устанавливаем активную кнопку и переключаем день
     function applySavedDay() {
+        // Сначала снимаем активность со всех
+        dayButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Ищем кнопку с data-day = savedDay
         const targetBtn = Array.from(dayButtons).find(btn => btn.dataset.day === savedDay);
         if (targetBtn) {
             targetBtn.classList.add('active');
+            // Пытаемся переключить карусель
             goToSavedDay(parseInt(savedDay, 10));
         } else {
+            // Если не нашли, ставим понедельник
             dayButtons[0].classList.add('active');
             goToSavedDay(0);
         }
@@ -1543,56 +1527,58 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isMobile()) return;
             
             const dayIndex = this.dataset.day;
-            highlightDayButton(parseInt(dayIndex, 10));
+            // Сохраняем в localStorage
+            localStorage.setItem('selectedDay', dayIndex);
+            savedDay = dayIndex; // обновляем переменную
+            
+            // Переключаем активную кнопку
+            dayButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Переключаем карусель
             goToSavedDay(parseInt(dayIndex, 10));
         });
     });
 
-    // Синхронизация при переключении недели
+    // Синхронизация при переключении недели (обновляем активную кнопку по карусели)
     document.querySelectorAll('.week-tab').forEach(tab => {
         tab.addEventListener('click', () => {
-            setTimeout(syncButtonsWithCarousel, 150);
+            setTimeout(() => {
+                if (!isMobile()) return;
+                // Считываем активный день из карусели и обновляем кнопки
+                const activeWeek = document.querySelector('.week-tab.active')?.getAttribute('data-week') || 'upper';
+                const carouselId = activeWeek === 'upper' ? 'upper-week-carousel' : 'lower-week-carousel';
+                const carousel = document.getElementById(carouselId);
+                if (!carousel) return;
+                const activeDot = carousel.querySelector('.indicator-dot.active');
+                if (activeDot) {
+                    const index = Array.from(carousel.querySelectorAll('.indicator-dot')).indexOf(activeDot);
+                    dayButtons.forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.day == index);
+                    });
+                    // Сохраняем этот день в localStorage
+                    localStorage.setItem('selectedDay', index.toString());
+                    savedDay = index.toString();
+                }
+            }, 150);
         });
     });
-
-    // Синхронизация при изменении дня через стрелки/индикаторы (MutationObserver)
-    function observeCarouselDots() {
-        const carousels = ['upper-week-carousel', 'lower-week-carousel'];
-        carousels.forEach(id => {
-            const carousel = document.getElementById(id);
-            if (!carousel) return;
-            const dotsContainer = carousel.querySelector('.carousel-indicator');
-            if (!dotsContainer) return;
-            
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        syncButtonsWithCarousel();
-                    }
-                });
-            });
-
-            const dots = dotsContainer.querySelectorAll('.indicator-dot');
-            dots.forEach(dot => {
-                observer.observe(dot, { attributes: true });
-            });
-        });
-    }
 
     // При изменении размера окна
     window.addEventListener('resize', () => {
         if (isMobile()) {
-            syncButtonsWithCarousel();
+            // При переходе в мобильный режим применяем сохранённый день
+            applySavedDay();
         } else {
+            // На десктопе убираем активность с кнопок (они скрыты)
             dayButtons.forEach(b => b.classList.remove('active'));
         }
     });
 
-    // Инициализация
+    // Инициализация: ждём, пока карусели загрузятся
     function initMobileDay() {
         if (document.getElementById('upper-week-carousel') && document.getElementById('lower-week-carousel')) {
             applySavedDay();
-            observeCarouselDots();
         } else {
             setTimeout(initMobileDay, 100);
         }
