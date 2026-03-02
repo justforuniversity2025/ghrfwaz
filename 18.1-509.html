@@ -4557,17 +4557,43 @@ window.initSemesterHomework = initSemesterHomework;
     
     <!-- Интегралы и дифференциальные уравнения -->
     <div class="subject-lectures" id="math-lectures" style="display: none;">
-        <div class="lecture-item">
-            <div class="lecture-content">
-                <h3>Сборник задач</h3>
-                <a href="Сборник задач.pdf" class="download-btn" target="_blank">
-                    <i class="fas fa-download"></i> Скачать PDF (7.2 МБ)
-                </a>
-                <div class="quick-nav-item" id="open-pdf-btn">
-    <i class="fas fa-file-pdf"></i> Открыть документ
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+    <h3 style="margin: 0; font-size: 18px;">Сборник задач</h3>
+    <a href="Сборник задач.pdf" style="padding: 5px; background: #2ecc71; color: white; border-radius: 6px; font-size: 16px; line-height: 1; text-decoration: none;" target="_blank" title="Скачать">
+        <i class="fas fa-download"></i>
+    </a>
+    <div id="open-pdf-btn" style="padding: 5px; background: #3498db; color: white; border-radius: 6px; font-size: 16px; line-height: 1; cursor: pointer;" title="Открыть в PDF-вьюере">
+        <i class="fas fa-file-pdf"></i>
+    </div>
 </div>
-            </div>
+<!-- Справочные материалы (таблицы) -->
+<div style="margin-top: 15px; background: #f8f9fa; padding: 10px 15px; border-radius: 8px;">
+    <h3 style="margin: 0 0 10px 0; font-size: 18px;">📊 Справочные материалы</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <!-- Таблица 1 -->
+        <div style="display: flex; align-items: center; gap: 10px; background: white; padding: 5px 10px; border-radius: 6px;">
+            <i class="fas fa-file-image" style="color: #3498db;"></i>
+            <span>Таблица стр. 1</span>
+            <a href="assets/img/tabli1.png" download class="download-btn" style="padding: 4px 8px; font-size: 13px;">
+                <i class="fas fa-download"></i>
+            </a>
+            <a href="assets/img/tabli1.png" target="_blank" class="download-btn" style="padding: 4px 8px; font-size: 13px; background: #3498db;">
+                <i class="fas fa-external-link-alt"></i> 
+            </a>
         </div>
+        <!-- Таблица 2 -->
+        <div style="display: flex; align-items: center; gap: 10px; background: white; padding: 5px 10px; border-radius: 6px;">
+            <i class="fas fa-file-image" style="color: #3498db;"></i>
+            <span>Таблица стр. 2</span>
+            <a href="assets/img/tabli2.png" download class="download-btn" style="padding: 4px 8px; font-size: 13px;">
+                <i class="fas fa-download"></i>
+            </a>
+            <a href="assets/img/tabli2.png" target="_blank" class="download-btn" style="padding: 4px 8px; font-size: 13px; background: #3498db;">
+                <i class="fas fa-external-link-alt"></i> 
+            </a>
+        </div>
+    </div>
+</div>
         
         <!-- Выдвижная лекция -->
 <!-- Выдвижная лекция: Неопределённый интеграл -->
