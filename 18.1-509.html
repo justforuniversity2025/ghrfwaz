@@ -4598,7 +4598,7 @@ window.initSemesterHomework = initSemesterHomework;
 </div>
 <!-- Лекция 2: Интегрирование рациональных функций от тригонометрических функций -->
 <button class="lecture-toggle-btn">
-    Лекция 2: Интегрирование тригонометрических функций (не всё)
+    Лекция 2: Интегрирование тригонометрических функций
     <i class="fas fa-chevron-down"></i>
 </button>
 <div class="lecture-content-full">
@@ -4928,7 +4928,7 @@ $$ S = \frac{2}{3} (1 - 0) = \frac{2}{3} $$
 <p><strong>Ответ:</strong> <strong>\( S = \frac{2}{3} \)</strong> кв. ед.</p>
 
 <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-<h3>7. Связь с теоремой Лагранжа</h3>
+<h3>6. Связь с теоремой Лагранжа</h3>
 <p><strong>Теорема Лагранжа о среднем значении:</strong></p>
 <p>Если функция <strong>\(f(x)\)</strong> непрерывна на <strong>\([a, b]\)</strong> и дифференцируема на <strong>\((a, b)\)</strong>, то существует точка <strong>\(c \in (a, b)\)</strong> такая, что:</p>
 
@@ -4953,7 +4953,197 @@ $$ f(b) - f(a) = f'(c) \cdot (b - a) $$
 <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #e74c3c; margin: 15px 0; text-align: center;">
 $$ F(b) - F(a) = \int_{a}^{b} f(x) \, dx $$
 </div>
+<h3>7. Свойства определенного интеграла</h3>
+<p>Определенный интеграл обладает рядом важных свойств, которые упрощают вычисления и анализ функций. Ниже приведены основные свойства, основанные на ваших записях.</p>
 
+<div style="background: #fff; padding: 10px; border: 1px solid #eee; margin: 10px 0;">
+
+<p><strong>1. Свойство перестановки пределов интегрирования:</strong><br>
+При перестановке пределов интегрирования знак интеграла меняется на противоположный.</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{b} f(x) \, dx = - \int_{b}^{a} f(x) \, dx $$
+</div>
+
+<p><strong>2. Свойство линейности (интеграл от алгебраической суммы):</strong><br>
+Определенный интеграл от алгебраической суммы функций равен алгебраической сумме интегралов от этих функций.</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{b} [f(x) \pm g(x)] \, dx = \int_{a}^{b} f(x) \, dx \pm \int_{a}^{b} g(x) \, dx $$
+</div>
+
+<p><strong>3. Вынесение постоянного множителя:</strong><br>
+Постоянный множитель можно выносить за знак интеграла.</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{b} \lambda f(x) \, dx = \lambda \int_{a}^{b} f(x) \, dx $$
+</div>
+
+<p><strong>4. Свойство аддитивности (разбиение отрезка):</strong><br>
+Если точка $c$ принадлежит отрезку $[a, b]$ (или лежит вне его, но функции определены), то интеграл можно разбить на сумму интегралов по частям.</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{b} f(x) \, dx = \int_{a}^{c} f(x) \, dx + \int_{c}^{b} f(x) \, dx $$
+</div>
+
+<p><strong>5. Теорема о среднем значении:</strong><br>
+Если функция $f(x)$ непрерывна на $[a, b]$, то существует такая точка $c \in [a, b]$, что:</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{b} f(x) \, dx = f(c) \cdot (b - a) $$
+</div>
+<p><em>Геометрический смысл:</em> Площадь криволинейной трапеции равна площади прямоугольника с основанием $(b-a)$ и высотой, равной значению функции в некоторой средней точке $f(c)$.</p>
+
+<p><strong>6. Свойство сохранения знака (оценка интеграла):</strong></p>
+<ul>
+    <li>Если $f(x) \ge 0$ для всех $x \in [a, b]$, то $\int_{a}^{b} f(x) \, dx \ge 0$.</li>
+    <li>Если $f(x) \le 0$ для всех $x \in [a, b]$, то $\int_{a}^{b} f(x) \, dx \le 0$.</li>
+</ul>
+
+<p><strong>7. Свойство монотонности (сравнение интегралов):</strong><br>
+Если $f_1(x) \le f_2(x)$ для всех $x \in [a, b]$, то:</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{b} f_1(x) \, dx \le \int_{a}^{b} f_2(x) \, dx $$
+</div>
+</div>
+<h3>8. Несобственные интегралы первого рода</h3>
+<p><strong>Определение:</strong> Несобственные интегралы первого рода — это интегралы с бесконечными пределами интегрирования. Рассматриваются случаи, когда функция $y = f(x)$ непрерывна на бесконечном промежутке.</p>
+
+<div style="background: #fff; padding: 15px; border: 1px solid #eee; margin: 15px 0;">
+
+<h4>Основные типы несобственных интегралов:</h4>
+
+<p><strong>1. Интеграл по промежутку $[a; +\infty)$:</strong></p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{+\infty} f(x) \, dx = \lim_{b \to +\infty} \int_{a}^{b} f(x) \, dx $$
+</div>
+
+<p><strong>2. Интеграл по промежутку $(-\infty; b]$:<strong></p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{-\infty}^{b} f(x) \, dx = \lim_{a \to -\infty} \int_{a}^{b} f(x) \, dx $$
+</div>
+
+<p><strong>3. Интеграл по всей числовой прямой $(-\infty; +\infty)$:</strong></p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{-\infty}^{+\infty} f(x) \, dx = \int_{-\infty}^{c} f(x) \, dx + \int_{c}^{+\infty} f(x) \, dx $$
+</div>
+<p>где $c$ — произвольная точка.</p>
+
+<p>В развернутом виде:</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{-\infty}^{+\infty} f(x) \, dx = \lim_{a \to -\infty} \int_{a}^{c} f(x) \, dx + \lim_{b \to +\infty} \int_{c}^{b} f(x) \, dx $$
+</div>
+
+</div>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>9. Сходимость и расходимость несобственных интегралов</h3>
+
+<div style="background: #f0f8ff; padding: 15px; border-left: 4px solid #3498db; margin: 15px 0;">
+
+<p><strong>Определение сходимости:</strong></p>
+<ul>
+    <li>Если предел <strong>существует и конечен</strong>, то интеграл <strong>сходится</strong>.</li>
+    <li>Если предел <strong>не существует или бесконечен</strong>, то интеграл <strong>расходится</strong>.</li>
+</ul>
+
+</div>
+
+<h4>Геометрический смысл:</h4>
+<p>Несобственный интеграл представляет собой площадь бесконечной криволинейной трапеции, ограниченной графиком функции $y = f(x)$, осью $Ox$ и вертикальной прямой $x = a$.</p>
+
+<div style="text-align: center; margin: 20px 0;">
+    <div style="border: 1px dashed #ccc; padding: 30px; display: inline-block; background: #fafafa;">
+        <em>График: функция убывает к нулю при x → +∞<br>
+        Заштрихованная область под кривой от a до +∞</em>
+    </div>
+    <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Рис. 4. Геометрический смысл несобственного интеграла</p>
+</div>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>10. Свойства несобственных интегралов</h3>
+
+<div style="background: #fff; padding: 15px; border: 1px solid #eee; margin: 15px 0;">
+
+<p><strong>1. Свойство линейности:</strong></p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{+\infty} [\alpha f(x) \pm \beta g(x)] \, dx = \alpha \int_{a}^{+\infty} f(x) \, dx \pm \beta \int_{a}^{+\infty} g(x) \, dx $$
+</div>
+
+<p><strong>2. Свойство монотонности (сравнения):</strong></p>
+<p>Если $f(x) \leq g(x)$ на $[a; +\infty)$, то:</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \int_{a}^{+\infty} f(x) \, dx \leq \int_{a}^{+\infty} g(x) \, dx $$
+</div>
+
+<p><strong>3. Признак сравнения:</strong></p>
+<ul>
+    <li>Если $0 \leq f(x) \leq g(x)$ и $\int_{a}^{+\infty} g(x) \, dx$ <strong>сходится</strong>, то $\int_{a}^{+\infty} f(x) \, dx$ тоже <strong>сходится</strong>.</li>
+    <li>Если $0 \leq f(x) \leq g(x)$ и $\int_{a}^{+\infty} f(x) \, dx$ <strong>расходится</strong>, то $\int_{a}^{+\infty} g(x) \, dx$ тоже <strong>расходится</strong>.</li>
+</ul>
+
+</div>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>11. Примеры вычисления несобственных интегралов</h3>
+
+<h4>Пример 1: Сходящийся интеграл</h4>
+<p>Вычислить $\int_{1}^{+\infty} \frac{dx}{x^2}$</p>
+
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #2ecc71; margin: 15px 0;">
+<p><strong>Решение:</strong></p>
+<p>$$ \int_{1}^{+\infty} \frac{dx}{x^2} = \lim_{b \to +\infty} \int_{1}^{b} \frac{dx}{x^2} = \lim_{b \to +\infty} \left[-\frac{1}{x}\right]_{1}^{b} $$</p>
+<p>$$ = \lim_{b \to +\infty} \left(-\frac{1}{b} + 1\right) = 0 + 1 = 1 $$</p>
+<p><strong>Ответ:</strong> Интеграл сходится и равен <strong>1</strong>.</p>
+</div>
+
+<h4>Пример 2: Расходящийся интеграл</h4>
+<p>Исследовать на сходимость $\int_{1}^{+\infty} \frac{dx}{x}$</p>
+
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #e74c3c; margin: 15px 0;">
+<p><strong>Решение:</strong></p>
+<p>$$ \int_{1}^{+\infty} \frac{dx}{x} = \lim_{b \to +\infty} \int_{1}^{b} \frac{dx}{x} = \lim_{b \to +\infty} [\ln|x|]_{1}^{b} $$</p>
+<p>$$ = \lim_{b \to +\infty} (\ln b - \ln 1) = \lim_{b \to +\infty} \ln b = +\infty $$</p>
+<p><strong>Ответ:</strong> Интеграл <strong>расходится</strong>.</p>
+</div>
+
+<h4>Пример 3: Интеграл по всей числовой прямой</h4>
+<p>Вычислить $\int_{-\infty}^{+\infty} \frac{dx}{1+x^2}$</p>
+
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #2ecc71; margin: 15px 0;">
+<p><strong>Решение:</strong></p>
+<p>$$ \int_{-\infty}^{+\infty} \frac{dx}{1+x^2} = \int_{-\infty}^{0} \frac{dx}{1+x^2} + \int_{0}^{+\infty} \frac{dx}{1+x^2} $$</p>
+<p>Так как $\int \frac{dx}{1+x^2} = \arctan x$, получаем:</p>
+<p>$$ = \lim_{a \to -\infty} [\arctan x]_{a}^{0} + \lim_{b \to +\infty} [\arctan x]_{0}^{b} $$</p>
+<p>$$ = (\arctan 0 - \lim_{a \to -\infty} \arctan a) + (\lim_{b \to +\infty} \arctan b - \arctan 0) $$</p>
+<p>$$ = (0 - (-\frac{\pi}{2})) + (\frac{\pi}{2} - 0) = \frac{\pi}{2} + \frac{\pi}{2} = \pi $$</p>
+<p><strong>Ответ:</strong> Интеграл сходится и равен <strong>π</strong>.</p>
+</div>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>13. Признаки сходимости несобственных интегралов</h3>
+
+<div style="background: #fff; padding: 15px; border: 1px solid #eee; margin: 15px 0;">
+
+<h4>1. Первый признак сравнения:</h4>
+<p>Если $0 \leq f(x) \leq g(x)$ при $x \geq a$, то:</p>
+<ul>
+    <li>Из сходимости $\int_{a}^{+\infty} g(x) \, dx$ следует сходимость $\int_{a}^{+\infty} f(x) \, dx$</li>
+    <li>Из расходимости $\int_{a}^{+\infty} f(x) \, dx$ следует расходимость $\int_{a}^{+\infty} g(x) \, dx$</li>
+</ul>
+
+<h4>2. Второй признак сравнения (предельный):</h4>
+<p>Если $f(x) \geq 0$, $g(x) > 0$ и существует конечный предел:</p>
+<div style="text-align: center; margin: 10px 0;">
+$$ \lim_{x \to +\infty} \frac{f(x)}{g(x)} = k, \quad 0 < k < +\infty $$
+</div>
+<p>то интегралы $\int_{a}^{+\infty} f(x) \, dx$ и $\int_{a}^{+\infty} g(x) \, dx$ сходятся или расходятся одновременно.</p>
+
+<h4>3. Признак абсолютной сходимости:</h4>
+<p>Если $\int_{a}^{+\infty} |f(x)| \, dx$ сходится, то $\int_{a}^{+\infty} f(x) \, dx$ также сходится (абсолютно).</p>
 
 </div>
 </div>
