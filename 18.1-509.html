@@ -4666,6 +4666,90 @@ window.initSemesterHomework = initSemesterHomework;
         <li>Взять этот интеграл (методом неопределенных коэффициентов или простейших дробей).</li>
         <li>Вернуться к переменной \( x \), подставив \( t = \operatorname{tg} \frac{x}{2} \) в ответ.</li>
     </ol>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>7.91</h3>
+
+    
+    <p><strong>Задача:</strong> Вычислить интеграл:</p>
+    <p>$$ I = \int \frac{dx}{3 + 5 \cos x} $$</p>
+
+    <p><strong>Решение:</strong></p>
+    <p>1. Делаем замену $t = \operatorname{tg} \frac{x}{2}$. Тогда:</p>
+    <p>$$ \cos x = \frac{1-t^2}{1+t^2}, \quad dx = \frac{2 \, dt}{1+t^2} $$</p>
+
+    <p>2. Подставляем в интеграл:</p>
+    <p>$$ I = \int \frac{1}{3 + 5 \left( \frac{1-t^2}{1+t^2} \right)} \cdot \frac{2 \, dt}{1+t^2} $$</p>
+
+    <p>3. Упрощаем выражение. Умножим числитель и знаменатель первой дроби на $(1+t^2)$, чтобы избавиться от сложной дроби:</p>
+    <p>$$ I = \int \frac{2 \, dt}{3(1+t^2) + 5(1-t^2)} $$</p>
+
+    <p>4. Раскрываем скобки в знаменателе:</p>
+    <p>$$ 3(1+t^2) + 5(1-t^2) = 3 + 3t^2 + 5 - 5t^2 = 8 - 2t^2 $$</p>
+    
+    <p>Интеграл принимает вид:</p>
+    <p>$$ I = \int \frac{2 \, dt}{8 - 2t^2} = \int \frac{dt}{4 - t^2} $$</p>
+
+    <p>5. Приводим к табличному виду. Вынесем минус, чтобы получить разность квадратов $t^2 - a^2$:</p>
+    <p>$$ I = - \int \frac{dt}{t^2 - 2^2} $$</p>
+
+    <p>6. Используем табличный интеграл $\int \frac{dx}{x^2 - a^2} = \frac{1}{2a} \ln \left| \frac{x-a}{x+a} \right|$:</p>
+    <p>$$ I = - \frac{1}{2 \cdot 2} \ln \left| \frac{t-2}{t+2} \right| + C = \frac{1}{4} \ln \left| \frac{t+2}{t-2} \right| + C $$</p>
+    <p><em>(Минус перед логарифмом позволил перевернуть дробь).</em></p>
+
+    <p><strong>Ответ:</strong> Возвращаем переменную $x$ ($t = \operatorname{tg} \frac{x}{2}$):</p>
+    <p>$$ I = \frac{1}{4} \ln \left| \frac{\operatorname{tg} \frac{x}{2} + 2}{\operatorname{tg} \frac{x}{2} - 2} \right| + C $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>5. Частные случаи (более простые подстановки)</h3>
+    <p>Универсальная подстановка $t = \operatorname{tg} \frac{x}{2}$ всегда работает, но часто приводит к громоздким вычислениям. Если подынтегральная функция $R(\cos x, \sin x)$ обладает определенной симметрией, существуют более простые замены.</p>
+
+    <h4>Случай 1: Функция нечетна относительно $\sin x$</h4>
+    <p>Если при замене $\sin x$ на $-\sin x$ функция меняет знак:</p>
+    <p>$$ R(\cos x, -\sin x) = -R(\cos x, \sin x) $$</p>
+    <p><strong>Подстановка:</strong> $t = \cos x$.</p>
+    <p><em>Почему?</em> Так как $dt = -\sin x \, dx$, нечетная степень синуса "уйдет" в дифференциал.</p>
+    
+    <p><strong>Пример с доски:</strong> $\int \cos^2 x \sin x \, dx$.</p>
+    <p>Проверка: $\cos^2 x (-\sin x) = - (\cos^2 x \sin x)$. Условие выполняется.</p>
+    <p>Пусть $t = \cos x$, тогда $dt = -\sin x \, dx$.</p>
+    <p>$$ \int \cos^2 x \sin x \, dx = \int t^2 (-dt) = -\frac{t^3}{3} + C = -\frac{\cos^3 x}{3} + C $$</p>
+
+    <h4>Случай 2: Функция нечетна относительно $\cos x$</h4>
+    <p>Если $R(-\cos x, \sin x) = -R(\cos x, \sin x)$.</p>
+    <p><strong>Подстановка:</strong> $t = \sin x$ (так как $dt = \cos x \, dx$).</p>
+
+    <h4>Случай 3: Функция четна относительно обоих аргументов</h4>
+    <p>Если знаки меняются у обоих функций, но значение функции не меняется:</p>
+    <p>$$ R(-\cos x, -\sin x) = R(\cos x, \sin x) $$</p>
+    <p><strong>Подстановка:</strong> $t = \operatorname{tg} x$.</p>
+    <p>При этой замене:</p>
+    <p>$$ dx = \frac{dt}{1+t^2}, \quad \cos^2 x = \frac{1}{1+t^2}, \quad \sin^2 x = \frac{t^2}{1+t^2} $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>6. Понижение степени (Интегрирование четных степеней)</h3>
+    <p>Если в интеграле встречаются $\sin^2 x$ или $\cos^2 x$, универсальная подстановка не нужна. Удобнее использовать формулы понижения степени, которые выводятся из формулы косинуса двойного угла.</p>
+
+    <p><strong>Вывод формул:</strong></p>
+    <p>$$ \cos 2x = \cos^2 x - \sin^2 x $$</p>
+    <p>Используя тождество $\cos^2 x + \sin^2 x = 1$, выразим $\cos^2 x = 1 - \sin^2 x$:</p>
+    <p>$$ \cos 2x = (1 - \sin^2 x) - \sin^2 x = 1 - 2\sin^2 x $$</p>
+    <p>Отсюда получаем важную формулу для квадрата синуса:</p>
+    <div style="background: #f9f9f9; padding: 10px; border-left: 4px solid #2ecc71; margin: 10px 0; text-align: center;">
+    $$ \sin^2 x = \frac{1 - \cos 2x}{2} $$
+    </div>
+    <p>Аналогично для косинуса:</p>
+    <div style="background: #f9f9f9; padding: 10px; border-left: 4px solid #2ecc71; margin: 10px 0; text-align: center;">
+    $$ \cos^2 x = \frac{1 + \cos 2x}{2} $$
+    </div>
+
+    <p><strong>Пример:</strong> Вычислить $\int \sin^2 x \, dx$.</p>
+    <p>Применяем формулу понижения степени:</p>
+    <p>$$ \int \sin^2 x \, dx = \int \frac{1 - \cos 2x}{2} \, dx = \frac{1}{2} \int dx - \frac{1}{2} \int \cos 2x \, dx $$</p>
+    <p>Первый интеграл равен $\frac{x}{2}$. Во втором сделаем замену $u = 2x, du = 2dx$ (или просто поделим на производную аргумента):</p>
+    <p>$$ = \frac{x}{2} - \frac{1}{2} \cdot \frac{1}{2} \sin 2x + C = \frac{x}{2} - \frac{\sin 2x}{4} + C $$</p>
 </div>
     </div>
     
