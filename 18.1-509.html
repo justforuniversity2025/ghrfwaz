@@ -392,7 +392,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             .carousel-header {
                 background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
                 color: white;
-                padding: 15px;
+                padding: 10px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -407,18 +407,7 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
             }
             
             .carousel-arrow {
-                background: rgba(255, 255, 255, 0.2);
-                border: none;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                color: white;
-                font-size: 18px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s;
+        display: none !important;
             }
             
             .carousel-arrow:hover {
@@ -457,19 +446,20 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
                 width: 100%;
                 border-collapse: collapse;
                 background: white;
+                font-size: 12px;
             }
             
             .day-table th {
                 background: #f8f9fa;
                 color: #2c3e50;
-                padding: 12px 10px;
+                padding: 4px 2px;
                 text-align: center;
                 font-weight: 600;
                 border: 1px solid #eef2f7;
             }
             
             .day-table td {
-                padding: 12px 10px;
+                padding: 4px 10px;
                 border: 1px solid #eef2f7;
                 vertical-align: top;
             }
@@ -479,7 +469,9 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
                 font-weight: 600;
                 color: #2c3e50;
                 text-align: center;
-                width: 100px;
+        font-size: 15px;
+        width: 60px;                   /* чуть уже */
+        padding: 4px 2px;
             }
             
             .day-table td strong {
