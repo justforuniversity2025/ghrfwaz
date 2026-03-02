@@ -1037,7 +1037,14 @@ pre .copy-button.copied { background: #50fa7b; color: #1e3c72; }
     overflow: hidden;
     text-overflow: clip;
 }
+canvas {
+    max-width: 100%;
+    height: auto;
+}
 
+.lecture-content-full {
+    overflow-x: auto;
+}
 /* Для мобильных кнопки в одну строку */
 @media (max-width: 600px) {
     .homework-buttons {
@@ -3390,7 +3397,7 @@ $$
     description: "1.88, 1.89, 1.72 б, 1.73 б, 1.75 б, 1.76 б и г, 1.90. Пару ведёт другой преподаватель.",
     dueDate: "2026-02-25",
     solution: `
-        <img src="image.png" alt="Решение задач по линейной алгебре" class="enlargeable-image" style="max-width:100%; border-radius:8px;">
+        <img src="assets/img/1.png" alt="Решение задач по линейной алгебре" class="enlargeable-image" style="max-width:100%; border-radius:8px;">
     `
 },
 {
@@ -4750,9 +4757,207 @@ window.initSemesterHomework = initSemesterHomework;
     <p>$$ \int \sin^2 x \, dx = \int \frac{1 - \cos 2x}{2} \, dx = \frac{1}{2} \int dx - \frac{1}{2} \int \cos 2x \, dx $$</p>
     <p>Первый интеграл равен $\frac{x}{2}$. Во втором сделаем замену $u = 2x, du = 2dx$ (или просто поделим на производную аргумента):</p>
     <p>$$ = \frac{x}{2} - \frac{1}{2} \cdot \frac{1}{2} \sin 2x + C = \frac{x}{2} - \frac{\sin 2x}{4} + C $$</p>
-</div>
-    </div>
+    <h3>7. Интегрирование произведений степеней синуса и косинуса</h3>
+    <p>Очень часто встречаются интегралы вида:</p>
+    <p>$$ \int \sin^m x \cdot \cos^n x \, dx $$</p>
+    <p>где <strong>\( m \)</strong> и <strong>\( n \)</strong> — целые числа. Метод решения зависит от того, являются ли эти степени четными или нечетными.</p>
+
+    <h4>Случай А: Хотя бы одна из степеней нечетная</h4>
+    <p>Если степень синуса (<strong>\( m \)</strong>) нечетная, мы «отщипываем» один множитель <strong>\( \sin x \)</strong> и направляем его под знак дифференциала к косинусу. Оставшуюся четную степень синуса выражаем через косинус по формуле <strong>\( \sin^2 x = 1 - \cos^2 x \)</strong>.</p>
     
+    <p><strong>Пример с доски (разбор):</strong></p>
+    <p>Вычислить интеграл:</p>
+    <p>$$ I = \int \sin^3 x \cdot \cos^2 x \, dx $$</p>
+
+    <p><strong>Решение:</strong></p>
+    <p>1. Так как степень синуса нечетная (3), выделяем один <strong>\( \sin x \)</strong>:</p>
+    <p>$$ I = \int \sin^2 x \cdot \cos^2 x \cdot \underbrace{\sin x \, dx}_{\text{пойдет в } dt} $$</p>
+
+    <p>2. Выражаем <strong>\( \sin^2 x \)</strong> через косинус:</p>
+    <p>$$ \sin^2 x = 1 - \cos^2 x $$</p>
+    <p>Подставляем:</p>
+    <p>$$ I = \int (1 - \cos^2 x) \cdot \cos^2 x \cdot \sin x \, dx $$</p>
+
+    <p>3. Делаем замену переменной (как на доске):</p>
+    <p>$$ t = \cos x \quad \Rightarrow \quad dt = -\sin x \, dx \quad \Rightarrow \quad -dt = \sin x \, dx $$</p>
+
+    <p>4. Подставляем <strong>\( t \)</strong> в интеграл:</p>
+    <p>$$ I = \int (1 - t^2) \cdot t^2 \cdot (-dt) $$</p>
+    <p>Раскрываем скобки и вносим минус внутрь (меняем знаки):</p>
+    <p>$$ I = -\int (t^2 - t^4) \, dt = \int (t^4 - t^2) \, dt $$</p>
+
+    <p>5. Интегрируем степенную функцию:</p>
+    <p>$$ I = \frac{t^5}{5} - \frac{t^3}{3} + C $$</p>
+
+    <p>6. Возвращаемся к <strong>\( x \)</strong> (<strong>\( t = \cos x \)</strong>):</p>
+    <p>$$ I = \frac{\cos^5 x}{5} - \frac{\cos^3 x}{3} + C $$</p>
+
+    <hr style="border: 0; border-top: 1px dashed #ccc; margin: 20px 0;">
+
+    <p><em>Аналогично, если нечетная степень у косинуса (<strong>\( n \)</strong>), мы отщипываем <strong>\( \cos x \)</strong>, делаем замену <strong>\( t = \sin x \)</strong> и выражаем остаток через синус.</em></p>
+
+    <h4>Случай Б: Обе степени четные (или одна из них ноль)</h4>
+    <p>Если <strong>\( m \)</strong> и <strong>\( n \)</strong> четные (например, \( \int \sin^2 x \cos^2 x \, dx \)), то метод «отщипывания» не сработает. В этом случае нужно использовать <strong>формулы понижения степени</strong>, которые мы разбирали в пункте 6:</p>
+    <p>$$ \sin^2 x = \frac{1 - \cos 2x}{2}, \quad \cos^2 x = \frac{1 + \cos 2x}{2} $$</p>
+    <p>Это позволит свести интеграл к сумме простых табличных интегралов от косинуса кратного угла.</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>8. Интегралы от тангенса и котангенса (я пока оставил для себя)</h3>
+    <p>Часто встречаются интегралы вида <strong>\( \int \operatorname{tg}^n x \, dx \)</strong> или <strong>\( \int \operatorname{ctg}^n x \, dx \)</strong>.</p>
+    
+    <p><strong>Основная идея:</strong> Использовать тождество <strong>\( \operatorname{tg}^2 x = \sec^2 x - 1 \)</strong> (или \( \operatorname{ctg}^2 x = \csc^2 x - 1 \)).</p>
+
+    <p><strong>Пример:</strong> Вычислить \( \int \operatorname{tg}^3 x \, dx \).</p>
+    <p>1. Выделяем квадрат тангенса:</p>
+    <p>$$ \int \operatorname{tg} x \cdot \operatorname{tg}^2 x \, dx = \int \operatorname{tg} x (\sec^2 x - 1) \, dx $$</p>
+    <p>2. Раскрываем скобки:</p>
+    <p>$$ \int \operatorname{tg} x \cdot \sec^2 x \, dx - \int \operatorname{tg} x \, dx $$</p>
+    <p>3. Первый интеграл берется заменой \( u = \operatorname{tg} x \) (так как \( du = \sec^2 x \, dx \)), а второй — табличный:</p>
+    <p>$$ \int u \, du - (-\ln|\cos x|) = \frac{\operatorname{tg}^2 x}{2} + \ln|\cos x| + C $$</p>
+<h4>Определенный интеграл и его геометрический смысл</h4>
+    <p><strong>Постановка задачи:</strong> Найти площадь криволинейной трапеции, ограниченной графиком функции <strong>\( y = f(x) \)</strong>, осью Ox и прямыми <strong>\( x = a \)</strong> и <strong>\( x = b \)</strong>.</p>
+    <div style="text-align: center; margin: 20px 0;">
+    <img src="assets/img/canvas1.png"Геометрический смысл определенного интеграла" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Рис. 1. Приближение площади прямоугольниками</p>
+</div>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>1. Разбиение отрезка и интегральные суммы</h3>
+<p>Разобьем отрезок <strong>\([a, b]\)</strong> на <strong>\(n\)</strong> частичных отрезков точками:</p>
+<p>$$ a = x_0 < x_1 < x_2 < \ldots < x_{n-1} < x_n = b $$</p>
+
+<p><strong>Длины частичных отрезков:</strong></p>
+<p>$$ \Delta x_1 = |x_1 - x_0|, \quad \Delta x_2 = |x_2 - x_1|, \quad \ldots, \quad \Delta x_n = |x_n - x_{n-1}| $$</p>
+
+<p>На каждом отрезке <strong>\([x_{i-1}, x_i]\)</strong> выберем произвольную точку <strong>\(c_i\)</strong> и вычислим значение функции <strong>\(f(c_i)\)</strong>.</p>
+
+<p><strong>Интегральная сумма Римана:</strong></p>
+<p>$$ S(n) = f(c_1) \cdot \Delta x_1 + f(c_2) \cdot \Delta x_2 + \ldots + f(c_n) \cdot \Delta x_n $$</p>
+
+<p>В компактной записи:</p>
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #2ecc71; margin: 15px 0; text-align: center;">
+$$ S(n) = \sum_{i=1}^{n} f(c_i) \cdot \Delta x_i \qquad (1) $$
+</div>
+
+<p><em>Геометрический смысл:</em> Это сумма площадей прямоугольников, приближенно заменяющих площадь под кривой.</p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>2. Определение определенного интеграла</h3>
+<p>Обозначим <strong>\( \lambda = \max|\Delta x_i| \)</strong> — максимальная длина частичного отрезка.</p>
+
+<p><strong>Определение:</strong> Если при <strong>\( n \to \infty \)</strong> (что эквивалентно <strong>\( \lambda \to 0 \)</strong>) интегральная сумма стремится к конечному пределу, не зависящему от способа разбиения и выбора точек <strong>\(c_i\)</strong>, то этот предел называется <strong>определенным интегралом</strong>:</p>
+
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #3498db; margin: 15px 0; text-align: center;">
+$$ \int_{a}^{b} f(x) \, dx = \lim_{\substack{n \to \infty \\ (\lambda \to 0)}} S(n) = \lim_{n \to \infty} \sum_{i=1}^{n} f(c_i) \cdot \Delta x_i $$
+</div>
+
+<p><strong>Обозначения:</strong></p>
+<ul>
+    <li><strong>\( \int \)</strong> — знак интеграла</li>
+    <li><strong>\( a \)</strong> — нижний предел интегрирования</li>
+    <li><strong>\( b \)</strong> — верхний предел интегрирования</li>
+    <li><strong>\( f(x) \)</strong> — подынтегральная функция</li>
+    <li><strong>\( dx \)</strong> — дифференциал переменной интегрирования</li>
+</ul>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>3. Формула Ньютона-Лейбница</h3>
+<p>Вычислять интегралы через предел сумм неудобно. К счастью, существует формула, связывающая определенный интеграл с первообразной.</p>
+
+<p><strong>Формула Ньютона-Лейбница:</strong></p>
+<p>Если <strong>\( F(x) \)</strong> — первообразная функции <strong>\( f(x) \)</strong> (то есть <strong>\( F'(x) = f(x) \)</strong>), то:</p>
+
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #e74c3c; margin: 15px 0; text-align: center;">
+$$ \int_{a}^{b} f(x) \, dx = F(x) \Big|_{a}^{b} = F(b) - F(a) $$
+</div>
+
+<p><em>Запись \( F(x) \big|_{a}^{b} \) означает: подставить верхний предел, затем нижний и вычесть.</em></p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>4. Доказательство формулы Ньютона-Лейбница</h3>
+<p>Рассмотрим разность <strong>\( F(b) - F(a) \)</strong>. Так как <strong>\( b = x_n \)</strong> и <strong>\( a = x_0 \)</strong>, запишем:</p>
+
+<p>$$ F(b) - F(a) = F(x_n) - F(x_0) $$</p>
+
+<p>Добавим и вычтем промежуточные значения (телескопическая сумма):</p>
+
+<p>$$ = [F(x_n) - F(x_{n-1})] + [F(x_{n-1}) - F(x_{n-2})] + \ldots + [F(x_1) - F(x_0)] $$</p>
+
+<p>Применим теорему Лагранжа о среднем значении к каждому слагаемому:</p>
+<p>$$ F(x_i) - F(x_{i-1}) = F'(c_i) \cdot (x_i - x_{i-1}) = f(c_i) \cdot \Delta x_i $$</p>
+
+<p>Подставляем:</p>
+<p>$$ F(b) - F(a) = f(c_1) \cdot \Delta x_1 + f(c_2) \cdot \Delta x_2 + \ldots + f(c_n) \cdot \Delta x_n = S(n) $$</p>
+
+<p>Переходя к пределу при <strong>\( n \to \infty \)</strong>, получаем:</p>
+<p>$$ F(b) - F(a) = \int_{a}^{b} f(x) \, dx $$</p>
+
+<p><strong>Что и требовалось доказать!</strong></p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+<h3>5. Пример вычисления площади</h3>
+<p><strong>Задача:</strong> Найти площадь фигуры, ограниченной линиями:</p>
+<p>$$ y = \sqrt{x}, \quad x = 0, \quad x = 1, \quad y = 0 $$</p>
+
+<div style="text-align: center; margin: 20px 0;">
+    <img src="assets/img/canvas2.png" alt="Площадь под кривой y=√x" style="max-width: 100%; border: 1px solid #ddd; padding: 5px;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 5px;">Рис. 2. Площадь под кривой y = √x на отрезке [0, 1]</p>
+</div>
+
+<p><strong>Решение:</strong></p>
+<p>1. Записываем интеграл:</p>
+<p>$$ S = \int_{0}^{1} \sqrt{x} \, dx = \int_{0}^{1} x^{1/2} \, dx $$</p>
+
+<p>2. Находим первообразную (используем формулу <strong>\( \int x^n dx = \frac{x^{n+1}}{n+1} \)</strong>):</p>
+<p>$$ \int x^{1/2} \, dx = \frac{x^{3/2}}{3/2} = \frac{2}{3} x^{3/2} $$</p>
+
+<p>3. Применяем формулу Ньютона-Лейбница:</p>
+<p>$$ S = \frac{2}{3} x^{3/2} \Bigg|_{0}^{1} = \frac{2}{3} \left( 1^{3/2} - 0^{3/2} \right) $$</p>
+
+<p>4. Вычисляем:</p>
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #2ecc71; margin: 15px 0; text-align: center;">
+$$ S = \frac{2}{3} (1 - 0) = \frac{2}{3} $$
+</div>
+
+<p><strong>Ответ:</strong> <strong>\( S = \frac{2}{3} \)</strong> кв. ед.</p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+<h3>7. Связь с теоремой Лагранжа</h3>
+<p><strong>Теорема Лагранжа о среднем значении:</strong></p>
+<p>Если функция <strong>\(f(x)\)</strong> непрерывна на <strong>\([a, b]\)</strong> и дифференцируема на <strong>\((a, b)\)</strong>, то существует точка <strong>\(c \in (a, b)\)</strong> такая, что:</p>
+
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #1abc9c; margin: 15px 0; text-align: center;">
+$$ f(b) - f(a) = f'(c) \cdot (b - a) $$
+</div>
+
+<p><strong>Применение к доказательству формулы Ньютона-Лейбница:</strong></p>
+<p>Рассмотрим разность <strong>\(F(x_1) - F(x_0)\)</strong>. По теореме Лагранжа:</p>
+<p>$$ F(x_1) - F(x_0) = F'(c_1) \cdot (x_1 - x_0) = f(c_1) \cdot \Delta x_1 $$</p>
+
+<p>Так для каждого частичного отрезка:</p>
+<p>$$ F(x_i) - F(x_{i-1}) = f(c_i) \cdot \Delta x_i $$</p>
+
+<p>Суммируя все такие разности:</p>
+<p>$$ F(b) - F(a) = \sum_{i=1}^{n} f(c_i) \cdot \Delta x_i = S(n) $$</p>
+
+<p>Переходя к пределу при <strong>\(n \to \infty\)</strong>:</p>
+<p>$$ \lim_{n \to \infty} [F(b) - F(a)] = \lim_{n \to \infty} S(n) $$</p>
+
+<p>Откуда получаем:</p>
+<div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #e74c3c; margin: 15px 0; text-align: center;">
+$$ F(b) - F(a) = \int_{a}^{b} f(x) \, dx $$
+</div>
+
+
+</div>
+</div>
+
     <!-- Линейная алгебра -->
     <div class="subject-lectures" id="algebra-lectures" style="display: none;">
 
