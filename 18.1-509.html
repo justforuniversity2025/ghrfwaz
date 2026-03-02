@@ -3475,17 +3475,31 @@ $$
     {
         id: 17,
         subject: "Базовые ИТ и ИП",
-        description: "Выполнить задания по вариантам.",
+        description: "Выполнить все дз.",
         dueDate: "2026-03-03",
         solution: ""
     },
-    {
-        id: 18,
-        subject: "Иностранный язык (2 группа)",
-        description: "Выучить текст native town и российскую новость (2–3 предложения).",
-        dueDate: "2026-03-03",
-        solution: ""
-    },
+{
+    id: 18,
+    subject: "Иностранный язык (2 группа)",
+    description: "Выучить текст native town и российскую новость (2–3 предложения).",
+    dueDate: "2026-03-03",
+    solution: `
+        <div class="homework-solution" style="background: #f9f9f9; padding: 20px; border-radius: 12px;">
+            <h3>My Native Town</h3>
+            <p>Brest is a very ancient town. It was first mentioned in Old Chronicles in 1019. The original settlement was called Berestye. The town's name was changed several times. It was given its present name in 1939 after the reunification of Belarus.</p>
+            <p>Brest is located in the southwestern part of Belarus about 3 kilometers away from the border with Poland on both sides of a small river Mukhovets that flows into the river Boug not far from the town. It's a rather large town today. It ranks the 7th in population among the cities of Belarus.</p>
+            <p>The town has an efficient public transport system of bus and trolleybus services. It is well linked with the world by the system of road-, rail-, water- and airlines. Brest stands on two main international roads connecting the countries of Western Europe with Russia. These roads are very important for the Republic's economy. There is also a large airport near Brest.</p>
+            <p>Cultural life of the town is rich enough for a regional centre. There are two theatres, seven museums, two big libraries, a dozen of cinemas and clubs in the town. Two institutes – State University and Technical University – are located in Brest. There are also many general and vocational secondary schools, two specialized technical schools and a music college, which makes Brest the largest educational center of the region.</p>
+            <p>The main attraction for most of the visitors has always been the legendary Brest Fortress with its Memorial Complex erected to commemorate the courage showed by the defenders of the fortress at the very beginning of the Great Patriotic War.</p>
+            <p>People will always keep the memory of the heroic feat, which was the defence of the Brest fortress. «I am dying but will not surrender. Farewell, my country. 20.VII.41». Today this nameless laconic inscription on the wall in the Citadel is known to every person, it testifies the courage, fortitude and heroism of the defenders of Brest.</p>
+            <p>The Hero Fortress on the river Boug is a historical monument. In September 1971 the Brest Hero Fortress Memorial was inaugurated here. Its principal monument “The Soldier”, the sculptural composition «The Thirst», the Bayonet Obelisk, the memorial slabs together with the fortress structures and the scenery here are impressive with their sublimity and grandeur.</p>
+            <p>Visitors to Brest find its tree-lined streets green in summer and taken good care of all the year round. Masherov Street is the busiest road of the town leading to Minsk and Moscow.</p>
+            <p>The most popular place for recreation is the Central City Park with its attractions, cafes and discos for young people. The Mukhovets and the Lesnaya rivers attract attention of both children and adults.</p>
+            <p>Today Brest is an important industrial and commercial centre of Belarus. Its industrial enterprises produce computers, robots, gas-stoves, carpets, tape-recorders, electrical appliances, electric bulbs, furniture, knitted goods, textiles, chemicals, building materials and food products. Almost all these products are well known not only in our republic, but also far abroad.</p>
+        </div>
+    `
+},
     {
         id: 19,
         subject: "Линейная алгебра и функции нескольких переменных",
@@ -4334,7 +4348,7 @@ window.initSemesterHomework = initSemesterHomework;
         <!-- Выдвижная лекция -->
 <!-- Выдвижная лекция: Неопределённый интеграл -->
 <button class="lecture-toggle-btn">
-    Лекция 1: Неопределённый интеграл (Теория)
+    Лекция 1: Неопределённый интеграл 
     <i class="fas fa-chevron-down"></i>
 </button>
 <div class="lecture-content-full">
@@ -4557,7 +4571,84 @@ window.initSemesterHomework = initSemesterHomework;
     <p>Решается аналогично 3-му типу, но с использованием рекуррентных формул или замены переменной.</p>
 
 </div>
+<!-- Лекция 2: Интегрирование рациональных функций от тригонометрических функций -->
+<button class="lecture-toggle-btn">
+    Лекция 2: Интегрирование рациональных функций от тригонометрических функций
+    <i class="fas fa-chevron-down"></i>
+</button>
+<div class="lecture-content-full">
+    <h4>§4. Интегрирование рациональных функций от синуса и косинуса</h4>
+    <p><strong>Постановка задачи:</strong> Нам необходимо вычислить интеграл вида:</p>
+    <p>$$ \int R(\cos x, \sin x) \, dx $$</p>
+    <p>где <strong>\( R \)</strong> — некоторая рациональная функция (дробь), аргументами которой являются синус и косинус.</p>
 
+    <p><em>Примеры таких функций:</em> \( \frac{1}{\sin x}, \quad \frac{1}{1 + \cos x}, \quad \frac{\sin x}{1 + \sin x + \cos x} \).</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>1. Универсальная тригонометрическая подстановка</h3>
+    <p>Существует общий метод, позволяющий свести любой интеграл такого вида к интегралу от рациональной функции (который мы уже умеем брать, раскладывая на простейшие дроби).</p>
+
+    <p><strong>Суть метода:</strong> Делается замена переменной:</p>
+    <p>$$ t = \operatorname{tg} \frac{x}{2} $$</p>
+
+    <p>При этой замене все тригонометрические функции выражаются через рациональные функции от \( t \):</p>
+
+    <p><strong>Основные формулы подстановки:</strong></p>
+    
+    <!-- Формулы с нумерацией сбоку -->
+    <div style="margin-bottom: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="flex-grow: 1; text-align: center;">$$ x = 2 \operatorname{arctg} t \quad \Rightarrow \quad dx = \frac{2}{1+t^2} \, dt $$</div>
+            <div style="width: 30px; text-align: right; font-style: italic;">(1)</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="flex-grow: 1; text-align: center;">$$ \sin x = \frac{2t}{1+t^2} $$</div>
+            <div style="width: 30px; text-align: right; font-style: italic;">(2)</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="flex-grow: 1; text-align: center;">$$ \cos x = \frac{1-t^2}{1+t^2} $$</div>
+            <div style="width: 30px; text-align: right; font-style: italic;">(3)</div>
+        </div>
+    </div>
+
+    <p><em>Почему это работает?</em> После подстановки этих выражений подынтегральная функция становится рациональной дробью от \( t \), которую можно проинтегрировать стандартными методами алгебры.</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>2. Вывод формул (Доказательство)</h3>
+    <p>Давайте разберемся, откуда берутся формулы для синуса и косинуса, чтобы не просто их запомнить, а понять.</p>
+
+    <p><strong>1. Вывод формулы для \( \sin x \):</strong></p>
+    <p>Используем формулу синуса двойного угла: \( \sin x = \sin(2 \cdot \frac{x}{2}) = 2 \sin \frac{x}{2} \cos \frac{x}{2} \).</p>
+    <p>Представим это выражение как дробь со знаменателем 1 и разделим числитель и знаменатель на \( \cos^2 \frac{x}{2} \):</p>
+    <p>$$ \sin x = \frac{2 \sin \frac{x}{2} \cos \frac{x}{2}}{1} = \frac{2 \sin \frac{x}{2} \cos \frac{x}{2}}{\sin^2 \frac{x}{2} + \cos^2 \frac{x}{2}} $$</p>
+    <p>Делим числитель и знаменатель на \( \cos^2 \frac{x}{2} \):</p>
+    <p>$$ = \frac{2 \frac{\sin(x/2)}{\cos(x/2)}}{\frac{\sin^2(x/2)}{\cos^2(x/2)} + 1} = \frac{2 \operatorname{tg} \frac{x}{2}}{\operatorname{tg}^2 \frac{x}{2} + 1} $$</p>
+    <p>Заменяя \( \operatorname{tg} \frac{x}{2} \) на \( t \), получаем:</p>
+    <p>$$ \sin x = \frac{2t}{1+t^2} $$</p>
+
+    <p><strong>2. Вывод формулы для \( \cos x \):</strong></p>
+    <p>Используем формулу косинуса двойного угла: \( \cos x = \cos^2 \frac{x}{2} - \sin^2 \frac{x}{2} \).</p>
+    <p>Аналогично представим это как дробь со знаменателем 1 (основное тригонометрическое тождество):</p>
+    <p>$$ \cos x = \frac{\cos^2 \frac{x}{2} - \sin^2 \frac{x}{2}}{1} = \frac{\cos^2 \frac{x}{2} - \sin^2 \frac{x}{2}}{\cos^2 \frac{x}{2} + \sin^2 \frac{x}{2}} $$</p>
+    <p>Делим числитель и знаменатель на \( \cos^2 \frac{x}{2} \):</p>
+    <p>$$ = \frac{1 - \operatorname{tg}^2 \frac{x}{2}}{1 + \operatorname{tg}^2 \frac{x}{2}} $$</p>
+    <p>Заменяя \( \operatorname{tg} \frac{x}{2} \) на \( t \), получаем:</p>
+    <p>$$ \cos x = \frac{1-t^2}{1+t^2} $$</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>3. Алгоритм решения</h3>
+    <p>Чтобы решить интеграл \( \int R(\cos x, \sin x) \, dx \):</p>
+    <ol>
+        <li>Сделать замену \( t = \operatorname{tg} \frac{x}{2} \).</li>
+        <li>Заменить \( \sin x, \cos x \) и \( dx \) их выражениями через \( t \).</li>
+        <li>Получится интеграл от рациональной функции \( \int R(t) \, dt \).</li>
+        <li>Взять этот интеграл (методом неопределенных коэффициентов или простейших дробей).</li>
+        <li>Вернуться к переменной \( x \), подставив \( t = \operatorname{tg} \frac{x}{2} \) в ответ.</li>
+    </ol>
+</div>
     </div>
     
     <!-- Линейная алгебра -->
