@@ -7,7 +7,11 @@
     <title>18.1-509</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- PDF.js styles and scripts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf_viewer.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf_viewer.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <!-- CodeMirror: универсальный редактор кода -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/darcula.min.css">
@@ -1055,6 +1059,198 @@ canvas {
         font-size: 14px !important;
         white-space: nowrap;
         flex: 1;
+    }
+}
+/* Полноэкранное модальное окно PDF-редактора */
+.pdf-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.pdf-modal-content {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0; /* убираем скругление */
+}
+
+.pdf-modal-header {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pdf-modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    line-height: 1;
+    padding: 0 10px;
+}
+
+.pdf-modal-close:hover {
+    transform: scale(1.2);
+    color: #ff6b6b;
+}
+
+.pdf-toolbar {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.pdf-toolbar button {
+    background: #3498db;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+}
+
+.pdf-toolbar button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.pdf-toolbar button:active {
+    transform: translateY(0);
+}
+
+.pdf-select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    max-width: 200px;
+}
+
+#pdf-page-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+#pdf-page-input {
+    width: 60px;
+    padding: 6px 4px;
+    text-align: center;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#pdf-page-input:focus {
+    outline: none;
+    border-color: #2c3e50;
+    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+}
+
+.pdf-viewer-container {
+    flex: 1;
+    overflow: auto;
+    background: #525659;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+#pdf-canvas {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    background: white;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .pdf-modal-header h2 {
+        font-size: 1.2rem;
+    }
+    .pdf-modal-header h2 i {
+        font-size: 1.2rem;
+    }
+    .pdf-toolbar {
+        padding: 8px 10px;
+        gap: 5px;
+    }
+    .pdf-toolbar button {
+        padding: 6px 8px;
+        font-size: 13px;
+        min-width: 36px;
+    }
+    .pdf-select {
+        max-width: 140px;
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+    #pdf-page-info {
+        padding: 2px 6px;
+        font-size: 13px;
+    }
+    #pdf-page-input {
+        width: 45px;
+        padding: 4px 2px;
+        font-size: 13px;
+    }
+    .pdf-viewer-container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pdf-toolbar {
+        justify-content: center;
+    }
+    .pdf-select {
+        max-width: 100%;
+        width: 100%;
+        margin-bottom: 5px;
     }
 }
 </style>
@@ -4367,6 +4563,9 @@ window.initSemesterHomework = initSemesterHomework;
                 <a href="Сборник задач.pdf" class="download-btn" target="_blank">
                     <i class="fas fa-download"></i> Скачать PDF (7.2 МБ)
                 </a>
+                <div class="quick-nav-item" id="open-pdf-btn">
+    <i class="fas fa-file-pdf"></i> Открыть документ
+</div>
             </div>
         </div>
         
@@ -5145,6 +5344,7 @@ $$ \lim_{x \to +\infty} \frac{f(x)}{g(x)} = k, \quad 0 < k < +\infty $$
 <h4>3. Признак абсолютной сходимости:</h4>
 <p>Если $\int_{a}^{+\infty} |f(x)| \, dx$ сходится, то $\int_{a}^{+\infty} f(x) \, dx$ также сходится (абсолютно).</p>
 
+</div>
 </div>
 </div>
 
@@ -8205,8 +8405,251 @@ document.addEventListener('click', function(e) {
 })();
 
 </script>
+<!-- Модальное окно PDF-редактора (полноэкранное) -->
+<div id="pdf-editor-modal" class="pdf-modal" style="display: none;">
+    <div class="pdf-modal-content">
+        <div class="pdf-modal-header">
+            <h2><i class="fas fa-file-pdf"></i> Просмотр PDF</h2>
+            <button class="pdf-modal-close" id="pdf-modal-close">&times;</button>
+        </div>
+        <div class="pdf-toolbar">
+            <!-- Выбор файла -->
+            <select id="pdf-file-select" class="pdf-select">
+                <option value="Сборник задач.pdf">Сборник задач.pdf</option>
+                <option value="English365_2_Students_book.pdf">English365_2_Students_book.pdf</option>
+            </select>
+
+            <!-- Навигация по страницам -->
+            <button id="pdf-prev" title="Предыдущая страница"><i class="fas fa-chevron-left"></i></button>
+            <span id="pdf-page-info">
+                <input type="number" id="pdf-page-input" min="1" value="1" step="1">
+                <span> из </span>
+                <span id="pdf-total-pages">?</span>
+            </span>
+            <button id="pdf-next" title="Следующая страница"><i class="fas fa-chevron-right"></i></button>
+
+            <!-- Масштабирование -->
+            <button id="pdf-zoom-in" title="Увеличить"><i class="fas fa-search-plus"></i></button>
+            <button id="pdf-zoom-out" title="Уменьшить"><i class="fas fa-search-minus"></i></button>
+
+            <!-- Скачивание -->
+            <button id="pdf-download" title="Скачать"><i class="fas fa-download"></i></button>
+        </div>
+        <div class="pdf-viewer-container">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+    </div>
+</div>
 <button id="header-toggle-btn" class="header-toggle-btn" title="Скрыть/показать шапку">
     <i class="fas fa-eye-slash"></i>
 </button>
+<script>// ====== ПОЛНОЭКРАННЫЙ PDF-РЕДАКТОР С ВЫБОРОМ ФАЙЛА И ПОЛЕМ СТРАНИЦЫ ======
+(function() {
+    // Состояние
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.5;
+    const canvas = document.getElementById('pdf-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Элементы управления
+    const prevBtn = document.getElementById('pdf-prev');
+    const nextBtn = document.getElementById('pdf-next');
+    const pageInput = document.getElementById('pdf-page-input');
+    const totalPagesSpan = document.getElementById('pdf-total-pages');
+    const zoomInBtn = document.getElementById('pdf-zoom-in');
+    const zoomOutBtn = document.getElementById('pdf-zoom-out');
+    const downloadBtn = document.getElementById('pdf-download');
+    const fileSelect = document.getElementById('pdf-file-select');
+    const closeBtn = document.getElementById('pdf-modal-close');
+    const modal = document.getElementById('pdf-editor-modal');
+    const openBtn = document.getElementById('open-pdf-btn'); // кнопка открытия
+
+    // Словарь доступных PDF (путь к файлу)
+    const pdfFiles = {
+        'Сборник задач.pdf': 'Сборник задач.pdf',
+        'English365_2_Students_book.pdf': 'English365_2_Students_book.pdf'
+    };
+
+    // Текущий выбранный файл
+    let currentFile = fileSelect ? fileSelect.value : 'Сборник задач.pdf';
+
+    /**
+     * Рендеринг страницы
+     */
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            const viewport = page.getViewport({ scale: scale });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            const renderTask = page.render(renderContext);
+
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        pageInput.value = num;
+    }
+
+    /**
+     * Очередь рендеринга страницы
+     */
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+    /**
+     * Предыдущая страница
+     */
+    function onPrevPage() {
+        if (!pdfDoc || pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    }
+
+    /**
+     * Следующая страница
+     */
+    function onNextPage() {
+        if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    }
+
+    /**
+     * Переход на страницу по номеру из поля ввода
+     */
+    function onPageInputChange() {
+        if (!pdfDoc) return;
+        let newPage = parseInt(pageInput.value, 10);
+        if (isNaN(newPage) || newPage < 1) newPage = 1;
+        if (newPage > pdfDoc.numPages) newPage = pdfDoc.numPages;
+        pageInput.value = newPage;
+        if (newPage !== pageNum) {
+            pageNum = newPage;
+            queueRenderPage(pageNum);
+        }
+    }
+
+    /**
+     * Загрузка PDF по имени файла
+     */
+    function loadPdf(fileName) {
+        const url = pdfFiles[fileName];
+        if (!url) return;
+        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            totalPagesSpan.textContent = pdfDoc.numPages;
+            pageNum = 1;
+            pageInput.value = 1;
+            pageInput.max = pdfDoc.numPages;
+            renderPage(pageNum);
+        }).catch(function(error) {
+            alert('Ошибка загрузки PDF: ' + error.message);
+        });
+    }
+
+    // Обработчики кнопок
+    if (prevBtn) prevBtn.addEventListener('click', onPrevPage);
+    if (nextBtn) nextBtn.addEventListener('click', onNextPage);
+
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener('click', function() {
+            scale += 0.2;
+            if (pdfDoc) queueRenderPage(pageNum);
+        });
+    }
+
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener('click', function() {
+            if (scale > 0.6) {
+                scale -= 0.2;
+                if (pdfDoc) queueRenderPage(pageNum);
+            }
+        });
+    }
+
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            if (!pdfDoc) return;
+            const fileName = fileSelect.value;
+            const url = pdfFiles[fileName];
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+        });
+    }
+
+    // Выбор файла из списка
+    if (fileSelect) {
+        fileSelect.addEventListener('change', function() {
+            currentFile = this.value;
+            loadPdf(currentFile);
+        });
+    }
+
+    // Поле ввода страницы
+    if (pageInput) {
+        pageInput.addEventListener('change', onPageInputChange);
+        pageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                onPageInputChange();
+            }
+        });
+    }
+
+    // Открытие модального окна
+    if (openBtn) {
+        openBtn.addEventListener('click', function() {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            // Загружаем текущий выбранный файл
+            loadPdf(fileSelect ? fileSelect.value : 'Сборник задач.pdf');
+        });
+    }
+
+    // Закрытие модального окна
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Очистка canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pdfDoc = null;
+        });
+    }
+
+    // Закрытие по клику на фон
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeBtn.click();
+        }
+    });
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeBtn.click();
+        }
+    });
+})();</script>
 </body>
 </html>
