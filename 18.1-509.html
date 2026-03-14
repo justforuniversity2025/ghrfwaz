@@ -2740,9 +2740,9 @@ function filterMobileSchedule(group) {
 <div id="homework-tab" class="tab-content">
 <div class="homework-progress-section">
     <div class="progress-item">
-        <div class="progress-label">Базовые ИП и ИТ <span class="progress-percent">100%</span></div>
+        <div class="progress-label">Программирование<span class="progress-percent">0%</span></div>
         <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="width: 100%;">6/6</div>
+            <div class="progress-bar-fill" style="width: 0%;">0/3</div>
         </div>
     </div>
     </div>
@@ -3929,7 +3929,8 @@ const semesterHomeworkData = [
             size: "2.1 КБ",
             url: "инструкция.txt", // Файл должен лежать в той же папке
             type: "file"
-        }
+        },
+
     ];
 
     // === КОНФИГУРАЦИЯ ФАЙЛОВ ДЛЯ КАЖДОГО ВАРИАНТА ===
@@ -3937,43 +3938,18 @@ const semesterHomeworkData = [
     // ВАЖНО: Создайте папки вариант_01, вариант_02 и т.д.
     // и положите туда ваши файлы
     // ═══════════════════════════════════════════════════
-    const variantFiles = {
-        // Пример для варианта 1 - раскомментируйте и отредактируйте
-        /*
-        "вариант_01": [
-            { name: "задание.txt", size: "15 КБ", url: "вариант_01/задание.txt" },
-            { name: "пример_решения.pdf", size: "250 КБ", url: "вариант_01/пример_решения.pdf" },
-            { name: "дополнительно.docx", size: "45 КБ", url: "вариант_01/дополнительно.docx" }
-        ],
-        */
-        
-        // Пример для варианта 2
-        /*
-        "вариант_02": [
-            { name: "задание.txt", size: "16 КБ", url: "вариант_02/задание.txt" },
-            { name: "словарь.pdf", size: "180 КБ", url: "вариант_02/словарь.pdf" }
-        ],
-        */
-        
-        // Если хотите оставить пустые папки для всех 25 вариантов (заполните позже)
-        // Оставьте этот код как есть:
-        // Автоматически создаем пустые папки для всех 25 вариантов
-        ...(() => {
-            const emptyVariants = {};
-            for (let i = 1; i <= 25; i++) {
-                const variantNum = i.toString().padStart(2, '0');
-                const folderName = `вариант_${variantNum}`;
-                emptyVariants[folderName] = [
-                    { 
-                        name: `информация.txt`, 
-                        size: "1 КБ", 
-                        url: `${folderName}/информация.txt`,
-                    }
-                ];
-            }
-            return emptyVariants;
-        })()
-    };
+const variantFiles = {
+    "вариант_01": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_01/информация.txt" }
+    ],
+    "вариант_02": [
+        { name: "2.1.m3d", size: "70 КБ", url: "assets/cdw/2.1.m3d" }   // добавленный файл
+    ],
+    "вариант_03": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_03/информация.txt" }
+    ],
+    // ... повторите для остальных вариантов до 25
+};
 
     // Создаем папки вариантов из конфигурации
     for (const [folderName, files] of Object.entries(variantFiles)) {
