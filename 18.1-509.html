@@ -1721,13 +1721,26 @@ document.addEventListener('DOMContentLoaded', function() {
     padding: 8px 0;
     background: white;
     border: 2px solid #e0e0e0;
-    border-radius: 30px;        /* Скруглённые углы */
+    border-radius: 30px;
     font-weight: 600;
     font-size: 14px;
     color: #2c3e50;
     cursor: pointer;
     transition: all 0.3s;
     text-align: center;
+    outline: none; /* убираем стандартную обводку */
+}
+
+.mobile-day-btn:hover {
+    background: #e3f2fd;
+    border-color: #3498db;
+}
+
+.mobile-day-btn:active,
+.mobile-day-btn:focus {
+    background: #e3f2fd; /* такой же, как при наведении */
+    border-color: #3498db;
+    outline: none;
 }
 
 .mobile-day-btn.active {
@@ -1736,9 +1749,12 @@ document.addEventListener('DOMContentLoaded', function() {
     color: white;
 }
 
-.mobile-day-btn:hover {
-    background: #e3f2fd;
-    border-color: #3498db;
+.mobile-day-btn.active:hover,
+.mobile-day-btn.active:active,
+.mobile-day-btn.active:focus {
+    background: #2980b9; /* чуть темнее для активной кнопки */
+    border-color: #1f5a7a;
+    color: white;
 }</style>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0px;">
     <!-- Кнопки недель В / Н -->
@@ -2180,14 +2196,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="teacher">Костин А.В.</span>
                     </td>
                     <td></td>
-                    <td class="lecture temporary-lesson">
-    <strong>Линейная алгебра и функции нескольких переменных (переносы с праздничных дней на 11.03)</strong>
-    <span class="type">Лекция</span>
-    <span class="room">УЛК-2, ауд. 412</span>
-    <span class="teacher">Костин А.В.</span>
-    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-        <i class="fas fa-calendar-day"></i> Переносы
-    </div>
+                    <td>
+
 </td>
                     <td class="lab">
                         <strong>Программирование</strong>
@@ -2318,14 +2328,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td></td>
                     <td></td>
 <td class="lecture temporary-lesson">
-    <strong>Физика</strong>
-    <span class="type">Лекция</span>
-    <span class="room">УЛК-2, ауд. 341</span>
-    <span class="teacher">Галиакбаров А.Т.</span>
-    <div style="color: #ff0000; font-weight: bold; font-size: 12px; margin-top: 5px;">
-        <i class="fas fa-calendar-day"></i> 13.03 (перенос)
-    </div>
-    <hr style="margin: 10px 0; border-color: #ff0000;">
     <strong>Элект.курсы по ФКиС (переносы с праздничных дней на 27.03)</strong>
     <span class="type">Практика</span>
     <span class="room">спорткомп</span>
@@ -3755,6 +3757,48 @@ $$
         description: "Выполнить лабораторную работу «Измерение скорости звука в твёрдых телах».",
         dueDate: "2026-03-07",
         solution: ""
+    },
+        {
+        id: 26,
+        subject: "Физика (1 группа)",
+        description: "Просто чтобы ориентировались.",
+        dueDate: "2026-03-16",
+        solution: ""
+    },
+    {
+        id: 27,
+        subject: "Интегралы и дифференциальные уравнения",
+        description: "7.181, 7.200, 7.209, 7.246",
+        dueDate: "2026-03-17",
+        solution: "Решение будет добавлено позже."
+    },
+    {
+        id: 28,
+        subject: "Базовые ИТ и ИП",
+        description: "Сдать все лабораторные работы.",
+        dueDate: "2026-03-17",
+        solution: ""
+    },
+    {
+        id: 29,
+        subject: "Иностранный язык (2 группа)",
+        description: "• WB (WorkBook) TECH TALK Unit 1\n• Слова по Unit 1 SB (StudentsBook)",
+        dueDate: "2026-03-17",
+        solution: ""
+    },
+    {
+        id: 30,
+        subject: "Линейная алгебра и функции нескольких переменных",
+        description: "Задачи (будут позже)",
+        dueDate: "2026-03-18",
+        solution: "Решение будет позже."
+    },
+    {
+        id: 31,
+        subject: "Иностранный язык (1 группа)",
+        description: "Просто чтобы ориентировались.",
+        dueDate: "2026-03-18",
+        solution: ""
     }
     ];
     // Данные для семестровых домашних заданий
@@ -3763,7 +3807,6 @@ const semesterHomeworkData = [
     id: 101,
     subject: "История России",
     description: "",
-    dueDate: "2026-02-20",
     files: [
         { name: "Семинары по истории 2 семестр.docx", url: "Семинары по истории 2 семестр.docx" },
         { name: "Семинар 3.docx", url: "Семинар 3.docx" },
@@ -3776,15 +3819,13 @@ const semesterHomeworkData = [
 },
     {
         id: 102,
-        subject: "Английский язык",
-        description: "Нету",
-        dueDate: "2026-03-15"
+        subject: "Английский язык (2 группа)",
+        description: "<p>Слова по модулю 8</p><p>My native town</p>",
     },
     {
         id: 103,
         subject: "Базовые ИТ и ИП",
         description: "",
-        dueDate: "2026-02-28",
     files: [
         { name: "Задания по БИПИТ.pdf", url: "Задания по БИПИТ.pdf" },
         { name: "Практическая работа 1.docx", url: "Практическая работа 1.docx" },
@@ -3905,6 +3946,22 @@ const semesterHomeworkData = [
 </ul>
     `
     },
+        {
+        id: 104,
+        subject: "Программирование",
+        description: "Семестровая работа по программированию",
+        // dueDate не указываем, чтобы дата не отображалась
+        files: [
+            { name: "1(не готово).zip", url: "1.zip" },
+            { name: "2(не готово).zip", url: "2.zip" },
+            { name: "3(не готово).zip", url: "3.zip" }
+        ],
+        solution: `
+            <h3>Объяснение выполнения семестровой работы</h3>
+            <p>Здесь должно быть подробное описание решения, алгоритмов, примеров кода и т.д.</p>
+            <p>При необходимости можно вставлять формулы KaTeX, изображения и т.п.</p>
+        `
+    }
 
     // добавьте свои задания по желанию
 ];
@@ -3943,12 +4000,83 @@ const variantFiles = {
         { name: "информация.txt", size: "1 КБ", url: "вариант_01/информация.txt" }
     ],
     "вариант_02": [
-        { name: "2.1.m3d", size: "70 КБ", url: "assets/cdw/2.1.m3d" }   // добавленный файл
+        { name: "2.1.m3d", size: "70 КБ", url: "assets/cdw/2.1.m3d" }
     ],
     "вариант_03": [
         { name: "информация.txt", size: "1 КБ", url: "вариант_03/информация.txt" }
     ],
-    // ... повторите для остальных вариантов до 25
+    "вариант_04": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_04/информация.txt" }
+    ],
+    "вариант_05": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_05/информация.txt" }
+    ],
+    "вариант_06": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_06/информация.txt" }
+    ],
+    "вариант_07": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_07/информация.txt" }
+    ],
+    "вариант_08": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_08/информация.txt" }
+    ],
+    "вариант_09": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_09/информация.txt" }
+    ],
+    "вариант_10": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_10/информация.txt" }
+    ],
+    "вариант_11": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_11/информация.txt" }
+    ],
+    "вариант_12": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_12/информация.txt" }
+    ],
+    "вариант_13": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_13/информация.txt" }
+    ],
+    "вариант_14": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_14/информация.txt" }
+    ],
+    "вариант_15": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_15/информация.txt" }
+    ],
+    "вариант_16": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_16/информация.txt" }
+    ],
+    "вариант_17": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_17/информация.txt" }
+    ],
+    "вариант_18": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_18/информация.txt" }
+    ],
+    "вариант_19": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_19/информация.txt" }
+    ],
+    "вариант_20": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_20/информация.txt" }
+    ],
+    "вариант_21": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_21/информация.txt" }
+    ],
+    "вариант_22": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_22/информация.txt" }
+    ],
+    "вариант_23": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_23/информация.txt" }
+    ],
+    "вариант_24": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_24/информация.txt" }
+    ],
+    "вариант_25": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_25/информация.txt" }
+    ],
+    "вариант_26": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_26/информация.txt" }
+    ],
+    "вариант_27": [
+        { name: "информация.txt", size: "1 КБ", url: "вариант_27/информация.txt" }
+    ]
 };
 
     // Создаем папки вариантов из конфигурации
@@ -4423,7 +4551,7 @@ function renderSemesterHomework() {
             <div class="homework-assignment" style="margin-bottom: 15px;">
                 <div class="hw-header">
                     <div class="hw-subject">${hw.subject}</div>
-                    <div class="hw-due-date"><i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}</div>
+                    ${hw.dueDate ? `<div class="hw-due-date"><i class="far fa-calendar"></i> До ${formatDateForDisplay(hw.dueDate)}</div>` : ''}
                 </div>
                 <div class="hw-description">${hw.description}</div>
                 ${filesHTML}
