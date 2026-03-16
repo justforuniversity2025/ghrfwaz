@@ -3810,7 +3810,23 @@ $$
         subject: "Иностранный язык (2 группа)",
         description: "• WB (WorkBook) TECH TALK Unit 1\n• Слова по Unit 1 SB (StudentsBook)",
         dueDate: "2026-03-17",
-        solution: ""
+        solution: `
+<div class="vocab-section">
+  <img src="assets/img/564192.png" alt="Учебные материалы" class="enlargeable-image" style="max-width:100%; border-radius:8px; margin-bottom:20px;">
+  <h4>Слова и выражения (пока не всё)</h4>
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div><strong>I think managed to cover everything</strong> — <em>Я думаю, удалось охватить всё</em></div>
+    <div><strong>I'm afraid I must be leaving</strong> — <em>Боюсь, мне пора</em></div>
+    <div><strong>For having me</strong> — <em>За то, что приняли меня</em></div>
+    <div><strong>It was a pleasure</strong> — <em>Было приятно</em></div>
+    <div><strong>You must be</strong> — <em>Вы, должно быть,...</em></div>
+    <div><strong>Did you try for us?</strong> — <em>Ты пытался для нас?</em></div>
+    <div><strong>No, your directions</strong> — <em>Нет, ваши указания</em></div>
+    <div><strong>Would you like a cup of</strong> — <em>Не хотите ли чашку...</em></div>
+    <div><strong>Can I use the men's room?</strong> — <em>Можно воспользоваться мужской комнатой?</em></div>
+  </div>
+</div>
+`
     },
     {
         id: 30,
@@ -4260,47 +4276,45 @@ function renderHomeworkLists() {
     
     const past = homeworkData
         .filter(hw => hw.dueDate < todayStr)
-        .sort((a, b) => b.dueDate.localeCompare(b.dueDate));
+        .sort((a, b) => b.dueDate.localeCompare(a.dueDate));
     
     // Функция для рендера группы заданий по дате
-    function renderGroup(container, items, isPastGroup) {
-        if (items.length === 0) return;
-        
-        // Группируем по дате
-        const groups = {};
-        items.forEach(item => {
-            if (!groups[item.dueDate]) groups[item.dueDate] = [];
-            groups[item.dueDate].push(item);
+function renderGroup(container, items, isPastGroup) {
+    if (items.length === 0) return;
+
+    // Получаем уникальные даты в том порядке, в котором они встречаются в items
+    const uniqueDates = [];
+    items.forEach(item => {
+        if (!uniqueDates.includes(item.dueDate)) {
+            uniqueDates.push(item.dueDate);
+        }
+    });
+
+    uniqueDates.forEach(dateStr => {
+        const dateItems = items.filter(item => item.dueDate === dateStr);
+        const date = new Date(dateStr);
+        const formattedDate = date.toLocaleDateString('ru-RU', {
+            day: 'numeric', month: 'long', year: 'numeric'
         });
-        
-        // Для каждой даты создаем заголовок и задания
-        Object.keys(groups).sort().forEach(dateStr => {
-            const dateItems = groups[dateStr];
-            const date = new Date(dateStr);
-            const formattedDate = date.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-            
-            // Заголовок группы
-            const groupHeader = document.createElement('div');
-            groupHeader.className = 'homework-date-header';
-            groupHeader.innerHTML = `
-                <span class="date-badge">${formattedDate}</span>
-                <span class="date-count">${dateItems.length} ${dateItems.length === 1 ? 'задание' : 'задания'}</span>
-            `;
-            container.appendChild(groupHeader);
-            
-            // Задания этой даты
-            dateItems.forEach(hw => {
-                const hwDate = new Date(hw.dueDate);
-                const isToday = formatDate(hwDate) === formatDate(TODAY);
-                const hwEl = createHomeworkElement(hw, isToday, isPastGroup);
-                container.appendChild(hwEl);
-            });
+
+        // Заголовок группы
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'homework-date-header';
+        groupHeader.innerHTML = `
+            <span class="date-badge">${formattedDate}</span>
+            <span class="date-count">${dateItems.length} ${dateItems.length === 1 ? 'задание' : 'задания'}</span>
+        `;
+        container.appendChild(groupHeader);
+
+        // Задания этой даты (порядок сохраняется из items)
+        dateItems.forEach(hw => {
+            const hwDate = new Date(hw.dueDate);
+            const isToday = formatDate(hwDate) === formatDate(TODAY);
+            const hwEl = createHomeworkElement(hw, isToday, isPastGroup);
+            container.appendChild(hwEl);
         });
-    }
+    });
+}
     
     // Рендер ближайших заданий
     renderGroup(upcomingList, upcoming, false);
@@ -4768,25 +4782,13 @@ window.initSemesterHomework = initSemesterHomework;
             <i class="fas fa-microchip"></i> Базовые информационные процессы и технологии
         </button>
         
-        <button class="subject-btn" data-subject="language">
-            <i class="fas fa-language"></i> Иностранный язык (2 группа)
-        </button>
         
         <button class="subject-btn" data-subject="history">
             <i class="fas fa-landmark"></i> История России
         </button>
         
-        <button class="subject-btn" data-subject="graphics">
-            <i class="fas fa-drafting-compass"></i> Инженерная и компьютерная графика
-        </button>
         
-        <button class="subject-btn" data-subject="sport">
-            <i class="fas fa-running"></i> Элект.курсы по ФКиС
-        </button>
         
-        <button class="subject-btn" data-subject="library">
-            <i class="fas fa-book"></i> Основы библиотечных, библиографических и информационных знаний
-        </button>
     </div>
     
     <!-- Блоки лекций по предметам (скрыты по умолчанию) -->
@@ -9384,37 +9386,108 @@ document.addEventListener('click', function(e) {
     const footer = document.getElementById('footer-widget');
     const trigger = document.getElementById('footer-trigger');
 
-    // ====== ВРЕМЯ (с синхронизацией для триггера) ======
-    function updateTime() {
-        const now = new Date();
-        const options = {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-            hour: '2-digit', minute: '2-digit', second: '2-digit'
-        };
-        const timeString = now.toLocaleString('ru-RU', options);
-        datetimeEl.textContent = timeString;
-        if (trigger.style.display === 'block') {
-            triggerDatetime.textContent = timeString; // сохраняем размеры
-        }
+    // ====== ВРЕМЯ ======
+function updateTime() {
+    const now = new Date();
+    // Формат даты: "понедельник, 16 марта 2026 г."
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    // Формат времени: "15:30:00" (без предлога)
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    
+    const dateStr = now.toLocaleDateString('ru-RU', dateOptions);
+    const timeStr = now.toLocaleTimeString('ru-RU', timeOptions);
+    const fullString = `${dateStr}, ${timeStr}`;
+    
+    datetimeEl.textContent = fullString;
+    if (trigger.style.display === 'block') {
+        triggerDatetime.textContent = fullString;
     }
+}
     updateTime();
     setInterval(updateTime, 1000);
 
-    // ====== ПОГОДА ======
+    // ====== ПОГОДА (Open-Meteo) ======
+    async function fetchWeather() {
+        try {
+            // Координаты для Набережных Челнов (можно изменить)
+            const lat = 55.7436;
+            const lon = 52.4283;
+
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto&forecast_days=1`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Ошибка сети');
+            const data = await response.json();
+
+            const temp = data.current_weather.temperature;
+            const weatherCode = data.current_weather.weathercode;
+            const windSpeed = data.current_weather.windspeed;
+
+            // Преобразуем код погоды в описание на русском
+            const description = getWeatherDescription(weatherCode);
+
+            const weatherText = `${temp}°C, ${description}, ветер ${windSpeed} км/ч`;
+            updateWeather(weatherText);
+        } catch (error) {
+            console.warn('Open-Meteo ошибка, пробуем wttr.in...', error);
+            // Fallback на старый источник
+            fetchFallbackWeather();
+        }
+    }
+
+    function fetchFallbackWeather() {
+        fetch('https://wttr.in/Naberezhnye+Chelny?format=%t+%C&lang=ru')
+            .then(r => r.text())
+            .then(text => updateWeather(text))
+            .catch(() => updateWeather('Погода не загружена'));
+    }
+
     function updateWeather(text) {
         tempEl.textContent = text;
         if (trigger.style.display === 'block') {
             triggerTemp.textContent = text;
         }
     }
-    fetch('https://wttr.in/Naberezhnye+Chelny?format=%t+%C&lang=ru')
-        .then(r => r.text())
-        .then(text => updateWeather(text))
-        .catch(() => updateWeather('Погода не загружена'));
 
-    // ====== СКРЫТИЕ/ПОКАЗ ПО КЛИКУ ======
+    // Функция для перевода кода погоды в текст
+    function getWeatherDescription(code) {
+        const codes = {
+            0: 'Ясно',
+            1: 'Преимущественно ясно',
+            2: 'Переменная облачность',
+            3: 'Пасмурно',
+            45: 'Туман',
+            48: 'Изморозь',
+            51: 'Легкая морось',
+            53: 'Морось',
+            55: 'Сильная морось',
+            56: 'Легкая ледяная морось',
+            57: 'Ледяная морось',
+            61: 'Небольшой дождь',
+            63: 'Дождь',
+            65: 'Сильный дождь',
+            66: 'Ледяной дождь',
+            67: 'Сильный ледяной дождь',
+            71: 'Небольшой снег',
+            73: 'Снег',
+            75: 'Сильный снег',
+            77: 'Снежная крупа',
+            80: 'Ливень',
+            81: 'Сильный ливень',
+            82: 'Шквал',
+            85: 'Снегопад',
+            86: 'Сильный снегопад',
+            95: 'Гроза',
+            96: 'Гроза с градом',
+            99: 'Сильная гроза с градом'
+        };
+        return codes[code] || 'Неизвестно';
+    }
+
+    // Запускаем получение погоды
+    fetchWeather();
+
+    // ====== СКРЫТИЕ/ПОКАЗ ПАНЕЛИ (без изменений) ======
     function hideFooter() {
-        // Копируем текст в триггер, чтобы он сохранил размеры
         triggerDatetime.textContent = datetimeEl.textContent;
         triggerTemp.textContent = tempEl.textContent;
         footer.style.display = 'none';
@@ -9428,20 +9501,17 @@ document.addEventListener('click', function(e) {
         localStorage.setItem('footerHidden', 'false');
     }
 
-    // Восстанавливаем состояние
     if (localStorage.getItem('footerHidden') === 'true') {
         hideFooter();
     } else {
         showFooter();
     }
 
-    // Клик по видимой панели → скрыть
     footer.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') return; // игнорируем ссылки
+        if (e.target.tagName === 'A') return;
         hideFooter();
     });
 
-    // Клик по невидимой области → показать
     trigger.addEventListener('click', () => {
         showFooter();
     });
