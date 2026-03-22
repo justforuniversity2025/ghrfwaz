@@ -433,7 +433,7 @@ canvas { max-width: 100%; height: auto; }
 /* Стили для ДЗ */
 .homework-assignment { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); border-left: 5px solid #3498db; position: relative; transition: all 0.3s; }
 .homework-assignment:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-.homework-assignment.past { border-left-color: #95a5a6; opacity: 0.9; }
+.homework-assignment.past { border-left: 6px solid #e67e22 !important; background-color: #fff5e6 !important; }
 .homework-assignment.today { border-left-color: #2ecc71; box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.1); }
 .hw-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
 .hw-subject { font-weight: 700; color: #2c3e50; font-size: 18px; margin-bottom: 5px; }
@@ -512,6 +512,16 @@ canvas { max-width: 100%; height: auto; }
 @media (max-width: 768px) { .calc-buttons { grid-template-columns: repeat(3, 1fr); } .converter-row { flex-direction: column; align-items: stretch; } }
 @media (max-width: 768px) { .instrument-card { margin-bottom: 10px; } .instrument-card .instrument-content { display: none; padding-top: 15px; } .instrument-card.expanded .instrument-content { display: block; } .instrument-card h3 { cursor: pointer; user-select: none; margin: 0; padding: 15px; background: #f8f9fa; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; } .instrument-card h3::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: transform 0.2s; } .instrument-card.expanded h3::after { transform: rotate(180deg); } }
 .lecture-content-full p { font-weight: normal !important; } 
+/* Стиль для выполненного задания */
+.homework-assignment.completed {
+    background-color: #f0fff0 !important;
+    border-left-color: #2ecc71 !important;
+    opacity: 0.9;
+}
+.homework-assignment.completed .hw-subject {
+    text-decoration: line-through;
+    color: #27ae60;
+}
 </style>
 </head>
 <body>
@@ -2314,11 +2324,11 @@ solution: `
         solution: ""
     },
     {
-    id: 32, // подберите следующий номер
+    id: 32, 
     subject: "Интегралы и дифференциальные уравнения",
     description: "Решить задачи из сборника: 7.256, 9.2, 9.7, 9.18, 9.24.",
     dueDate: "2026-03-24",
-    solution: "" // при желании можно добавить решение позже
+    solution: "" 
 },
 {
     id: 33,
@@ -2338,12 +2348,164 @@ solution: `
         Ранис – Индия</p>
     `,
     dueDate: "2026-03-24",
-    solution: "" // здесь можно будет добавить ссылки на готовые презентации
+    solution: "" 
 },
+{
+    id: 34,
+    subject: "Линейная алгебра и функции нескольких переменных",
+    description: "Задание на листочке (выдано на паре).",
+    dueDate: "2026-03-25",
+    solution: `
+        <div style="text-align: center;">
+            <img src="assets/img/al1.png" alt="Решение, часть 1" style="max-width: 100%; margin: 10px 0;">
+            <img src="assets/img/al2.png" alt="Решение, часть 2" style="max-width: 100%; margin: 10px 0;">
+        </div>
+    `
+},
+{
+    id: 35, 
+    subject: "Иностранный язык (1 группа)",
+    description: "Просто чтобы ориентировались.",
+    dueDate: "2026-03-25", 
+    solution: ""
+},
+{
+    id: 36, 
+    subject: "Программирование",
+    description: "Будет добавлено в семестровое дз",
+    dueDate: "2026-03-26",
+    solution: ""
+},
+{
+    id: 37, 
+    subject: "Информатика",
+    description: "Сделать лабораторные работы по Arduino на Tinkercad.",
+    dueDate: "2026-03-26",
+    solution: ""
+},
+{
+    id: 38, // следующий номер после последнего
+    subject: "Физика (практика)",
+    description: `
+        <p>Выполнить задачи согласно своему варианту.</p>
+        <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%; margin: 10px 0;">
+            <thead>
+                <tr style="background-color: #f0f0f0;">
+                    <th>Вариант</th>
+                    <th>Задачи</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>2.18, 2.45, 2.70</td></tr>
+                <tr><td>2</td><td>2.19, 2.46, 2.71</td></tr>
+                <tr><td>3</td><td>2.20, 2.47, 2.72</td></tr>
+                <tr><td>4</td><td>2.21, 2.48, 2.72</td></tr>
+                <tr><td>5</td><td>2.22, 2.49, 2.73</td></tr>
+                <tr><td>6</td><td>2.23, 2.50, 2.74</td></tr>
+                <tr><td>7</td><td>2.24, 2.51, 2.75</td></tr>
+                <tr><td>8</td><td>2.25, 2.52, 2.76</td></tr>
+                <tr><td>9</td><td>2.26, 2.53, 2.77</td></tr>
+                <tr><td>10</td><td>2.27, 2.54, 2.78</td></tr>
+                <tr><td>11</td><td>2.29, 2.55, 2.79</td></tr>
+                <tr><td>12</td><td>2.30, 2.56, 2.80</td></tr>
+                <tr><td>13</td><td>2.31, 2.57, 2.81</td></tr>
+                <tr><td>14</td><td>2.32, 2.58, 2.82</td></tr>
+                <tr><td>15</td><td>2.33, 2.59, 2.83</td></tr>
+                <tr><td>16</td><td>2.34, 2.60, 2.84</td></tr>
+                <tr><td>17</td><td>2.35, 2.61, 2.85</td></tr>
+                <tr><td>18</td><td>2.36, 2.62, 2.86</td></tr>
+                <tr><td>19</td><td>2.37, 2.63, 2.87</td></tr>
+                <tr><td>20</td><td>2.38, 2.64, 2.88</td></tr>
+                <tr><td>21</td><td>2.39, 2.65, 2.89</td></tr>
+                <tr><td>22</td><td>2.40, 2.66, 2.90</td></tr>
+                <tr><td>23</td><td>2.41, 2.66, 2.91</td></tr>
+                <tr><td>24</td><td>2.42, 2.67, 2.92</td></tr>
+                <tr><td>25</td><td>2.43, 2.68, 3.1</td></tr>
+                <tr><td>26</td><td>2.44, 2.69, 3.2</td></tr>
+            </tbody>
+        </table>
+        <p>Задачи необходимо решить в тетради и подготовиться к сдаче на практическом занятии.</p>
+    `,
+    dueDate: "2026-03-27",
+    solution: "" // при желании можно добавить ответы или ссылки
+},
+{
+    id: 39,
+    subject: "Инженерная и компьютерная графика",
+    description: "Выполнить два чертежа с разрезами в КОМПАС 3D (варианты разданы на занятии).",
+    dueDate: "2026-03-28",
+    solution: ""
+},
+{
+    id: 40,
+    subject: "Физика (2 группа)",
+    description: "Доделать лабораторную работу 4.1 «Изучение электродного осциллографа».",
+    dueDate: "2026-03-28",
+    solution: `
+        <div style="text-align: center;">
+            <img src="assets/img/ph1.png" alt="Лабораторная работа 4.1, часть 1" style="max-width: 100%; margin: 10px 0;">
+            <img src="assets/img/ph2.png" alt="Лабораторная работа 4.1, часть 2" style="max-width: 100%; margin: 10px 0;">
+        </div>
+    `
+},
+{
+    id: 41,
+    subject: "Физика (1 группа)",
+    description: "Просто чтобы ориентировались.",
+    dueDate: "2026-03-30",
+    solution: ""
+},
+{
+    id: 42,
+    subject: "Физика (1 группа)",
+    description: "Просто чтобы ориентировались.",
+    dueDate: "2026-03-23",
+    solution: ""
+},
+{
+    id: 43,
+    subject: "Базовые информационные процессы и технологии (2 группа)",
+    description: "Выполнить на Unreal Engine 4.27",
+    dueDate: "2026-03-31",
+    solution: "<p>Будет добавлено позже.</p>"
+},
+{
+    id: 44,
+    subject: "Иностранный язык (1 группа)",
+    description: "Просто чтобы ориентировались.",
+    dueDate: "2026-04-01",
+    solution: ""
+},
+{
+    id: 45,
+    subject: "История России",
+    description: "Подготовиться к семинару №5 и 7",
+    dueDate: "2026-04-02", 
+    solution: ""
+}
 
     ];
-    // Данные для семестровых домашних заданий
-const semesterHomeworkData = [
+// Хранилище статусов выполненных заданий
+let completedHomework = {};
+
+// Загрузка статусов из localStorage
+function loadCompletedStatus() {
+    const saved = localStorage.getItem('completedHomework');
+    if (saved) {
+        completedHomework = JSON.parse(saved);
+    }
+}
+
+// Сохранение статуса
+function saveCompletedStatus(id, isCompleted) {
+    if (isCompleted) {
+        completedHomework[id] = true;
+    } else {
+        delete completedHomework[id];
+    }
+    localStorage.setItem('completedHomework', JSON.stringify(completedHomework));
+}
+    const semesterHomeworkData = [
 {
     id: 101,
     subject: "История России",
@@ -2643,33 +2805,11 @@ const variantFiles = {
         });
     }
 
-    // === ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ (если нужны) ===
-    // Раскомментируйте и отредактируйте по необходимости:
-    
-    /*
-    // Добавить отдельный файл в корень:
-    filesData.push({
-        name: "общая_инструкция.pdf",
-        size: "1.5 МБ",
-        url: "общая_инструкция.pdf",
-        type: "file"
-    });
-    
-    // Добавить папку с дополнительными материалами:
-    filesData.push({
-        name: "дополнительные_материалы",
-        size: "Папка",
-        type: "folder",
-        children: [
-            { name: "шаблон_письма.docx", size: "45 КБ", url: "дополнительные_материалы/шаблон_письма.docx" },
-            { name: "список_слов.xlsx", size: "78 КБ", url: "дополнительные_материалы/список_слов.xlsx" },
-            { name: "грамматика.pdf", size: "2.3 МБ", url: "дополнительные_материалы/грамматика.pdf" }
-        ]
-    });
-    */
+
 
     // Инициализация
     function initHomeworkTab() {
+        loadCompletedStatus();
         generateTimelineDates();
         renderTimeline();
         renderHomeworkLists();
@@ -2856,18 +2996,27 @@ function createHomeworkElement(hw, isToday, isPast) {
     hwEl.className = `homework-assignment ${isPast ? 'past' : ''} ${isToday ? 'today' : ''}`;
     hwEl.id = `hw-${hw.id}`;
     hwEl.dataset.dueDate = hw.dueDate;
-    
+
+    // Проверяем, выполнено ли задание
+    const isCompleted = completedHomework[hw.id] === true;
+    if (isCompleted) {
+        hwEl.classList.add('completed');
+    }
+
     const solutionHTML = hw.solution ? `
         <button class="lecture-toggle-btn" style="margin-top: 15px;">
             Решение <i class="fas fa-chevron-down"></i>
         </button>
         <div class="lecture-content-full">${hw.solution}</div>
     ` : '';
-    
+
     hwEl.innerHTML = `
         <div class="timeline-highlight" title="Привязано к таймлайну"></div>
         <div class="hw-header">
-            <div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="hw-complete-btn" data-id="${hw.id}" style="background: none; border: none; cursor: pointer; font-size: 20px; color: ${isCompleted ? '#2ecc71' : '#95a5a6'};">
+                    <i class="fas ${isCompleted ? 'fa-check-circle' : 'fa-circle'}"></i>
+                </button>
                 <div class="hw-subject">${hw.subject}</div>
             </div>
             <div class="hw-due-date ${isPast ? 'passed' : ''} ${isToday ? 'today' : ''}">
@@ -2878,7 +3027,26 @@ function createHomeworkElement(hw, isToday, isPast) {
         <div class="hw-description">${hw.description}</div>
         ${solutionHTML}
     `;
-    
+
+    // Обработчик клика по кнопке
+    const completeBtn = hwEl.querySelector('.hw-complete-btn');
+    completeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isNowCompleted = !completedHomework[hw.id];
+        if (isNowCompleted) {
+            completedHomework[hw.id] = true;
+            hwEl.classList.add('completed');
+            completeBtn.innerHTML = '<i class="fas fa-check-circle"></i>';
+            completeBtn.style.color = '#2ecc71';
+        } else {
+            delete completedHomework[hw.id];
+            hwEl.classList.remove('completed');
+            completeBtn.innerHTML = '<i class="fas fa-circle"></i>';
+            completeBtn.style.color = '#95a5a6';
+        }
+        saveCompletedStatus(hw.id, isNowCompleted);
+    });
+
     return hwEl;
 }
 
