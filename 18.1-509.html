@@ -2993,7 +2993,7 @@ solution: `
         Ранис – Индия</p>
     `,
     dueDate: "2026-03-31",
-    solution: ""
+    solution: `<img src="assets/img/546719863.png" alt="Учебные материалы" class="enlargeable-image" style="max-width:100%; border-radius:8px; margin-bottom:20px;">`
 }
 
     ];
@@ -4987,6 +4987,115 @@ $$ \lim_{x \to +\infty} \frac{f(x)}{g(x)} = k, \quad 0 < k < +\infty $$
 <p>$$ = -\frac{1}{2} \cdot \frac{(3+y^2)^{1/2}}{1/2} = -\sqrt{3+y^2} $$</p>
 <p><strong>Общий интеграл:</strong></p>
 <p>$$ \arcsin x = -\sqrt{3+y^2} + C $$</p>
+</div>
+<!-- Лекция 4: Определённый интеграл и его приложения -->
+<button class="lecture-toggle-btn">
+    Лекция: Дифференциальные уравнения первого порядка
+    <i class="fas fa-chevron-down"></i>
+</button>
+<div class="lecture-content-full">
+    <h4>§1. Линейные неоднородные дифференциальные уравнения</h4>
+    <p><strong>Общий вид:</strong></p>
+    <p>$$ y' + p(x)y = q(x) $$</p>
+    <p>Для решения таких уравнений существуют два основных метода: метод Бернулли и метод Лагранжа (вариации постоянной).</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>Метод 1: Метод Бернулли (подстановка \( y = u \cdot v \))</h4>
+    <p><strong>Алгоритм:</strong></p>
+    <ol>
+        <li>Вводим замену: \( y = u(x) \cdot v(x) \), где \( u \) и \( v \) — новые неизвестные функции.</li>
+        <li>Находим производную: \( y' = u'v + uv' \).</li>
+        <li>Подставляем в исходное уравнение и группируем слагаемые:
+            $$ u'v + u(v' + p(x)v) = q(x) $$
+        </li>
+        <li>Получаем систему из двух уравнений:
+            <ul>
+                <li><strong>I.</strong> \( v' + p(x)v = 0 \) (решаем первым, находим \( v \)).</li>
+                <li><strong>II.</strong> \( u'v = q(x) \) (подставляем найденное \( v \), находим \( u \)).</li>
+            </ul>
+        </li>
+        <li>Общее решение: \( y = u \cdot v \).</li>
+    </ol>
+
+    <p><strong>Пример:</strong> Решить уравнение \( y' + 2xy = x \cdot e^{-x^2} \).</p>
+    <p><em>Решение:</em></p>
+    <p>1. Пусть \( y = u \cdot v \). Тогда \( u'v + u(v' + 2xv) = x e^{-x^2} \).</p>
+    <p>2. Решаем систему:</p>
+    <ul>
+        <li><strong>Шаг 1 (для \( v \)):</strong> \( v' + 2xv = 0 \Rightarrow \frac{dv}{v} = -2x dx \Rightarrow \ln|v| = -x^2 \Rightarrow v = e^{-x^2} \).</li>
+        <li><strong>Шаг 2 (для \( u \)):</strong> \( u' \cdot e^{-x^2} = x \cdot e^{-x^2} \Rightarrow u' = x \Rightarrow u = \frac{x^2}{2} + C \).</li>
+    </ul>
+    <p><strong>Ответ:</strong> \( y = \left(\frac{x^2}{2} + C\right) e^{-x^2} \).</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>Метод 2: Метод Лагранжа (вариация постоянной)</h4>
+    <p><strong>Алгоритм:</strong></p>
+    <ol>
+        <li>Решаем соответствующее однородное уравнение \( y' + p(x)y = 0 \). Получаем \( y = C \cdot e^{-\int p(x)dx} \).</li>
+        <li>Считаем константу \( C \) функцией от \( x \): \( C = C(x) \). Ищем решение в виде \( y = C(x) \cdot e^{-\int p(x)dx} \).</li>
+        <li>Находим производную \( y' \) и подставляем в исходное неоднородное уравнение.</li>
+        <li>Находим \( C'(x) \), интегрируем её и получаем \( C(x) \).</li>
+    </ol>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>§2. Уравнение Бернулли</h4>
+    <p><strong>Общий вид:</strong></p>
+    <p>$$ y' + p(x)y = q(x)y^n, \quad (n \neq 0, n \neq 1) $$</p>
+    <p><strong>Алгоритм решения:</strong></p>
+    <ol>
+        <li>Разделим уравнение на \( y^n \): \( y^{-n}y' + p(x)y^{1-n} = q(x) \).</li>
+        <li>Вводим замену: \( z(x) = y^{1-n} \). Тогда \( z' = (1-n)y^{-n}y' \Rightarrow y^{-n}y' = \frac{z'}{1-n} \).</li>
+        <li>Подставляем в уравнение. Получаем линейное уравнение относительно \( z \):
+            $$ z' + (1-n)p(x)z = (1-n)q(x) $$
+        </li>
+        <li>Решаем полученное линейное уравнение, затем возвращаемся к \( y \).</li>
+    </ol>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h4>§3. Уравнения в полных дифференциалах</h4>
+    <p><strong>Общий вид:</strong></p>
+    <p>$$ P(x, y)dx + Q(x, y)dy = 0 $$</p>
+    <p>Уравнение является уравнением в полных дифференциалах, если левая часть есть полный дифференциал некоторой функции \( U(x, y) \).</p>
+    <p><strong>Условие существования:</strong></p>
+    <p>$$ \frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x} $$</p>
+    <p><strong>Общий интеграл:</strong> \( U(x, y) = C \).</p>
+
+    <p><strong>Алгоритм нахождения \( U(x, y) \):</strong></p>
+    <ol>
+        <li>Интегрируем \( P(x, y) \) по \( x \) (считая \( y \) константой): \( U = \int P(x, y) dx + \phi(y) \).</li>
+        <li>Дифференцируем полученное выражение по \( y \) и приравниваем к \( Q(x, y) \):
+            $$ \frac{\partial}{\partial y} \left( \int P dx \right) + \phi'(y) = Q(x, y) $$
+        </li>
+        <li>Находим \( \phi'(y) \), интегрируем и находим \( \phi(y) \).</li>
+    </ol>
+
+    <h4>Примеры решения задач</h4>
+    
+    <p><strong>Пример 1.</strong> Решить уравнение: \( (e^x + y + \sin y)dx + (e^y + x + x \cos y)dy = 0 \).</p>
+    <p><em>Решение:</em></p>
+    <p>1. Проверка условия: \( P_y = 1 + \cos y \), \( Q_x = 1 + \cos y \). Условие выполняется.</p>
+    <p>2. Интегрируем \( P \) по \( x \):
+       $$ U = \int (e^x + y + \sin y) dx = e^x + xy + x \sin y + \phi(y) $$
+    </p>
+    <p>3. Дифференцируем по \( y \) и приравниваем к \( Q \):
+       $$ x + x \cos y + \phi'(y) = e^y + x + x \cos y \Rightarrow \phi'(y) = e^y \Rightarrow \phi(y) = e^y $$
+    </p>
+    <p><strong>Ответ:</strong> \( e^x + xy + x \sin y + e^y = C \).</p>
+
+    <p><strong>Пример 2.</strong> Решить уравнение: \( (2x + e^{x/y})dx + (1 - \frac{x}{y})e^{x/y} dy = 0 \).</p>
+    <p><em>Решение:</em></p>
+    <p>1. Проверка условия выполняется (см. конспект).</p>
+    <p>2. Интегрируем \( P \) по \( x \):
+       $$ U = \int (2x + e^{x/y}) dx = x^2 + y e^{x/y} + \phi(y) $$
+    </p>
+    <p>3. Дифференцируем по \( y \) и приравниваем к \( Q \):
+       $$ e^{x/y} - \frac{x}{y}e^{x/y} + \phi'(y) = e^{x/y} - \frac{x}{y}e^{x/y} \Rightarrow \phi'(y) = 0 $$
+    </p>
+    <p><strong>Ответ:</strong> \( x^2 + y e^{x/y} = C \).</p>
 </div>
 </div>
 
