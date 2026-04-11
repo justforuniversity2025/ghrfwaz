@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Двуязычные карточки | Русский / English</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #f5f7fc 0%, #eef2f5 100%);
+            color: #1a2c3e;
+            padding: 2rem 1.5rem;
+        }
+
+        /* контейнер всей страницы */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* заголовок и описание */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e4b6e, #2c7da0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .hero p {
+            margin-top: 0.6rem;
+            font-size: 1.05rem;
+            color: #2c5a74;
+            background: rgba(255,255,240,0.6);
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        .instruction {
+            background: #e9edf2;
+            display: inline-block;
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1e4b6e;
+            margin-top: 0.8rem;
+        }
+
+        /* кнопка глобального сброса */
+        .reset-btn {
+            background: #2c7da0;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .reset-btn:hover {
+            background: #1f5e7e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        /* категории */
+        .category {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            border-left: 7px solid #2c7da0;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            color: #1f3e4b;
+            letter-spacing: -0.2px;
+        }
+
+        /* сетка карточек */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* карточка */
+        .card {
+            background: #ffffffdd;
+            backdrop-filter: blur(2px);
+            background: white;
+            border-radius: 28px;
+            padding: 1.3rem 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.03);
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            border: 1px solid rgba(44, 125, 160, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 120px;
+            word-break: break-word;
+            font-size: 1rem;
+            line-height: 1.45;
+            font-weight: 500;
+            color: #1e3b4a;
+            position: relative;
+            user-select: none;
+        }
+
+        /* небольшой индикатор языка */
+        .card::after {
+            content: "🇷🇺";
+            position: absolute;
+            bottom: 12px;
+            right: 16px;
+            font-size: 0.7rem;
+            opacity: 0.55;
+            transition: opacity 0.2s;
+            font-weight: normal;
+            background: #f0f4f9;
+            padding: 2px 6px;
+            border-radius: 30px;
+            line-height: 1;
+        }
+
+        /* когда на карточке английский текст — меняем индикатор */
+        .card[data-lang="en"]::after {
+            content: "🇬🇧";
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+            border-color: #2c7da0;
+            background: #fff;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        /* адаптивность */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            .category-title {
+                font-size: 1.4rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .card {
+                min-height: 100px;
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5c7c8c;
+            border-top: 1px solid #cbdae6;
+            padding-top: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="hero">
+        <h1>📇  Двуязычные карточки</h1>
+        <p>Русская версия ➜ нажмите ➜ English version</p>
+        <div class="instruction">✨ Нажми на любую карточку — язык переключится туда-обратно</div>
+        <div><button class="reset-btn" id="resetAllBtn">⟳ Сбросить все на русский</button></div>
+    </div>
+
+    <!-- динамические категории заполнятся через JS -->
+    <div id="categoriesContainer"></div>
+    <footer>💡 Карточки помогают запоминать слова и фразы. Клик — смена языка: русский ↔ английский.</footer>
+</div>
+
+<script>
+    // ---------- ДАННЫЕ: полный список пар (ru / en) по категориям ----------
+    const vocabularyData = [
+        {
+            name: "🔣 Символы (Symbols)",
+            pairs: [
+                { ru: "дефис", en: "hyphen" },
+                { ru: "нижнее подчёркивание", en: "underscore" },
+                { ru: "точка", en: "dot" },
+                { ru: "знак @", en: "at" },
+                { ru: "двоеточие", en: "colon" },
+                { ru: "косая черта", en: "slash" }
+            ]
+        },
+        {
+            name: "🗣 Фразы для диктовки / уточнения (Dictation & clarification)",
+            pairs: [
+                { ru: "Можете продиктовать по буквам?", en: "Can you spell that for me?" },
+                { ru: "Это всё?", en: "Is that everything?" },
+                { ru: "Подождите.", en: "Hang on." },
+                { ru: "Нет, больше ничего.", en: "No, there's nothing else." },
+                { ru: "Боюсь, я вас не слышу.", en: "I'm afraid I can't hear you." },
+                { ru: "Позвольте я повторю это вам.", en: "Let me read that back to you." },
+                { ru: "Я готов теперь.", en: "I'm ready now." },
+                { ru: "Как это пишется по буквам?", en: "How do you spell that?" },
+                { ru: "Пожалуйста. Что-нибудь ещё?", en: "You're welcome. Anything else?" }
+            ]
+        },
+        {
+            name: "⏰ Описание предметов (часы, будильник и детали)",
+            pairs: [
+                { ru: "будильник / сигнализация", en: "alarm" },
+                { ru: "Нет стрелок.", en: "There are no hands." },
+                { ru: "Цифры перевёрнуты.", en: "The numbers are upside down." },
+                { ru: "У него слишком много стрелок.", en: "It has too many hands." },
+                { ru: "Неправильная форма.", en: "It's the wrong shape." },
+                { ru: "Основание отсутствует.", en: "The base is missing." },
+                { ru: "У него только одна стрелка.", en: "It only has one hand." },
+                { ru: "Основание неправильного размера. Оно слишком большое.", en: "The base is the wrong size. It's too big." },
+                { ru: "Стрелки слишком длинные. Они не помещаются внутри корпуса.", en: "The hands are too long. They don't fit inside the case." },
+                { ru: "Цифры расположены наоборот. Они перевёрнуты.", en: "The numbers are the wrong way round. They're back to front." }
+            ]
+        },
+        {
+            name: "🧰 Другие предметы / части предметов (Objects & parts)",
+            pairs: [
+                { ru: "ручная тележка", en: "hand cart" },
+                { ru: "пробка", en: "cork" },
+                { ru: "ручка", en: "handle" },
+                { ru: "название / заголовок", en: "title" },
+                { ru: "трубка (телефона)", en: "receiver" },
+                { ru: "носик", en: "spout" },
+                { ru: "колготки", en: "tights" },
+                { ru: "светофор", en: "traffic lights" },
+                { ru: "колёса", en: "wheels" },
+                { ru: "лезвия", en: "blades" }
+            ]
+        },
+        {
+            name: "📞 Телефонный разговор (Phone conversation)",
+            pairs: [
+                { ru: "Можете соединить меня с механическим цехом, пожалуйста?", en: "Can you connect me with the machine shop, please?" },
+                { ru: "Конечно.", en: "Certainly." },
+                { ru: "Здесь очень шумно. Можете говорить громче?", en: "It's very noisy here. Can you speak up?" },
+                { ru: "Могу я поговорить с Джорджем?", en: "Can I speak to George?" },
+                { ru: "Тогда я напишу ему по электронной почте. Можете дать мне его email?", en: "Then I'll email him. Can you give me his email address?" },
+                { ru: "Да, это ... вы готовы?", en: "Yes, it's ... are you ready?" },
+                { ru: "Нет. Секунду, мне нужно открыть файл ... Всё, говорите.", en: "No. Just a second, I need to open a file ... OK, go ahead." }
+            ]
+        }
+    ];
+
+    // ---------- Глобальные функции рендера и управления ----------
+    let cardsElements = [];   // храним ссылки на карточки DOM для быстрого сброса
+
+    // Функция создания карточек для всех категорий
+    function buildCards() {
+        const container = document.getElementById('categoriesContainer');
+        if (!container) return;
+        container.innerHTML = '';   // очищаем
+        cardsElements = [];
+
+        vocabularyData.forEach((category, catIdx) => {
+            // создаём блок категории
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'category';
+            const titleEl = document.createElement('h2');
+            titleEl.className = 'category-title';
+            titleEl.textContent = category.name;
+            categoryDiv.appendChild(titleEl);
+
+            const gridDiv = document.createElement('div');
+            gridDiv.className = 'cards-grid';
+            
+            // проходим по каждой паре
+            category.pairs.forEach((pair, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                // сохраняем текст ru и en в data-атрибуты
+                card.setAttribute('data-ru', pair.ru);
+                card.setAttribute('data-en', pair.en);
+                // начальный текст — русский
+                card.textContent = pair.ru;
+                // дополнительный атрибут для стилизации индикатора (русский язык по умолчанию)
+                card.setAttribute('data-lang', 'ru');
+                
+                // Добавляем обработчик клика (переключение языка)
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleCardLanguage(card);
+                });
+                
+                gridDiv.appendChild(card);
+                cardsElements.push(card);
+            });
+            
+            categoryDiv.appendChild(gridDiv);
+            container.appendChild(categoryDiv);
+        });
+    }
+
+    // Функция переключения языка у конкретной карточки
+    function toggleCardLanguage(card) {
+        const ruText = card.getAttribute('data-ru');
+        const enText = card.getAttribute('data-en');
+        const currentText = card.textContent;
+        
+        // если текущий текст совпадает с русским -> переключаем на английский
+        if (currentText === ruText) {
+            card.textContent = enText;
+            card.setAttribute('data-lang', 'en');
+        } 
+        // иначе если текущий английский -> возвращаем русский
+        else if (currentText === enText) {
+            card.textContent = ruText;
+            card.setAttribute('data-lang', 'ru');
+        }
+        // защита на случай, если текст был изменен чем-то извне (но у нас только так)
+        else {
+            // fallback: проверяем через атрибуты, какой язык сейчас должен быть?
+            // Определим по data-lang
+            const currentLang = card.getAttribute('data-lang');
+            if (currentLang === 'en') {
+                card.textContent = ruText;
+                card.setAttribute('data-lang', 'ru');
+            } else {
+                card.textContent = enText;
+                card.setAttribute('data-lang', 'en');
+            }
+        }
+    }
+
+    // Сбросить все карточки на русский язык
+    function resetAllToRussian() {
+        cardsElements.forEach(card => {
+            const ruOriginal = card.getAttribute('data-ru');
+            if (ruOriginal && card.textContent !== ruOriginal) {
+                card.textContent = ruOriginal;
+                card.setAttribute('data-lang', 'ru');
+            } else if (ruOriginal) {
+                // уже русский, но убедимся, что атрибут корректен
+                card.setAttribute('data-lang', 'ru');
+            }
+        });
+    }
+
+    // Дополнительная инициализация для удобства: если карточек нет, то создать. 
+    // Также добавим поддержку touch без задержек, но клик работает отлично.
+
+    // Ждём загрузку DOM
+    document.addEventListener('DOMContentLoaded', () => {
+        buildCards();
+        
+        // Кнопка сброса всех карточек в русскую версию
+        const resetBtn = document.getElementById('resetAllBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                resetAllToRussian();
+            });
+        }
+    });
+</script>
+</body>
+</html>
